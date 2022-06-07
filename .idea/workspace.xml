@@ -3,8 +3,13 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="miniushell" targetName="miniushell" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -13,7 +18,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a319f6c0-1dc5-48b1-8cd3-2bf593eb2fc0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/tst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexer.h" beforeDir="false" afterPath="$PROJECT_DIR$/lexer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minishell.c" beforeDir="false" afterPath="$PROJECT_DIR$/minishell.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/minishell.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +32,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -90,7 +100,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="miniushell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="miniushell" TARGET_NAME="miniushell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="miniushell" RUN_TARGET_NAME="miniushell">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -109,7 +119,10 @@
       <workItem from="1654456592642" duration="471000" />
       <workItem from="1654523543642" duration="6819000" />
       <workItem from="1654546814610" duration="158000" />
-      <workItem from="1654589633592" duration="2222000" />
+      <workItem from="1654589633592" duration="2756000" />
+      <workItem from="1654599073055" duration="1618000" />
+      <workItem from="1654606719907" duration="2356000" />
+      <workItem from="1654622480784" duration="1204000" />
     </task>
     <servers />
   </component>
