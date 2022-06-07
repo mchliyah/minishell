@@ -1,9 +1,9 @@
 
 #include "minishell.h"
 
-int main(char **av)
+int main(int ac, char **av)
 {
+	(void)ac;
 	lexer(av);
-	printf("%c", TS_L_PARENS);
 	return (0);
 }
