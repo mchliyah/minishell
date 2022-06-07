@@ -1,3 +1,4 @@
+//header 
 #ifndef LEXER_H
 # define LEXER_H
 # include <stdlib.h>
@@ -20,7 +21,7 @@ enum
 
 typedef struct s_token
 {
-	char *token;
+	char	*token;
 }	t_token;
 
 typedef struct s_lexer
@@ -28,8 +29,8 @@ typedef struct s_lexer
 	int		token;
 	int		index;
 	char	*id;
-	s_token	*t_token;
+	t_token	*t_token;
 }	t_lexer;
 
-int lexer(char **av);
+int	lexer(char **av);
 #endif
