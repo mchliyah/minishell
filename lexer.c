@@ -4,7 +4,7 @@
  ! es = end of str ~ no kneed for it for now
  ? q and eq will point to where token found
  */
-int	getToken(char **ps,char *es, char **q, char **eq)
+int	getToken(char **ps, char *es, char **q, char **eq)
 {
 	char	*str;
 	int		ret;
@@ -48,8 +48,8 @@ int	getToken(char **ps,char *es, char **q, char **eq)
 
 int lexer(char **av)
 {
-	int	i;
-	int j;
+	int		i;
+	int 	j;
 	t_lexer	*lexer;
 
 	lexer = malloc(sizeof(t_lexer));
