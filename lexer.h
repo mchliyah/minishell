@@ -15,8 +15,8 @@ enum
 	SINGLE_QUOTE = '\'',
 	L_DOBLE_QUOTE = '\"',
 	R_DOBLE_QUOTE = '\"',
-	ASSIGN = '=',
-}	e_separators;
+	ASSIGN = '='
+};
 
 enum
 {
@@ -25,20 +25,21 @@ enum
 	DELIMITER = '<',
 	REDIRECT_OUT_IN_APPEND_MD = '>',
 	PIPE = '|'
-}	e_symbols;
+};
 
 typedef struct s_token
 {
 	char *token;
+	char	*id;
 }	t_token;
 
 typedef struct s_lexer
 {
-	int		token;
-	int		index;
-	char	*id;
-	t_token	*t_token;
+	int				token;
+	int				index;
+	t_token			*t_token;
+	struct s_lexer	*next;
 }	t_lexer;
 
-int lexer(char **av);
+int lexer(char *av);
 #endif

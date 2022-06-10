@@ -1,15 +1,14 @@
 
 NAME = minishell
 SRCS = minishell.c\
-	ft_itoa.c lexer.c
+	 lexer.c libft/libft.a
 
 
-CFLAGS = -Wall -Werror -Wextra
-
+CFLAGS = -Wall -Werror -Wextra -lreadline -fsanitize=address -g3
 all : $(NAME)
 
 $(NAME) : $(SRCS)
-	cc $(SRCS) -o $(NAME)
+	cc $(CFLAGS) $(SRCS) -o $(NAME)
 clean :
 	rm -f $(NAME)
 fclean : clean
