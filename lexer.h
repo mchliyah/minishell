@@ -12,12 +12,13 @@
  */
 enum
 {
+	MINUS = '-',
 	SPACE = ' ',
 	SINGLE_QUOTE = '\'',
 	L_DOBLE_QUOTE = '\"',
 	R_DOBLE_QUOTE = '\"',
-	ASSIGN = '=',
-}	e_separators;
+	ASSIGN = '='
+};
 
 enum
 {
@@ -26,20 +27,23 @@ enum
 	DELIMITER = '<',
 	REDIRECT_OUT_IN_APPEND_MD = '>',
 	PIPE = '|'
-}	e_symbols;
-
+};
+// ! id_type exp: word like ls or < less or << d_less and so on
+// ! content is the txt cmd
 typedef struct s_token
 {
 	char	*token;
+	char	*content;
+	char	*id_type;
 }	t_token;
-
+// ! type exp : pipeline or command or prefix or suffix
 typedef struct s_lexer
 {
-	int		token;
-	int		index;
-	char	*id;
-	t_token	*t_token;
+	char			*type;
+	t_token			*token;
+	struct s_lexer	*next;
 }	t_lexer;
 
 int	lexer(char **av);
+int lexer(char *av);
 #endif

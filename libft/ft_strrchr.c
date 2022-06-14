@@ -10,13 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+ * if it finds it returns pointer pointing to finded
+ */
 char	*ft_strrchr(const char *s, int c)
 {
-	int		i;
 	int		len;
 	char	cc;
 
-	i = 0;
 	len = 0;
 	cc = (char)c;
 	while (s[len] != 0)

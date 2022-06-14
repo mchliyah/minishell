@@ -1,61 +1,94 @@
 #include "minishell.h"
 /*
- !	ps = pointer to start
- ! es = end of str ~ no kneed for it for now
- ? q and eq will point to where token found
+ 	!1 @separate all by space like cmd|cmd to be cmd | cmd
+ 	!2 @ split all by space
  */
 int	getToken(char **ps, char *es, char **q, char **eq)
-{
-	char	*str;
-	int		ret;
 
-	str = *ps;
-	while (str < es && ft_strchr(WHITESPACE, *str))
-		str++;
-	if (q)
-		*q = str;
-	ret = *str;
-	if (*str == PIPE || *str == REDIRECT_IN
-		|| *str == REDIRECT_OUT || *str == DELIMITER
-		|| *str == REDIRECT_OUT_IN_APPEND_MD)
+
+char	*get_args(char *s, int *j)
+{
+	int 	i;
+	char	*r;
+	char	c;
+
+	i = *j;
+	r = ft_strdup(" ");
+	if (!r)
+		return (NULL);
+	while (s[i] && ft_isalpha(s[i]))
 	{
-		str++;
-		if (*str == DELIMITER)
-		{
-			ret = '-';
-			str++;
-		}
-		if (*str == REDIRECT_OUT_IN_APPEND_MD)
-		{
-			ret = '+';
-			str++;
-		}
+		c = s[i];
+		r = ft_strjoin(r, &c);
+		if (!r)
+			return (NULL);
 	}
-	else
-	{
-		ret = 'a';
-		while (str < es && !ft_strchr(WHITESPACE, *str)
-			&& !ft_strchr(SYMBOLS, *str))
-			str++;
-	}
-	if (eq)
-		*eq  = str;
-	while (str < es && ft_strchr(WHITESPACE, *str))
-		str++;
-	*ps = str;
-	return (ret);
+	return (r);
 }
 
-int lexer(char **av)
+char	*get_cmd(char *str, int *i)
+{
+	char	*s;
+	char	*args;
+	char 	c;
+	int		j;
+
+	j = *i;
+	s = ft_strdup(" ");
+	args = ft_strdup(" ");
+	if (!s || !args)
+		return (NULL);
+	while (str[j])
+	{
+		if (ft_isalpha(str[j]))
+		{
+			c = str[j];
+			s = ft_strjoin(s, &c);
+			if (!s)
+				return (NULL);
+		}
+		else if (str[j] == SPACE)
+		{
+			j++;
+			if (str[j] && str[j] == MINUS)
+			{
+				args = get_args(&str[j], &j);
+			}
+		}
+		else
+			break ;
+		j++;
+	}
+	*i = j;
+	return (s);
+}
+void	split_by_space(char *str, t_lexer *lexer)
+{
+	char 	c;
+	int 	i;
+	int		l;
+	char	**sr;
+
+	i = 0;
+	l = 0;
+	while (str[i])
+	{
+		get_cmd(str, &i);
+		get_pipe(str, &i);
+		get_rd
+	}
+}
+int lexer(char *rln_str)
 {
 	int		i;
 	int 	j;
+	int		token;
+	size_t	len;
+	size_t	i;
 	t_lexer	*lexer;
 
 	lexer = malloc(sizeof(t_lexer));
-	i = 0;
-	while (av[i][j])
-	{
-		getToken();
-	}
+	split_by_space(rln_str, lexer);
+
+	return (EXIT_SUCCESS);
 }
