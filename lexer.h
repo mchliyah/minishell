@@ -1,3 +1,4 @@
+//header 
 #ifndef LEXER_H
 # define LEXER_H
 # include <stdlib.h>
@@ -33,6 +34,7 @@ typedef struct s_token
 {
 	char	*content;
 	char	*id_type;
+	char	*token;
 }	t_token;
 // ! type exp : pipeline or command or prefix or suffix
 typedef struct s_lexer

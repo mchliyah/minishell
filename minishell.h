@@ -4,5 +4,6 @@
 # include <stdio.h>
 # include "libft/libft.h"
 # include "lexer.h"
+# include "parser.h"
 
 #endif

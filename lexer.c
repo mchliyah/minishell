@@ -15,7 +15,7 @@ char	*get_args(char *s, int *j)
 	r = ft_strdup(" ");
 	if (!r)
 		return (NULL);
-	while (s[i] && ft_isalpha(s[i]))
+	while (s[i] && s[i] != PIPE && s[i] != REDIRECT_IN && s[i] != REDIRECT_OUT)
 	{
 		c = s[i];
 		r = ft_strjoin(r, &c);
@@ -27,15 +27,17 @@ char	*get_args(char *s, int *j)
 
 char	*get_cmd(char *str, int *i)
 {
+	char	**arr;
 	char	*s;
 	char	*args;
 	char 	c;
 	int		j;
 
 	j = *i;
+	arr = malloc(2 * sizeof(char *) + 1);
 	s = ft_strdup(" ");
 	args = ft_strdup(" ");
-	if (!s || !args)
+	if (!s || !args || !arr)
 		return (NULL);
 	while (str[j])
 	{
@@ -46,18 +48,20 @@ char	*get_cmd(char *str, int *i)
 			if (!s)
 				return (NULL);
 		}
+		// means maybe there is args of cmd
 		else if (str[j] == SPACE)
 		{
 			j++;
-			if (str[j] && str[j] == MINUS)
-			{
+			if (str[j] && str[j] != ) // exp ls -l || echo "hello"
 				args = get_args(&str[j], &j);
-			}
 		}
 		else
 			break ;
 		j++;
 	}
+	arr[0] = s;
+	arr[1] = args;
+	arr[2] = 0;
 	*i = j;
 	return (s);
 }
@@ -82,6 +86,8 @@ int lexer(char *rln_str)
 	int		token;
 	size_t	len;
 	size_t	i;
+	int		i;
+	int 	j;
 	t_lexer	*lexer;
 
 	lexer = malloc(sizeof(t_lexer));
