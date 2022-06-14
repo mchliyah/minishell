@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 16:02:06 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 11:57:21 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/07 12:26:54 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/12 13:47:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,31 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int		a;
-	char	*sub;
+	char	*ret;
+	size_t	i;
 
-	a = 0;
 	if (!s)
 		return (0);
-	if ((len + 1) > ft_strlen((char *)s))
-		len = ft_strlen((char *)s);
-	if (len < 0)
+	if (len > ft_strlen((char *)s))
+		len = ft_strlen((char *)s) - start;
+	if (start > ft_strlen((char *)s))
+		return (ft_strdup(""));
+	ret = (char *) malloc (sizeof (char) * len + 1);
+	if (!ret)
 		return (0);
-	sub = (char *)malloc(len + 1);
-	if (!sub)
-		return (NULL);
-	if (s == 0)
-		return (NULL);
-	while (len > 0 && start < ft_strlen(s))
+	i = 0;
+	while (s[start] != '\0' && i < len)
 	{
-		sub[a] = s[start];
+		ret[i] = s[start];
+		i++;
 		start++;
-		a++;
-		len--;
 	}
-	sub[a] = '\0';
-	return (sub);
+	ret[i] = '\0';
+	return (ret);
 }
+/*
+int main()
+{
+	system ("leaks a.out");
+}
+*/

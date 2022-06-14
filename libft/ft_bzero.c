@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bziro.c                                         :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 10:08:00 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 12:00:52 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/02 12:54:03 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/19 19:08:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *str, int n)
 {
-	unsigned char	*ss;
-
-	ss = (unsigned char *)s ;
-	while (n > 0)
-	{
-		n--;
-		ss[n] = '\0';
-	}
+	ft_memset(str, '\0', n);
 }
+
+/*
+#include <stdio.h>
+int main()
+{
+	char test1[] = "test1";
+	char test2[] = "test2";
+	
+	ft_bzero(test2, 3);
+	bzero(test1, 3);
+
+	printf("%s\n", test1);
+	printf("%s\n", test2);
+	return (0);
+}
+*/

@@ -44,6 +44,6 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
-int	lexer(char **av);
+// int	lexer(char **av);
 int lexer(char *av);
 #endif

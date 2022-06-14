@@ -3,37 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 12:07:17 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/17 21:08:35 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/09 17:18:08 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/18 17:40:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
- *  iterate over a string
- *  sends the current index
- */
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int		u;
-	int		len;
-	char	*str;
+	size_t			l;
+	unsigned int	i;
+	char			*str;
 
-	u = 0;
-	if (!s)
+	i = 0;
+	if (!s || !f)
 		return (0);
-	len = ft_strlen(s);
-	str = (char *)malloc(ft_strlen(s) + 1);
+	l = ft_strlen(s);
+	str = (char *)malloc(sizeof(char) * (l + 1));
 	if (!str)
-		return (NULL);
-	while (s[u])
+		return (0);
+	while (i < l)
 	{
-		str[u] = f(u, s[u]);
-		u++;
+		str[i] = f(i, s[i]);
+		i++;
 	}
-	str[len] = 0;
+	str[i] = '\0';
 	return (str);
 }
+/*
+char	test(unsigned int t, char h)
+{
+	if (h > 64 && h < 91)
+		return (h + 32);
+	return (t + '0');
+}
+int main()
+{
+	char str[] = "SALAM";
+	char *str1 ;
+	str1 = ft_strmapi(str, test);
+	
+	printf("%s\n", str1);
+}
+*/

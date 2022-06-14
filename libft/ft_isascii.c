@@ -3,17 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/01 18:48:44 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/02 08:04:50 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/01 16:09:16 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/10 21:14:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isascii(int c)
+#include "libft.h"
+
+int	ft_isascii(int n)
 {
-	if (c >= 0 && c <= 127)
+	if (n >= 0 && n <= 127)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
+/*
+int main ()
+{
+	int asc = 1;
+	int nnasc = ;
+	printf("%d\n",ft_isascii(asc));
+	printf("%d\n", ft_isascii(nnasc));
+	return 0;
+}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/27 19:01:40 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/27 19:12:49 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/16 00:04:42 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/22 17:51:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,25 @@
 t_list	*ft_lstlast(t_list *lst)
 {
 	if (!lst)
-		return (NULL);
+		return (0);
 	while (lst->next)
-	{
 		lst = lst->next;
-	}
 	return (lst);
 }
-//int main()
-//{
-//    t_list *head;
-//    t_list *lst;
-//    head = ft_lstnew("hhdo");
-//    lst = head;
-//    head->next = ft_lstnew(" kilo");
-//    t_list *last;
-//    last = ft_lstlast(lst);
-//    printf("%s", last->content);
-//}
+/*
+int	main ()
+{
+	t_list	*lst;
+	
+	t_list *ptr;
+	
+	lst = ft_lstnew("test");
+	ft_lstadd_front(&lst, ft_lstnew("1"));
+	ft_lstadd_front(&lst, ft_lstnew("2"));
+	ft_lstadd_front(&lst, ft_lstnew("3"));    
+
+	ptr = ft_lstlast(lst);
+
+    printf("%s\n", ptr->content);
+}
+*/

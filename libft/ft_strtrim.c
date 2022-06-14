@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 09:19:17 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 11:32:51 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/07 15:46:35 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/21 12:52:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,37 @@
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	int		j;
-	int		l;
-	char	*sub;
+	char	*ret;
+	int		f;
+	int		b;
 
-	i = 0;
 	if (!s1)
 		return (NULL);
-	while (s1[i] && (ft_strchr(set, s1[i]) != NULL))
-		i++;
-	j = ft_strlen(s1) - 1;
-	if (j == -1)
-		j = 0;
-	while (j && (ft_strchr(set, s1[j]) != NULL))
-		j--;
-	l = j - i + 1;
-	if (l <= 0)
+	f = 0;
+	b = ft_strlen(s1);
+	while (s1[f] && ft_strchr(set, s1[f]))
+		f++;
+	while (b && (b - 1) && ft_strchr(set, s1[b - 1]))
+		b--;
+	if (!(b - 1))
+		b = f;
+	ret = (char *)malloc(sizeof(*ret) * (b - f + 1));
+	if (!ret)
+		return (0);
+	ret[b - f] = '\0';
+	while (b - f)
 	{
-		sub = (char *)malloc(1);
-		sub[0] = 0;
+		ret[b - f - 1] = s1[b - 1];
+		b--;
 	}
-	else
-		sub = ft_substr(s1, i, (j - i) + 1);
-	return (sub);
+	return (ret);
 }
+/*
+ int main ()
+{
+	 char str[] =  "khiuiophjiooohiuuu   '' j";
+	 char set[] = "";
+	 printf("%s", ft_strtrim(str, set));
+	 return (0);
+}
+*/

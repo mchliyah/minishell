@@ -4,11 +4,17 @@
  	!2 @ split all by space
  */
 int	getToken(char **ps, char *es, char **q, char **eq)
-
+{
+	(void)ps;
+	(void)es;
+	(void)q;
+	(void)eq;
+	return (0);
+}
 
 char	*get_args(char *s, int *j)
 {
-	int 	i;
+	int		i;
 	char	*r;
 	char	c;
 
@@ -30,7 +36,7 @@ char	*get_cmd(char *str, int *i)
 {
 	char	*s;
 	char	*args;
-	char 	c;
+	char	c;
 	int		j;
 
 	j = *i;
@@ -64,31 +70,34 @@ char	*get_cmd(char *str, int *i)
 }
 void	split_by_space(char *str, t_lexer *lexer)
 {
-	char 	c;
-	int 	i;
+	char	c;
+	int		i;
 	int		l;
 	char	**sr;
 
 	i = 0;
 	l = 0;
+	(void)c;
+	(void)sr;
+	(void)lexer;
 	while (str[i])
 	{
 		get_cmd(str, &i);
-		get_pipe(str, &i);
-		get_rd
+		// get_pipe(str, &i);
+		// get_rd();
 	}
 }
 int lexer(char *rln_str)
 {
-	int		i;
-	int 	j;
 	int		token;
 	size_t	len;
 	size_t	i;
 	t_lexer	*lexer;
 
+	i = 0;
+	len = 0;
+	token = 0;
 	lexer = malloc(sizeof(t_lexer));
 	split_by_space(rln_str, lexer);
-
 	return (EXIT_SUCCESS);
 }

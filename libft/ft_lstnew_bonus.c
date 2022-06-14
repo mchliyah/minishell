@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 14:20:49 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/17 20:02:52 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/14 21:43:30 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/17 16:01:38 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,31 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list		*newc;
+	t_list	*ptr;
 
-	newc = NULL;
-	newc = (t_list *)malloc(sizeof (t_list));
-	if (!newc)
+	ptr = malloc(sizeof(t_list));
+	if (!ptr)
 		return (NULL);
-	newc->content = content;
-	newc->next = NULL;
-	return (newc);
+	ptr->content = content;
+	ptr->next = NULL;
+	return (ptr);
 }
+/*
+int main ()
+{
+	t_list	*node1=ft_lstnew("1");
+	t_list *node2=ft_lstnew("2");
+	t_list *node3=ft_lstnew("3");
+	t_list *head;
+	
+	node1->next = node2;
+	node2->next = node3;
+	node3->next = NULL;
+	head=node1;
+	while(head != NULL)
+	{
+		printf("%s\n",head->content);
+		head=head->next;
+	}
+}
+*/
