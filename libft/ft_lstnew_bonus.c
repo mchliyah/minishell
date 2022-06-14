@@ -24,11 +24,3 @@ t_list	*ft_lstnew(void *content)
 	newc->next = NULL;
 	return (newc);
 }
-/*
-int main()
-{
-	//int i[] = {1, 2, 3, 4, 5};
-	t_list *head;
-    head = ft_lstnew("hhdo");
-	printf("%s", head->content);
-}*/

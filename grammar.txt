@@ -1,0 +1,34 @@
+
+# this is the grammar the shell should implement, other than that "SYNTAX ERROR"
+
+ pipe_sequence    : simple_command
+"this means 'or'" ---> | pipe_sequence '|' simple_command
+                  ;
+ cmd_suffix       : cmd_word
+                  | cmd_word cmd_word
+                  ;
+ simple_command   : cmd_name
+                  | cmd_name cmd_suffix
+                  ;
+ cmd_name         : WORD
+                  ;
+ cmd_word         : WORD
+                  ;
+
+
+--------------------------------------------------------------
+What this grammar tells us is that:
+----------------------------------
+	A "pipe_sequence" is a "simple_command" followed by 0 or more "simple_command"
+	A "cmd_suffix" is one or more "cmd_word"
+	A "simple_command" is a "cmd_name" followed or not by a "cmd_suffix"
+	A "cmd_name" or "cmd_word" is a WORD token
+	Each rule will be implemented as a function.
+--------------------------------------------------------------
+
+example of token :
+
+	ls -> WORD
+	| -> PIPE
+	cat -> WORD
+	-e -> WORD

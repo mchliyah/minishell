@@ -33,5 +33,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[j])
 		dst[i++] = s2[j++];
 	dst[i] = '\0';
+	free((void *)s1);
+	free((void *)s2);
 	return (dst);
 }

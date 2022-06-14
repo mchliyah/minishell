@@ -20,7 +20,6 @@ static char	**c_str(char **str, char const *s, char c)
 
 	i = 0;
 	k = 0;
-	j = 0;
 	while (s[i])
 	{
 		j = i;
@@ -57,13 +56,11 @@ static int	w_count(char const *s, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
 	int		count;
 	char	**str;
 
 	if (!s)
 		return (0);
-	i = 0;
 	count = w_count(s, c);
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)

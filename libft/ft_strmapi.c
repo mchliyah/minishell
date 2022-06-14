@@ -11,6 +11,10 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+/*
+ *  iterate over a string
+ *  sends the current index
+ */
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {

@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*
+ *  iterate over a string
+ *  sends address of the current index
+ */
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	unsigned int	u;

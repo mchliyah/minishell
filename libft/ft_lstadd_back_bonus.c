@@ -18,18 +18,3 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		*lst = new;
 	ft_lstlast(*lst)->next = new;
 }
-//int main()
-//{
-//    t_list *last;
-//    last = ft_lstnew(0);
-//    ft_lstadd_back(&last,ft_lstnew(ft_strdup("hello")));
-//    ft_lstadd_back(&last, ft_lstnew(ft_strdup("12")));
-//    ft_lstadd_back(&last, ft_lstnew(ft_strdup("34")));
-//    //printf("%s", (char *)last->content);
-//   while (last != 0)
-//    {
-//        printf("    -%s", (char *)last->content);
-//        last = last->next;
-//    }
-//    //printf("%s", last->content);
-//}

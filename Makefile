@@ -8,7 +8,7 @@ CFLAGS = -Wall -Werror -Wextra -lreadline -fsanitize=address -g3
 all : $(NAME)
 
 $(NAME) : $(SRCS)
-	cc $(CFLAGS) $(SRCS) -o $(NAME)
+	cc -lreadline  $(SRCS) -o $(NAME)
 clean :
 	rm -f $(NAME)
 fclean : clean
