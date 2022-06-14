@@ -6,11 +6,11 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/14 20:42:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/15 00:17:54 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 int	main(void)
 {

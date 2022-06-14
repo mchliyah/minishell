@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "includes/minishell.h"
 /*
  	!1 @separate all by space like cmd|cmd to be cmd | cmd
  	!2 @ split all by space

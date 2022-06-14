@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/14 23:14:16 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/15 00:10:32 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
 
 RM = rm -f
  
-FILES = \
+FILES =		 \
 		main.c\
 		lexer.c\
 		parser.c\
 
-OBJECTS = $(FILES:.c=.o)
+OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
