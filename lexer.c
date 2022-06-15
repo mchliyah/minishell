@@ -36,6 +36,7 @@ char	**get_cmd(char *str, int *i)
 	j = *i;
 	arr = malloc(2 * sizeof(char *) + 1);
 	s = ft_strdup("");
+
 	args = ft_strdup("");
 	if (!s || !args || !arr)
 		return (NULL);
