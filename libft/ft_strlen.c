@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strlen.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 07:44:35 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/22 22:53:01 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/01 13:55:24 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/19 15:16:38 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *c)
+size_t	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (c[i] != 0)
+	while (str[i] != '\0')
+	{
 		i++;
+	}
 	return (i);
 }

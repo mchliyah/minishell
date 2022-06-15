@@ -3,61 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 12:26:04 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 17:54:03 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/04 11:03:21 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/21 15:26:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	smallf(const char *str)
+static long	loop(const char *str, int signe)
 {
-	int	i;
+	long	result;
+	long	help;
 
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\v'
-		|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
-		i++;
-	return (i);
-}
-
-static int	ft_fill(const char *str, int i, int neg)
-{
-	long	tmp;
-	long	num;
-
-	tmp = 0;
-	num = 0;
-	while (str[i] >= '0' && str[i] <= '9')
+	result = 0;
+	help = 0;
+	while (*str >= '0' && *str <= '9')
 	{
-		num = (num * 10) + str[i] - '0';
-		if (num < tmp && neg == -1)
-			return (0);
-		if (num < tmp)
-			return (-1);
-		tmp = num;
-		i++;
+		help = 10 * help + (*str - '0');
+		if (signe == -1)
+		{
+			if (help / 10 != result)
+				return (0);
+		}
+		if (signe == 1)
+		{
+			if (help / 10 != result)
+				return (-1);
+		}
+		result = 10 * result + (*str - '0');
+		str++;
 	}
-	return (num);
+	return (result * signe);
 }
 
 int	ft_atoi(const char *str)
 {
-	int			i;
-	int			nega;
-	long long	num;
+	long	result;
+	int		signe;
 
-	nega = 1;
-	i = smallf(str);
-	if (str[i] == '-' || str[i] == '+')
+	result = 0;
+	signe = 1;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		if (str[i] == '-')
-			nega *= -1;
-		i++;
+		if (*str == '-')
+			signe = -1;
+				str++;
 	}
-	num = ft_fill(str, i, nega);
-	num = nega * num;
-	return (num);
+	else if (*str == '+')
+		str++;
+	result = loop(str, signe);
+	return (result);
 }
+/*
+int main ()
+{
+	char test [] = "21474836472147483647";
+	printf("%d\n", ft_atoi(test));
+	printf("%d\n", atoi(test));
+
+	return (0);
+}
+*/

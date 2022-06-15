@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 17:48:56 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/05 16:41:33 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/03 15:11:18 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/18 00:13:40 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * if it finds it returns pointer pointing to finded
- */
+#include "libft.h"
+
 char	*ft_strrchr(const char *s, int c)
 {
-	int		len;
-	char	cc;
+	char	*str;
+	int		i;
 
-	len = 0;
-	cc = (char)c;
-	while (s[len] != 0)
-		len++;
-	while (len >= 0)
+	str = (char *)s;
+	i = ft_strlen(s);
+	while (i > 0)
 	{
-		if (s[len] == cc)
-			return ((char *)s + len);
-		len--;
+		if (str[i] == (unsigned char)c)
+			return (&str[i]);
+		i--;
 	}
-	return (0);
+	if (str[i] == (unsigned char)c)
+		return (&str[i]);
+	return (NULL);
 }
+/*
+int main()
+{
+	char dest;
+	char str[] = "hewllo world";
+
+	printf("%s\n", ft_strrchr(str, 'w'));
+	return(0);
+}
+*/

@@ -3,33 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 16:00:05 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 10:44:23 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/03 13:49:58 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/16 22:18:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- 	* function locates the first occurrence of 'c' in
-    * the string pointed to by s.  The terminating null character is considered to be
-	* part of the string; therefore if c is `\0', the functions locate the terminating
-	* `\0'.
- */
+#include "libft.h"
+
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-	char	cc;
-
-	i = 0;
-	cc = (char)c;
-	while (s[i] != 0)
+	while (*s != (unsigned char)c)
 	{
-		if (s[i] == cc)
-			return ((char *)s + i);
-		i++;
+		if (*s == '\0')
+			return (NULL);
+		s++;
 	}
-	if (c == '\0')
-		return ((char *)&s[i]);
-	return (0);
+	return ((char *)s);
 }
+/*
+int main()
+{
+	const char str[] = "hewllwo world";
+	printf("%s\n", ft_strchr(str, '\0'));
+	printf("%s\n",strchr(str, '\0'));
+	return(0);
+}
+*/

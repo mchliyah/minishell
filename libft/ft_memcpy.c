@@ -3,34 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 12:16:05 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 17:57:23 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/02 14:09:56 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/19 19:09:02 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <string.h>
+#include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t			i;
-	unsigned char	*destt;
-	unsigned char	*srcc;
+	char	*d;
+	char	*s;
+	size_t	i;
 
-	destt = (unsigned char *)dst;
-	srcc = (unsigned char *)src;
+	d = (char *)dst;
+	s = (char *)src;
 	i = 0;
-	if (destt == 0 && srcc == 0)
-		return (NULL);
 	if (dst != src)
 	{
 		while (i < n)
 		{
-			destt[i] = srcc[i];
+			d[i] = s[i];
 			i++;
 		}
 	}
 	return (dst);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+int main ()
+{
+	char	s1[20] = "123";
+	char	s[10] = "12354885564";
+	char	d1[20] = "123";
+
+	//char *d = NULL;
+	//printf("%s\n", memcpy(s+4, s, 5));
+	printf("%s\n", ft_memcpy(s+4, s, 5));
+	return (0);
+}
+*/

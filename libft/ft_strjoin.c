@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 08:27:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/23 17:26:50 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/07 13:02:26 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/20 21:49:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,34 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char			*dst;
-	unsigned int	i;
-	unsigned int	j;
+	char	*dest;
+	int		i;
 
+	i = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (dst == 0)
+	dest = malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!dest)
 		return (NULL);
-	i = 0;
-	while (s1[i])
+	while (*s1 != '\0')
 	{
-		dst[i] = s1[i];
+		dest[i] = *s1;
 		i++;
+		s1++;
 	}
-	j = 0;
-	while (s2[j])
-		dst[i++] = s2[j++];
-	dst[i] = '\0';
-	free((void *)s1);
-	free((void *)s2);
-	return (dst);
+	while (*s2 != '\0')
+	{
+		dest[i] = *s2;
+		i++;
+		s2++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
+/*
+int	main()
+{
+	printf("%s\n", ft_strjoin("", ""));
+	return (0);
+}
+*/

@@ -3,37 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 16:06:50 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/17 20:15:58 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/02 15:12:17 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/13 00:32:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char	*dstt;
-	unsigned char	*srcc;
-	size_t			i;
+	const unsigned char		*s;
+	unsigned char			*d;
+	size_t					i;
 
 	i = 0;
-	dstt = (unsigned char *)dst;
-	srcc = (unsigned char *)src;
-	if (dstt == 0 && srcc == 0)
-		return (NULL);
-	if (dstt < srcc)
-		ft_memcpy(dstt, srcc, len);
-	else
+	s = src;
+	d = dst;
+	if (!dst && !src)
+		return (0);
+	if (dst > src)
 	{
-		i = len;
-		while (i > 0)
-		{
-			i--;
-			dstt[i] = srcc[i];
-		}
+		while (i < len--)
+			d[len] = s[len];
 	}
+	else
+		ft_memcpy(d, s, len);
 	return (dst);
 }
+/*
+#include <string.h>
+int main()
+{
+	char str1[16] = "abcdef";
+	char str2[16] = "abcdef";
+	printf("%s\n", memmove(str1, str1 + 3, 4));
+	printf("%s\n", ft_memmove(str2, str2 + 3, 4));
+	return (0);
+
+}
+*/

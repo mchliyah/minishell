@@ -3,24 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 08:07:00 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/15 11:00:32 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/01 17:36:19 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/19 15:40:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memset(void *str, int c, size_t len)
 {
-	unsigned char	*bb;
+	char	*b;
+	size_t	i;
 
-	bb = (unsigned char *)b;
-	while (len > 0)
+	b = str;
+	i = 0;
+	while (i < len)
 	{
-		len--;
-		bb[len] = c;
+		b[i] = (unsigned char)c;
+		i++;
 	}
-	return (b);
+	return (str);
 }
+/*
+#include <string.h>
+#include<stdio.h>
+int main()
+{
+	//char s[] = "test";
+	unsigned int i;
+
+	i = 1;
+	memset(&i, 254, sizeof(char)*4);
+	printf("%x\n", i);
+	//printf("%s\n", ft_memset(s, '3', 2));
+	return (0);
+}
+*/

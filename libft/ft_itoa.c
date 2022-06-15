@@ -3,68 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 18:38:21 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 17:56:29 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/09 15:43:05 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/20 21:28:37 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ncount(long i)
+static int	counter(long i)
 {
-	int			counter;
+	int	scount;
 
-	counter = 1;
+	scount = 0;
 	if (i < 0)
 	{
+		scount++;
 		i = -i;
-		counter++;
 	}
-	while (i > 0)
+	while (i > 9)
 	{
-		i = i / 10;
-		counter++;
+		scount++;
+		i /= 10;
 	}
-	if (counter == 1)
-		counter = 2;
-	return (counter);
+	if (i >= 0 && i <= 9)
+		scount++;
+	return (scount);
 }
 
-static char	*ntcnv(long c)
+static	char	*nb_conv(int l, long int d, char *str)
 {
-	int			count;
-	long		lo;
-	char		*nu;
-	int			j;
+	int	i;
 
-	count = (ncount((long)c) - 1);
-	j = count;
-	nu = (char *)malloc(count + 1);
-	if (!nu)
+	i = 0;
+	if (d < 0)
+	{
+		str[i] = '-';
+		d = -1 * d;
+		i++;
+	}
+	while (i < l)
+	{
+		str[--l] = (d % 10) + '0';
+		d /= 10;
+	}
+	return (str);
+}
+
+char	*ft_itoa(int n)
+{
+	char		*str;
+	int			len;
+	long int	d;
+
+	d = (long int)n;
+	len = counter(d);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (0);
-	if (c == 0)
-		nu[0] = c + 48;
-	else if (c < 0)
-	{
-		c = -c;
-		nu[0] = '-';
-	}	
-	while (c > 0)
-	{
-		lo = c % 10;
-		c = c / 10;
-		nu[--count] = lo + 48;
-	}
-	nu[j] = '\0';
-	return (nu);
+	str[len] = '\0';
+	nb_conv(len, d, str);
+	return (str);
 }
-
-char	*ft_itoa(int c)
+/*
+int main()
 {
-	char	*num;
-
-	num = ntcnv(c);
-	return (num);
+	printf("%s\n", ft_itoa(-623));
 }
+*/

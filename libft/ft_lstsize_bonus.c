@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 04:51:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/17 20:03:41 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/15 23:58:37 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/17 16:33:49 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,38 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int	i;
+	t_list	*ptr;
+	int		i;
 
-	i = 0;
-	while (lst != NULL)
+	if (!lst)
+		return (0);
+	ptr = lst;
+	i = 1;
+	while (ptr->next != NULL)
 	{
-		lst = lst->next;
+		ptr = ptr->next;
 		i++;
 	}
 	return (i);
 }
 /*
-int main()
+#include <stdio.h>
+int	main ()
 {
-	t_list *head;
-	t_list *new;
+	int size;
 	
-	head = ft_lstnew(ft_strdup("JJD"));
-	head-> next = new;
-	new = ft_lstnew(ft_strdup("kkkk"));
-
-	t_list *lst = head;
-	int k = ft_lstsize(lst);
-	printf("%d", k);
-}*/
+	t_list	*lst;
+	lst = ft_lstnew("test");
+	ft_lstadd_back(&lst, ft_lstnew("1"));
+	ft_lstadd_back(&lst, ft_lstnew("2"));
+	ft_lstadd_back(&lst, ft_lstnew("3")); 
+	size =    ft_lstsize(lst);
+	
+     printf("%d\n", size);
+	 while (lst)
+	 {
+		 printf("%s\n", lst->content);
+		 lst = lst->next;
+	 }
+}
+*/

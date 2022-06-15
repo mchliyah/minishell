@@ -3,17 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 18:53:18 by ael-mous          #+#    #+#             */
-/*   Updated: 2021/11/20 11:30:48 by ael-mous         ###   ########.fr       */
+/*   Created: 2021/11/12 15:29:06 by mchliyah          #+#    #+#             */
+/*   Updated: 2021/11/21 12:51:02 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
+/*
+#include <fcntl.h>
+int main()
+{
+	int fd = open("text", O_RDWR | O_CREAT);
+	ft_putchar_fd('k', fd);
+	//printf("%d\n", fd);
+}
+*/
