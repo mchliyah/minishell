@@ -21,7 +21,7 @@ int	main(void)
 		str_rln = readline("minishell: ");
 		if (!str_rln)
 			return (0);
-		lexer(str_rln);
+		generate_token(str_rln);
 	}
 	return (0);
 }

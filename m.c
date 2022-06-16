@@ -1,15 +1,9 @@
 #include <stdio.h>
-int	 gcd(int a, int c)
-{
-	if (c == 0)
-		return a;
-	else
-		return gcd(c, a % c);
-}
-
+# include "includes/minishell.h"
 int main()
 {
-	printf("%d", gcd(16, 10));
+	char *s = readline("d");
+	printf("%s", s);
     return 0;
 }
 

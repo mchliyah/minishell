@@ -15,16 +15,14 @@
 char	*ft_strdup(char *src)
 {
 	char	*p;
-	char	*start;	
 
 	p = malloc (sizeof (char) * ft_strlen(src) + 1);
 	if (!p)
 		return (0);
-	start = p;
 	while (*src)
 		*p++ = *src++;
 	*p = '\0';
-	return (start);
+	return (p);
 }
 /*
 #include <stdio.h>

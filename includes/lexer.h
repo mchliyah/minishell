@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
+/*   Updated: 2022/06/16 10:11:48 by ael-mous         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //header 
 #ifndef LEXER_H
 # define LEXER_H
@@ -14,36 +26,44 @@ enum
 {
 	MINUS = '-',
 	SPACE = ' ',
+	EPIPE = '|',
 	SINGLE_QUOTE = '\'',
 	L_DOBLE_QUOTE = '\"',
 	R_DOBLE_QUOTE = '\"',
+	LESS = '<',
+	GREATER = '>',
 	ASSIGN = '='
 };
 
-enum
-{
-	REDIRECT_IN = '<',
-	REDIRECT_OUT = '>',
-	DELIMITER = '<',
-	REDIRECT_OUT_IN_APPEND_MD = '>',
-	PIPE = '|'
-};
-// ! id_type exp: word like ls or < less or << d_less and so on
 // ! content is the txt cmd
 typedef struct s_token
 {
-	char	*token;
+	enum
+	{
+		WORD,
+		REDIRECT_IN,
+		REDIRECT_OUT,
+		DELIMITER,
+		REDIRECT_OUT_IN_APPEND_MD,
+		PIPE,
+		D_QUOTE,
+		QUOTE
+	} e_type;
+
+	int		type;
 	char	*content;
-	char	*id_type;
+	char 	*args;
 }	t_token;
-// ! type exp : pipeline or command or prefix or suffix
+
 typedef struct s_lexer
 {
-	char			*type;
-	t_token			*token;
-	struct s_lexer	*next;
+	char	c;
+	size_t	str_len;
+	size_t	i;
+	char 	*content;
 }	t_lexer;
 
-// int	lexer(char **av);
-int lexer(char *av);
+t_token	*init_token(char *str, int type);
+t_lexer	*init_lex(t_lexer *lex, char *rln_str);
+int generate_token(char *av);
 #endif

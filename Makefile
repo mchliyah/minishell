@@ -13,14 +13,17 @@
 NAME = minishell
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address -g3
 
 RM = rm -f
- 
+#########################
+# ! files of the minishell
 FILES =		 \
 		main.c\
-		lexer.c\
+		lexer/lexer.c\
+		lexer/init_fun.c\
 		parser.c\
+#!########################
 
 OBJECTS =  $(FILES:.c=.o)
 
@@ -34,10 +37,14 @@ CLEANLIBFT = make clean -C $(LIBFT)
 FCLEANLIBFT = rm -f $(ARLIB)
 RELIBFT = make re -C $(LIBFT)
 
+#######################
+#! C O L O R  V A R S  #
+######################
 C_RED = \033[1;31m
 C_GREEN = \033[1;32m
 C_L_BLUE = \033[1;34m
 C_RES = \033[0m
+#######################
 
 .PHONY: clean all clean re fclean
 
