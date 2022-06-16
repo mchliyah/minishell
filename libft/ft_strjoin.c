@@ -36,6 +36,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s2++;
 	}
 	dest[i] = '\0';
+	//free((void*)s1);
 	return (dest);
 }
 /*
