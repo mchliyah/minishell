@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/16 10:11:48 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/06/17 00:11:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_token
 
 	int		type;
 	char	*content;
-	char 	*args;
+	char	*args;
 }	t_token;
 
 typedef struct s_lexer
@@ -60,10 +60,10 @@ typedef struct s_lexer
 	char	c;
 	size_t	str_len;
 	size_t	i;
-	char 	*content;
+	char	*content;
 }	t_lexer;
 
 t_token	*init_token(char *str, int type);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
-int generate_token(char *av);
+int		generate_token(char *av);
 #endif

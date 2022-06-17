@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 10:10:35 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/16 10:10:37 by ael-mous         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -33,33 +22,33 @@ t_lexer	*advance(t_lexer *lexer)
  * 			OR	  echo '$HOME' 	- which print on terminal - $HOME
  *
  */
-char	*check_for_args(t_lexer **this)
-{
-	char	*ptr;
-	char	*str;
+// char	*check_for_args(t_lexer **this)
+// {
+// 	char	*ptr;
+// 	char	*str;
 
-	if ((*this)->c == SPACE)
-		*this = advance(*this);
-	if ((*this)->c == SINGLE_QUOTE || (*this)->c == L_DOBLE_QUOTE)
-		*this = advance(*this);
-	if ((*this)->c != EPIPE && (*this)->c != LESS && (*this)->c != GREATER)
-	{
-		ptr = ft_strdup("");
-		while ((*this)->c != '\0')
-		{
-			if ((*this)->c == SINGLE_QUOTE || (*this)->c == R_DOBLE_QUOTE)
-				*this = advance(*this);
-			str = malloc(2 * sizeof(char));
-			ft_bzero(str, 2);
-			str[0] = (*this)->c;
-			ptr = ft_strjoin(ptr, str);
-			free(str);
-			*lex = advance(*lex);
-		}
-	}
-}
+// 	if ((*this)->c == SPACE)
+// 		*this = advance(*this);
+// 	// if ((*this)->c == SINGLE_QUOTE || (*this)->c == L_DOBLE_QUOTE)
+// 	// 	*this = advance(*this);
+// 	if ((*this)->c != EPIPE && (*this)->c != LESS && (*this)->c != GREATER)
+// 	{
+// 		ptr = ft_strdup("");
+// 		while ((*this)->c != '\0')
+// 		{
+// 			if ((*this)->c == SINGLE_QUOTE || (*this)->c == R_DOBLE_QUOTE)
+// 				*this = advance(*this);
+// 			str = malloc(2 * sizeof(char));
+// 			ft_bzero(str, 2);
+// 			str[0] = (*this)->c;
+// 			ptr = ft_strjoin(ptr, str);
+// 			free(str);
+// 			// *lex = advance(*lex);
+// 		}
+// 	}
+// }
 
-t_token *get_char(t_lexer **lex)
+t_token	*get_char(t_lexer **lex)
 {
 	char	*ptr;
 	char	*str;
@@ -74,7 +63,7 @@ t_token *get_char(t_lexer **lex)
 		free(str);
 		*lex = advance(*lex);
 	}
-	check_for_args(lex);
+	// check_for_args(lex);
 	return (init_token(ptr, WORD));
 }
 
@@ -86,9 +75,10 @@ t_token	*get_pipe(t_lexer **lex)
 	ft_bzero(str, 2);
 	str[0] = (*lex)->c;
 	*lex = advance(*lex);
-	return init_token(str, PIPE);
+	return (init_token(str, PIPE));
 }
-t_token 	*get_token(t_lexer *lexer)
+
+t_token	*get_token(t_lexer *lexer)
 {
 	while (lexer->c != '\0')
 	{
@@ -104,16 +94,25 @@ t_token 	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-int generate_token(char *rln_str)
+int	generate_token(char *rln_str)
 {
-	t_token *token;
+	t_token	*token;
 	t_lexer	*lexer;
+	t_list	*listd_tokn;
 
 	lexer = NULL;
+	listd_tokn = NULL;
 	lexer = init_lex(lexer, rln_str);
-	token = get_token(lexer);
-	printf("%s\n", token->content);
-	token= get_token(lexer);
-	printf("%s\n", token->content);
+	while (lexer->i < lexer->str_len)
+	{
+		token = get_token(lexer);
+		listd_tokn = priority (listd_tokn, token);
+	}
+	while (listd_tokn != NULL)
+	{
+		printf("%s\n", token->content);
+		listd_tokn = listd_tokn->next;
+	}
+
 	return (EXIT_SUCCESS);
 }

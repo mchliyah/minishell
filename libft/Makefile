@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 12:33:10 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/14 23:14:04 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/17 00:17:51 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,14 +55,14 @@ FILES= 							\
 	./ft_substr.c				\
 	./ft_tolower.c				\
 	./ft_toupper.c				\
-	./ft_lstadd_back_bonus.c	\
-	./ft_lstadd_front_bonus.c	\
-	./ft_lstclear_bonus.c		\
-	./ft_lstdelone_bonus.c		\
-	./ft_lstiter_bonus.c		\
-	./ft_lstlast_bonus.c		\
-	./ft_lstnew_bonus.c			\
-	./ft_lstsize_bonus.c		
+	./ft_lstadd_back.c			\
+	./ft_lstadd_front.c			\
+	./ft_lstclear.c				\
+	./ft_lstdelone.c			\
+	./ft_lstiter.c				\
+	./ft_lstlast.c				\
+	./ft_lstnew.c				\
+	./ft_lstsize.c		
 
 OBJECTS = $(FILES:.c=.o)
 
