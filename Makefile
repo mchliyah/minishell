@@ -21,6 +21,7 @@ RM = rm -f
 FILES =		 \
 		main.c\
 		lexer/lexer.c\
+		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		parser.c\
 #!########################

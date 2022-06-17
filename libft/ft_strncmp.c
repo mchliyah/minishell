@@ -14,34 +14,20 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
 	size_t			i;
+	unsigned char	*ss1;
+	unsigned char	*ss2;
 
 	i = 0;
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	while ((str1[i] != '\0' || str2[i] != '\0') && i < (n))
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
+	while ((ss1[i] || ss2[i]) && i < n)
 	{
-		if (str1[i] > str2[i])
-			return (1);
-		else if (str1[i] < str2[i])
-			return (-1);
+		if (ss1[i] != ss2[i])
+			return (ss1[i] - ss2[i]);
 		i++;
 	}
+	if (i != n)
+		return (ss1[i] - ss2[i]);
 	return (0);
 }
-/*
-#include <string.h>
-int main ()
-{
-	char str1[20] = "!!!!!ha!aaa";
-	char str2[20] = "Wahyata";
-
-	printf("%d\n", ft_strncmp(str1, str2, 4));
-	char st1[20] = "!!!!!ha!aaa";
-	char st2[20] = "Wayata";
-	printf("%d\n", strncmp(st1, st2, 4));
-	return 0;
-}
-*/

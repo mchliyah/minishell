@@ -17,7 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # define WHITESPACE " \t\n\r\v"
-# define SYMBOLS "|<>"
+# define SYMBOLS " |<>"
 /*
  * 	int (keyword), value (identifier) = e_symbols,
  * 	= (operator), 100 (constant) and ; (symbol).
@@ -46,8 +46,7 @@ typedef struct s_token
 		DELIMITER,
 		REDIRECT_OUT_IN_APPEND_MD,
 		PIPE,
-		D_QUOTE,
-		QUOTE
+		SYNTAX_ERR
 	} e_type;
 
 	int		type;
@@ -63,7 +62,9 @@ typedef struct s_lexer
 	char 	*content;
 }	t_lexer;
 
-t_token	*init_token(char *str, int type);
+t_token	*init_token(char *str, int type, char *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
+t_lexer	*advance(t_lexer *lexer);
 int generate_token(char *av);
+t_token *get_char(t_lexer **lex);
 #endif
