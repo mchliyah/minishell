@@ -1,12 +1,15 @@
 #include	"../includes/minishell.h"
 
-t_token	*init_token(char *str, int type)
+t_token	*init_token(char *str, int type, char *args)
 {
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
 	token->type = type;
 	token->content = str;
+	token->args = args;
 	return (token);
 }
 

@@ -1,15 +1,6 @@
 
 #include "../includes/minishell.h"
 
-t_lexer	*advance(t_lexer *lexer)
-{
-	if (lexer->i < lexer->str_len)
-	{
-		lexer->i++;
-		lexer->c = lexer->content[lexer->i];
-	}
-	return (lexer);
-}
 /*
  *exp:
  * 			echo hello
@@ -48,35 +39,63 @@ t_lexer	*advance(t_lexer *lexer)
 // 	}
 // }
 
-t_token	*get_char(t_lexer **lex)
-{
-	char	*ptr;
-	char	*str;
-
-	ptr = ft_strdup("");
-	while ((*lex)->c != '\0' && ft_isalpha((*lex)->c))
-	{
-		str = malloc(2 * sizeof(char));
-		ft_bzero(str, 2);
-		str[0] = (*lex)->c;
-		ptr = ft_strjoin(ptr, str);
-		free(str);
-		*lex = advance(*lex);
-	}
-	// check_for_args(lex);
-	return (init_token(ptr, WORD));
-}
+// t_token	*get_char(t_lexer **lex)
 
 t_token	*get_pipe(t_lexer **lex)
 {
 	char	*str;
 
 	str = malloc(2 * sizeof(char));
+	if (!str)
+		return (NULL);
 	ft_bzero(str, 2);
 	str[0] = (*lex)->c;
 	*lex = advance(*lex);
-	return (init_token(str, PIPE));
+	return (init_token(str, PIPE, NULL));
 }
+
+t_token	*get_extra( char *ptr)
+{
+	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
+		return (init_token(ptr, REDIRECT_IN, NULL));
+	else if (!ft_strncmp(ptr, ">", ft_strlen(ptr)))
+		return (init_token(ptr, REDIRECT_OUT, NULL));
+	else if (!ft_strncmp(ptr, "<<", ft_strlen(ptr)))
+		return (init_token(ptr, DELIMITER, NULL));
+	else if (!ft_strncmp(ptr, ">>", ft_strlen(ptr)))
+		return (init_token(ptr, REDIRECT_OUT_IN_APPEND_MD, NULL));
+	else
+		return (init_token(ptr, SYNTAX_ERR, NULL));
+
+}
+t_token	*get_redirection(t_lexer **lex)
+{
+	char	*str;
+	char	*ptr;
+
+	ptr = ft_strdup("");
+	if (!ptr)
+		return (NULL);
+	if ((*lex)->c == SPACE)
+		*lex = advance(*lex);
+	while ((*lex)->c != '\0' && ((*lex)->c == LESS || (*lex)->c == GREATER))
+	{
+		str = malloc(2 * sizeof(char));
+		if (!str)
+			return (NULL);
+		ft_bzero(str, 2);
+		str[0] = (*lex)->c;
+		ptr = ft_strjoin(ptr, str);
+		if (!ptr)
+			return (NULL);
+		free(str);
+		str = NULL;
+		*lex = advance(*lex);
+	}
+	// check_for_args(lex);
+	return (init_token(ptr, WORD, NULL));
+}
+
 
 t_token	*get_token(t_lexer *lexer)
 {
@@ -84,12 +103,13 @@ t_token	*get_token(t_lexer *lexer)
 	{
 		if (lexer->c == SPACE)
 			advance(lexer);
-		else if (ft_isalpha(lexer->c))
+		else if (ft_isalpha(lexer->c) || lexer->c == SINGLE_QUOTE
+			|| lexer->c == L_DOBLE_QUOTE)
 			return (get_char(&lexer));
 		else if (lexer->c == EPIPE)
 			return (get_pipe(&lexer));
-//		else if (lexer->c == LESS)
-//			return (get_)
+		else if (lexer->c == LESS | lexer->c == GREATER)
+			return (get_redirection(&lexer));
 	}
 	return (NULL);
 }
@@ -109,10 +129,7 @@ int	generate_token(char *rln_str)
 		listd_tokn = priority (listd_tokn, token);
 	}
 	while (listd_tokn != NULL)
-	{
-		printf("%s\n", token->content);
-		listd_tokn = listd_tokn->next;
-	}
-
+		if (printf("%s\n", listd_tokn->content))
+			listd_tokn = listd_tokn->next;
 	return (EXIT_SUCCESS);
 }
