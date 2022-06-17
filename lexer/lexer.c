@@ -96,7 +96,6 @@ t_token	*get_redirection(t_lexer **lex)
 	return (init_token(ptr, WORD, NULL));
 }
 
-
 t_token	*get_token(t_lexer *lexer)
 {
 	while (lexer->c != '\0')
@@ -129,7 +128,7 @@ int	generate_token(char *rln_str)
 		listd_tokn = priority (listd_tokn, token);
 	}
 	while (listd_tokn != NULL)
-		if (printf("%s\n", listd_tokn->content))
+		if (printf("%s\n", listd_tokn->content->content))
 			listd_tokn = listd_tokn->next;
 	return (EXIT_SUCCESS);
 }

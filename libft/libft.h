@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:59:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/18 17:50:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:09:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 //biblio needed in fonctions
 # include <stdlib.h>
 # include <unistd.h>
+# include "../includes/lexer.h"
+
+typedef struct s_list
+{
+	t_token			*content;
+	struct s_list	*next;
+}	t_list;
 
 //fonct part 1
 int		ft_isalpha(int c);
@@ -53,14 +60,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-
-//bonus
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
