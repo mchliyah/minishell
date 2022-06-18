@@ -6,19 +6,23 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/15 00:18:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/17 22:27:48 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/lexer.h"
-#include "includes/parser.h"
+#include "includes/minishell.h"
 
-void	priority(t_token *token)
+t_list	*priority(t_list	*lst_token, t_token *token)
 {
-	t_token	*tmp;
+	if (!lst_token)
+		lst_token = ft_lstnew(token);
+	else
+		ft_lstadd_back(&lst_token, ft_lstnew(token));
+	return (lst_token);
+}
 
-	tmp = token;
-	while (tmp)
-	{
-	}
+// will return a parsed tree
+t_list *parse_to_tree(t_list *lst_token)
+{
+	
 }

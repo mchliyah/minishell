@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 10:10:35 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/16 10:10:37 by ael-mous         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -25,6 +14,8 @@
  *
  */
 
+// t_token	*get_char(t_lexer **lex)
+
 t_token	*get_pipe(t_lexer **lex)
 {
 	char	*str;
@@ -37,6 +28,7 @@ t_token	*get_pipe(t_lexer **lex)
 	*lex = advance(*lex);
 	return (init_token(str, PIPE, NULL));
 }
+
 t_token	*get_extra( char *ptr)
 {
 	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
@@ -51,6 +43,7 @@ t_token	*get_extra( char *ptr)
 		return (init_token(ptr, SYNTAX_ERR, NULL));
 
 }
+
 t_token	*get_redirection(t_lexer **lex)
 {
 	char	*str;
@@ -76,9 +69,9 @@ t_token	*get_redirection(t_lexer **lex)
 		*lex = advance(*lex);
 	}
 	return (get_extra(ptr));
-
 }
-t_token 	*get_token(t_lexer *lexer)
+
+t_token	*get_token(t_lexer *lexer)
 {
 	while (lexer->c != '\0')
 	{
@@ -95,17 +88,24 @@ t_token 	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-int generate_token(char *rln_str)
+int	generate_token(char *rln_str)
 {
-	t_token *token;
+	t_token	*token;
 	t_lexer	*lexer;
+	t_list	*listd_tokn;
 
 	lexer = NULL;
+	listd_tokn = NULL;
 	lexer = init_lex(lexer, rln_str);
-	while (lexer->i < lexer->str_len) {
+	if (!lexer)
+		return (1);
+	while (lexer->i < lexer->str_len)
+	{
 		token = get_token(lexer);
-		printf("%s\n", token->content);
-		printf("%d\n", token->type);
+		listd_tokn = priority (listd_tokn, token);
+		free(token);
 	}
+	free(lexer);
+	parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }
