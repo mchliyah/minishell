@@ -59,18 +59,18 @@ t_token *get_char(t_lexer **lex)
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
-	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
-	{
-		*lex = advance(*lex);
-		i++;
-	}
+//	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+//	{
+//		*lex = advance(*lex);
+//		i++;
+//	}
 	while ((*lex)->c != '\0' && ft_isalpha((*lex)->c))
 	{
-		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
-		{
-			*lex = advance(*lex);
-			i++;
-		}
+//		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+//		{
+//			*lex = advance(*lex);
+//			i++;
+//		}
 		str = malloc(2 * sizeof(char));
 		if (!str)
 			return (NULL);
@@ -88,11 +88,11 @@ t_token *get_char(t_lexer **lex)
 			i++;
 		}
 	}
-	if (i%2 == 1)
-	{
-		printf("cmd %s   err %c\n", ptr, L_DOBLE_QUOTE);
-		exit(0);
-	}
+//	if (i%2 == 1)
+//	{
+//		printf("cmd %s   err %c\n", ptr, L_DOBLE_QUOTE);
+//		exit(0);
+//	}
 //	str = check_for_args(lex);
 	return (init_token(ptr, WORD, str));
 }
