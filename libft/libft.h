@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:59:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/17 20:09:41 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:30:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_list
 {
 	t_token			*content;
 	struct s_list	*next;
+	struct s_list	*prev;
 }	t_list;
 
 //fonct part 1
@@ -61,7 +62,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(t_token *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);

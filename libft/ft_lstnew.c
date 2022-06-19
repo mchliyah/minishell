@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 21:43:30 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/17 16:01:38 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:05:27 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(t_token *content)
 {
 	t_list	*ptr;
 
@@ -21,6 +21,7 @@ t_list	*ft_lstnew(void *content)
 		return (NULL);
 	ptr->content = content;
 	ptr->next = NULL;
+	ptr->prev = NULL;
 	return (ptr);
 }
 /*

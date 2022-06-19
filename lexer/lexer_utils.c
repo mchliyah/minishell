@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/17 09:50:38 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/06/18 23:45:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,32 @@ t_lexer	*advance(t_lexer *lexer)
 	return (lexer);
 }
 
-char	*check_for_args(t_lexer **this)
-{
-	char	*ptr;
-	char	*str;
+// char	*check_for_args(t_lexer **this)
+// {
+// 	char	*ptr;
+// 	char	*str;
 
-	if ((*this)->c == SPACE)
-		*this = advance(*this);
-	if ((*this)->c == SINGLE_QUOTE || (*this)->c == L_DOBLE_QUOTE)
-		*this = advance(*this);
-	if ((*this)->c != EPIPE && (*this)->c != LESS && (*this)->c != GREATER)
-	{
-		ptr = ft_strdup("");
-		while ((*this)->c != '\0')
-		{
-			if ((*this)->c == SINGLE_QUOTE || (*this)->c == R_DOBLE_QUOTE)
-				*this = advance(*this);
-			str = malloc(2 * sizeof(char));
-			ft_bzero(str, 2);
-			str[0] = (*this)->c;
-			ptr = ft_strjoin(ptr, str);
-			free(str);
-			*this = advance(*this);
-		}
-	}
-	return ptr;
-}
+// 	if ((*this)->c == SPACE)
+// 		*this = advance(*this);
+// 	if ((*this)->c == SINGLE_QUOTE || (*this)->c == L_DOBLE_QUOTE)
+// 		*this = advance(*this);
+// 	if ((*this)->c != EPIPE && (*this)->c != LESS && (*this)->c != GREATER)
+// 	{
+// 		ptr = ft_strdup("");
+// 		while ((*this)->c != '\0')
+// 		{
+// 			if ((*this)->c == SINGLE_QUOTE || (*this)->c == R_DOBLE_QUOTE)
+// 				*this = advance(*this);
+// 			str = malloc(2 * sizeof(char));
+// 			ft_bzero(str, 2);
+// 			str[0] = (*this)->c;
+// 			ptr = ft_strjoin(ptr, str);
+// 			free(str);
+// 			*this = advance(*this);
+// 		}
+// 	}
+// 	return ptr;
+// }
 
 t_token *get_char(t_lexer **lex)
 {
@@ -93,6 +93,6 @@ t_token *get_char(t_lexer **lex)
 //		printf("cmd %s   err %c\n", ptr, L_DOBLE_QUOTE);
 //		exit(0);
 //	}
-	str = check_for_args(lex);
+	// str = check_for_args(lex);
 	return (init_token(ptr, WORD, str));
 }

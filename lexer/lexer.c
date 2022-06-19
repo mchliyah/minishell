@@ -41,7 +41,6 @@ t_token	*get_extra( char *ptr)
 		return (init_token(ptr, REDIRECT_OUT_IN_APPEND_MD, NULL));
 	else
 		return (init_token(ptr, SYNTAX_ERR, NULL));
-
 }
 
 t_token	*get_redirection(t_lexer **lex)
@@ -103,9 +102,14 @@ int	generate_token(char *rln_str)
 	{
 		token = get_token(lexer);
 		listd_tokn = priority (listd_tokn, token);
-		free(token);
+		// free(token);
+	}
+	listd_tokn = parse_to_tree(listd_tokn);
+	while (listd_tokn)
+	{
+		printf("%d\n", listd_tokn->content->child);
+		listd_tokn = listd_tokn->next;
 	}
 	free(lexer);
-	parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }

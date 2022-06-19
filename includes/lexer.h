@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/17 16:34:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/18 23:51:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_token
 	int		type;
 	char	*content;
 	char	*args;
+	int		child;
 }	t_token;
 
 typedef struct s_lexer
