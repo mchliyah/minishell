@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/19 23:04:06 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/19 23:11:06 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_list	*priority(t_list	*lst_token, t_token *token)
 //{
 //
 //}
+//openning file descreptors
 t_fdinout	*open_fds(t_list	*lst_t, t_fdinout	*fds)
 {
 	fds->i = 0;
@@ -41,6 +42,7 @@ t_fdinout	*open_fds(t_list	*lst_t, t_fdinout	*fds)
 	return (fds);
 }
 
+//checking files descreptors an alocat memorie
 t_fdinout	*init_fds(t_list	*lst_tok, t_fdinout	*fds)
 {
 	t_list	*tmp;
@@ -68,11 +70,8 @@ t_fdinout	*init_fds(t_list	*lst_tok, t_fdinout	*fds)
 	fds = open_fds(lst_tok, fds);
 	if (k)
 	{
-		while (k >= 0)
-		{
+		while (--k >= 0)
 			printf("fd in arr %d\n", fds->fdin[k]);
-			k--;
-		}
 	}
 	return (fds);
 }
@@ -95,20 +94,20 @@ t_list	*parse_to_tree(t_list *lst_token)
 {
 	int			i;
 	t_fdinout	*fds;
-	t_list		*tmp;
+	// t_list		*tmp;
 
 	i = 0;
 	fds = malloc(sizeof(t_fdinout));
 	fds = init_fds(lst_token, fds);
-	while (lst_token)
+	while (lst_token->next)
 	{
-		if (lst_token->content->type == REDIRECT_IN
-			|| lst_token->content->type == REDIRECT_OUT)
-		{
-			tmp = lst_token;
-			lst_token->next = lst_token->next->next;
-			lst_token->next->next->prev = tmp;
-		}
+		// if (lst_token->content->type == REDIRECT_IN
+		// 	|| lst_token->content->type == REDIRECT_OUT)
+		// {
+		// 	tmp = lst_token;
+		// 	lst_token->next = lst_token->next->next;
+		// 	lst_token->next->next->prev = tmp;
+		// }
 		lst_token = lst_token->next;
 	}
 	while (lst_token->prev)
