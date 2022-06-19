@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/15 00:10:32 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/19 20:53:11 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,12 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address -g3
 RM = rm -f
 #########################
 # ! files of the minishell
-FILES =		 \
-		main.c\
+
+FILES =	main.c\
 		lexer/lexer.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
-		parser.c\
+		parser/parser.c\
 #!########################
 
 OBJECTS =  $(FILES:.c=.o)

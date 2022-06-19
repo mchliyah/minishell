@@ -95,21 +95,27 @@ int	generate_token(char *rln_str)
 
 	lexer = NULL;
 	listd_tokn = NULL;
+//	rm_quotes_and_add_space(rln_str);
 	lexer = init_lex(lexer, rln_str);
-	if (!lexer)
+	if (!lexer) {
 		return (1);
+	}
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
+		printf("content == %s\n", token->content);
+		printf("args == %s\n", token->args);
 		listd_tokn = priority (listd_tokn, token);
 		// free(token);
 	}
 	listd_tokn = parse_to_tree(listd_tokn);
-	while (listd_tokn)
-	{
-		printf("%d\n", listd_tokn->content->child);
-		listd_tokn = listd_tokn->next;
-	}
+	// while (listd_tokn)
+	// {
+	// 	printf("%s\n", listd_tokn->content->content);
+	// 	printf("%d\n", listd_tokn->content->child);
+	// 	listd_tokn = listd_tokn->next;
+	// }
 	free(lexer);
+	//parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }
