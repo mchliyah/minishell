@@ -18,9 +18,9 @@ int	main(void)
 
 	while (1)
 	{
-		str_rln = readline("✅ minishell ➡️ ");
+		str_rln = readline("✅ minishell ➡️");
 		if (!str_rln)
-			return (0);
+			break ;
 		generate_token(str_rln);
 	}
 	return (0);

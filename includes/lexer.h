@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/17 16:34:50 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/06/19 11:31:30 by ael-mous          #+#    #+#             */
+/*   Updated: 2022/06/19 11:31:32 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//header 
+ 
 #ifndef LEXER_H
 # define LEXER_H
 # include <stdlib.h>
