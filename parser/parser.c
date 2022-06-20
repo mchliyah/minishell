@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/19 23:11:06 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:03:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,24 @@ t_list	*parse_to_tree(t_list *lst_token)
 {
 	int			i;
 	t_fdinout	*fds;
-	// t_list		*tmp;
+	t_list		*tmp;
 
 	i = 0;
+	tmp = NULL;
 	fds = malloc(sizeof(t_fdinout));
 	fds = init_fds(lst_token, fds);
 	while (lst_token->next)
 	{
-		// if (lst_token->content->type == REDIRECT_IN
-		// 	|| lst_token->content->type == REDIRECT_OUT)
-		// {
-		// 	tmp = lst_token;
-		// 	lst_token->next = lst_token->next->next;
-		// 	lst_token->next->next->prev = tmp;
-		// }
-		lst_token = lst_token->next;
+		if (lst_token->content->type == REDIRECT_IN
+			|| lst_token->content->type == REDIRECT_OUT)
+		{
+			tmp = lst_token;
+			lst_token = lst_token->next->next;
+			free(tmp->next);
+			free(tmp);
+		}
+		else
+			lst_token = lst_token->next;
 	}
 	while (lst_token->prev)
 	{
