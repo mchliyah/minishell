@@ -89,9 +89,10 @@ t_token	*get_token(t_lexer *lexer)
 
 int	generate_token(char *rln_str)
 {
-	t_token	*token;
-	t_lexer	*lexer;
-	t_list	*lst_token;
+	t_token		*token;
+	t_lexer		*lexer;
+	t_list		*lst_token;
+	t_pipe_line *pipeline;
 
 	lexer = NULL;
 	lst_token = malloc(sizeof(t_list));
@@ -108,11 +109,15 @@ int	generate_token(char *rln_str)
 			lst_token = linked_token(lst_token, token);
 		// free(token);
 	}
-	lst_token = parse_to_tree(lst_token);
-	while (lst_token)
+	pipeline = parse_to_tree(lst_token);
+	while (pipeline->type == PIPE)
 	{
-		printf("%s\n", lst_token->content->content);
-		lst_token = lst_token->next;
+		while (pipeline->right->next)
+		{
+			printf("%s\n", pipeline->right->content->content);
+			pipeline->right = pipeline->right->next;
+		}
+		pipeline = pipeline->left;
 	}
 	free(lexer);
 	//parse_to_tree(listd_tokn);

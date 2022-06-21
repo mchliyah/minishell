@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/22 00:09:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/22 00:31:55 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 //
 //}
 //openning file descreptors
-t_pipeline	*frst_pipe(t_list *lst_token, t_pipe_line	*pipeline)
+void	frst_pipe(t_list *lst_token, t_pipe_line	*pipeline)
 {
-	t_pipe_line	*ret_pipe;
 	t_list		*tmp;
 	t_list		*tmp1;
 
-	ret_pipe = malloc(sizeof(t_pipe_line));
 	tmp = lst_token;
 	pipeline->type = tmp->content->type;
 	pipeline->right = tmp->next;
@@ -36,18 +34,20 @@ t_pipeline	*frst_pipe(t_list *lst_token, t_pipe_line	*pipeline)
 	tmp->next = NULL;
 	while (tmp1->prev != NULL)
 		lst_token = lst_token->prev;
-	pipeline->left = tmp1->next;
-	return (ret_pipe);
+	// pipeline->left = tmp1->next;
+	pipeline->left = NULL;
 }
 
 t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 {
 	t_pipe_line	*ret_pipe;
+	t_pipe_line	*tmp_pip;
 	t_list		*tmp;
-	t_list		*tmp1;
 
+	ret_pipe = NULL;
+	tmp_pip = pipeline;
 	if (frst_p)
-		pipeline = frst_pipe(lst_token, pipeline);
+		frst_pipe(lst_token, pipeline);
 	else
 	{
 		ret_pipe = malloc(sizeof(t_pipe_line));
@@ -57,9 +57,10 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 		while (tmp->next->content->type != PIPE)
 			tmp = tmp->next;
 		tmp->next = NULL;
-		ret_pipe->left = pipeline;
+		ret_pipe->left = tmp_pip;
+		pipeline = ret_pipe;
 	}
-	return (ret_pipe);
+	return (pipeline);
 }
 
 // will return a parsed tree

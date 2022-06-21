@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:49:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/21 16:54:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/22 00:35:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_list	*linked_token(t_list	*lst_token, t_token *token)
 	return (lst_token);
 }
 
-int	pipe_exixt(t_list *lst)
+int	pipe_exist(t_list *lst)
 {
 	while (lst)
 	{
@@ -29,6 +29,6 @@ int	pipe_exixt(t_list *lst)
 			return (1);
 		lst = lst->next;
 	}
-	reture (0);
+	return (0);
 }
 
