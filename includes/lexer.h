@@ -46,7 +46,7 @@ typedef struct s_token
 		REDIRECT_OUT_IN_APPEND_MD,
 		PIPE,
 		SYNTAX_ERR
-	} e_type;
+	};
 
 	int		type;
 	char	*content;
@@ -65,6 +65,6 @@ t_token	*init_token(char *str, int type, char *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 int		generate_token(char *av);
 t_lexer	*advance(t_lexer *lexer);
-int		generate_token(char *av);
+//int		generate_token(char *av);
 t_token	*get_char(t_lexer **lex);
 #endif

@@ -1,20 +1,6 @@
 
 #include "../includes/minishell.h"
 
-/*
- *exp:
- * 			echo hello
- * 			OR   echo "hel lo"
- * 			OR   ls -la
- * 			OR   ls -l -a
- * 			OR   echo "$HOME" which is variable
- * 			OR	 echo $HOME
- * 			Or 	 echo 'hel lo'  - which print on terminal - hel lo
- * 			OR	  echo '$HOME' 	- which print on terminal - $HOME
- *
- */
-
-// t_token	*get_char(t_lexer **lex)
 
 t_token	*get_pipe(t_lexer **lex)
 {
@@ -97,7 +83,6 @@ int	generate_token(char *rln_str)
 
 	lexer = NULL;
 	listd_tokn = NULL;
-//	rm_quotes_and_add_space(rln_str);
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer) {
 		return (1);
@@ -110,7 +95,7 @@ int	generate_token(char *rln_str)
 		listd_tokn = priority (listd_tokn, token);
 		free(token);
 	}
-	free(lexer);
+	//free(lexer);
 	//parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }
