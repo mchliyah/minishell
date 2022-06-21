@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/19 20:45:43 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/21 12:15:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ typedef struct s_token
 		PIPE,
 		SYNTAX_ERR
 	} e_type;
-
 	int		type;
 	char	*content;
 	char	*args;
-	int		child;
 }	t_token;
 
 typedef struct s_lexer

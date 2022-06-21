@@ -18,4 +18,6 @@ typedef struct s_fdpip
 	int	j;
 }	t_fdinout;
 
+t_fdinout	*init_fds(t_list	*lst_tok, t_fdinout	*fds);
+
 #endif

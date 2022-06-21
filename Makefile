@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/19 20:53:11 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/20 15:51:38 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ FILES =	main.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		parser/parser.c\
+		parser/pars_utils.c\
 #!########################
 
 OBJECTS =  $(FILES:.c=.o)
