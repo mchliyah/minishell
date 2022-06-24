@@ -6,12 +6,11 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/22 00:31:55 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/24 02:24:09 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 // ! if we have a PIPE
 //t_pipe_line	*pipe_line(t_list *token)
@@ -34,7 +33,8 @@ void	frst_pipe(t_list *lst_token, t_pipe_line	*pipeline)
 	tmp->next = NULL;
 	while (tmp1->prev != NULL)
 		lst_token = lst_token->prev;
-	// pipeline->left = tmp1->next;
+	pipeline->left = tmp1->next;
+	pipeline->left_p = NULL;
 	pipeline->left = NULL;
 }
 
@@ -57,7 +57,8 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 		while (tmp->next->content->type != PIPE)
 			tmp = tmp->next;
 		tmp->next = NULL;
-		ret_pipe->left = tmp_pip;
+		ret_pipe->left_p = tmp_pip;
+		ret_pipe->left = NULL;
 		pipeline = ret_pipe;
 	}
 	return (pipeline);

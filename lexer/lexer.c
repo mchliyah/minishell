@@ -110,14 +110,14 @@ int	generate_token(char *rln_str)
 		// free(token);
 	}
 	pipeline = parse_to_tree(lst_token);
-	while (pipeline->type == PIPE)
+	while (pipeline->type == PIPE && pipeline->left_p)
 	{
 		while (pipeline->right->next)
 		{
 			printf("%s\n", pipeline->right->content->content);
 			pipeline->right = pipeline->right->next;
 		}
-		pipeline = pipeline->left;
+		pipeline = pipeline->left_p;
 	}
 	free(lexer);
 	//parse_to_tree(listd_tokn);
