@@ -11,23 +11,20 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s != (unsigned char)c)
+	int		i;
+	char	cc;
+
+	i = 0;
+	cc = (char)c;
+	while (s[i] != '0')
 	{
-		if (*s == '\0')
-			return (NULL);
-		s++;
+		if (s[i] == cc)
+			return ((char *)s + i);
+		i++;
 	}
-	return ((char *)s);
+	if (c == '\0')
+		return ((char *)&s[i]);
+	return (0);
 }
-/*
-int main()
-{
-	const char str[] = "hewllwo world";
-	printf("%s\n", ft_strchr(str, '\0'));
-	printf("%s\n",strchr(str, '\0'));
-	return(0);
-}
-*/

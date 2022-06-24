@@ -15,27 +15,14 @@
 
 t_lexer	*advance(t_lexer *lexer)
 {
-	if (lexer->i < lexer->str_len)
-	{
-		lexer->i++;
-		lexer->c = lexer->content[lexer->i];
-	}
+	lexer->i++;
+	lexer->c = lexer->content[lexer->i];
 	return (lexer);
 }
 
 int	ft_is_symbol(char c)
 {
 	if (c == EPIPE || c == LESS || c == GREATER || c == SPACE || c == '\0')
-		return (1);
-	return (0);
-}
-
-int	check_quote(char cu, char c, int i)
-{
-	if (ft_strchr(SYMBOLS, cu) && (i == 0 || i%2==0))
-		return (1);
-	else if ((c == SINGLE_QUOTE || c == L_DOBLE_QUOTE)
-			&& ft_strchr(SYMBOLS, cu) && i%2 == 0)
 		return (1);
 	return (0);
 }
@@ -97,48 +84,90 @@ void	check_for_nested_quote(t_lexer **this)
 		tmp = advance(tmp);
 		i++;
 	}
-}`*/
+}*/
 
 /*
-  @todo	:
+  todo	:
  */
-t_token *get_char(t_lexer **lex)
+char	*get_inside_quotes(t_lexer **it)
 {
-	char	h;
-	int 	i;
+	char	tmp;
 	char	*ptr;
 	char	*str;
-//	char **args = NULL;
 
-	i = 0;
+	ptr = NULL;
+	str = NULL;
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
-	while ((*lex)->c != '\0' && ft_isprint((*lex)->c))
+	while ((*it)->c != '\0')
 	{
-//		check_for_nested_quote(lex);
-//		if (ft_strchr("\"\'",(*lex)->c))
-//		{
-//			*lex = advance(*lex);
-//			i++;
-//		}
 		str = malloc(2 * sizeof(char));
 		if (!str)
 			return (NULL);
 		ft_bzero(str, 2);
-		str[0] = (*lex)->c;
+		str[0] = (*it)->c;
 		ptr = ft_strjoin(ptr, str);
 		if (!ptr)
 			return (NULL);
 		free(str);
 		str = NULL;
-		h  = (*lex)->c;
-		*lex = advance(*lex);
-		if (check_quote((*lex)->c, h, i)) {
-			break ;
+		tmp = (*it)->c;
+		*it = advance(*it);
+		if ((tmp == SINGLE_QUOTE || tmp == L_DOBLE_QUOTE)
+			&& ((*it)->c == SPACE ||  (*it)->c == LESS
+				||  (*it)->c == EPIPE ||  (*it)->c == GREATER))
+			break;
+	}
+	return (ptr);
+}
+t_token *get_char(t_lexer **lex)
+{
+	int		i;
+	char	*ptr;
+	char	*str;
+	char	*tmp;
+//	char **args = NULL;
+
+	i = 0;
+	str = NULL;
+	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+	{
+		ptr = get_inside_quotes(lex);
+	}
+	else
+	{
+		ptr = ft_strdup("");
+		if (!ptr)
+			return (NULL);
+		while ((*lex)->c != '\0')
+		{
+			str = malloc(2 * sizeof(char));
+			if (!str) {
+				return (NULL);
+			}
+			ft_bzero(str, 2);
+			str[0] = (*lex)->c;
+			ptr = ft_strjoin(ptr, str);
+			if (!ptr) {
+				return (NULL);
+			}
+			free(str);
+			str = NULL;
+			*lex = advance(*lex);
+			if ((*lex)->c == SPACE || (*lex)->c == EPIPE || (*lex)->c == LESS
+				|| (*lex)->c == GREATER) {
+				break;
+			}
+			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE) && (*lex)->c != '0')
+			{
+				tmp = get_inside_quotes(lex);
+				ptr = ft_strjoin(ptr, tmp);
+				free(tmp);
+				break;
+			}
 		}
 	}
-//	get_args(args, lex);
-	check_for_args(lex, i);
+	//check_for_args(lex, i);
 	return (init_token(ptr, WORD, str));
 }

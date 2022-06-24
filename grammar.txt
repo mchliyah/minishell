@@ -16,7 +16,7 @@
                   ;
  cmd_word         ::= 	WORD
                   ;
- <io_redirect>   ::=  '<'   		 	 <word>
+ <io_redirect>   ::=  '<'   		 	 <word> *
                      |    '>'             <word>
                      |    '>>'            <word>
                      |    '<<'            <word>
@@ -45,7 +45,7 @@ example of token :
  * 			echo hello
  * 			OR   echo "hel lo"
  * 			OR   ls -la
- * 			OR   ls -l -a
+ * 			OR   ls "-l" -a
  * 			OR   echo "$HOME" 		-which is variable
  * 			OR	 echo $HOME
  * 			Or 	 echo 'hel lo'  	- which print on terminal - hel lo
@@ -55,3 +55,5 @@ example of token :
 					echo """ ""df"
 			"""""echo """""kdjf"fdaf"
  */
+
+ "l"s -a "-l"| echo "djakdj adkfj""ja fa"

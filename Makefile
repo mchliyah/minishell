@@ -13,7 +13,7 @@
 NAME = minishell
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -g
 
 RM = rm -f
 #########################
@@ -53,7 +53,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(ARLIB) -lreadline -o $(NAME)
+	@$(CC) -g $(CFLAGS) $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@$(CLEANLIBFT)
 	@echo "$(C_GREEN)[MINISHELL MANDATORY CREATED!]$(C_RES)"
 
