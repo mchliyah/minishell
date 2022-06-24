@@ -16,7 +16,7 @@
                   ;
  cmd_word         ::= 	WORD
                   ;
- <io_redirect>   ::=  '<'   		 	 <word>
+ <io_redirect>   ::=  '<'   		 	 <word> *
                      |    '>'             <word>
                      |    '>>'            <word>
                      |    '<<'            <word>
@@ -38,3 +38,22 @@ example of token :
 	| -> PIPE
 	cat -> WORD
 	-e -> WORD
+
+****************************************************
+/*
+ *exp:
+ * 			echo hello
+ * 			OR   echo "hel lo"
+ * 			OR   ls -la
+ * 			OR   ls "-l" -a
+ * 			OR   echo "$HOME" 		-which is variable
+ * 			OR	 echo $HOME
+ * 			Or 	 echo 'hel lo'  	- which print on terminal - hel lo
+ * 			OR	  echo '$HOME' 		- which print on terminal - $HOME
+ *			OR	   echo "$"USER 	"hello there"  == $USER hello there
+			OR		echo \"WHAT
+					echo """ ""df"
+			"""""echo """""kdjf"fdaf"
+ */
+
+ "l"s -a "-l"| echo "djakdj adkfj""ja fa"

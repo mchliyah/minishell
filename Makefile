@@ -6,14 +6,14 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/22 00:34:46 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/24 22:17:12 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 RM = rm -f
 #########################
@@ -55,7 +55,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(ARLIB) -lreadline -o $(NAME)
+	@$(CC) -g $(CFLAGS) $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@$(CLEANLIBFT)
 	@echo "$(C_GREEN)[MINISHELL MANDATORY CREATED!]$(C_RES)"
 

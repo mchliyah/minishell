@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 13:49:58 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/16 22:18:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/24 22:10:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s != (unsigned char)c)
+	int		i;
+	char	cc;
+
+	i = 0;
+	cc = (char)c;
+	while (s[i] != '0')
 	{
-		if (*s == '\0')
-			return (NULL);
-		s++;
+		if (s[i] == cc)
+			return ((char *)s + i);
+		i++;
 	}
-	return ((char *)s);
+	if (c == '\0')
+		return ((char *)&s[i]);
+	return (0);
 }
-/*
-int main()
-{
-	const char str[] = "hewllwo world";
-	printf("%s\n", ft_strchr(str, '\0'));
-	printf("%s\n",strchr(str, '\0'));
-	return(0);
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/21 12:15:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/24 22:14:18 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_token
 		PIPE,
 		SYNTAX_ERR
 	} e_type;
+
 	int		type;
 	char	*content;
 	char	*args;
@@ -64,6 +65,6 @@ t_token	*init_token(char *str, int type, char *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 int		generate_token(char *av);
 t_lexer	*advance(t_lexer *lexer);
-int		generate_token(char *av);
+//int		generate_token(char *av);
 t_token	*get_char(t_lexer **lex);
 #endif
