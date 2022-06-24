@@ -9,7 +9,7 @@
 /*   Updated: 2022/06/19 11:31:32 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- 
+
 #ifndef LEXER_H
 # define LEXER_H
 # include <stdlib.h>
@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
+# define EOS '\0'
 /*
  * 	int (keyword), value (identifier) = e_symbols,
  * 	= (operator), 100 (constant) and ; (symbol).
@@ -47,7 +48,6 @@ typedef struct s_token
 		PIPE,
 		SYNTAX_ERR
 	};
-
 	int		type;
 	char	*content;
 	char	*args;

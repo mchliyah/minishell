@@ -73,43 +73,41 @@ t_token	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-//char	*split_by_space(char *s)
-//{
-//	char	*ptr;
-//	char	*t;
-//	int	i;
-//
-//	i = 0;
-//	ptr = ft_strdup("");
-//	t = malloc(sizeof(char ) * 2);
-//	ft_bzero(t, 2);
-//	while (s[i])
-//	{
-//		if (s[i] == SINGLE_QUOTE || s[i] == L_DOBLE_QUOTE)
-//		{
-//			while (s[i] && s[i] != SINGLE_QUOTE || s[i] != L_DOBLE_QUOTE)
-//			{
-//				if (s[i] == SPACE)
-//				{
-//					s[i] = -115;
-//				}
-//				t[0] = s[i];
-//				ptr = ft_strjoin(ptr, t);
-//				i++;
-//			}
-//		}
-//		else if (ft_isalpha(s[i]) && ft_strchr(SYMBOLS, s[i+1]))
-//		{
-//			t[0] = s[i];
-//			ptr = ft_strjoin(ptr, t);
-//			t[0] = SPACE;
-//			ptr = ft_strjoin(ptr, t);
-//
-//		}
-//	}
-//}
+/*char	*split_by_space(char *s)
+{
+	char	*ptr;
+	char	*t;
+	int	i;
 
+	i = 0;
+	ptr = ft_strdup("");
+	t = malloc(sizeof(char ) * 2);
+	ft_bzero(t, 2);
+	while (s[i])
+	{
+		if (s[i] == SINGLE_QUOTE || s[i] == L_DOBLE_QUOTE)
+		{
+			while (s[i] && s[i] != SINGLE_QUOTE || s[i] != L_DOBLE_QUOTE)
+			{
+				if (s[i] == SPACE)
+				{
+					s[i] = -115;
+				}
+				t[0] = s[i];
+				ptr = ft_strjoin(ptr, t);
+				i++;
+			}
+		}
+		else if (ft_isalpha(s[i]) && ft_strchr(SYMBOLS, s[i+1]))
+		{
+			t[0] = s[i];
+			ptr = ft_strjoin(ptr, t);
+			t[0] = SPACE;
+			ptr = ft_strjoin(ptr, t);
 
+		}
+	}
+}*/
 int	generate_token(char *rln_str)
 {
 	t_token	*token;
@@ -119,9 +117,8 @@ int	generate_token(char *rln_str)
 	lexer = NULL;
 	listd_tokn = NULL;
 	lexer = init_lex(lexer, rln_str);
-	if (!lexer) {
+	if (!lexer)
 		return (1);
-	}
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
