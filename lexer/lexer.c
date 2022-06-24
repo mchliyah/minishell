@@ -73,6 +73,7 @@ t_token	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
+
 /*char	*split_by_space(char *s)
 {
 	char	*ptr;
@@ -108,24 +109,39 @@ t_token	*get_token(t_lexer *lexer)
 		}
 	}
 }*/
+
 int	generate_token(char *rln_str)
 {
-	t_token	*token;
-	t_lexer	*lexer;
-	t_list	*listd_tokn;
+	t_token		*token;
+	t_lexer		*lexer;
+	t_list		*lst_token;
+	t_pipe_line *pipeline;
 
 	lexer = NULL;
 	listd_tokn = NULL;
+
+	lst_token = malloc(sizeof(t_list));
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
 		return (1);
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
-		printf("content == %s\n", token->content);
-		printf("args == %s\n", token->args);
-		listd_tokn = priority (listd_tokn, token);
-		free(token);
+		// printf("content == %s\n", token->content);
+		// printf("args == %s\n", token->args);
+		if (token)
+			lst_token = linked_token(lst_token, token);
+		// free(token);
+	}
+	pipeline = parse_to_tree(lst_token);
+	while (pipeline->type == PIPE && pipeline->left_p)
+	{
+		while (pipeline->right->next)
+		{
+			printf("%s\n", pipeline->right->content->content);
+			pipeline->right = pipeline->right->next;
+		}
+		pipeline = pipeline->left_p;
 	}
 	//free(lexer);
 	//parse_to_tree(listd_tokn);

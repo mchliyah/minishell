@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/17 09:50:38 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/06/19 20:51:27 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,6 @@ t_token	*get_char(t_lexer **lex)
 			}
 		}
 	}
-//	str = check_for_args(lex, i);
+	//str = check_for_args(lex, i);
 	return (init_token(ptr, WORD, str));
 }

@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 00:21:17 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/20 13:49:24 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/06/19 20:03:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXEC_H
+# define EXEC_H
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
-{
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free (lst);
-}
+#endif

@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 00:21:17 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/20 13:49:24 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/06/21 16:57:45 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/06/22 00:35:24 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	free_lst(t_list *list)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free (lst);
+	t_list	*tmp;
+
+	tmp = list;
+	while (list)
+	{
+		free(list->content);
+		list = list->next;
+	}
+	free(tmp);
 }
