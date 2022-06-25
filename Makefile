@@ -23,6 +23,7 @@ FILES =		 \
 		lexer/lexer.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
+		lexer/ft_split_quote.c\
 		parser.c\
 #!########################
 

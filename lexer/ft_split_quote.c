@@ -15,19 +15,22 @@
 
 static char	**c_str(char **str, char const *s, char c)
 {
+	int		q;
 	size_t	i;
 	size_t	k;
 	size_t	j;
 
 	i = 0;
 	k = 0;
-	j = 0;
+	q = 0;
 	while (s[i])
 	{
 		j = i;
 		while (s[i] != c && s[i])
 		{
-			if (s[i + 1] == c || s[i + 1] == '\0')
+			if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
+				q++;
+			if ((s[i + 1] == c || s[i + 1] == '\0') && (q == 0 || q % 2 == 0))
 			{
 				str[k] = ft_substr(s, j, (i - j) + 1);
 				k++;
@@ -42,21 +45,30 @@ static char	**c_str(char **str, char const *s, char c)
 
 static int	w_count(char const *s, char c)
 {
+	int	j;
 	int	i;
 	int	count;
 
 	count = 0;
 	i = 0;
+	j = 0;
 	while (s[i])
 	{
+		if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
+			j++;
 		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == 0))
-			count++;
+		{
+			if (j == 0 || j % 2 == 0)
+				count++;
+			else
+				i++;
+		}
 		i++;
 	}
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_arg(char const *s, char c)
 {
 	int		count;
 	char	**str;
