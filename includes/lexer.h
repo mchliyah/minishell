@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/24 22:14:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/24 22:36:27 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
+# define EOS '\0'
 /*
  * 	int (keyword), value (identifier) = e_symbols,
  * 	= (operator), 100 (constant) and ; (symbol).
