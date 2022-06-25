@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/25 16:44:08 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/25 22:08:45 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,20 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 	return (ret_pipe);
 }
 
+t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
+{
+	t_list *tmp;
+
+	tmp = lst_token;
+	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline->type = WORD;
+	pipeline->left = NULL;
+	pipeline->right = NULL;
+	pipeline->left_p = NULL;
+	pipeline->left = copy_list(pipeline->left, tmp);
+	return (pipeline);
+}
+
 // will return a parsed tree
 t_pipe_line	*parse_to_tree(t_list *lst_token)
 {
@@ -93,6 +107,6 @@ t_pipe_line	*parse_to_tree(t_list *lst_token)
 		free_lst(lst_token);
 	}
 	else
-		return (NULL);
+		pipeline = simple_cmd(pipeline, lst_token);
 	return (pipeline);
 }
