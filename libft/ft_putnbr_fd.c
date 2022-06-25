@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:42:13 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/21 12:51:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/20 13:49:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,3 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(nb / 10, fd);
 	ft_putchar_fd(nb % 10 + '0', fd);
 }
-/*
-#include <fcntl.h>
-int main()
-{
-	int fd = open("text", O_RDWR | O_CREAT, 777);
-	ft_putnbr_fd(556, fd);
-	//printf("%d\n", fd);
-}
-*/
