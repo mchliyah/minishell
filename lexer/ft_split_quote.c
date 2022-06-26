@@ -26,7 +26,7 @@ static char	**c_str(char **str, char const *s, char c)
 	while (s[i])
 	{
 		j = i;
-		while (s[i] != c && s[i])
+		while (s[i])
 		{
 			if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
 				q++;
@@ -36,9 +36,16 @@ static char	**c_str(char **str, char const *s, char c)
 				k++;
 			}
 			i++;
+			if (s[i] == c && (q == 0 || q % 2 == 0))
+				break ;
 		}
 		if (s[i] != 0)
 			i++;
+		if (s[i] == '\0' && (q == 0 || q % 2 != 0))
+		{
+			str[k] = ft_substr(s, j, (i - j) + 1);
+			k++;
+		}
 	}
 	return (str);
 }
@@ -60,8 +67,6 @@ static int	w_count(char const *s, char c)
 		{
 			if (j == 0 || j % 2 == 0)
 				count++;
-			else
-				i++;
 		}
 		i++;
 	}

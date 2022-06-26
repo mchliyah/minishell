@@ -100,20 +100,21 @@ char	**check_for_args(t_lexer **lex)
 	int		start;
 	int		end;
 
-	start = (*lex)->i;
 	q = 0;
-	end = (*lex)->i;
 	if ((*lex)->c == SPACE)
 	{
 		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);
 	}
+	start = (*lex)->i;
+	end = (*lex)->i;
 	while ((*lex)->c != '\0')
 	{
 		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
 			q++;
-		else if (((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER
-				|| (*lex)->c == '\0') && (q == 0 || q % 2 == 0))
+		else if (((*lex)->c == EPIPE || (*lex)->c == LESS
+				|| (*lex)->c == GREATER || (*lex)->c == '\0')
+			&& (q == 0 || q % 2 == 0))
 		{
 			end = (*lex)->i;
 			break ;
@@ -169,7 +170,7 @@ t_token	*get_char(t_lexer **lex)
 	str = check_for_args(lex);
 	while (str[k])
 	{
-		printf("%s\n", str[k]);
+		printf("arg[%d] %s \n",k, str[k]);
 		k++;
 	}
 	return (init_token(ptr, WORD, NULL));

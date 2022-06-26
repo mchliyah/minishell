@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-mous <ael-mous@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
+/*   Updated: 2022/06/26 14:17:39 by ael-mous         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 
@@ -73,53 +85,13 @@ t_token	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-
-/*char	*split_by_space(char *s)
-{
-	char	*ptr;
-	char	*t;
-	int	i;
-
-	i = 0;
-	ptr = ft_strdup("");
-	t = malloc(sizeof(char ) * 2);
-	ft_bzero(t, 2);
-	while (s[i])
-	{
-		if (s[i] == SINGLE_QUOTE || s[i] == L_DOBLE_QUOTE)
-		{
-			while (s[i] && s[i] != SINGLE_QUOTE || s[i] != L_DOBLE_QUOTE)
-			{
-				if (s[i] == SPACE)
-				{
-					s[i] = -115;
-				}
-				t[0] = s[i];
-				ptr = ft_strjoin(ptr, t);
-				i++;
-			}
-		}
-		else if (ft_isalpha(s[i]) && ft_strchr(SYMBOLS, s[i+1]))
-		{
-			t[0] = s[i];
-			ptr = ft_strjoin(ptr, t);
-			t[0] = SPACE;
-			ptr = ft_strjoin(ptr, t);
-
-		}
-	}
-}*/
-
 int	generate_token(char *rln_str)
 {
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
-	t_pipe_line *pipeline;
 
 	lexer = NULL;
-	listd_tokn = NULL;
-
 	lst_token = malloc(sizeof(t_list));
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
@@ -127,23 +99,6 @@ int	generate_token(char *rln_str)
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
-		// printf("content == %s\n", token->content);
-		// printf("args == %s\n", token->args);
-		if (token)
-			lst_token = linked_token(lst_token, token);
-		// free(token);
 	}
-	pipeline = parse_to_tree(lst_token);
-	while (pipeline->type == PIPE && pipeline->left_p)
-	{
-		while (pipeline->right->next)
-		{
-			printf("%s\n", pipeline->right->content->content);
-			pipeline->right = pipeline->right->next;
-		}
-		pipeline = pipeline->left_p;
-	}
-	//free(lexer);
-	//parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }

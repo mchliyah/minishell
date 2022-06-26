@@ -24,7 +24,7 @@ FILES =		 \
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
-		parser.c\
+
 #!########################
 
 OBJECTS =  $(FILES:.c=.o)
@@ -56,7 +56,14 @@ $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
 	@$(CC) -g $(CFLAGS) $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@$(CLEANLIBFT)
-	@echo "$(C_GREEN)[MINISHELL MANDATORY CREATED!]$(C_RES)"
+	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
+	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
+	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
+	@echo "\033[1;33m ██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██ "
+	@echo "\033[1;33m ██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
+	@echo "$(C_L_BLUE) 1.0"
+	@echo " "
+	@echo "\033[1;35m▐▌ DONE by @abdelhak4  & @mchliyah ▐▌"
 
 clean : 
 	@$(CLEANLIBFT)
