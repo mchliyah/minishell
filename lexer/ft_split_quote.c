@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
+
 
 static char	**c_str(char **str, char const *s, char c)
 {
@@ -43,7 +43,7 @@ static char	**c_str(char **str, char const *s, char c)
 			i++;
 		if (s[i] == '\0' && (q == 0 || q % 2 != 0))
 		{
-			str[k] = ft_substr(s, j, (i - j) + 1);
+			str[k] = ft_substr(s, j, i - j);
 			k++;
 		}
 	}
@@ -65,7 +65,7 @@ static int	w_count(char const *s, char c)
 			j++;
 		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == 0))
 		{
-			if (j == 0 || j % 2 == 0)
+			if (j == 0 || j % 2 == 0 || (j % 2 == 1 && s[i + 1] == 0))
 				count++;
 		}
 		i++;

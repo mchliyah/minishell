@@ -47,7 +47,6 @@ typedef struct s_token
 		REDIRECT_OUT_IN_APPEND_MD,
 		PIPE,
 		SYNTAX_ERR
-
 	};
 	int		type;
 	char	*content;

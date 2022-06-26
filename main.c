@@ -20,7 +20,9 @@ int	main(void)
 	{
 		str_rln = readline("✅ minishell ➡️");
 		if (!str_rln)
-			break ;
+			return (1);
+		if (*str_rln)
+			add_history(str_rln);
 		generate_token(str_rln);
 	}
 	return (0);
