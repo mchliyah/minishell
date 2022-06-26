@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/24 22:37:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/26 19:44:42 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,48 +56,15 @@ char	*join_string(char *ptr, char c)
 //{
 //
 //}
-//size_t	count_arg(t_lexer *lex)
-//{
-//	size_t	cnt;
-//	t_lexer	*this;
-//
-//	this = lex;
-//	cnt = 0;
-//	while (this->c != EOS)
-//	{
-//		if ((this->c == EPIPE || this->c == LESS || this->c == GREATER)
-//			&& (nbq == 0 || nbq % 2 == 0))
-//			break ;
-//		else if (this->c == SINGLE_QUOTE || this->c == L_DOBLE_QUOTE)
-//		this = advance(this);
-//	}
-//}
-//char	**check_for_args(t_lexer **this, int i)
-//{
-//	int 	j;
-//	char	**ptr;
-//	char	h;
-//	char	*str;
-//
-//	ptr = NULL;
-//	j = 0;
-//	while ((*this)->c == SPACE)
-//		*this = advance(*this);
-//	if ((*this)->c == EPIPE || (*this)->c == LESS
-//		|| (*this)->c == GREATER || (*this)->c == '\0')
-//		return (NULL);
-//	if ((*this)->c == SINGLE_QUOTE || (*this)->c == L_DOBLE_QUOTE)
-//		quoted_arg(*this)
-//	while ((*this)->c != '\0')
-//	{
-//		ptr[j] = ft_strdup("");
-//		h = (*this)->c;
-//		*this = advance(*this);
-//		j++;
-//	}
-//	return (ptr);
-//}
+char	has_next(t_lexer *it)
+{
+	t_lexer	*this;
 
+	this = it;
+	this->i++;
+	this->c = this->content[this->i];
+	return (this->c);
+}
 /*
  *   -------------------------------------
  * 	 function for member of get_char() !!
@@ -126,14 +93,53 @@ char	*get_inside_quotes(t_lexer **it)
 	return (ptr);
 }
 
+char	**check_for_args(t_lexer **lex)
+{
+	char	*str;
+	int		q;
+	int		start;
+	int		end;
+
+	q = 0;
+	if ((*lex)->c == SPACE)
+	{
+		while ((*lex)->c == SPACE)
+			*lex = advance(*lex);
+	}
+	start = (*lex)->i;
+	end = (*lex)->i;
+	while ((*lex)->c != '\0')
+	{
+		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+			q++;
+		else if (((*lex)->c == EPIPE || (*lex)->c == LESS
+				|| (*lex)->c == GREATER || (*lex)->c == '\0')
+			&& (q == 0 || q % 2 == 0))
+		{
+			end = (*lex)->i;
+			break ;
+		}
+		*lex = advance(*lex);
+		if ((*lex)->c == EOS)
+		{
+			end = (*lex)->i;
+			break ;
+		}
+	}
+	str = ft_substr((*lex)->content, start, end - start);
+	return (ft_split_arg(str, ' '));
+}
+
 t_token	*get_char(t_lexer **lex)
 {
 	int		i;
+	int		k;
 	char	*ptr;
-	char	*str;
+	char	**str;
 	char	*tmp;
-//	char **args = NULL;
+
 	i = 0;
+	k = 0;
 	str = NULL;
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
@@ -170,5 +176,12 @@ t_token	*get_char(t_lexer **lex)
 	// str = check_for_args(lex, i);
 	//check_for_args(lex, i);
 	//str = check_for_args(lex, i);
-	return (init_token(ptr, WORD, str));
+	// return (init_token(ptr, WORD, str));
+	str = check_for_args(lex);
+	while (str[k])
+	{
+		printf("arg[%d] %s \n",k, str[k]);
+		k++;
+	}
+	return (init_token(ptr, WORD, NULL));
 }

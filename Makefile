@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/24 22:44:02 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/26 20:02:49 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,16 @@ CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 RM = rm -f
 #########################
 # ! files of the minishell
-
 FILES =	main.c\
 		lexer/lexer.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
+		lexer/ft_split_quote.c\
 		parser/parser.c\
 		parser/pars_utils.c\
+		error.c\
 		free.c\
+
 #!########################
 
 OBJECTS =  $(FILES:.c=.o)
@@ -57,7 +59,14 @@ $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
 	@$(CC) -g $(CFLAGS) $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@$(CLEANLIBFT)
-	@echo "$(C_GREEN)[MINISHELL MANDATORY CREATED!]$(C_RES)"
+	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
+	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
+	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
+	@echo "\033[1;33m ██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██ "
+	@echo "\033[1;33m ██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
+	@echo "$(C_L_BLUE) 1.0"
+	@echo " "
+	@echo "\033[1;35m▐▌ DONE by @abdelhak4  & @mchliyah ▐▌"
 
 clean : 
 	@$(CLEANLIBFT)

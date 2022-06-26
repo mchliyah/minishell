@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/25 22:08:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:11:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 
 t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = lst_token;
 	pipeline = malloc(sizeof(t_pipe_line));
@@ -93,6 +93,7 @@ t_pipe_line	*parse_to_tree(t_list *lst_token)
 	frst_pipe = 1;
 	to_free = lst_token;
 	pipeline = NULL;
+	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{
 		while (lst_token)

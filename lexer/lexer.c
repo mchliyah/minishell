@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
+/*   Updated: 2022/06/26 20:16:55 by mchliyah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 
@@ -151,12 +163,12 @@ int	generate_token(char *rln_str)
 	t_lexer		*lexer;
 	t_list		*lst_token;
 	t_list		*print;
-	t_pipe_line *pipeline;
+	t_pipe_line	*pipeline;
 
 	lexer = NULL;
 	lst_token = malloc(sizeof(t_list));
 //	rm_quotes_and_add_space(rln_str);
-
+	lexer = NULL;
 	lst_token = malloc(sizeof(t_list));
 	lst_token = NULL;
 	lexer = init_lex(lexer, rln_str);
@@ -169,14 +181,7 @@ int	generate_token(char *rln_str)
 		// printf("args == %s\n", token->args);
 		if (token)
 			lst_token = linked_token(lst_token, token);
-		// free(token);
 	}
-	// while(lst_token)
-	// {
-	// 	printf("%s\n", lst_token->content->content);
-	// 	lst_token = lst_token->next;
-	// }
-	
 	pipeline = parse_to_tree(lst_token);
 	while (pipeline)
 	{
@@ -191,14 +196,11 @@ int	generate_token(char *rln_str)
 			print = pipeline->left;
 			while (print)
 			{
-
 				printf("left cmd == %s\n", print->content->content);
 				print = print->next;
 			}
 		}
 		pipeline = pipeline->left_p;
 	}
-	//free(lexer);
-	//parse_to_tree(listd_tokn);
 	return (EXIT_SUCCESS);
 }
