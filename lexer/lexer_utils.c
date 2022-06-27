@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/26 19:44:42 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/27 22:20:38 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,21 +167,6 @@ t_token	*get_char(t_lexer **lex)
 			}
 		}
 	}
-//	if (i%2 == 1)
-//	{
-//		printf("cmd %s   err %c\n", ptr, L_DOBLE_QUOTE);
-//		exit(0);
-//	}
-	// str = check_for_args(lex);
-	// str = check_for_args(lex, i);
-	//check_for_args(lex, i);
-	//str = check_for_args(lex, i);
-	// return (init_token(ptr, WORD, str));
 	str = check_for_args(lex);
-	while (str[k])
-	{
-		printf("arg[%d] %s \n",k, str[k]);
-		k++;
-	}
-	return (init_token(ptr, WORD, NULL));
+	return (init_token(ptr, WORD, str));
 }

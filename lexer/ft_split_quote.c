@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 11:26:49 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/22 11:27:15 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/06/27 22:22:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**c_str(char **str, char const *s, char c)
 			i++;
 		if (s[i] == '\0' && (q == 0 || q % 2 != 0))
 		{
-			str[k] = ft_substr(s, j, (i - j) + 1);
+			str[k] = ft_substr(s, j, (i - j));
 			k++;
 		}
 	}

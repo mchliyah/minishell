@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/26 19:57:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/27 22:21:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_token
 
 	int		type;
 	char	*content;
-	char	*args;
+	char	**args;
 }	t_token;
 
 typedef struct s_lexer
@@ -62,7 +62,7 @@ typedef struct s_lexer
 	char	*content;
 }	t_lexer;
 
-t_token	*init_token(char *str, int type, char *args);
+t_token	*init_token(char *str, int type, char **args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 int		generate_token(char *av);
 char	**ft_split_arg(char const *s, char c);

@@ -1,6 +1,7 @@
-./idea
+.idea
 ./vscode
 *.o
 *./*.o
 a.out
 /libft/*.a
+.vscode

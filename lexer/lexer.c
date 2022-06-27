@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/26 20:16:55 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/27 22:18:54 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,91 +85,14 @@ t_token	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-//char	*split_by_space(char *s)
-//{
-//	char	*ptr;
-//	char	*t;
-//	int	i;
-//
-//	i = 0;
-//	ptr = ft_strdup("");
-//	t = malloc(sizeof(char ) * 2);
-//	ft_bzero(t, 2);
-//	while (s[i])
-//	{
-//		if (s[i] == SINGLE_QUOTE || s[i] == L_DOBLE_QUOTE)
-//		{
-//			while (s[i] && s[i] != SINGLE_QUOTE || s[i] != L_DOBLE_QUOTE)
-//			{
-//				if (s[i] == SPACE)
-//				{
-//					s[i] = -115;
-//				}
-//				t[0] = s[i];
-//				ptr = ft_strjoin(ptr, t);
-//				i++;
-//			}
-//		}
-//		else if (ft_isalpha(s[i]) && ft_strchr(SYMBOLS, s[i+1]))
-//		{
-//			t[0] = s[i];
-//			ptr = ft_strjoin(ptr, t);
-//			t[0] = SPACE;
-//			ptr = ft_strjoin(ptr, t);
-//
-//		}
-//	}
-//}
-
-/*char	*split_by_space(char *s)
-{
-	char	*ptr;
-	char	*t;
-	int	i;
-
-	i = 0;
-	ptr = ft_strdup("");
-	t = malloc(sizeof(char ) * 2);
-	ft_bzero(t, 2);
-	while (s[i])
-	{
-		if (s[i] == SINGLE_QUOTE || s[i] == L_DOBLE_QUOTE)
-		{
-			while (s[i] && s[i] != SINGLE_QUOTE || s[i] != L_DOBLE_QUOTE)
-			{
-				if (s[i] == SPACE)
-				{
-					s[i] = -115;
-				}
-				t[0] = s[i];
-				ptr = ft_strjoin(ptr, t);
-				i++;
-			}
-		}
-		else if (ft_isalpha(s[i]) && ft_strchr(SYMBOLS, s[i+1]))
-		{
-			t[0] = s[i];
-			ptr = ft_strjoin(ptr, t);
-			t[0] = SPACE;
-			ptr = ft_strjoin(ptr, t);
-
-		}
-	}
-}*/
-
 int	generate_token(char *rln_str)
 {
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
-	t_list		*print;
 	t_pipe_line	*pipeline;
 
 	lexer = NULL;
-	lst_token = malloc(sizeof(t_list));
-//	rm_quotes_and_add_space(rln_str);
-	lexer = NULL;
-	lst_token = malloc(sizeof(t_list));
 	lst_token = NULL;
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
@@ -177,30 +100,10 @@ int	generate_token(char *rln_str)
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
-		// printf("content == %s\n", token->content);
-		// printf("args == %s\n", token->args);
 		if (token)
 			lst_token = linked_token(lst_token, token);
 	}
 	pipeline = parse_to_tree(lst_token);
-	while (pipeline)
-	{
-		print = pipeline->right;
-		while (print)
-		{
-			printf("right cmd === %s\n", print->content->content);
-			print = print->next;
-		}
-		if (pipeline->left)
-		{
-			print = pipeline->left;
-			while (print)
-			{
-				printf("left cmd == %s\n", print->content->content);
-				print = print->next;
-			}
-		}
-		pipeline = pipeline->left_p;
-	}
+	print_tokens(pipeline);
 	return (EXIT_SUCCESS);
 }
