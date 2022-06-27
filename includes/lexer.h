@@ -50,7 +50,7 @@ typedef struct s_token
 	};
 	int		type;
 	char	*content;
-	char	*args;
+	char	**args;
 }	t_token;
 
 typedef struct s_lexer
@@ -61,7 +61,7 @@ typedef struct s_lexer
 	char	*content;
 }	t_lexer;
 
-t_token	*init_token(char *str, int type, char *args);
+t_token	*init_token(char *str, int type, char **args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 int		generate_token(char *av);
 char	**ft_split_arg(char const *s, char c);

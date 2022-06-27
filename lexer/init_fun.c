@@ -12,7 +12,7 @@
 
 #include	"../includes/minishell.h"
 
-t_token	*init_token(char *str, int type, char *args)
+t_token	*init_token(char *str, int type, char **args)
 {
 	t_token	*token;
 

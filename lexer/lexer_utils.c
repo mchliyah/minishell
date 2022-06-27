@@ -168,10 +168,5 @@ t_token	*get_char(t_lexer **lex)
 		}
 	}
 	str = check_for_args(lex);
-	while (str[k])
-	{
-		printf("arg[%d] %s \n",k, str[k]);
-		k++;
-	}
-	return (init_token(ptr, WORD, NULL));
+	return (init_token(ptr, WORD, str));
 }
