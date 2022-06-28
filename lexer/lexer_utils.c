@@ -52,10 +52,6 @@ char	*join_string(char *ptr, char c)
 	return (j_str);
 }
 
-//char	*quoted_arg(t_lexer **this)
-//{
-//
-//}
 char	has_next(t_lexer *it)
 {
 	t_lexer	*this;
@@ -73,6 +69,7 @@ char	has_next(t_lexer *it)
  */
 char	*get_inside_quotes(t_lexer **it)
 {
+	int		q;
 	char	tmp;
 	char	*ptr;
 
@@ -80,14 +77,20 @@ char	*get_inside_quotes(t_lexer **it)
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
+	q = 0;
 	while ((*it)->c != '\0')
 	{
 		ptr = join_string(ptr, (*it)->c);
 		tmp = (*it)->c;
+		if (tmp == SINGLE_QUOTE || tmp == L_DOBLE_QUOTE)
+			q++;
 		*it = advance(*it);
 		if ((tmp == SINGLE_QUOTE || tmp == L_DOBLE_QUOTE)
 			&& ((*it)->c == SPACE || (*it)->c == LESS
 				|| (*it)->c == EPIPE || (*it)->c == GREATER))
+			break ;
+		else if ((q % 2 == 0 || q == 0) && ((*it)->c == SPACE
+				|| (*it)->c == LESS || (*it)->c == EPIPE || (*it)->c == GREATER))
 			break ;
 	}
 	return (ptr);
@@ -132,14 +135,10 @@ char	**check_for_args(t_lexer **lex)
 
 t_token	*get_char(t_lexer **lex)
 {
-	int		i;
-	int		k;
 	char	*ptr;
 	char	**str;
 	char	*tmp;
 
-	i = 0;
-	k = 0;
 	str = NULL;
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);

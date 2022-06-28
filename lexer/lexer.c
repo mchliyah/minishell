@@ -84,10 +84,20 @@ t_token	*get_token(t_lexer *lexer)
 	}
 	return (NULL);
 }
-
+/*
+ ? readline, rl_clear_history, rl_on_new_line,
+ ? rl_replace_line, rl_redisplay, add_history,
+ ? printf, malloc, free, write, access, open, read,
+ ? close, fork, wait, waitpid, wait3, wait4, signal,
+ ? sigaction, sigemptyset, sigaddset, kill, exit,
+ ? getcwd, chdir, stat, lstat, fstat, unlink, execve,
+ ? dup, dup2, pipe, opendir, readdir, closedir,
+ ? strerror, perror, isatty, ttyname, ttyslot, ioctl,
+ ? getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+ ? tgetnum, tgetstr, tgoto, tputs
+ */
 int	generate_token(char *rln_str)
 {
-	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
 	t_pipe_line	*pipeline;
@@ -98,11 +108,7 @@ int	generate_token(char *rln_str)
 	if (!lexer)
 		return (1);
 	while (lexer->i < lexer->str_len)
-	{
-		token = get_token(lexer);
-		if (token)
-			lst_token = linked_token(lst_token, token);
-	}
+			lst_token = linked_token(lst_token, get_token(lexer));
 	pipeline = parse_to_tree(lst_token);
 	print_tokens(pipeline);
 	return (EXIT_SUCCESS);

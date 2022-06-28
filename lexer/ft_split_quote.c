@@ -30,9 +30,10 @@ static char	**c_str(char **str, char const *s, char c)
 		{
 			if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
 				q++;
-			if ((s[i + 1] == c || s[i + 1] == '\0') && (q == 0 || q % 2 == 0))
+			if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')
+				&& (q == 0 || q % 2 == 0))
 			{
-				str[k] = ft_substr(s, j, (i - j) + 1);
+				str[k] = ft_substr(s, j, i - j + 1);
 				k++;
 			}
 			i++;
@@ -81,6 +82,7 @@ char	**ft_split_arg(char const *s, char c)
 	if (!s)
 		return (0);
 	count = w_count(s, c);
+	printf("%d\n", count);
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)
 		return (NULL);
