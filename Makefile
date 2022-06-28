@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/27 22:16:55 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/28 19:38:10 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,9 @@ FILES =	main.c\
 		lexer/ft_split_quote.c\
 		parser/parser.c\
 		parser/pars_utils.c\
-		error.c\
-		free.c\
-		print.c\
+		parser/error.c\
+		parser/free.c\
+		parser/print.c\
 
 #!########################
 
@@ -67,7 +67,7 @@ $(NAME) :  $(OBJECTS)
 	@echo "\033[1;33m ██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
 	@echo "$(C_L_BLUE) 1.0"
 	@echo " "
-	@echo "\033[1;35m▐▌ DONE by @abdelhak4  & @mchliyah ▐▌"
+	@echo "\033[1;35m▐▌ DONE by @abdelhak4  & @mchliyah ▐▌$(C_RES)"
 
 clean : 
 	@$(CLEANLIBFT)

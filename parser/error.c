@@ -6,17 +6,16 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 20:01:58 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/26 20:12:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/28 21:12:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	error_exit(t_list *lst_token)
+void	error_exit(t_list *lst_token, t_token *token)
 {
-	printf("SYNTAX ERROR\n");
+	printf("%s : SYNTAX ERROR !\n", token->content);
 	free_lst(lst_token);
-	exit(0);
 }
 
 void	error_check(t_list *lst_token)
@@ -27,7 +26,7 @@ void	error_check(t_list *lst_token)
 	while (check)
 	{
 		if (check->content->type == SYNTAX_ERR)
-			error_exit(lst_token);
+			error_exit(lst_token, check->content);
 		check = check->next;
 	}
 }
