@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 11:26:49 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/22 11:27:15 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/06/27 22:22:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
 
+#include "../includes/minishell.h"
 
 static char	**c_str(char **str, char const *s, char c)
 {
@@ -43,7 +43,7 @@ static char	**c_str(char **str, char const *s, char c)
 			i++;
 		if (s[i] == '\0' && (q == 0 || q % 2 != 0))
 		{
-			str[k] = ft_substr(s, j, i - j);
+			str[k] = ft_substr(s, j, (i - j));
 			k++;
 		}
 	}
@@ -65,7 +65,7 @@ static int	w_count(char const *s, char c)
 			j++;
 		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == 0))
 		{
-			if (j == 0 || j % 2 == 0 || (j % 2 == 1 && s[i + 1] == 0))
+			if (j == 0 || j % 2 == 0)
 				count++;
 		}
 		i++;

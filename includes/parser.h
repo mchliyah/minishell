@@ -6,12 +6,14 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/24 02:18:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:10:50 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# include "minishell.h"
 
 typedef struct s_cmd_word
 {
@@ -43,6 +45,7 @@ typedef struct s_files
 t_pipe_line	*parse_to_tree(t_list *lst_token);
 t_list		*linked_token(t_list	*lst_token, t_token *token);
 int			pipe_exist(t_list *lst);
+void		error_check(t_list *lst_token);
 void		free_lst(t_list *list);
 
 #endif

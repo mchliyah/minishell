@@ -7,7 +7,6 @@
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
-# include "exec.h"
 
 typedef struct s_fdpip
 {
@@ -19,5 +18,6 @@ typedef struct s_fdpip
 }	t_fdinout;
 
 t_fdinout	*init_fds(t_list	*lst_tok, t_fdinout	*fds);
+void		print_tokens(t_pipe_line *pipeline);
 
 #endif

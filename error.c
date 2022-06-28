@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 00:04:42 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/24 22:42:51 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/06/26 20:01:58 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/06/26 20:12:00 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./includes/minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	error_exit(t_list *lst_token)
 {
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+	printf("SYNTAX ERROR\n");
+	free_lst(lst_token);
+	exit(0);
+}
+
+void	error_check(t_list *lst_token)
+{
+	t_list	*check;
+
+	check = lst_token;
+	while (check)
+	{
+		if (check->content->type == SYNTAX_ERR)
+			error_exit(lst_token);
+		check = check->next;
+	}
 }

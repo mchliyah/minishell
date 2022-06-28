@@ -6,24 +6,28 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/15 00:10:32 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/06/27 22:16:55 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 RM = rm -f
 #########################
 # ! files of the minishell
-FILES =		 \
-		main.c\
+FILES =	main.c\
 		lexer/lexer.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
+		parser/parser.c\
+		parser/pars_utils.c\
+		error.c\
+		free.c\
+		print.c\
 
 #!########################
 

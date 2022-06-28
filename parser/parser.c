@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/24 02:24:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/26 20:11:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,68 @@
 //
 //}
 //openning file descreptors
-void	frst_pipe(t_list *lst_token, t_pipe_line	*pipeline)
+t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
-	t_list		*tmp;
-	t_list		*tmp1;
+	while (to_copy && to_copy->content->type != PIPE)
+	{
+		if (!ret)
+			ret = ft_lstnew(to_copy->content);
+		else
+			ft_lstadd_back(&ret, ft_lstnew(to_copy->content));
+		to_copy = to_copy->next;
+	}
+	return (ret);
+}
 
-	tmp = lst_token;
-	pipeline->type = tmp->content->type;
-	pipeline->right = tmp->next;
-	while (tmp->next->content->type != PIPE)
-		tmp = tmp->next;
-	tmp->next = NULL;
-	tmp1 = lst_token->prev;
-	tmp->next = NULL;
-	while (tmp1->prev != NULL)
-		lst_token = lst_token->prev;
-	pipeline->left = tmp1->next;
-	pipeline->left_p = NULL;
+t_pipe_line	*frst_pipe(t_list *lst_token)
+{
+	t_list		*left;
+	t_pipe_line	*pipeline;
+
+	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline->type = lst_token->content->type;
+	pipeline->right = NULL;
 	pipeline->left = NULL;
+	pipeline->left_p = NULL;
+	pipeline->right = copy_list(pipeline->right, lst_token->next);
+	left = lst_token->prev;
+	while (left->prev != NULL)
+		left = left->prev;
+	pipeline->left = copy_list(pipeline->left, left);
+	return (pipeline);
 }
 
 t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 {
 	t_pipe_line	*ret_pipe;
-	t_pipe_line	*tmp_pip;
-	t_list		*tmp;
 
 	ret_pipe = NULL;
-	tmp_pip = pipeline;
 	if (frst_p)
-		frst_pipe(lst_token, pipeline);
+		return (frst_pipe(lst_token));
 	else
 	{
 		ret_pipe = malloc(sizeof(t_pipe_line));
-		tmp = lst_token;
-		ret_pipe->type = tmp->content->type;
-		ret_pipe->right = tmp->next;
-		while (tmp->next->content->type != PIPE)
-			tmp = tmp->next;
-		tmp->next = NULL;
-		ret_pipe->left_p = tmp_pip;
+		ret_pipe->type = lst_token->content->type;
+		ret_pipe->right = NULL;
 		ret_pipe->left = NULL;
-		pipeline = ret_pipe;
+		ret_pipe->left_p = NULL;
+		ret_pipe->right = copy_list(ret_pipe->right, lst_token->next);
+		ret_pipe->left_p = pipeline;
 	}
+	return (ret_pipe);
+}
+
+t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
+{
+	t_list	*tmp;
+
+	tmp = lst_token;
+	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline->type = WORD;
+	pipeline->left = NULL;
+	pipeline->right = NULL;
+	pipeline->left_p = NULL;
+	pipeline->left = copy_list(pipeline->left, tmp);
 	return (pipeline);
 }
 
@@ -73,7 +92,8 @@ t_pipe_line	*parse_to_tree(t_list *lst_token)
 
 	frst_pipe = 1;
 	to_free = lst_token;
-	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline = NULL;
+	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{
 		while (lst_token)
@@ -88,6 +108,6 @@ t_pipe_line	*parse_to_tree(t_list *lst_token)
 		free_lst(lst_token);
 	}
 	else
-		return (NULL);
+		pipeline = simple_cmd(pipeline, lst_token);
 	return (pipeline);
 }
