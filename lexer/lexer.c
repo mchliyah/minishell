@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/27 22:18:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/06/30 10:41:37 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,117 @@ t_token	*get_token(t_lexer *lexer)
  ? getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
  ? tgetnum, tgetstr, tgoto, tputs
  */
+
+t_token	*get_substr(t_token *token)
+{
+	char	*ptr;
+	int		j;
+	char	**str;
+
+	j = 0;
+	str = ft_split(token->content, '\"');
+	ptr = ft_strdup("");
+	while (str[j])
+	{
+		ptr = ft_strjoin(ptr, str[j]);
+		free(str[j]);
+		j++;
+	}
+	token->content = ptr;
+	return (token);
+}
+
+int	get_quote(t_token *token, int *i, int *q)
+{
+	(*i)++;
+	(*q)++;
+	while (token->content[*i] != L_DOBLE_QUOTE
+		&& token->content[*i] != '\0')
+		(*i)++;
+	if (token->content[*i] == R_DOBLE_QUOTE)
+		(*q)++;
+	if (*q % 2 != 0 && token->content[*i] == '\0')
+	{
+		printf("err alm3lam sad l quotes\n");
+		return (1);
+		// ! should free here
+	}
+	return (0);
+}
+
+int	get_s_quote(t_token *token, int *i, int *sq)
+{
+	(*i)++;
+	(*sq)++;
+	while (token->content[*i] != SINGLE_QUOTE
+		&& token->content[*i] != '\0')
+	{
+		(*i)++;
+	}
+	if (token->content[*i] == SINGLE_QUOTE)
+		(*sq)++;
+	if (*sq % 2 != 0 && token->content[*i] == '\0')
+	{
+		printf("err alm3lam sad l single quotes\n");
+		return (1);
+		// ! should free here
+	}
+	return (0);
+}
+
+	// protect of split
+t_token	*get_substr_single_quotes(t_token *token)
+{
+	char	*ptr;
+	int		j;
+	char	**str;
+
+	j = 0;
+	str = ft_split(token->content, '\'');
+	ptr = ft_strdup("");
+	while (str[j])
+	{
+		ptr = ft_strjoin(ptr, str[j]);
+		free(str[j]);
+		j++;
+	}
+	free(token->content);
+	token->content = ptr;
+	return (token);
+}
+t_token	*scan_errs(t_token *token)
+{
+	int		q;
+	int		sq;
+	int		i;
+
+	i = 0;
+	q = 0;
+	sq = 0;
+	while (token->content[i])
+	{
+		if (token->content[i] == L_DOBLE_QUOTE)
+		{
+			if (get_quote(token, &i, &q) == 1)
+				return (NULL);
+		}
+		else if (token->content[i] == SINGLE_QUOTE)
+		{
+			if (get_s_quote(token, &i, &sq) == 1)
+				return (NULL);
+		}
+		i++;
+	}
+	if (q != 0)
+		return (get_substr(token));
+	else if (sq != 0)
+		return (get_substr_single_quotes(token));
+	return (token);
+}
+
 int	generate_token(char *rln_str)
 {
+	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
 	t_pipe_line	*pipeline;
@@ -108,7 +217,13 @@ int	generate_token(char *rln_str)
 	if (!lexer)
 		return (1);
 	while (lexer->i < lexer->str_len)
-			lst_token = linked_token(lst_token, get_token(lexer));
+	{
+		token = get_token(lexer);
+		printf("\ntoken %s\n", token->content);
+		token = scan_errs(token);
+		if (!token)
+			return (EXIT_FAILURE);
+	}
 	pipeline = parse_to_tree(lst_token);
 	print_tokens(pipeline);
 	return (EXIT_SUCCESS);
