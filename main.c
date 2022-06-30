@@ -12,10 +12,16 @@
 
 #include "includes/minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
+	t_pipeline	*pipeline;
 	char	*str_rln;
 
+	(void)ac;
+	(void)av;
+
+	pipeline = malloc(sizeof(t_pipe_line));
+	init_env(&pipeline, env);
 	while (1)
 	{
 		str_rln = readline("✅ minishell ➡️");
