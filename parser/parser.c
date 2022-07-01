@@ -6,18 +6,12 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:13:56 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/01 22:45:08 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// ! if we have a PIPE
-//t_pipe_line	*pipe_line(t_list *token)
-//{
-//
-//}
-//openning file descreptors
 t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
 	while (to_copy && to_copy->content->type != PIPE)
@@ -74,22 +68,20 @@ t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
 
 	tmp = lst_token;
 	pipeline->type = WORD;
-	pipeline->left = NULL;
 	pipeline->right = NULL;
+	pipeline->left = NULL;
 	pipeline->left_p = NULL;
 	pipeline->left = copy_list(pipeline->left, tmp);
 	return (pipeline);
 }
 
-// will return a parsed tree
-t_pipe_line	*parse_to_tree(t_pipeline *pipeline, t_list *lst_token)
+t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 {
 	t_list		*to_free;
 	int			frst_pipe;
 
 	frst_pipe = 1;
 	to_free = lst_token;
-	pipeline = NULL;
 	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{

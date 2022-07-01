@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/01 22:03:50 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/07/01 22:52:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	exec_cmd(t_pipe_line *c_line)
 {
-	t_pipe_line	*pipeline;
-	int			i;
-	char		*str_rln;
-
-	(void)ac;
-	(void)av;
-	i = 0;
-	pipeline = malloc(sizeof(t_pipe_line));
-	env_init(pipeline, env);
-	while (1)
-	{
-		str_rln = readline("✅ minishell ➡️");
-		if (!str_rln)
-			break ;
-		add_history(str_rln);
-		generate_token(str_rln, pipeline);
-	}
-	return (0);
+	if (!strcmp(c_line->left->content->content, "echo"))
+		echo(c_line->left);
 }

@@ -1,40 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 15:42:24 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:13:56 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/07/01 22:54:48 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int env_init(t_pipe_line *pipeline, char **env)
+static int	check_arg(char *str)
 {
-	int		i;
-	t_env	*my_env;
-	t_env	*new;
+	int	i;
 
-    my_env = malloc(sizeof(t_env));
-	if (!my_env)
-		return (1);
-	mv_env->value = ft_strdup(env[0]);
-	env->next = NULL;
-	pipeline->env = env;
-	i = 1;
-	while (env && env[0] && env[i])
+	i = 0;
+	if (str[i] && str[i] == '-')
+		i++;
+	else if (str[i] && str[i] != '-')
+		return (0);
+	while (str[i])
 	{
-        new = malloc(sizeof(t_env));
-		if (!new)
-			return (1);
-		new->value = ft_strdup(env_array[i]);
-		new->next = NULL;
-		env->next = new;
-		env = new;
+		if (str[i] != 'n')
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
+}
+
+void	echo(t_list *cmd)
+{
+	int	i;
+	int	del;
+
+	i = 0;
+	del = 1;
+	while (check_arg(cmd->content->args[i]))
+		i++;
+	if (i != 0)
+		del = 0;
+	while (cmd->content->args[i])
+	{
+		printf("%s", cmd->content->args[i]);
+		i++;
+	}
+	if (del)
+		printf("\n");
 }
