@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/27 22:18:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/01 14:13:56 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,11 @@ t_token	*get_token(t_lexer *lexer)
 	return (NULL);
 }
 
-int	generate_token(char *rln_str)
+int	generate_token(char *rln_str, t_pipeline *pipeline)
 {
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
-	t_pipe_line	*pipeline;
 
 	lexer = NULL;
 	lst_token = NULL;
@@ -103,7 +102,7 @@ int	generate_token(char *rln_str)
 		if (token)
 			lst_token = linked_token(lst_token, token);
 	}
-	pipeline = parse_to_tree(lst_token);
+	pipeline = parse_to_tree(pipeline, lst_token);
 	print_tokens(pipeline);
 	return (EXIT_SUCCESS);
 }
