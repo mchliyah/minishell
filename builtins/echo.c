@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 22:54:48 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/01 23:49:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	echo(t_list *cmd)
 	while (cmd->content->args[i])
 	{
 		printf("%s", cmd->content->args[i]);
+		printf(" ");
 		i++;
 	}
 	if (del)

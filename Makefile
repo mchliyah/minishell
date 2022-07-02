@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/01 22:42:05 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/02 15:50:03 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ FILES =	main.c\
 		parser/print.c\
 		builtins/echo.c\
 		builtins/exec.c\
-		builtins/init_env.c\
+		builtins/env.c\
+		builtins/cd.c\
 
 #!########################
 

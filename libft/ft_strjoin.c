@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 13:02:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/20 21:49:12 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:36:09 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s2++;
 	}
 	dest[i] = '\0';
-	//free((void*)s1);
+	s1 = NULL;
 	return (dest);
 }
-/*
-int	main()
-{
-	printf("%s\n", ft_strjoin("", ""));
-	return (0);
-}
-*/
+

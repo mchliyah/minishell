@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 15:42:24 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 21:58:33 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/07/02 15:12:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,16 @@ int	env_init(t_pipe_line *pipeline, char **env)
 		i++;
 	}
 	return (1);
+}
+
+void	env_cmd(t_pipe_line *p_line)
+{
+	t_env	*env;
+
+	env = p_line->env;
+	while (env)
+	{
+		printf("%s\n", env->value);
+		env = env->next;
+	}
 }

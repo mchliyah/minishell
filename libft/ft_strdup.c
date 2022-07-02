@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 12:18:09 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 19:53:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:32:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,3 @@ char	*ft_strdup(char *src)
 	*p = '\0';
 	return (start);
 }
-
-// #include <stdio.h>
-// int main()
-// {
-// 	char ppp[] = "hi hello and salamo3alaykom";
-// 	printf("%zu", ft_strlen(ppp));
-// 	printf("%s", ft_strdup("pppppp"));
-// }

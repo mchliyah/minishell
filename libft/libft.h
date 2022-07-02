@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:59:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 22:34:15 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 16:36:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 //biblio needed in fonctions
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include "../includes/lexer.h"
 
