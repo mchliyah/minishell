@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/02 20:45:02 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:40:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,27 @@ t_env	*update_path(t_env *tmp_env, char *path)
 	return (tmp_env);
 }
 
-t_env	*cd_cmd(t_list	*c_line, t_env *env)
+t_env	*cd_cmd(t_list	*c_line, t_env *en)
 {
 	t_env	*tmp_env;
+	t_env	*env;
 	char	*path;
 
-	tmp_env = env;
+	tmp_env = en;
+	env = en;
 	if (!c_line->content->args[0])
 	{
 		path = get_path("HOME=", env);
 		if (chdir(path + 5) == -1)
+		{
 			ft_putstr_fd("cd : argument error \n", 2);
-		else
-			tmp_env = update_path(tmp_env, path + 5);
+			return (en);
+		}
+		env = update_path(env, path + 5);
 	}
 	else if (chdir(c_line->content->args[0]) == -1)
 		ft_putstr_fd("cd : argument error \n", 2);
 	else
-		tmp_env = update_path(tmp_env, c_line->content->args[0]);
+		env = update_path(env, c_line->content->args[0]);
 	return (tmp_env);
 }

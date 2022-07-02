@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/01 22:03:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:41:44 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 	env_init(pipeline, env);
 	while (1)
 	{
-		str_rln = readline("✅ minishell ➡️");
+		str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
 		if (!str_rln)
 			break ;
 		add_history(str_rln);
