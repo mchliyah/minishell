@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/02 17:02:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:45:02 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_env	*update_path(t_env *tmp_env, char *path)
 	up_path = ft_strdup(new);
 	return (tmp_env);
 }
-
 
 t_env	*cd_cmd(t_list	*c_line, t_env *env)
 {
