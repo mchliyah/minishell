@@ -26,7 +26,7 @@ void	exec_cmd(t_pipe_line *c_line, char **env);
 char	*get_path(char *path, t_env *env);
 void	echo(t_list *cmd);
 void	env_cmd(t_pipe_line *p_line);
-t_env	*cd_cmd(t_list	*c_line, t_env *env);
+void	cd_cmd(t_list	*c_line, t_env *env);
 void	pwd_cmd(t_pipe_line *p_line);
 
 #endif
