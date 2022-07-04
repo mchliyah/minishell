@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/04 17:01:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/04 20:59:24 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	exec_cmd(t_pipe_line *p_line, char **env)
 	else if (!strcmp(p_line->left->content->content, "pwd")
 		|| !strcmp(p_line->left->content->content, "PWD"))
 		pwd_cmd(p_line);
+	// else if (!strcmp(p_line->left->content->content, "unset")
+		
+	// else if (!strcmp(p_line->left->content->content, "export")
+		
+	// else if (!strcmp(p_line->left->content->content, "exit")
+		
 	// else
 	// 	std_exec(p_line, env);
 }
