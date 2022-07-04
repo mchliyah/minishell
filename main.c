@@ -18,11 +18,14 @@ int	main(void)
 
 	while (1)
 	{
-		str_rln = readline("✅ minishell ➡️");
+		str_rln = readline("✅ minishell➡️ ");
 		if (!str_rln)
 			break ;
-		add_history(str_rln);
-		generate_token(str_rln);
+		if (*str_rln)
+		{
+			add_history(str_rln);
+			generate_token(str_rln);
+		}
 	}
 	return (0);
 }

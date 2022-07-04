@@ -28,7 +28,7 @@ static char	**c_str(char **str, char const *s, char c)
 		j = i;
 		while (s[i])
 		{
-			if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
+			if (s[i] == L_DOUBLE_QUOTE || s[i] == SINGLE_QUOTE)
 				q++;
 			if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')
 				&& (q == 0 || q % 2 == 0))
@@ -62,7 +62,7 @@ static int	w_count(char const *s, char c)
 	j = 0;
 	while (s[i])
 	{
-		if (s[i] == L_DOBLE_QUOTE || s[i] == SINGLE_QUOTE)
+		if (s[i] == L_DOUBLE_QUOTE || s[i] == SINGLE_QUOTE)
 			j++;
 		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == 0))
 		{
