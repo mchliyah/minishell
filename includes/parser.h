@@ -6,16 +6,22 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/01 19:15:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/04 01:29:58 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
+typedef struct s_pair
+{
+	char			*key;
+	char			*value;
+}	t_pair;
+
 typedef struct s_env
 {
-	char			*value;
+	struct s_pair	*pair;
 	struct s_env	*next;
 }				t_env;
 
