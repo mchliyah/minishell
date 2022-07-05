@@ -6,18 +6,12 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/26 20:11:26 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/01 22:45:08 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// ! if we have a PIPE
-//t_pipe_line	*pipe_line(t_list *token)
-//{
-//
-//}
-//openning file descreptors
 t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
 	while (to_copy && to_copy->content->type != PIPE)
@@ -31,12 +25,10 @@ t_list	*copy_list(t_list *ret, t_list *to_copy)
 	return (ret);
 }
 
-t_pipe_line	*frst_pipe(t_list *lst_token)
+t_pipe_line	*frst_pipe(t_pipe_line	*pipeline, t_list *lst_token)
 {
 	t_list		*left;
-	t_pipe_line	*pipeline;
 
-	pipeline = malloc(sizeof(t_pipe_line));
 	pipeline->type = lst_token->content->type;
 	pipeline->right = NULL;
 	pipeline->left = NULL;
@@ -55,11 +47,12 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 
 	ret_pipe = NULL;
 	if (frst_p)
-		return (frst_pipe(lst_token));
+		return (frst_pipe(pipeline, lst_token));
 	else
 	{
 		ret_pipe = malloc(sizeof(t_pipe_line));
 		ret_pipe->type = lst_token->content->type;
+		ret_pipe->env = pipeline->env;
 		ret_pipe->right = NULL;
 		ret_pipe->left = NULL;
 		ret_pipe->left_p = NULL;
@@ -74,25 +67,21 @@ t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
 	t_list	*tmp;
 
 	tmp = lst_token;
-	pipeline = malloc(sizeof(t_pipe_line));
 	pipeline->type = WORD;
-	pipeline->left = NULL;
 	pipeline->right = NULL;
+	pipeline->left = NULL;
 	pipeline->left_p = NULL;
 	pipeline->left = copy_list(pipeline->left, tmp);
 	return (pipeline);
 }
 
-// will return a parsed tree
-t_pipe_line	*parse_to_tree(t_list *lst_token)
+t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 {
 	t_list		*to_free;
-	t_pipe_line	*pipeline;
 	int			frst_pipe;
 
 	frst_pipe = 1;
 	to_free = lst_token;
-	pipeline = NULL;
 	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{

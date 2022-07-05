@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 13:02:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/02 16:36:09 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/06/21 16:57:45 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/06/28 17:04:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	free_lst(t_list *list)
 {
-	char	*dest;
-	int		i;
+	t_list	*tmp;
 
-	i = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	dest = malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!dest)
-		return (NULL);
-	while (*s1 != '\0')
+	tmp = list;
+	while (list)
 	{
-		dest[i] = *s1;
-		i++;
-		s1++;
+		free(list->content);
+		list = list->next;
 	}
-	while (*s2 != '\0')
-	{
-		dest[i] = *s2;
-		i++;
-		s2++;
-	}
-	dest[i] = '\0';
-	s1 = NULL;
-	return (dest);
+	free(tmp);
 }
-

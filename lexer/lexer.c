@@ -6,24 +6,12 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/30 10:41:37 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/07/04 03:30:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
-/*
- ? readline, rl_clear_history, rl_on_new_line,
- ? rl_replace_line, rl_redisplay, add_history,
- ? printf, malloc, free, write, access, open, read,
- ? close, fork, wait, waitpid, wait3, wait4, signal,
- ? sigaction, sigemptyset, sigaddset, kill, exit,
- ? getcwd, chdir, stat, lstat, fstat, unlink, execve,
- ? dup, dup2, pipe, opendir, readdir, closedir,
- ? strerror, perror, isatty, ttyname, ttyslot, ioctl,
- ? getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
- ? tgetnum, tgetstr, tgoto, tputs
- */
 
 
 t_token	*get_pipe(t_lexer **lex)
@@ -86,23 +74,20 @@ t_token	*get_token(t_lexer *lexer)
 	{
 		if (lexer->c == SPACE)
 			advance(lexer);
+		else if (ft_isalpha(lexer->c) || lexer->c == SINGLE_QUOTE
+			|| lexer->c == L_DOBLE_QUOTE)
+			return (get_char(&lexer));
 		else if (lexer->c == EPIPE)
 			return (get_pipe(&lexer));
 		else if (lexer->c == LESS | lexer->c == GREATER)
 			return (get_redirection(&lexer));
-		else if (ft_isprint(lexer->c) || lexer->c == SINGLE_QUOTE
-			|| lexer->c == L_DOUBLE_QUOTE)
-			return (get_char(&lexer));
 	}
 	return (NULL);
 }
 
-/*
- * the function scan_errs return 1 if there is unclosed quotes
- */
-int	generate_token(char *rln_str)
+int	generate_token(char *rln_str, t_pipe_line *pipeline, char **env)
 {
-	int			i;
+	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
 
@@ -111,10 +96,13 @@ int	generate_token(char *rln_str)
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
 		return (1);
-	i = 0;
-	if (my_test(lexer) == 1)
-		return (EXIT_FAILURE);
-//	pipeline = parse_to_tree(lst_token);
-//	print_tokens(pipeline);
+	while (lexer->i < lexer->str_len)
+	{
+		token = get_token(lexer);
+		if (token)
+			lst_token = linked_token(lst_token, token);
+	}
+	pipeline = parse_to_tree(pipeline, lst_token);
+	exec_cmd(pipeline, env);
 	return (EXIT_SUCCESS);
 }

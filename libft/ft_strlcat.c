@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 15:01:08 by mchliyah          #+#    #+#             */
-/*   Updated: 2021/11/21 16:22:08 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/01 22:31:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	dst[i] = '\0';
 	return (d_len + s_len);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-int main()
-{
-	char ara[] = "thgghsiui";
-	char hak[] = "fo";
-	size_t i = ft_strlcat(ara, hak, -2);
-	printf("%zu\n", i);
-	return (0);
-}
-*/

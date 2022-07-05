@@ -1,42 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 13:02:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/02 16:36:09 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/07/02 13:28:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*dest;
-	int		i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	dest = malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!dest)
-		return (NULL);
-	while (*s1 != '\0')
-	{
-		dest[i] = *s1;
-		i++;
-		s1++;
-	}
-	while (*s2 != '\0')
-	{
-		dest[i] = *s2;
-		i++;
-		s2++;
-	}
-	dest[i] = '\0';
-	s1 = NULL;
-	return (dest);
-}
-
+void    export_cmd(t_list *c_line)
