@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+#include <stdbool.h>
 t_token	*get_substr(t_token *token)
 {
 	char	*ptr;
@@ -43,10 +43,10 @@ int	get_quote(t_token *token, int *i, int *q)
 	if (*q % 2 != 0 && token->content[*i] == '\0')
 	{
 		printf("err alm3lam sad l quotes\n");
-		return (1);
+		return (false);
 		// ! should free here
 	}
-	return (0);
+	return (true);
 }
 
 int	get_s_quote(t_token *token, int *i, int *sq)
@@ -63,10 +63,10 @@ int	get_s_quote(t_token *token, int *i, int *sq)
 	if (*sq % 2 != 0 && token->content[*i] == '\0')
 	{
 		printf("err alm3lam sad l single quotes\n");
-		return (1);
+		return (false);
 		// ! should free here
 	}
-	return (0);
+	return (true);
 }
 
 // protect of split
@@ -95,10 +95,10 @@ int	check_close_q_arg(t_token *token, int *a, int *i)
 	while (token->args[*a][*i])
 	{
 		if (token->args[*a][*i] == SINGLE_QUOTE)
-			return (0);
+			return (1);
 		(*i)++;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_close_sq_arg(t_token *token, int *a, int *i)
@@ -106,10 +106,67 @@ int	check_close_sq_arg(t_token *token, int *a, int *i)
 	while (token->args[*a][*i])
 	{
 		if (token->args[*a][*i] == R_DOUBLE_QUOTE)
-			return (0);
+			return (1);
 		(*i)++;
 	}
-	return (1);
+	return (0);
+}
+
+int	is_there_squote(char *arg)
+{
+	int	i;
+
+	i = -1;
+	while (arg[++i])
+	{
+		if (arg[i] == SINGLE_QUOTE)
+			return (true);
+	}
+	return (false);
+}
+
+int	is_there_quote(char *arg) {
+	int i;
+
+	i = -1;
+	while (arg[++i]) {
+		if (arg[i] == L_DOUBLE_QUOTE)
+			return (true);
+	}
+	return (false);
+}
+
+char	*rm_quote(char *arg)
+{
+	int	i  = -1;
+	char	**tmp;
+
+	tmp = ft_split(arg, '\"');
+	free(arg);
+	while (tmp[++i])
+	{
+		printf("%s", tmp[i]);
+	}
+	return arg;
+}
+
+/* args = hello "$user" "$"user.jf
+ *  step 1 =
+ */
+t_token *remove_quoted_args(t_token *token)
+{
+	int a;
+	//int i;
+
+	a = 0;
+	while (token->args[a])
+	{
+		if (is_there_quote(token->args[a]))
+			rm_quote(token->args[a]);
+//		else if (is_there_squote(token->args[a]))
+//			rm_sqoute(token->args[a]);
+	}
+	return token;
 }
 
 t_token	*scan_args(t_token *token)
@@ -119,6 +176,7 @@ t_token	*scan_args(t_token *token)
 
 	a = 0;
 	i = 0;
+	// split "$user"
 	while (token->args[a])
 	{
 		i = 0;
@@ -126,17 +184,19 @@ t_token	*scan_args(t_token *token)
 		{
 			if (token->args[a][i] == SINGLE_QUOTE)
 			{
-				if (check_close_q_arg(token, &a, &i) == 1)
+				if (!check_close_q_arg(token, &a, &i))
 					return (NULL);
 			}
 			else if (token->args[a][i] == L_DOUBLE_QUOTE)
-			{
-				if (check_close_sq_arg(token, &a, &i) == 1)
+		{
+				if (!check_close_sq_arg(token, &a, &i))
 					return (NULL);
 			}
-			i++;
+			if (token->args[a][i])
+				i++;
 		}
-		a++;
+		if (token->args[a])
+			a++;
 	}
 	token = remove_quoted_args(token);
 	return (token);

@@ -25,7 +25,7 @@
 enum
 {
 	MINUS = '-',
-	SPACE = ' ',
+	M_SPACE = ' ',
 	EPIPE = '|',
 	SINGLE_QUOTE = '\'',
 	L_DOUBLE_QUOTE = '\"',
@@ -66,7 +66,7 @@ t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 char	**ft_split_arg(char const *s, char c);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);
-void	my_test(t_lexer *lexer);
+int	my_test(t_lexer *lexer);
 t_token	*scan_errs(t_token *token);
 t_token	*get_token(t_lexer *lexer);
 t_token	*get_substr(t_token *token);

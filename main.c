@@ -15,12 +15,12 @@
 int	main(int ac, char **av, char **env)
 {
 	t_pipe_line	*pipeline;
-	int			i;
+	//int			i;
 	char		*str_rln;
 
 	(void)ac;
 	(void)av;
-	i = 0;
+//	i = 0;
 	pipeline = malloc(sizeof(t_pipe_line));
 	if (env_init(pipeline, env))
 	{
@@ -29,8 +29,11 @@ int	main(int ac, char **av, char **env)
 			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
 			if (!str_rln)
 				break ;
-			add_history(str_rln);
-			generate_token(str_rln, pipeline, env);
+			if (*str_rln)
+			{
+				add_history(str_rln);
+				generate_token(str_rln, pipeline, env);
+			}
 		}
 	}
 	return (0);

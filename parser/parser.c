@@ -77,11 +77,11 @@ t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
 
 t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 {
-	t_list		*to_free;
+	//t_list		*to_free;
 	int			frst_pipe;
 
 	frst_pipe = 1;
-	to_free = lst_token;
+	//to_free = lst_token;
 	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{

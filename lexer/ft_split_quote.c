@@ -82,7 +82,6 @@ char	**ft_split_arg(char const *s, char c)
 	if (!s)
 		return (0);
 	count = w_count(s, c);
-	printf("%d\n", count);
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)
 		return (NULL);

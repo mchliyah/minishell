@@ -12,32 +12,7 @@
 
 #include "../includes/minishell.h"
 
-t_token	*remove_double_quote(t_token *token, int *a, int *i)
-{
-	while (token->args[*a][*i])
-	{
 
-	}
-}
-t_token	remove_quoted_args(t_token *token)
-{
-	int	a;
-	int	i;
-
-	a = 0;
-	while (token->args[a])
-	{
-		i = 0;
-		while (token->args[a][i])
-		{
-			if (token->args[a][i] == R_DOUBLE_QUOTE)
-				remove_double_quote(token, &a, &i);
-			else if (token->args[a][i] == SINGLE_QUOTE)
-				remove_single_quote(token, &a, &i)
-				i++;
-		}
-	}
-}
 int	my_test(t_lexer *lexer)
 {
 	int			a;
