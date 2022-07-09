@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include "../includes/minishell.h"
 # include "../includes/lexer.h"
 
 typedef struct s_list

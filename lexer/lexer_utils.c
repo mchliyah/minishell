@@ -167,5 +167,7 @@ t_token	*get_char(t_lexer **lex)
 		}
 	}
 	str = check_for_args(lex);
+	if (!str)
+		printf("there is a problem occurred inside split\n");
 	return (init_token(ptr, WORD, str));
 }

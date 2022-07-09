@@ -95,10 +95,10 @@ int	check_close_q_arg(t_token *token, int *a, int *i)
 	while (token->args[*a][*i])
 	{
 		if (token->args[*a][*i] == SINGLE_QUOTE)
-			return (1);
+			return (true);
 		(*i)++;
 	}
-	return (0);
+	return (false);
 }
 
 int	check_close_sq_arg(t_token *token, int *a, int *i)
@@ -106,10 +106,10 @@ int	check_close_sq_arg(t_token *token, int *a, int *i)
 	while (token->args[*a][*i])
 	{
 		if (token->args[*a][*i] == R_DOUBLE_QUOTE)
-			return (1);
+			return (true);
 		(*i)++;
 	}
-	return (0);
+	return (false);
 }
 
 int	is_there_squote(char *arg)
@@ -136,7 +136,42 @@ int	is_there_quote(char *arg) {
 	return (false);
 }
 
-char	*rm_quote(char *arg)
+/*
+ * todo : 1 check for $ signe & join the arr
+ *		  2 expend the strings
+ *     	  @don't forget the SEGV IN SCAN_ARGS
+ *
+ */
+
+char	*check_for_variables(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '$')
+			return (true);
+	}
+	return false;
+}
+//char	*expending_string(char *str)
+//{
+//	char	*ptr;
+//	int 	i;
+//
+//	i = -1;
+//	while (str[++i])
+//	{
+//		if (str[i] == '$')
+//		{
+//			i++;
+//			while (str[i])
+//		}
+//	}
+//}
+
+char	**rm_quote(char *arg)
 {
 	int	i  = -1;
 	char	**tmp;
@@ -145,13 +180,22 @@ char	*rm_quote(char *arg)
 	free(arg);
 	while (tmp[++i])
 	{
-		printf("%s", tmp[i]);
+		if (ft_strncmp(tmp[i], "$", ft_strlen(tmp[i])))
+		{
+			free(tmp[i]);
+			tmp[i] = NULL;
+			i++;
+		}
+		//else if (check_for_variables(tmp[i]))
+		//	expending_string(tmp[i]);
+
+		printf("%s\n", tmp[i]);
 	}
-	return arg;
+	return tmp;
 }
 
 /* args = hello "$user" "$"user.jf
- *  step 1 =
+ *
  */
 t_token *remove_quoted_args(t_token *token)
 {
@@ -161,14 +205,16 @@ t_token *remove_quoted_args(t_token *token)
 	a = 0;
 	while (token->args[a])
 	{
+		printf("--%s\n", token->args[a]);
 		if (is_there_quote(token->args[a]))
 			rm_quote(token->args[a]);
 //		else if (is_there_squote(token->args[a]))
 //			rm_sqoute(token->args[a]);
+		a++;
 	}
 	return token;
 }
-
+// !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
 t_token	*scan_args(t_token *token)
 {
 	int	i;
@@ -184,13 +230,21 @@ t_token	*scan_args(t_token *token)
 		{
 			if (token->args[a][i] == SINGLE_QUOTE)
 			{
+				i++;
 				if (!check_close_q_arg(token, &a, &i))
+				{
+					printf("err sad l q\n");
 					return (NULL);
+				}
 			}
 			else if (token->args[a][i] == L_DOUBLE_QUOTE)
-		{
+			{
+				i++;
 				if (!check_close_sq_arg(token, &a, &i))
+				{
+					printf("err sad l q\n");
 					return (NULL);
+				}
 			}
 			if (token->args[a][i])
 				i++;
@@ -202,7 +256,7 @@ t_token	*scan_args(t_token *token)
 	return (token);
 }
 
-t_token	*scan_errs(t_token *token)
+t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
 {
 	int		q;
 	int		sq;
@@ -224,7 +278,11 @@ t_token	*scan_errs(t_token *token)
 		i++;
 	}
 	if (token->args)
+	{
 		token = scan_args(token);
+		if (!token)
+			return (NULL);
+	}
 	if (q != 0)
 		return (get_substr(token));
 	else if (sq != 0)

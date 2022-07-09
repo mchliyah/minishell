@@ -13,6 +13,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+#include "minishell.h"
+
 typedef struct s_pair
 {
 	char			*key;

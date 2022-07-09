@@ -66,7 +66,7 @@ static int	w_count(char const *s, char c)
 			j++;
 		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == 0))
 		{
-			if (j == 0 || j % 2 == 0)
+			if (j == 0 || j % 2 == 0 || s[i])
 				count++;
 		}
 		i++;
