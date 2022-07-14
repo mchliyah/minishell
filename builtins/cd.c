@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/04 21:47:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/05 19:03:50 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 			to_set[i] = '\0';
 		i++;
 	}
-	dup_path(tmp_env, to_old, "OLDPWD");
+	dup_path(tmp_env, to_old, "OLDPWD=");
 	tmp_env = env;
-	dup_path(tmp_env, to_set, "PWD");
+	dup_path(tmp_env, to_set, "PWD=");
 	return (env);
 }
 
@@ -66,7 +66,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	i = 0;
 	if (chek)
 	{
-		to_set = strdup(get_path("PWD", env));
+		to_set = strdup(get_path("PWD=", env));
 		while (to_set[i])
 			i++;
 		while (i != 0 && to_set[i] != '/')
@@ -88,11 +88,11 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 	char	*to_set;
 
 	if (!c_line->content->args[0])
-		exec_cd(env, "HOME", get_path("PWD", env), 0);
+		exec_cd(env, "HOME=", get_path("PWD=", env), 0);
 	else if (!strncmp(c_line->content->args[0], "-", 1))
-		exec_cd(env, "OLDPWD", get_path("PWD", env), 0);
+		exec_cd(env, "OLDPWD=", get_path("PWD=", env), 0);
 	else if (!strncmp(c_line->content->args[0], "..", 2))
-		exec_cd(env, NULL, get_path("PWD", env), 1);
+		exec_cd(env, NULL, get_path("PWD=", env), 1);
 	else if (!strncmp(c_line->content->args[0], ".", 1))
 		return ;
 	else

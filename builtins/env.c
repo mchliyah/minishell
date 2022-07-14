@@ -6,16 +6,18 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/04 15:29:37 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/05 19:02:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*env_dup(char *tmp_val, int i, int j, int k)
+char	*env_dup(char *tmp_val, int i, int j)
 {
 	char	*dup;
+	int		k;
 
+	k = 0;
 	dup = malloc(sizeof(char) * (i - j + 1));
 	if (!dup)
 		return (NULL);
@@ -33,23 +35,22 @@ t_pair	*init_pair(char *tmp_val)
 	t_pair	*pair;
 	int		i;
 	int		j;
-	int		k;
 
 	i = 0;
 	j = 0;
-	k = 0;
 	pair = malloc(sizeof(t_pair));
 	if (!pair)
 		return (NULL);
 	while (tmp_val[i] != '=')
 		i++;
-	pair->key = env_dup(tmp_val, i, j, k);
+	i++;
+	pair->key = env_dup(tmp_val, i, j);
 	if (!pair->key)
 		return (NULL);
-	j = ++i;
+	j = i;
 	while (tmp_val[i])
 		i++;
-	pair->value = env_dup(tmp_val, i, j, k);
+	pair->value = env_dup(tmp_val, i, j);
 	if (!pair->value)
 		return (NULL);
 	free(tmp_val);
@@ -105,8 +106,6 @@ void	env_cmd(t_pipe_line *p_line)
 
 	env = p_line->env;
 	while (env)
-	{
-		printf("%s=%s\n", env->pair->key, env->pair->value);
-		env = env->next;
-	}
+		if (printf("%s%s\n", env->pair->key, env->pair->value))
+			env = env->next;
 }
