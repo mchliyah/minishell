@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdbool.h>
+
 t_token	*get_substr(t_token *token)
 {
 	char	*ptr;
@@ -31,7 +31,7 @@ t_token	*get_substr(t_token *token)
 	return (token);
 }
 
-int	get_quote(t_token *token, int *i, int *q)
+int	check_quote(t_token *token, int *i, int *q)
 {
 	(*i)++;
 	(*q)++;
@@ -49,7 +49,7 @@ int	get_quote(t_token *token, int *i, int *q)
 	return (true);
 }
 
-int	get_s_quote(t_token *token, int *i, int *sq)
+int	check_s_quote(t_token *token, int *i, int *sq)
 {
 	(*i)++;
 	(*sq)++;
@@ -112,29 +112,6 @@ int	check_close_sq_arg(t_token *token, int *a, int *i)
 	return (false);
 }
 
-int	is_there_squote(char *arg)
-{
-	int	i;
-
-	i = -1;
-	while (arg[++i])
-	{
-		if (arg[i] == SINGLE_QUOTE)
-			return (true);
-	}
-	return (false);
-}
-
-int	is_there_quote(char *arg) {
-	int i;
-
-	i = -1;
-	while (arg[++i]) {
-		if (arg[i] == L_DOUBLE_QUOTE)
-			return (true);
-	}
-	return (false);
-}
 
 /*
  * todo : 1 check for $ signe & join the arr
@@ -143,77 +120,6 @@ int	is_there_quote(char *arg) {
  *
  */
 
-char	*check_for_variables(char *str)
-{
-	int i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$')
-			return (true);
-	}
-	return false;
-}
-//char	*expending_string(char *str)
-//{
-//	char	*ptr;
-//	int 	i;
-//
-//	i = -1;
-//	while (str[++i])
-//	{
-//		if (str[i] == '$')
-//		{
-//			i++;
-//			while (str[i])
-//		}
-//	}
-//}
-
-char	**rm_quote(char *arg)
-{
-	int	i  = -1;
-	char	**tmp;
-
-	tmp = ft_split(arg, '\"');
-	free(arg);
-	while (tmp[++i])
-	{
-		if (ft_strncmp(tmp[i], "$", ft_strlen(tmp[i])))
-		{
-			free(tmp[i]);
-			tmp[i] = NULL;
-			i++;
-		}
-		//else if (check_for_variables(tmp[i]))
-		//	expending_string(tmp[i]);
-
-		printf("%s\n", tmp[i]);
-	}
-	return tmp;
-}
-
-/* args = hello "$user" "$"user.jf
- *
- */
-t_token *remove_quoted_args(t_token *token)
-{
-	int a;
-	//int i;
-
-	a = 0;
-	while (token->args[a])
-	{
-		printf("--%s\n", token->args[a]);
-		if (is_there_quote(token->args[a]))
-			rm_quote(token->args[a]);
-//		else if (is_there_squote(token->args[a]))
-//			rm_sqoute(token->args[a]);
-		a++;
-	}
-	return token;
-}
 // !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
 t_token	*scan_args(t_token *token)
 {
@@ -222,7 +128,6 @@ t_token	*scan_args(t_token *token)
 
 	a = 0;
 	i = 0;
-	// split "$user"
 	while (token->args[a])
 	{
 		i = 0;
@@ -233,7 +138,7 @@ t_token	*scan_args(t_token *token)
 				i++;
 				if (!check_close_q_arg(token, &a, &i))
 				{
-					printf("err sad l q\n");
+					ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
 					return (NULL);
 				}
 			}
@@ -242,7 +147,7 @@ t_token	*scan_args(t_token *token)
 				i++;
 				if (!check_close_sq_arg(token, &a, &i))
 				{
-					printf("err sad l q\n");
+					ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
 					return (NULL);
 				}
 			}
@@ -265,15 +170,16 @@ t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
 	i = 0;
 	q = 0;
 	sq = 0;
+	(void)pipe_line;
 	while (token->content[i])
 	{
 		if (token->content[i] == L_DOUBLE_QUOTE)
 		{
-			if (get_quote(token, &i, &q) == 1)
+			if (!check_quote(token, &i, &q))
 				return (NULL);
 		}
 		else if (token->content[i] == SINGLE_QUOTE)
-			if (get_s_quote(token, &i, &sq) == 1)
+			if (!check_s_quote(token, &i, &sq))
 				return (NULL);
 		i++;
 	}

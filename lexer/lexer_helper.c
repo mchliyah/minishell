@@ -28,7 +28,6 @@ int	my_test(t_lexer *lexer)
 			while (token->args[++a])
 				printf("b_arg[%d] ==> %s\n", a, token->args[a]);
 		}
-		token = scan_errs(token);
 		if (!token)
 			return (1);
 		printf("a=> %s\n", token->content);

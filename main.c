@@ -12,32 +12,32 @@
 
 #include "includes/minishell.h"
 
+/*
+  ?? this comments for anything under generate_token function !!
+ 	if you want to add function under this function
+ 	you should add a condition for it
+ 	!! if (generate... != 1) then do what you want
+ 	else if generate .. == 1 means that there is unclosed
+	quote or single quote !!
+ */
 int	main(int ac, char **av, char **env)
 {
 	t_pipe_line	*pipeline;
-	//int			i;
 	char		*str_rln;
 
 	(void)ac;
 	(void)av;
-//	i = 0;
 	pipeline = malloc(sizeof(t_pipe_line));
 	if (env_init(pipeline, env))
 	{
 		while (1)
 		{
 			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
-			if (!str_rln) {
+			if (!str_rln)
 				break ;
-			}
 			if (*str_rln)
 			{
 				add_history(str_rln);
-				// if you want to add function under this function
-				// you should add a condition for it
-				// !! if (generate... != 1) then do what you want
-				// else if generate .. == 1 means that there is unclosed
-				//	quote or single quote !!
 				generate_token(str_rln, pipeline, env);
 			}
 		}

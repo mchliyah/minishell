@@ -15,10 +15,10 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "minishell.h"
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
 # define EOS '\0'
+
 
 /*
  * 	int (keyword), value (identifier) = e_symbols,
@@ -27,7 +27,7 @@
 enum
 {
 	MINUS = '-',
-	M_SPACE = ' ',
+	SPACE = ' ',
 	EPIPE = '|',
 	SINGLE_QUOTE = '\'',
 	L_DOUBLE_QUOTE = '\"',
@@ -68,8 +68,7 @@ t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 char	**ft_split_arg(char const *s, char c);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);
-int	my_test(t_lexer *lexer);
-t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line);
+int		my_test(t_lexer *lexer);
 t_token	*get_token(t_lexer *lexer);
 t_token	*get_substr(t_token *token);
 int		get_quote(t_token *token, int *i, int *q);

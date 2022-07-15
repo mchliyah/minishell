@@ -87,30 +87,3 @@ t_token	*get_token(t_lexer *lexer)
 	}
 	return (NULL);
 }
-
-int	generate_token(char *rln_str, t_pipe_line *pipeline, char **env)
-{
-	t_token		*token;
-	t_lexer		*lexer;
-	t_list		*lst_token;
-
-	lexer = NULL;
-	lst_token = NULL;
-	lexer = init_lex(lexer, rln_str);
-	if (!lexer)
-		return (1);
-	while (lexer->i < lexer->str_len)
-	{
-		token = get_token(lexer);
-		if (!token)
-			return (EXIT_FAILURE);
-		printf("%s    arg %s \n", token->content, token->args[0]);
-		token = scan_errs(token, pipeline);
-		if (!token)
-			return (EXIT_FAILURE);
-		lst_token = linked_token(lst_token, token);
-	}
-	pipeline = parse_to_tree(pipeline, lst_token);
-	exec_cmd(pipeline, env);
-	return (EXIT_SUCCESS);
-}
