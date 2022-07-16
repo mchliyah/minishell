@@ -52,23 +52,27 @@ bool	check_for_variables(char *str)
 	return (false);
 }
 
-char	**rm_quote(char *arg)
+char	*rm_quote(char *arg, t_pipe_line *env)
 {
 	int		i;
 
-	i = -1;
-	while (arg[++i])
+	i = 0;
+	while (arg[i])
 	{
 		if (arg[i] == L_DOUBLE_QUOTE && arg[i + 1] == '$')
 		{
 			i++;
-			if (arg[i] == R_DOUBLE_QUOTE && arg[i])
-				sd();
+			if (arg[i + 1] == R_DOUBLE_QUOTE)
+				return (get_simple_word(arg));
 		}
+		else
+			return (get_variable(arg, env));
+		i++;
 	}
+	return NULL;
 }
 
-t_token	*remove_quoted_args(t_token *token)
+t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
 {
 	int	a;
 	//int i;
@@ -76,7 +80,7 @@ t_token	*remove_quoted_args(t_token *token)
 	while (token->args[a])
 	{
 		if (is_there_quote(token->args[a]))
-			rm_quote(token->args[a]);
+			rm_quote(token->args[a], env);
 //		else if (is_there_squote(token->args[a]))
 //			rm_sqoute(token->args[a]);
 		a++;

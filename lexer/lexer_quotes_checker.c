@@ -121,7 +121,7 @@ int	check_close_sq_arg(t_token *token, int *a, int *i)
  */
 
 // !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
-t_token	*scan_args(t_token *token)
+t_token	*scan_args(t_token *token, t_pipe_line *env)
 {
 	int	i;
 	int	a;
@@ -157,7 +157,7 @@ t_token	*scan_args(t_token *token)
 		if (token->args[a])
 			a++;
 	}
-	token = remove_quoted_args(token);
+	token = remove_quoted_args(token, env);
 	return (token);
 }
 
@@ -170,7 +170,6 @@ t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
 	i = 0;
 	q = 0;
 	sq = 0;
-	(void)pipe_line;
 	while (token->content[i])
 	{
 		if (token->content[i] == L_DOUBLE_QUOTE)
@@ -185,7 +184,7 @@ t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
 	}
 	if (token->args)
 	{
-		token = scan_args(token);
+		token = scan_args(token, pipe_line);
 		if (!token)
 			return (NULL);
 	}

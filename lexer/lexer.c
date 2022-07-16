@@ -72,18 +72,14 @@ t_token	*get_token(t_lexer *lexer)
 {
 	while (lexer->c != '\0')
 	{
-		if (lexer->c == SPACE) {
+		if (lexer->c == SPACE)
 			advance(lexer);
-		}
-		else if (ft_isprint(lexer->c)) {
+		else if (ft_isprint(lexer->c))
 			return (get_char(&lexer));
-		}
-		else if (lexer->c == EPIPE) {
+		else if (lexer->c == EPIPE)
 			return (get_pipe(&lexer));
-		}
-		else if (lexer->c == LESS || lexer->c == GREATER) {
+		else if (lexer->c == LESS || lexer->c == GREATER)
 			return (get_redirection(&lexer));
-		}
 	}
 	return (NULL);
 }

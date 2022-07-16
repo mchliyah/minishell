@@ -24,6 +24,8 @@ FILES =	main.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
 		lexer/lexer_quotes_checker.c\
+		lexer/expending.c\
+		lexer/expending_utils.c\
 		lexer/lexer_helper.c\
 		parser/parser.c\
 		parser/pars_utils.c\

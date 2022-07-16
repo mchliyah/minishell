@@ -62,4 +62,7 @@ int			pipe_exist(t_list *lst);
 void		error_check(t_list *lst_token);
 void		free_lst(t_list *list);
 t_token		*scan_errs(t_token *token, t_pipe_line *pipe_line);
+t_token		*remove_quoted_args(t_token *token, t_pipe_line *pipe_line);
+char		*get_variable(char *arg, t_pipe_line *pipe_line);
+
 #endif
