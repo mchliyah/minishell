@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
+ *  TODO : handle $? inside quote and if founded
+ */
 char	*get_simple_word(char *arg)
 {
 	char	*ptr;
@@ -32,42 +34,69 @@ char	*get_simple_word(char *arg)
 	return (ptr);
 }
 
-char	*get_env(char *tmp, t_pipe_line *pp_env)
+char	*get_env(char *tmp, t_pipe_line *env)
 {
+	t_pipe_line	*pp_env;
+
+	pp_env = env;
 	while (pp_env->env->next)
 	{
 		if (!ft_strncmp(tmp, pp_env->env->pair->key, ft_strlen(tmp)))
 			return (pp_env->env->pair->value);
 		pp_env->env = pp_env->env->next;
 	}
+	free(tmp);
+	tmp = NULL;
 	return (NULL);
 }
 
-char	*expend(char *str, t_pipe_line *env)
+char	*get_word(char *str, int *i, char *ptr)
 {
-	char	*tmp;
+	while (str[*i])
+	{
+		if (str[*i] == '$' && str[*i])
+		ptr = join_string(ptr, str[i]);
+		(*i)++;
+	}
+	return (ptr);
+}
+char	*expend(char *str, t_pipe_line *envi)
+{
+	char	*ptr;
 	int		s;
+	char	*tmp;
 	int		i;
 
 	i = 0;
+	printf("str = == %s\n", str);
+	ptr = ft_strdup("");
+	if (!ptr)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '$')
 		{
 			i++;
 			s = i;
-			while (ft_isalpha(str[i]) || ft_isalnum(str[i])
-				|| str[i] == '_' || str[i])
+			while ((ft_isalpha(str[i]) || ft_isalnum(str[i])
+					|| str[i] == '_') && str[i])
 				i++;
-			tmp = ft_substr(str, s, i - s - 1);
+			tmp = ft_substr(str, s, i - s);
 			printf("tmp %s\n", tmp);
 			if (!tmp)
-				return NULL;
-			printf("variable === %s\n", get_env(tmp, env));
+				return (NULL);
+			tmp = get_env(tmp, envi);
+			ptr = ft_strjoin(ptr, tmp);
+			free(tmp);
+			tmp = NULL;
 		}
+		else
+			get_word(str, &i, ptr);
 	}
-	return tmp;
+	printf("ptr=%s\n", ptr);
+	return (ptr);
 }
+
 /*
  	? the variable stops when he found space or anything else
  	? not letter or underscore (-) or number
