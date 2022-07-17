@@ -151,11 +151,10 @@ t_token	*scan_args(t_token *token, t_pipe_line *env)
 					return (NULL);
 				}
 			}
-			if (token->args[a][i])
+//			if (token->args[a][i])
 				i++;
 		}
-		if (token->args[a])
-			a++;
+		a++;
 	}
 	token = remove_quoted_args(token, env);
 	return (token);
