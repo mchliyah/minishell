@@ -74,35 +74,12 @@ t_token	*get_token(t_lexer *lexer)
 	{
 		if (lexer->c == SPACE)
 			advance(lexer);
-		else if (ft_isalpha(lexer->c) || lexer->c == SINGLE_QUOTE
-			|| lexer->c == L_DOBLE_QUOTE)
+		else if (ft_isprint(lexer->c))
 			return (get_char(&lexer));
 		else if (lexer->c == EPIPE)
 			return (get_pipe(&lexer));
-		else if (lexer->c == LESS | lexer->c == GREATER)
+		else if (lexer->c == LESS || lexer->c == GREATER)
 			return (get_redirection(&lexer));
 	}
 	return (NULL);
-}
-
-int	generate_token(char *rln_str, t_pipe_line *pipeline, char **env)
-{
-	t_token		*token;
-	t_lexer		*lexer;
-	t_list		*lst_token;
-
-	lexer = NULL;
-	lst_token = NULL;
-	lexer = init_lex(lexer, rln_str);
-	if (!lexer)
-		return (1);
-	while (lexer->i < lexer->str_len)
-	{
-		token = get_token(lexer);
-		if (token)
-			lst_token = linked_token(lst_token, token);
-	}
-	pipeline = parse_to_tree(pipeline, lst_token);
-	exec_cmd(pipeline, env);
-	return (EXIT_SUCCESS);
 }

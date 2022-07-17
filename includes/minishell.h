@@ -8,8 +8,10 @@
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
+# include <stdbool.h>
 
 int g_status;
+
 
 // typedef struct s_fdpip
 // {

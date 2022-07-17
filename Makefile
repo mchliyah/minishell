@@ -13,7 +13,7 @@
 NAME = minishell
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 RM = rm -f
 #########################
@@ -23,6 +23,10 @@ FILES =	main.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
+		lexer/lexer_quotes_checker.c\
+		lexer/expending.c\
+		lexer/expending_utils.c\
+		lexer/lexer_helper.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		parser/error.c\
@@ -63,7 +67,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) -g $(CFLAGS) $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@$(CLEANLIBFT)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "

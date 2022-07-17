@@ -52,10 +52,6 @@ char	*join_string(char *ptr, char c)
 	return (j_str);
 }
 
-//char	*quoted_arg(t_lexer **this)
-//{
-//
-//}
 char	has_next(t_lexer *it)
 {
 	t_lexer	*this;
@@ -73,6 +69,7 @@ char	has_next(t_lexer *it)
  */
 char	*get_inside_quotes(t_lexer **it)
 {
+	int		q;
 	char	tmp;
 	char	*ptr;
 
@@ -80,15 +77,21 @@ char	*get_inside_quotes(t_lexer **it)
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
+	q = 0;
 	while ((*it)->c != '\0')
 	{
 		ptr = join_string(ptr, (*it)->c);
 		tmp = (*it)->c;
+		if (tmp == SINGLE_QUOTE || tmp == L_DOUBLE_QUOTE)
+			q++;
 		*it = advance(*it);
-		if ((tmp == SINGLE_QUOTE || tmp == L_DOBLE_QUOTE)
+		if ((tmp == SINGLE_QUOTE || tmp == L_DOUBLE_QUOTE)
 			&& ((*it)->c == SPACE || (*it)->c == LESS
 				|| (*it)->c == EPIPE || (*it)->c == GREATER))
 			break ;
+		else if ((q % 2 == 0 || q == 0) && ((*it)->c == SPACE
+				|| (*it)->c == LESS || (*it)->c == EPIPE || (*it)->c == GREATER))
+				break ;
 	}
 	return (ptr);
 }
@@ -110,7 +113,7 @@ char	**check_for_args(t_lexer **lex)
 	end = (*lex)->i;
 	while ((*lex)->c != '\0')
 	{
-		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
 			q++;
 		else if (((*lex)->c == EPIPE || (*lex)->c == LESS
 				|| (*lex)->c == GREATER || (*lex)->c == '\0')
@@ -132,18 +135,14 @@ char	**check_for_args(t_lexer **lex)
 
 t_token	*get_char(t_lexer **lex)
 {
-	int		i;
-	int		k;
 	char	*ptr;
 	char	**str;
 	char	*tmp;
 
-	i = 0;
-	k = 0;
 	str = NULL;
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
-	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
 		ptr = get_inside_quotes(lex);
 	else
 	{
@@ -157,7 +156,7 @@ t_token	*get_char(t_lexer **lex)
 			if ((*lex)->c == SPACE || (*lex)->c == EPIPE || (*lex)->c == LESS
 				|| (*lex)->c == GREATER)
 				break ;
-			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOBLE_QUOTE)
+			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
 				&& (*lex)->c != '0')
 			{
 				tmp = get_inside_quotes(lex);
@@ -168,5 +167,7 @@ t_token	*get_char(t_lexer **lex)
 		}
 	}
 	str = check_for_args(lex);
+	if (!str)
+		printf("there is a problem occurred inside split\n");
 	return (init_token(ptr, WORD, str));
 }

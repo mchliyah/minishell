@@ -18,6 +18,8 @@
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
 # define EOS '\0'
+
+
 /*
  * 	int (keyword), value (identifier) = e_symbols,
  * 	= (operator), 100 (constant) and ; (symbol).
@@ -28,8 +30,8 @@ enum
 	SPACE = ' ',
 	EPIPE = '|',
 	SINGLE_QUOTE = '\'',
-	L_DOBLE_QUOTE = '\"',
-	R_DOBLE_QUOTE = '\"',
+	L_DOUBLE_QUOTE = '\"',
+	R_DOUBLE_QUOTE = '\"',
 	LESS = '<',
 	GREATER = '>',
 	ASSIGN = '='
@@ -48,7 +50,6 @@ typedef struct s_token
 		PIPE,
 		SYNTAX_ERR
 	} e_type;
-
 	int		type;
 	char	*content;
 	char	**args;
@@ -66,6 +67,13 @@ t_token	*init_token(char *str, int type, char **args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 char	**ft_split_arg(char const *s, char c);
 t_lexer	*advance(t_lexer *lexer);
-//int		generate_token(char *av);
 t_token	*get_char(t_lexer **lex);
+int		my_test(t_lexer *lexer);
+t_token	*get_token(t_lexer *lexer);
+t_token	*get_substr(t_token *token);
+int		get_quote(t_token *token, int *i, int *q);
+int		get_s_quote(t_token *token, int *i, int *sq);
+t_token	*get_substr_single_quotes(t_token *token);
+char	*get_simple_word(char *arg);
+
 #endif
