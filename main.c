@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/04 15:47:48 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/05 20:20:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	i = 0;
+	g_status = 0;
 	pipeline = malloc(sizeof(t_pipe_line));
 	if (env_init(pipeline, env))
 	{

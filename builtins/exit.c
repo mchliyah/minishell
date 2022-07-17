@@ -6,10 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/02 13:28:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/05 20:20:32 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void    exit_cmd(t_list *c_line)
+{
+    
+}
