@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/18 17:43:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:23:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **env)
 				add_history(str_rln);
 				generate_token(str_rln, pipeline, env);
 			}
+			printf("%d\n", g_status);
 		}
 	}
 	return (g_status);

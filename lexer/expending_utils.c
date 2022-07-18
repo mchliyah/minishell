@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/15 14:54:36 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:04:08 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*get_word(char *str, int *i, char *ptr)
 	while (str[*i])
 	{
 		if (str[*i] == '$' && str[*i])
-		ptr = join_string(ptr, str[i]);
+		ptr = join_string(ptr, str[*i]);
 		(*i)++;
 	}
 	return (ptr);

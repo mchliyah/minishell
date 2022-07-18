@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:23:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/04 19:07:30 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:18:14 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ void	pwd_cmd(t_pipe_line *p_line)
 	env = p_line->env;
 	path = get_path("PWD", env);
 	printf("%s\n", path);
+	g_status = 0;
 }
