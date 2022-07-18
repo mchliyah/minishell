@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/17 15:10:05 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:43:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	g_status = 0;
 	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline->exit = 0;
 	if (env_init(pipeline, env))
 	{
-		while (1)
+		while (!pipeline->exit)
 		{
 			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
 			if (!str_rln)
@@ -43,5 +44,5 @@ int	main(int ac, char **av, char **env)
 			}
 		}
 	}
-	return (0);
+	return (g_status);
 }
