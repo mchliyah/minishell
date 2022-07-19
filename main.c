@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 00:39:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:08:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,15 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
-int	main(int ac, char **av, char **env)
+// int	init_mini(t_pipe_line *pipeline, t_env *env)
+// {
+	
+// }
+
+int	main(int ac, char **av, char **envp)
 {
 	t_pipe_line	*pipeline;
+	t_env		*env;
 	char		*str_rln;
 
 	(void)ac;
@@ -55,22 +61,20 @@ int	main(int ac, char **av, char **env)
 	g_status = 0;
 	pipeline = malloc(sizeof(t_pipe_line));
 	pipeline->exit = 0;
-	if (env_init(pipeline, env))
+	env = env_init(envp);
+	while (!pipeline->exit)
 	{
-		while (!pipeline->exit)
+		str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
+		if (!str_rln)
+			break ;
+		if (*str_rln)
 		{
-			
-			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
-			if (!str_rln)
-				break ;
-			if (*str_rln)
-			{
-				add_history(str_rln);
-				generate_token(str_rln, pipeline, env);
-			}
-			to_free(pipeline);
+			add_history(str_rln);
+			generate_token(str_rln, pipeline, env);
 		}
+		exec_cmd(pipeline, env);
+		// printf("%p\n", pipeli);
+		to_free(pipeline);
 	}
-	systemleaks("minishell");
 	return (g_status);
 }

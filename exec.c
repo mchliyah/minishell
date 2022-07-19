@@ -6,13 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 21:19:02 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:16:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	std_exec(t_pipe_line *p_line, char **env)
+void	std_exec(t_pipe_line *p_line, t_env *env)
 {
 	(void)p_line;
 	(void)env;
@@ -21,19 +21,19 @@ void	std_exec(t_pipe_line *p_line, char **env)
 	// 	execve(p_line->left->content->content, &p_line->left->content->args[0], env);
 }
 
-void	exec_cmd(t_pipe_line *p_line, char **env)
+void	exec_cmd(t_pipe_line *p_line, t_env *env)
 {
 	(void)env;
 	g_status = 1;
 	if (!strcmp(p_line->left->content->content, "echo"))
 		echo(p_line->left);
 	else if (!strcmp(p_line->left->content->content, "env"))
-		env_cmd(p_line);
+		env_cmd(env);
 	else if (!strcmp(p_line->left->content->content, "cd"))
-		cd_cmd(p_line->left, p_line->env);
+		cd_cmd(p_line->left, env);
 	else if (!strcmp(p_line->left->content->content, "pwd")
 		|| !strcmp(p_line->left->content->content, "PWD"))
-		pwd_cmd(p_line);
+		pwd_cmd(env);
 	else if (!strcmp(p_line->left->content->content, "unset"))
 		printf("dzt mn han :)\n");
 	else if (!strcmp(p_line->left->content->content, "export"))

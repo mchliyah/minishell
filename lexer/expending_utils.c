@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/18 22:42:26 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:11:46 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ char	*get_simple_word(char *arg)
 	return (ptr);
 }
 
-char	*get_form_my_env(char *str, t_pipe_line *env)
+char	*get_form_my_env(char *str, t_env *env)
 {
 	char	*tmp;
 	t_env	*pp_env;
 
-	pp_env = env->env;
+	pp_env = env;
 	tmp = ft_strjoin(str, "=");
 	free(str);
 	while (pp_env->next)
@@ -68,7 +68,7 @@ char	*get_word(char *str, int *i, char *ptr)
 /*
  *  TODO : handle $? inside quote and if founded
  */
-char	*expend(char *str, t_pipe_line *envi)
+char	*expend(char *str, t_env *envi)
 {
 	char	*ptr;
 	int		s;
@@ -108,7 +108,7 @@ char	*expend(char *str, t_pipe_line *envi)
  	? not letter or underscore (-) or number
  	? means that underscore and number
  */
-char	*get_variable(char *arg, t_pipe_line *env)
+char	*get_variable(char *arg, t_env *env)
 {
 	char	*ptr;
 	char	**str;

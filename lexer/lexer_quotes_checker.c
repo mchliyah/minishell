@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes_checker.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:45:35 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/01 11:45:40 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:15:22 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	check_close_sq_arg(t_token *token, int *a, int *i)
  */
 
 // !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
-t_token	*scan_args(t_token *token, t_pipe_line *env)
+t_token	*scan_args(t_token *token, t_env *env)
 {
 	int	i;
 	int	a;
@@ -160,7 +160,7 @@ t_token	*scan_args(t_token *token, t_pipe_line *env)
 	return (token);
 }
 
-t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
+t_token	*scan_errs(t_token *token, t_env *env)
 {
 	int		q;
 	int		sq;
@@ -183,7 +183,7 @@ t_token	*scan_errs(t_token *token, t_pipe_line *pipe_line)
 	}
 	if (token->args)
 	{
-		token = scan_args(token, pipe_line);
+		token = scan_args(token, env);
 		if (!token)
 			return (NULL);
 	}

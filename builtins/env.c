@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 21:21:05 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:05:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_pair	*init_pair(char *tmp_val)
 	return (pair);
 }
 
-t_env	*start(char **env)
+t_env	*start(char **envp)
 {
 	t_env	*my_env;
 	char	*tmp_value;
@@ -65,7 +65,7 @@ t_env	*start(char **env)
 	my_env = malloc(sizeof(t_env));
 	if (!my_env)
 		return (NULL);
-	tmp_value = ft_strdup(env[0]);
+	tmp_value = ft_strdup(envp[0]);
 	my_env->pair = init_pair(tmp_value);
 	if (!my_env->pair)
 		return (NULL);
@@ -73,38 +73,36 @@ t_env	*start(char **env)
 	return (my_env);
 }
 
-int	env_init(t_pipe_line *pipeline, char **env)
+t_env	*env_init(char **envp)
 {
 	int		i;
 	char	*tmp_value;
+	t_env	*env;
 	t_env	*my_env;
 	t_env	*new;
 
-	my_env = start(env);
+	my_env = start(envp);
 	if (!my_env)
-		return (0);
-	pipeline->env = my_env;
+		return (NULL);
+	env = my_env;
 	i = 1;
-	while (env && env[0] && env[i])
+	while (envp && envp[0] && envp[i])
 	{
 		new = malloc(sizeof(t_env));
 		if (!new)
-			return (0);
-		tmp_value = ft_strdup(env[i]);
+			return (NULL);
+		tmp_value = ft_strdup(envp[i]);
 		new->pair = init_pair(tmp_value);
 		new->next = NULL;
 		my_env->next = new;
 		my_env = new;
 		i++;
 	}
-	return (1);
+	return (env);
 }
 
-void	env_cmd(t_pipe_line *p_line)
+void	env_cmd(t_env *env)
 {
-	t_env	*env;
-
-	env = p_line->env;
 	if (!env)
 		return ;
 	while (env)
