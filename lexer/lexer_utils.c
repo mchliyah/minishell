@@ -12,11 +12,6 @@
 
 #include "../includes/minishell.h"
 
-/*
-  		TODO : - do something
-			    - dead line = 24 next month
- */
-
 t_lexer	*advance(t_lexer *lexer)
 {
 	lexer->i++;
@@ -52,15 +47,15 @@ char	*join_string(char *ptr, char c)
 	return (j_str);
 }
 
-char	has_next(t_lexer *it)
-{
-	t_lexer	*this;
-
-	this = it;
-	this->i++;
-	this->c = this->content[this->i];
-	return (this->c);
-}
+//char	has_next(t_lexer *it)
+//{
+//	t_lexer	*this;
+//
+//	this = it;
+//	this->i++;
+//	this->c = this->content[this->i];
+//	return (this->c);
+//}
 /*
  *   -------------------------------------
  * 	 function for member of get_char() !!
@@ -90,8 +85,9 @@ char	*get_inside_quotes(t_lexer **it)
 				|| (*it)->c == EPIPE || (*it)->c == GREATER))
 			break ;
 		else if ((q % 2 == 0 || q == 0) && ((*it)->c == SPACE
-				|| (*it)->c == LESS || (*it)->c == EPIPE || (*it)->c == GREATER))
-				break ;
+				|| (*it)->c == LESS || (*it)->c == EPIPE
+				|| (*it)->c == GREATER))
+			break ;
 	}
 	return (ptr);
 }
@@ -123,13 +119,12 @@ char	**check_for_args(t_lexer **lex)
 			break ;
 		}
 		*lex = advance(*lex);
-		if ((*lex)->c == EOS)
-		{
-			end = (*lex)->i;
-			break ;
-		}
 	}
+	if ((*lex)->c == EOS)
+		end = (*lex)->i;
 	str = ft_substr((*lex)->content, start, end - start);
+	if (!str)
+		printf("a Null returned in ft_substr in check_for_args\n");
 	return (ft_split_arg(str, ' '));
 }
 

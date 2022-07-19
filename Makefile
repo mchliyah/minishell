@@ -32,6 +32,7 @@ FILES =	main.c\
 		parser/error.c\
 		parser/free.c\
 		parser/print.c\
+		lexer/arg_scanner.c\
 		exec.c\
 		builtins/echo.c\
 		builtins/env.c\

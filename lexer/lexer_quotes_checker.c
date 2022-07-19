@@ -90,76 +90,12 @@ t_token	*get_substr_single_quotes(t_token *token)
 	return (token);
 }
 
-int	check_close_q_arg(t_token *token, int *a, int *i)
-{
-	while (token->args[*a][*i])
-	{
-		if (token->args[*a][*i] == SINGLE_QUOTE)
-			return (true);
-		(*i)++;
-	}
-	return (false);
-}
-
-int	check_close_sq_arg(t_token *token, int *a, int *i)
-{
-	while (token->args[*a][*i])
-	{
-		if (token->args[*a][*i] == R_DOUBLE_QUOTE)
-			return (true);
-		(*i)++;
-	}
-	return (false);
-}
-
-
 /*
  * todo : 1 check for $ signe & join the arr
  *		  2 expend the strings
  *     	  @don't forget the SEGV IN SCAN_ARGS
  *
  */
-
-// !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
-t_token	*scan_args(t_token *token, t_env *env)
-{
-	int	i;
-	int	a;
-
-	a = 0;
-	i = 0;
-	while (token->args[a])
-	{
-		i = 0;
-		while (token->args[a][i])
-		{
-			if (token->args[a][i] == SINGLE_QUOTE)
-			{
-				i++;
-				if (!check_close_q_arg(token, &a, &i))
-				{
-					ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
-					return (NULL);
-				}
-			}
-			else if (token->args[a][i] == L_DOUBLE_QUOTE)
-			{
-				i++;
-				if (!check_close_sq_arg(token, &a, &i))
-				{
-					ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
-					return (NULL);
-				}
-			}
-//			if (token->args[a][i])
-				i++;
-		}
-		a++;
-	}
-	token = remove_quoted_args(token, env);
-	return (token);
-}
-
 t_token	*scan_errs(t_token *token, t_env *env)
 {
 	int		q;

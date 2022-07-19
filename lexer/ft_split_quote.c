@@ -64,9 +64,9 @@ static int	w_count(char const *s, char c)
 	{
 		if (s[i] == L_DOUBLE_QUOTE || s[i] == SINGLE_QUOTE)
 			j++;
-		if (s[i] != c && s[i] && (s[i + 1] == c || s[i + 1] == '\0'))
+		if ((s[i] != c || s[i]) && (s[i + 1] == c || s[i + 1] == '\0')
+			&& (j == 0 || j % 2 == 0 || s[i + 1] == '\0'))
 		{
-			if (j == 0 || j % 2 == 0 || s[i] == '\0')
 				count++;
 		}
 		i++;
