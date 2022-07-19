@@ -28,6 +28,7 @@ char	*get_simple_word(char *arg)
 		ptr = ft_strjoin(ptr, tmp[i]);
 		i++;
 	}
+	free(arg);
 	return (ptr);
 }
 
@@ -82,13 +83,17 @@ char	*expend(char *str, t_pipe_line *envi)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
-			ptr = ft_itoa(g_)
-		else if (str[i] == '$' && ft_isalnum(str[i + 1])))
+		{
+			i += 2;
+			ptr = ft_itoa(g_status);
+		}
+		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
 		{
 			i++;
 			s = i;
-			while ((ft_isalnum(str[i]) || str[i] == '_') && str[i])
+			while ((ft_isalnum(str[i]) || str[i] == '_') && str[i]) {
 				i++;
+			}
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);
@@ -100,6 +105,7 @@ char	*expend(char *str, t_pipe_line *envi)
 		else
 			ptr = get_word(str, &i, ptr);
 	}
+	printf("ptr %s\n", ptr);
 	return (ptr);
 }
 

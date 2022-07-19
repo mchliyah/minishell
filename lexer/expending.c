@@ -115,7 +115,7 @@ t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
 		else if (is_there_squote(token->args[a]))
 			token->args[a] = rm_squote(token->args[a]);
 		else if (check_for_variables(token->args[a]))
-			token->args[a] = get_variable(token->args[a]);
+			token->args[a] = get_variable(token->args[a], env);
 		a++;
 	}
 	return (token);
