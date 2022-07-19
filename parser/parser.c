@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 22:41:03 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:14:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	*pipeline, int frst_p)
 	{
 		ret_pipe = malloc(sizeof(t_pipe_line));
 		ret_pipe->type = lst_token->content->type;
-		ret_pipe->env = pipeline->env;
 		ret_pipe->right = NULL;
 		ret_pipe->left = NULL;
 		ret_pipe->left_p = NULL;
@@ -102,9 +101,8 @@ t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 }
 
 
-int	generate_token(char *rln_str, t_pipe_line *pipeline, char **env)
+int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 {
-	int o = -1;
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
@@ -113,20 +111,18 @@ int	generate_token(char *rln_str, t_pipe_line *pipeline, char **env)
 	lst_token = NULL;
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
-		return (1);
+		return (EXIT_FAILURE);
 	while (lexer->i < lexer->str_len)
 	{
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
-		token = scan_errs(token, pipeline);
+		// printf("%s    arg %s \n", token->content, token->args[0]);
+		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
-		while (token->args[++o])
-			printf("arg = %s", token->args[o]);
 		lst_token = linked_token(lst_token, token);
 	}
 	pipeline = parse_to_tree(pipeline, lst_token);
-	exec_cmd(pipeline, env);
 	return (EXIT_SUCCESS);
 }

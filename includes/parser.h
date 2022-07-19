@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 17:43:38 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:12:42 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_cmd_word
 typedef struct s_pipeline
 {
 	int					exit;
-	t_env				*env;
 	int					type;
 	struct s_pipeline	*left_p;
 	t_list				*left;
@@ -62,8 +61,8 @@ t_list		*linked_token(t_list	*lst_token, t_token *token);
 int			pipe_exist(t_list *lst);
 void		error_check(t_list *lst_token);
 void		free_lst(t_list *list);
-t_token		*scan_errs(t_token *token, t_pipe_line *pipe_line);
-t_token		*remove_quoted_args(t_token *token, t_pipe_line *pipe_line);
-char		*get_variable(char *arg, t_pipe_line *pipe_line);
+t_token		*scan_errs(t_token *token, t_env *env);
+t_token		*remove_quoted_args(t_token *token, t_env *env);
+char		*get_variable(char *arg, t_env *env);
 
 #endif

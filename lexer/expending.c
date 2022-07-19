@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 12:41:01 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/15 12:41:03 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/07/19 14:08:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	check_for_variables(char *str)
 	return (false);
 }
 
-char	*rm_quote(char *arg, t_pipe_line *env)
+char	*rm_quote(char *arg, t_env *env)
 {
 	int		i;
 
@@ -107,7 +107,7 @@ char	*rm_squote(char *arg)
 	return (ptr);
 }
 
-t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
+t_token	*remove_quoted_args(t_token *token, t_env *env)
 {
 	int	a;
 
