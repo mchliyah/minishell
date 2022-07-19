@@ -81,13 +81,13 @@ char	*expend(char *str, t_pipe_line *envi)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == '$' && (str[i + 1] == '?'
-				|| ft_isalnum(str[i + 1]) || ft_isalpha(i + 1)))
+		if (str[i] == '$' && str[i + 1] == '?')
+			ptr = ft_itoa(g_)
+		else if (str[i] == '$' && ft_isalnum(str[i + 1])))
 		{
 			i++;
 			s = i;
-			while ((ft_isalpha(str[i]) || ft_isalnum(str[i])
-					|| str[i] == '_') && str[i])
+			while ((ft_isalnum(str[i]) || str[i] == '_') && str[i])
 				i++;
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
@@ -127,7 +127,6 @@ char	*get_variable(char *arg, t_pipe_line *env)
 		str[i] = NULL;
 		i++;
 	}
-	printf("v = %s\n", ptr);
 	free(str);
 	return (ptr);
 }

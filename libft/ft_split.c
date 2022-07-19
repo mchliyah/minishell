@@ -39,7 +39,7 @@ static int	ft_contword(char const *str, char c)
 	j = 0;
 	while (str[j])
 	{
-		while (str[j] && str[j] != c && str[j])
+		while (str[j] && str[j] != c)
 			j++;
 		while (str[j] && str[j] == c)
 			j++;

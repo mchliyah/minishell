@@ -19,6 +19,8 @@ int	is_there_squote(char *arg)
 	i = -1;
 	while (arg[++i])
 	{
+		if (arg[i] == L_DOUBLE_QUOTE)
+			break ;
 		if (arg[i] == SINGLE_QUOTE)
 			return (true);
 	}
@@ -32,6 +34,8 @@ int	is_there_quote(char *arg)
 	i = -1;
 	while (arg[++i])
 	{
+		if (arg[i] == SINGLE_QUOTE)
+			break ;
 		if (arg[i] == L_DOUBLE_QUOTE)
 			return (true);
 	}
@@ -72,41 +76,46 @@ char	*rm_quote(char *arg, t_pipe_line *env)
 	return (NULL);
 }
 
-//char	*rm_squote(char *arg)
-//{
-//	char	*ptr;
-//	char	**str;
-//	int		i;
-//
-//	i = 0;
-//	str = ft_split(arg, '\'');
-//	free(arg);
-//	arg = NULL;
-//	if (!str)
-//		return (NULL);
-//	while (str[i])
-//	{
-//		ptr = ft_strjoin(ptr, str[i]);
-//		free(str[i]);
-//		str[i] = NULL;
-//		i++;
-//	}
-//	printf("v = %s\n", ptr);
-//	free(str);
-//	return (ptr);
-//}
+char	*rm_squote(char *arg)
+{
+	char	*ptr;
+	char	**str;
+	int		i;
+
+	i = 0;
+	str = ft_split(arg, '\'');
+	free(arg);
+	arg = NULL;
+	if (!str)
+		return (NULL);
+	ptr = ft_strdup("");
+	if (!ptr)
+		printf("a Null returned in rm squote\n");
+	while (str[i])
+	{
+		ptr = ft_strjoin(ptr, str[i]);
+		if (!ptr)
+			printf("a Null returned in rm squote");
+		free(str[i]);
+		str[i] = NULL;
+		i++;
+	}
+	free(str);
+	return (ptr);
+}
 
 t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
 {
 	int	a;
-	//int i;
 	a = 0;
 	while (token->args[a])
 	{
 		if (is_there_quote(token->args[a]))
 			token->args[a] = rm_quote(token->args[a], env);
-//		else if (is_there_squote(token->args[a]))
-//			token->args[a] = rm_squote(token->args[a]);
+		else if (is_there_squote(token->args[a]))
+			token->args[a] = rm_squote(token->args[a]);
+		else if (check_for_variables(token->args[a]))
+			token->args[a] = get_variable(token->args[a]);
 		a++;
 	}
 	return (token);

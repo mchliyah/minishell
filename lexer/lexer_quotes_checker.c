@@ -151,8 +151,7 @@ t_token	*scan_args(t_token *token, t_pipe_line *env)
 					return (NULL);
 				}
 			}
-//			if (token->args[a][i])
-				i++;
+			i++;
 		}
 		a++;
 	}
