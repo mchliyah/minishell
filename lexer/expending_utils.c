@@ -19,7 +19,9 @@ char	*get_simple_word(char *arg)
 	char	**tmp;
 
 	i = 0;
+	printf("tm %s\n", arg);
 	tmp = ft_split(arg, '\"');
+	free(arg);
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
@@ -127,7 +129,6 @@ char	*get_variable(char *arg, t_pipe_line *env)
 		str[i] = NULL;
 		i++;
 	}
-	// printf("v = %s\n", ptr);
 	free(str);
 	return (ptr);
 }

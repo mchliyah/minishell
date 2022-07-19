@@ -59,7 +59,6 @@ int	main(int ac, char **av, char **env)
 	{
 		while (!pipeline->exit)
 		{
-			
 			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
 			if (!str_rln)
 				break ;
@@ -71,6 +70,6 @@ int	main(int ac, char **av, char **env)
 			to_free(pipeline);
 		}
 	}
-	systemleaks("minishell");
+	system("leaks minishell");
 	return (g_status);
 }
