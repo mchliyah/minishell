@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/05 19:03:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:22:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,5 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 		else
 			env = update_path(env, to_set, get_path("PWD", env));
 	}
+	g_status = 0;
 }

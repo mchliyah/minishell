@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/05 19:07:31 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:19:02 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	std_exec(t_pipe_line *p_line, char **env)
 void	exec_cmd(t_pipe_line *p_line, char **env)
 {
 	(void)env;
+	g_status = 1;
 	if (!strcmp(p_line->left->content->content, "echo"))
 		echo(p_line->left);
 	else if (!strcmp(p_line->left->content->content, "env"))
@@ -38,7 +39,7 @@ void	exec_cmd(t_pipe_line *p_line, char **env)
 	else if (!strcmp(p_line->left->content->content, "export"))
 		printf("dzt mn han :)\n");
 	else if (!strcmp(p_line->left->content->content, "exit"))
-		printf("i won't exit hihihi :)\n");
+		exit_cmd(p_line);
 	else
 		std_exec(p_line, env);
 }

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/04 01:29:58 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:43:38 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_cmd_word
 
 typedef struct s_pipeline
 {
+	int					exit;
 	t_env				*env;
 	int					type;
 	struct s_pipeline	*left_p;

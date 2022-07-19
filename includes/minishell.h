@@ -10,6 +10,8 @@
 # include "parser.h"
 # include <stdbool.h>
 
+int g_status;
+
 
 // typedef struct s_fdpip
 // {
@@ -28,5 +30,6 @@ void	echo(t_list *cmd);
 void	env_cmd(t_pipe_line *p_line);
 void	cd_cmd(t_list	*c_line, t_env *env);
 void	pwd_cmd(t_pipe_line *p_line);
+void	exit_cmd(t_pipe_line *p_line);
 
 #endif
