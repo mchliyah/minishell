@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 21:20:13 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/18 23:20:27 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	check_arg(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	if (str[i] && str[i] == '-')
 		i++;
 	else if (str[i] && str[i] != '-')
@@ -30,6 +32,13 @@ static int	check_arg(char *str)
 	return (1);
 }
 
+int	empty(char *str)
+{
+	if (str[0] == '\0')
+		return (1);
+	return (0);
+}
+
 void	echo(t_list *cmd)
 {
 	int	i;
@@ -37,15 +46,21 @@ void	echo(t_list *cmd)
 
 	i = 0;
 	del = 1;
-	while (check_arg(cmd->content->args[i]))
-		i++;
-	if (i != 0)
-		del = 0;
-	while (cmd->content->args[i])
+	if (cmd->content->args[i])
 	{
-		printf("%s", cmd->content->args[i]);
-		printf(" ");
-		i++;
+		// printf("i got here\n");
+		while (!empty(cmd->content->args[i]) && check_arg(cmd->content->args[i]))
+			i++;
+		if (i != 0)
+			del = 0;
+		while (cmd->content->args[i])
+		{
+			printf("%d\n", empty(cmd->content->args[i]));
+			if (!empty(cmd->content->args[i]))
+				printf("%s", cmd->content->args[i]);
+			printf(" ");
+			i++;
+		}
 	}
 	if (del)
 		printf("\n");

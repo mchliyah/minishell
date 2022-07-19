@@ -69,8 +69,32 @@ char	*rm_quote(char *arg, t_pipe_line *env)
 			return (get_variable(arg, env));
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
+
+//char	*rm_squote(char *arg)
+//{
+//	char	*ptr;
+//	char	**str;
+//	int		i;
+//
+//	i = 0;
+//	str = ft_split(arg, '\'');
+//	free(arg);
+//	arg = NULL;
+//	if (!str)
+//		return (NULL);
+//	while (str[i])
+//	{
+//		ptr = ft_strjoin(ptr, str[i]);
+//		free(str[i]);
+//		str[i] = NULL;
+//		i++;
+//	}
+//	printf("v = %s\n", ptr);
+//	free(str);
+//	return (ptr);
+//}
 
 t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
 {
@@ -80,10 +104,10 @@ t_token	*remove_quoted_args(t_token *token, t_pipe_line *env)
 	while (token->args[a])
 	{
 		if (is_there_quote(token->args[a]))
-			rm_quote(token->args[a], env);
+			token->args[a] = rm_quote(token->args[a], env);
 //		else if (is_there_squote(token->args[a]))
-//			rm_sqoute(token->args[a]);
+//			token->args[a] = rm_squote(token->args[a]);
 		a++;
 	}
-	return token;
+	return (token);
 }
