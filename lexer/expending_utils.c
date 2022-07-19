@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/15 14:54:36 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/07/18 22:42:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*get_simple_word(char *arg)
 		ptr = ft_strjoin(ptr, tmp[i]);
 		i++;
 	}
-	free(arg);
 	return (ptr);
 }
 
@@ -82,18 +81,14 @@ char	*expend(char *str, t_pipe_line *envi)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			i += 2;
-			ptr = ft_itoa(g_status);
-		}
-		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
+		if (str[i] == '$' && (str[i + 1] == '?'
+				|| ft_isalnum(str[i + 1]) || ft_isalpha(i + 1)))
 		{
 			i++;
 			s = i;
-			while ((ft_isalnum(str[i]) || str[i] == '_') && str[i]) {
+			while ((ft_isalpha(str[i]) || ft_isalnum(str[i])
+					|| str[i] == '_') && str[i])
 				i++;
-			}
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);
@@ -105,7 +100,6 @@ char	*expend(char *str, t_pipe_line *envi)
 		else
 			ptr = get_word(str, &i, ptr);
 	}
-	printf("ptr %s\n", ptr);
 	return (ptr);
 }
 
@@ -133,6 +127,7 @@ char	*get_variable(char *arg, t_pipe_line *env)
 		str[i] = NULL;
 		i++;
 	}
+	// printf("v = %s\n", ptr);
 	free(str);
 	return (ptr);
 }

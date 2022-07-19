@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/18 21:23:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 00:39:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,31 @@
  	else if generate .. == 1 means that there is unclosed
 	quote or single quote !!
  */
+
+void	to_free(t_pipe_line *pipeline)
+{
+	while (pipeline->left_p)
+	{
+		free(pipeline->right->content);
+		free(pipeline->right);
+		pipeline = pipeline->left_p;
+	}
+	if (pipeline->right)
+	{
+		free(pipeline->right->content->args);
+		free(pipeline->right->content->content);
+		free(pipeline->right->content);
+		free(pipeline->right);
+	}
+	if (pipeline->left)
+	{
+		free(pipeline->left->content->args);
+		free(pipeline->left->content->content);
+		free(pipeline->left->content);
+		free(pipeline->left);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_pipe_line	*pipeline;
@@ -34,6 +59,7 @@ int	main(int ac, char **av, char **env)
 	{
 		while (!pipeline->exit)
 		{
+			
 			str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
 			if (!str_rln)
 				break ;
@@ -42,8 +68,9 @@ int	main(int ac, char **av, char **env)
 				add_history(str_rln);
 				generate_token(str_rln, pipeline, env);
 			}
-			printf("%d\n", g_status);
+			to_free(pipeline);
 		}
 	}
+	systemleaks("minishell");
 	return (g_status);
 }
