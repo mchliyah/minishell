@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 23:20:27 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:58:28 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	check_arg(char *str)
 
 int	empty(char *str)
 {
+	if ((size_t)str < 1000)
+		return (1);
 	if (str[0] == '\0')
 		return (1);
 	return (0);
@@ -55,9 +57,8 @@ void	echo(t_list *cmd)
 			del = 0;
 		while (cmd->content->args[i])
 		{
-			printf("%d\n", empty(cmd->content->args[i]));
 			if (!empty(cmd->content->args[i]))
-				printf("%s", cmd->content->args[i]);
+				printf("%s", cmd->content->args[i]); //putster
 			printf(" ");
 			i++;
 		}
