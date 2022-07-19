@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expending.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 12:41:01 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 14:08:41 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:41:03 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,19 @@ bool	check_for_variables(char *str)
 
 char	*rm_quote(char *arg, t_env *env)
 {
+//	char	*str;
 	int		i;
 
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == L_DOUBLE_QUOTE && (arg[i + 1] == '$'
-				|| ft_isalnum(arg[i + 1])))
-		{
-			i++;
-			if (arg[i + 1] == R_DOUBLE_QUOTE)
-			{
-				printf(">><<\n");
-				return (get_simple_word(arg));
-			}
-		}
+		if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$' && (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
+			return get_variable(arg, env);
 		else
-			return (get_variable(arg, env));
+		{
+			printf(">>get simple word<<\n");
+			return (get_simple_word(arg));
+		}
 		i++;
 	}
 	return (NULL);
@@ -115,10 +111,10 @@ t_token	*remove_quoted_args(t_token *token, t_env *env)
 	(void )env;
 	while (token->args[a])
 	{
-		printf("token  %s\n", token->args[a]);
+//		printf("token  %s\n", token->args[a]);
 		if (is_there_quote(token->args[a])) {
 			token->args[a] = rm_quote(token->args[a], env);
-			printf("token>>  %s|\n", token->args[a]);
+//			printf("token>>  %s|\n", token->args[a]);
 		}
 		else if (is_there_squote(token->args[a])) {
 			token->args[a] = rm_squote(token->args[a]);

@@ -76,4 +76,5 @@ int		get_s_quote(t_token *token, int *i, int *sq);
 t_token	*get_substr_single_quotes(t_token *token);
 char	*get_simple_word(char *arg);
 char	*join_string(char *ptr, char c);
+
 #endif

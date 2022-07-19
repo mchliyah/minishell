@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+#include <stdlib.h>
 char	*get_simple_word(char *arg)
 {
 	char	*ptr;
@@ -19,7 +19,7 @@ char	*get_simple_word(char *arg)
 	char	**tmp;
 
 	i = 0;
-	printf("tm %s\n", arg);
+//	printf("tm %s\n", arg);
 	tmp = ft_split(arg, '\"');
 	free(arg);
 	ptr = ft_strdup("");
@@ -84,13 +84,21 @@ char	*expend(char *str, t_env *envi)
 	while (str[i])
 	{
 		if (str[i] == '$' && (str[i + 1] == '?'
-				|| ft_isalnum(str[i + 1]) || ft_isalpha(i + 1)))
+				|| ft_isalnum(str[i + 1])))
 		{
 			i++;
 			s = i;
-			while ((ft_isalpha(str[i]) || ft_isalnum(str[i])
-					|| str[i] == '_') && str[i])
+			if (ft_isdigit(str[i]))
 				i++;
+			else if (str[i] == '?')
+			{
+				printf("%s\n", ptr);
+				ptr = ft_itoa(g_status);
+				i++;
+			}
+			else
+				while ((ft_isalnum(str[i]) || str[i] == '_') && str[i])
+					i++;
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);

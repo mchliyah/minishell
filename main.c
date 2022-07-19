@@ -64,17 +64,17 @@ int	main(int ac, char **av, char **envp)
 	env = env_init(envp);
 	while (!pipeline->exit)
 	{
-		str_rln = readline("✅ minishell 🤬🤬🤬🤬➡️");
+		str_rln = readline("✅ minishell 🤬➡️");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
 		{
 			add_history(str_rln);
 			generate_token(str_rln, pipeline, env);
+			exec_cmd(pipeline, env);
+			// printf("%p\n", pipeli);
+			to_free(pipeline);
 		}
-		exec_cmd(pipeline, env);
-		// printf("%p\n", pipeli);
-		to_free(pipeline);
 	}
 	return (g_status);
 }

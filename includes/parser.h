@@ -64,5 +64,6 @@ void		free_lst(t_list *list);
 t_token		*scan_errs(t_token *token, t_env *env);
 t_token		*remove_quoted_args(t_token *token, t_env *env);
 char		*get_variable(char *arg, t_env *env);
+t_token		*scan_args(t_token *token, t_env *env);
 
 #endif
