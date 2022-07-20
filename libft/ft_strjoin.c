@@ -36,7 +36,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s2++;
 	}
 	dest[i] = '\0';
-	s1 = NULL;
 	return (dest);
 }
 

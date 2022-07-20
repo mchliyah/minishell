@@ -70,10 +70,11 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			add_history(str_rln);
-			generate_token(str_rln, pipeline, env);
-			exec_cmd(pipeline, env);
-			// printf("%p\n", pipeli);
-			to_free(pipeline);
+			if (generate_token(str_rln, pipeline, env) != 1) {
+				exec_cmd(pipeline, env);
+				// printf("%p\n", pipeli);
+				to_free(pipeline);
+			}
 		}
 	}
 	return (g_status);

@@ -57,22 +57,23 @@ bool	check_for_variables(char *str)
 
 char	*rm_quote(char *arg, t_env *env)
 {
-//	char	*str;
+	char	*str;
 	int		i;
 
 	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$' && (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
-			return get_variable(arg, env);
-		else
-		{
-			printf(">>get simple word<<\n");
-			return (get_simple_word(arg));
-		}
-		i++;
-	}
-	return (NULL);
+	str = ft_strdup("");
+	if (!str)
+		return (NULL);
+	if (
+		(arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
+			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
+	)
+		str = ft_strjoin(str, get_variable(arg, env));
+	else
+		str = ft_strjoin(str, get_simple_word(arg, env));
+	free(arg);
+	arg = NULL;
+	return (str);
 }
 
 char	*rm_squote(char *arg)
@@ -108,20 +109,14 @@ t_token	*remove_quoted_args(t_token *token, t_env *env)
 	int	a;
 
 	a = 0;
-	(void )env;
 	while (token->args[a])
 	{
-//		printf("token  %s\n", token->args[a]);
-		if (is_there_quote(token->args[a])) {
+		if (is_there_quote(token->args[a]))
 			token->args[a] = rm_quote(token->args[a], env);
-//			printf("token>>  %s|\n", token->args[a]);
-		}
-		else if (is_there_squote(token->args[a])) {
+		else if (is_there_squote(token->args[a]))
 			token->args[a] = rm_squote(token->args[a]);
-		}
-		else if (check_for_variables(token->args[a])) {
+		else if (check_for_variables(token->args[a]))
 			token->args[a] = get_variable(token->args[a], env);
-		}
 		a++;
 	}
 	return (token);
