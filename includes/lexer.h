@@ -18,7 +18,7 @@
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
 # define EOS '\0'
-
+# include <stdbool.h>
 
 /*
  * 	int (keyword), value (identifier) = e_symbols,
@@ -70,10 +70,10 @@ t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);
 int		my_test(t_lexer *lexer);
 t_token	*get_token(t_lexer *lexer);
-t_token	*get_substr(t_token *token);
 int		get_quote(t_token *token, int *i, int *q);
 int		get_s_quote(t_token *token, int *i, int *sq);
 t_token	*get_substr_single_quotes(t_token *token);
 char	*join_string(char *ptr, char c);
+bool	check_for_variables(char *str);
 
 #endif

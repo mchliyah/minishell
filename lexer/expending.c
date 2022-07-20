@@ -83,6 +83,8 @@ char	*rm_squote(char *arg)
 	int		i;
 
 	i = 0;
+	if (arg[i] == '$' && arg[i + 1] == SINGLE_QUOTE)
+		i++;
 	str = ft_split(arg, '\'');
 	free(arg);
 	arg = NULL;

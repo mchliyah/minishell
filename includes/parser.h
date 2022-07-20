@@ -67,6 +67,9 @@ t_token		*remove_quoted_args(t_token *token, t_env *env);
 char		*get_variable(char *arg, t_env *env);
 t_token		*scan_args(t_token *token, t_env *env);
 char		*get_simple_word(char *arg, t_env *env);
+t_token		*scan_vars(t_token *token, t_env *env);
+t_token		*get_substr(t_token *token, t_env *env);
+char		*rm_quote(char *arg, t_env *env);
 //end
 
 #endif

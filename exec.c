@@ -16,6 +16,7 @@ void	std_exec(t_pipe_line *p_line, t_env *env)
 {
 	(void)p_line;
 	(void)env;
+	printf("cmd -> %s\n", p_line->left->content->content);
 	printf("std exec reached\n");
 	// if (access(p_line->left->content->content, X_OK) == 0)
 	// 	execve(p_line->left->content->content, &p_line->left->content->args[0], env);

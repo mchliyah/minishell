@@ -29,7 +29,7 @@ char	*get_simple_word(char *arg, t_env *env)
 		j = 0;
 		while (tmp[i][j])
 		{
-			if (tmp[i][j] == '$')
+			if (tmp[i][j] == '$' && tmp[i + 1] == NULL)
 			{
 				ptr = ft_strjoin(ptr, get_variable(&tmp[i][j], env));
 				free(tmp[i]);
