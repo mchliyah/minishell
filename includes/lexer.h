@@ -6,18 +6,20 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/01 19:10:39 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/21 17:32:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <stdlib.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # define WHITESPACE " \t\n\r\v"
 # define SYMBOLS " |<>"
 # define EOS '\0'
+#define SPACE ' '
 
 
 /*
@@ -27,7 +29,6 @@
 enum
 {
 	MINUS = '-',
-	SPACE = ' ',
 	EPIPE = '|',
 	SINGLE_QUOTE = '\'',
 	L_DOUBLE_QUOTE = '\"',

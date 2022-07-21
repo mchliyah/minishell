@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 22:38:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/21 17:22:58 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ void	to_free(t_pipe_line *pipeline)
 		free(pipeline->left);
 	}
 }
-
-// int	init_mini(t_pipe_line *pipeline, t_env *env)
-// {
-	
-// }
 
 int	main(int ac, char **av, char **envp)
 {
