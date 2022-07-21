@@ -87,7 +87,7 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 {
 	char	*to_set;
 
-	if (!c_line->content->args[0])
+	if (!c_line->content->args[0] || !strncmp(c_line->content->args[0], "~", 1))
 		exec_cd(env, "HOME=", get_path("PWD=", env), 0);
 	else if (!strncmp(c_line->content->args[0], "-", 1))
 		exec_cd(env, "OLDPWD=", get_path("PWD=", env), 0);
