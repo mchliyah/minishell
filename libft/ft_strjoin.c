@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 13:02:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/19 22:47:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/20 11:59:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	// 	free((char *)s1);
 	return (dest);
 }
-

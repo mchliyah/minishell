@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/18 21:22:17 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/21 00:03:51 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ char	*get_path(char *key, t_env *env)
 	return (NULL);
 }
 
-void	dup_path(t_env *tmp_env, char *to_set, const char *to_up)
+void	dup_path(t_env *tmp_env, char *to_set, char *to_up)
 {
 	while (tmp_env)
 	{
 		if (!strncmp(tmp_env->pair->key, to_up, ft_strlen(to_up)))
 		{
-			tmp_env->pair->value = strdup(to_set);
+			if (to_set)
+				tmp_env->pair->value = ft_strdup(to_set);
 			break ;
 		}
 		tmp_env = tmp_env->next;
@@ -42,10 +43,12 @@ void	dup_path(t_env *tmp_env, char *to_set, const char *to_up)
 t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 {
 	t_env	*tmp_env;
+	char	*pwd;
 	int		i;
 
 	i = 0;
 	tmp_env = env;
+	pwd = get_path("PWD", env);
 	while (to_set[i])
 	{
 		if (i != 0 && !to_set[i + 1] && to_set[i] == '/')
@@ -66,7 +69,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	i = 0;
 	if (chek)
 	{
-		to_set = strdup(get_path("PWD=", env));
+		to_set = ft_strdup(get_path("PWD=", env));
 		while (to_set[i])
 			i++;
 		while (i != 0 && to_set[i] != '/')
@@ -101,7 +104,16 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 		if (chdir(c_line->content->args[0]) == -1)
 			ft_putstr_fd("cd: no such file or directory\n", 2);
 		else
-			env = update_path(env, to_set, get_path("PWD", env));
+		{
+			if (!strncmp("/", to_set, ft_strlen(to_set)))
+				env = update_path(env, to_set, get_path("PWD", env));
+			else
+			{
+				to_set = ft_strjoin("/", to_set);
+				to_set = ft_strjoin(get_path("PWD", env), to_set);
+				env = update_path(env, to_set, get_path("PWD", env));
+			}
+		}
 	}
 	g_status = 0;
 }
