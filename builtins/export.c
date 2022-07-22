@@ -6,37 +6,33 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/21 18:07:44 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 11:55:55 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void print(t_env *export)
+static void	print(t_env *exp)
 {
-    while (export)
-    {
-        /* code */
-    }
-    
+	while (export)
+	{
+		
+	}
 }
 
-void    export_cmd(t_env *export, t_list *c_line)
+void	export_cmd(t_env *exp, t_list *c_line)
 {
-    if (!c_line->content->args[0])
-    {
-        print(export);
-        return (0);
-    }
-    else
-    {
-        while(export->next)
-            export = export->next;
-        export->next = malloc(sizeof(t_env));
-        export->next->pair->key = ft_strdup(c_line->content->content);
-        export->next->pair->value = ft_strdup(c_line->content->args[0]);
-        
-
-
-    }
+	if (!c_line->content->args[0])
+	{
+		print(exp);
+		return (0);
+	}
+	else
+	{
+		while (exp->next)
+			exp = export->next;
+		exp->next = malloc(sizeof(t_env));
+		exp->next->pair->key = ft_strdup(c_line->content->content);
+		exp->next->pair->value = ft_strdup(c_line->content->args[0]);
+	}
 }
