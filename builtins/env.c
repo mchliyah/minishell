@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/19 13:05:47 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:29:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*start(char **envp)
 	return (my_env);
 }
 
-t_env	*env_init(char **envp)
+t_env	*env_init(char **envp) // ,extract_file(argv[0]))
 {
 	int		i;
 	char	*tmp_value;

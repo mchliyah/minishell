@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/20 22:39:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 21:41:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	*unset_cmd(t_env *env, char **args)
 		{
 			prev = env;
 			to_f = env->next;
-			while (env)
+			while (env && to_f)
 			{
 				if (!ft_strncmp(to_f->pair->key, args[i], ft_strlen(args[i])))
 				{

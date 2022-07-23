@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 17:09:08 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:12:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,9 @@ t_pipe_line	*simple_cmd(t_pipe_line *pipeline, t_list *lst_token)
 
 t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 {
-	//t_list		*to_free;
 	int			frst_pipe;
 
 	frst_pipe = 1;
-	//to_free = lst_token;
 	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{
@@ -100,7 +98,6 @@ t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token)
 	return (pipeline);
 }
 
-
 int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 {
 	t_token		*token;
@@ -117,7 +114,7 @@ int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
-			printf("-- %s\n", token->args[0]);
+			// printf("-- %s\n", token->args[0]);
 		// printf("%s    arg %s \n", token->content, token->args[0]);
 		token = scan_errs(token, env);
 		if (!token)

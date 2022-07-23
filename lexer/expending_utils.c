@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 13:11:46 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/23 12:11:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*expend(char *str, t_env *envi)
 				i++;
 			else if (str[i] == '?')
 			{
-				printf("%s\n", ptr);
+				// printf("%s", ptr);
 				ptr = ft_itoa(g_status);
 				i++;
 			}

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 12:41:01 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 22:36:17 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/23 12:10:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ char	*rm_quote(char *arg, t_env *env)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$' && (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
-			return get_variable(arg, env);
+		if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
+			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
+			return (get_variable(arg, env));
 		else
 			return (get_simple_word(arg));
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/19 22:25:24 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 22:32:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	echo(t_list *cmd)
 	del = 1;
 	if (cmd->content->args[i])
 	{
-		while (!empty(cmd->content->args[i]) && check_arg(cmd->content->args[i]))
+		while (!empty(cmd->content->args[i])
+			&& check_arg(cmd->content->args[i]))
 			i++;
 		if (i != 0)
 			del = 0;
-		//printf("----- here in echo fun----\n");
 		while (cmd->content->args[i])
 		{
 			if (!empty(cmd->content->args[i]))
@@ -63,9 +63,7 @@ void	echo(t_list *cmd)
 				printf(" ");
 			i++;
 		}
-		//printf("----- here in echo fun----");
 	}
 	if (del)
 		printf("\n");
-	g_status = 0;
 }

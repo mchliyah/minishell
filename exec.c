@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 17:53:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/22 22:51:06 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ char	**get_cmd_path(char **env)
 
 void	std_exec(t_list *cmd, char **env)
 {
-	int pid;
-	int i;
-	char **args;
-	char **path;
-	char *cmand;
+	int		pid;
+	int		i;
+	char	**args;
+	char	**path;
+	char	*cmand;
 
 	pid = fork();
 	if (pid == 0)
@@ -69,12 +69,9 @@ void	std_exec(t_list *cmd, char **env)
 				i++;
 			}
 			args[i + 1] = NULL;
-			fprintf(stderr, "\n");
-			HERE;
-			for (int i = 0; cmd->content->args[i]; i++)
-				PV(cmd->content->args[i], "%s\n");
+			// for (int i = 0; cmd->content->args[i]; i++)
+			// 	PV(cmd->content->args[i], "%s\n");
 			execve(cmd->content->content, args, env);
-			HERE;
 		}
 		else
 		{
@@ -93,8 +90,9 @@ void	std_exec(t_list *cmd, char **env)
 			args[i + 1] = NULL;
 			execve(cmand, args, env);
 		}
-		printf("after exec error \n");
-		kill(pid, 0);
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(cmd->content->content, 2);
+		ft_putstr_fd(" : command not found\n", 2);
 	}
 	waitpid(pid, 0, 0);
 }
@@ -113,7 +111,6 @@ int	check_path(t_env *env, char *key)
 void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 {
 	(void)env;
-	g_status = 1;
 	if (!strcmp(p_line->left->content->content, "echo"))
 		echo(p_line->left);
 	else if (!strcmp(p_line->left->content->content, "env"))
