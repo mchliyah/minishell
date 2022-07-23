@@ -74,6 +74,9 @@ int		get_quote(t_token *token, int *i, int *q);
 int		get_s_quote(t_token *token, int *i, int *sq);
 t_token	*get_substr_single_quotes(t_token *token);
 char	*join_string(char *ptr, char c);
+int		get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j);
+int		get_inside_squote(char const *s, char **str, int i, size_t *k, char c, int j);
+int		get_words(char const *s, char **str, int i, size_t *k, char c, int j);
 bool	check_for_variables(char *str);
 
 #endif

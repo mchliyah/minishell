@@ -29,6 +29,7 @@ FILES =	main.c\
 		lexer/arg_scanner.c\
 		lexer/lexer_helper.c\
 		lexer/expending_cmd.c\
+		lexer/ft_split_arg_utils.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		parser/error.c\
