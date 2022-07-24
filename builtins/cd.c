@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 15:05:55 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 00:48:56 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,27 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 {
 	char	*to_set;
 
-	if (!c_line->content->args[0])
+	if (!c_line->content->arg->content)
 	{
 		if (!get_path("HOME=", env))
 		{	
 			printf("cd: HOME not set\n");
 			return ;
 		}
-		exec_cd(env, "HOME=", get_path("PWD=", env), 0);
+		if (!c_line->content->arg->content
+			|| !strncmp(c_line->content->arg->content, "~", 1))
+			exec_cd(env, "HOME=", get_path("PWD=", env), 0);
 	}
-	else if (!strncmp(c_line->content->args[0], "-", 1))
+	else if (!strncmp(c_line->content->arg->content, "-", 1))
 		exec_cd(env, "OLDPWD=", get_path("PWD=", env), 0);
-	else if (!strncmp(c_line->content->args[0], "..", 2))
+	else if (!strncmp(c_line->content->arg->content, "..", 2))
 		exec_cd(env, NULL, get_path("PWD=", env), 1);
-	else if (!strncmp(c_line->content->args[0], ".", 1))
+	else if (!strncmp(c_line->content->arg->content, ".", 1))
 		return ;
 	else
 	{
-		to_set = c_line->content->args[0];
-		if (chdir(c_line->content->args[0]) == -1)
+		to_set = c_line->content->arg->content;
+		if (chdir(c_line->content->arg->content) == -1)
 			ft_putstr_fd("cd: no such file or directory\n", 2);
 		else
 		{

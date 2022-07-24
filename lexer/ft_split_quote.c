@@ -12,6 +12,38 @@
 
 
 #include "../includes/minishell.h"
+#include <stdbool.h>
+
+//static bool	is_double_quote_first(char const *str)
+//{
+//	int	i;
+//
+//	i = -1;
+//	while (str[++i])
+//	{
+//		if (str[i] == SINGLE_QUOTE)
+//			break ;
+//		else if (str[i] == L_DOUBLE_QUOTE)
+//			return (true);
+//	}
+//	return (false);
+//}
+//
+//static bool	is_single_quote_first(char const *str)
+//{
+//	int	i;
+//
+//	i = -1;
+//	while (str[++i])
+//	{
+//		if (str[i] == L_DOUBLE_QUOTE)
+//			break ;
+//		else if (str[i] == SINGLE_QUOTE)
+//			return (true);
+//	}
+//	return (false);
+//}
+//
 
 static char	**c_str(char **str, char const *s, char c)
 {
@@ -23,55 +55,83 @@ static char	**c_str(char **str, char const *s, char c)
 	i = 0;
 	k = 0;
 	q = 0;
-	while (s[i])
-	{
+	while (s[i]) {
 		j = i;
-		while (s[i])
-		{
-			if (s[i] == L_DOUBLE_QUOTE || s[i] == SINGLE_QUOTE)
-				q++;
-			if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')
-				&& (q == 0 || q % 2 == 0))
-			{
-				str[k] = ft_substr(s, j, i - j + 1);
-				k++;
-			}
+		if (s[i] == L_DOUBLE_QUOTE) {
 			i++;
-			if (s[i] == c && (q == 0 || q % 2 == 0))
-				break ;
-		}
-		if (s[i] != 0)
+			i = get_inside_quote(s, str, i, &k, c, j);
+		} else if (s[i] == SINGLE_QUOTE) {
 			i++;
-		if (s[i] == '\0' && (q == 0 || q % 2 != 0))
-		{
-			str[k] = ft_substr(s, j, (i - j));
-			k++;
+			i = get_inside_squote(s, str, i, &k, c, j);
+		} else {
+			i = get_words(s, str, i, &k, c, j);
 		}
 	}
 	return (str);
 }
 
-static int	w_count(char const *s, char c)
+static int	w_count(char const *str, char c)
 {
+	int	word;
 	int	j;
-	int	i;
-	int	count;
 
-	count = 0;
-	i = 0;
+	word = 0;
 	j = 0;
-	while (s[i])
+	while (str[j])
 	{
-		if (s[i] == L_DOUBLE_QUOTE || s[i] == SINGLE_QUOTE)
+		while (str[j] && str[j] == c)
 			j++;
-		if ((s[i] != c || s[i]) && (s[i + 1] == c || s[i + 1] == '\0')
-			&& (j == 0 || j % 2 == 0 || s[i + 1] == '\0'))
+		if (str[j] == SINGLE_QUOTE)
 		{
-				count++;
+			j++;
+			while (str[j])
+			{
+				if (str[j] == SINGLE_QUOTE && str[j + 1] == c)
+					word++;
+				j++;
+				if ((str[j] == SINGLE_QUOTE && (str[j + 1] == c
+							|| str[j + 1] == '\0')) || str[j] == '\0')
+				{
+					printf("here inside single quote %c\n", str[j]);
+					word++;
+					if (str[j])
+						j++;
+					break ;
+				}
+			}
 		}
-		i++;
+		else if (str[j] == L_DOUBLE_QUOTE)
+		{
+			j++;
+			while (str[j])
+			{
+				if (str[j] == R_DOUBLE_QUOTE && str[j + 1] == c)
+					word++;
+				j++;
+				if ((str[j] == R_DOUBLE_QUOTE && (str[j + 1] == c
+							|| str[j + 1] == '\0')) || str[j] == '\0')
+				{
+					word++;
+					printf("here inside quote %c\n", str[j]);
+					if (str[j])
+						j++;
+					break ;
+				}
+			}
+		}
+		else
+		{
+			while (str[j] && str[j] != c)
+				j++;
+			while (str[j] && str[j] == c)
+				j++;
+			printf("here %c\n", str[j]);
+			word++;
+		}
 	}
-	return (count);
+	if (str[0] == c)
+		word--;
+	return (word);
 }
 
 char	**ft_split_arg(char const *s, char c)
@@ -85,7 +145,14 @@ char	**ft_split_arg(char const *s, char c)
 	str = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str)
 		return (NULL);
+	printf("cou %d\n", count);
 	str = c_str(str, s, c);
 	str[count] = NULL;
+	int i = 0;
+	while (str[i])
+	{
+		printf("--->%s<--\n", str[i]);
+		i++;
+	}
 	return (str);
 }

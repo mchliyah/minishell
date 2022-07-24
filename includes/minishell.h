@@ -37,5 +37,6 @@ void	cd_cmd(t_list	*c_line, t_env *env);
 void	pwd_cmd(t_env *env);
 void	exit_cmd(t_pipe_line *p_line);
 t_env	*unset_cmd(t_env *env, char **args);
+char	**arr_arg(t_list *cmd);
 
 #endif

@@ -20,9 +20,9 @@ void	printing(t_list	*print)
 	{
 		i = -1;
 		printf("   right cmd => %s\n", print->content->content);
-		if (print->content->args)
-			while (print->content->args[++i])
-				printf("arg[%d] => %s\n", i + 1, print->content->args[i]);
+		if (print->content->arg->content)
+			while (print->content->arg->content[++i])
+				printf("arg[%d] => %s\n", i + 1, print->content->arg->content);
 		print = print->next;
 	}
 }

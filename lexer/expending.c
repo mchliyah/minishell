@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 12:41:01 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/23 12:10:29 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/24 22:59:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	check_for_variables(char *str)
 
 char	*rm_quote(char *arg, t_env *env)
 {
-//	char	*str;
+	char	*str;
 	int		i;
 
 	i = 0;
@@ -67,10 +67,23 @@ char	*rm_quote(char *arg, t_env *env)
 			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
 			return (get_variable(arg, env));
 		else
-			return (get_simple_word(arg));
+			return (get_simple_word(arg, env));
 		i++;
 	}
 	return (NULL);
+	str = ft_strdup("");
+	if (!str)
+		return (NULL);
+	if (
+		(arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
+			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
+	)
+		str = ft_strjoin(str, get_variable(arg, env));
+	else
+		str = ft_strjoin(str, get_simple_word(arg, env));
+	free(arg);
+	arg = NULL;
+	return (str);
 }
 
 char	*rm_squote(char *arg)
@@ -80,6 +93,8 @@ char	*rm_squote(char *arg)
 	int		i;
 
 	i = 0;
+	if (arg[i] == '$' && arg[i + 1] == SINGLE_QUOTE)
+		i++;
 	str = ft_split(arg, '\'');
 	free(arg);
 	arg = NULL;
@@ -106,21 +121,16 @@ t_token	*remove_quoted_args(t_token *token, t_env *env)
 	int	a;
 
 	a = 0;
-	(void )env;
-	while (token->args[a])
+	while (token->arg->next)
 	{
-//		printf("token  %s\n", token->args[a]);
-		if (is_there_quote(token->args[a])) {
-			token->args[a] = rm_quote(token->args[a], env);
-//			printf("token>>  %s|\n", token->args[a]);
-		}
-		else if (is_there_squote(token->args[a])) {
-			token->args[a] = rm_squote(token->args[a]);
-		}
-		else if (check_for_variables(token->args[a])) {
-			token->args[a] = get_variable(token->args[a], env);
-		}
-		a++;
+		if (is_there_quote(token->arg->content))
+			token->arg->content = rm_quote(token->arg->content, env);
+		else if (is_there_squote(token->arg->content))
+			token->arg->content = rm_squote(token->arg->content);
+		else if (check_for_variables(token->arg->content))
+			token->arg->content = get_variable(token->arg->content, env);
+		printf("*** %s\n", token->arg->content);
+		token->arg = token->arg->next;
 	}
 	return (token);
 }

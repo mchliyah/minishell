@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 22:32:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 00:44:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,35 @@ int	empty(char *str)
 
 void	echo(t_list *cmd)
 {
-	int	i;
-	int	del;
+	int		i;
+	int		del;
+	char	**args;
 
-	i = 0;
+	i = 1;
 	del = 1;
-	if (cmd->content->args[i])
+	args = arr_arg(cmd);
+	if (cmd->content->arg->content)
 	{
-		while (!empty(cmd->content->args[i])
-			&& check_arg(cmd->content->args[i]))
+		while (!empty(args[i])
+			&& check_arg(args[i]))
 			i++;
-		if (i != 0)
+		}
+		if (i != 1)
 			del = 0;
-		while (cmd->content->args[i])
+		while (args[i])
 		{
-			if (!empty(cmd->content->args[i]))
-				printf("%s", cmd->content->args[i]);
-			if (cmd->content->args[i + 1])
+			if (!empty(args[i]))
+				printf("%s", args[i]);
+			if (args[i + 1])
 				printf(" ");
 			i++;
+		//printf("----- here in echo fun----\n");
+		while (cmd->content->arg->content)
+		{
+			if (!empty(cmd->content->arg->content))
+				printf("%s", cmd->content->arg->content);
+			if (cmd->content->arg->next->content)
+				printf(" |");
 		}
 	}
 	if (del)

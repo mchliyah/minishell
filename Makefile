@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/21 17:23:08 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/24 22:51:34 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = #-Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 RM = rm -f
 #########################
@@ -26,13 +27,15 @@ FILES =	main.c\
 		lexer/lexer_quotes_checker.c\
 		lexer/expending.c\
 		lexer/expending_utils.c\
+		lexer/arg_scanner.c\
 		lexer/lexer_helper.c\
+		lexer/expending_cmd.c\
+		lexer/ft_split_arg_utils.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		parser/error.c\
 		parser/free.c\
 		parser/print.c\
-		lexer/arg_scanner.c\
 		exec.c\
 		builtins/echo.c\
 		builtins/env.c\

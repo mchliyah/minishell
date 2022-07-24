@@ -26,7 +26,7 @@ int	ft_is_symbol(char c)
 	return (0);
 }
 
-// !'ptr' should free inside the function
+// !'ptr'  freed inside the function
 char	*join_string(char *ptr, char c)
 {
 	char	*j_str;
@@ -61,6 +61,7 @@ char	*join_string(char *ptr, char c)
  * 	 function for member of get_char() !!
  * 	 -----------------------------------
   	 !  "ls""| pwd  should be fixed
+  	 todo there is a mistake here in quote counter !!
  */
 char	*get_inside_quotes(t_lexer **it)
 {
@@ -92,40 +93,37 @@ char	*get_inside_quotes(t_lexer **it)
 	return (ptr);
 }
 
-char	**check_for_args(t_lexer **lex)
+char	*check_for_args(t_lexer **lex)
 {
-	char	*str;
-	int		q;
-	int		start;
-	int		end;
-
-	q = 0;
 	if ((*lex)->c == SPACE)
 	{
 		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);
 	}
-	start = (*lex)->i;
-	end = (*lex)->i;
-	while ((*lex)->c != '\0')
+	if ((*lex)->c == SINGLE_QUOTE)
+		return (get_quote_things(lex));
+	else if ((*lex)->c == R_DOUBLE_QUOTE)
+		return (get_s_quote_things(lex));
+	else
+		return (get_s_word(lex));
+}
+
+t_arg	*get_args(t_lexer **lex)
+{
+	char	*s;
+	t_arg	*opt;
+
+	opt = NULL;
+	while ((*lex)->c)
 	{
-		if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
-			q++;
-		else if (((*lex)->c == EPIPE || (*lex)->c == LESS
-				|| (*lex)->c == GREATER || (*lex)->c == '\0')
-			&& (q == 0 || q % 2 == 0))
-		{
-			end = (*lex)->i;
-			break ;
-		}
+		s = check_for_args(lex);
+		if (!opt)
+			opt = list_new(s);
+		else
+			list_add_back(&opt, list_new(s));
 		*lex = advance(*lex);
 	}
-	if ((*lex)->c == EOS)
-		end = (*lex)->i;
-	str = ft_substr((*lex)->content, start, end - start);
-	if (!str)
-		printf("a Null returned in ft_substr in check_for_args\n");
-	return (ft_split_arg(str, ' '));
+	return (opt);
 }
 
 t_token	*get_char(t_lexer **lex)
@@ -161,8 +159,5 @@ t_token	*get_char(t_lexer **lex)
 			}
 		}
 	}
-	str = check_for_args(lex);
-	if (!str)
-		printf("there is a problem occurred inside split\n");
-	return (init_token(ptr, WORD, str));
+	return (init_token(ptr, WORD, get_args(lex)));
 }

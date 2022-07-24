@@ -6,30 +6,43 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/23 12:11:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/24 22:57:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdlib.h>
-char	*get_simple_word(char *arg)
+
+char	*get_simple_word(char *arg, t_env *env)
 {
 	char	*ptr;
 	int		i;
+	int		j;
 	char	**tmp;
 
 	i = 0;
-//	printf("tm %s\n", arg);
 	tmp = ft_split(arg, '\"');
-	free(arg);
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
 	while (tmp[i])
 	{
-		ptr = ft_strjoin(ptr, tmp[i]);
+		j = 0;
+		while (tmp[i][j])
+		{
+			if (tmp[i][j] == '$' && tmp[i + 1] == NULL)
+			{
+				ptr = ft_strjoin(ptr, get_variable(&tmp[i][j], env));
+				free(tmp[i]);
+				free(tmp);
+				return (ptr);
+			}
+			ptr = join_string(ptr, tmp[i][j]);
+			j++;
+		}
+		free(tmp[i]);
 		i++;
 	}
+	free(tmp);
 	return (ptr);
 }
 
@@ -94,6 +107,7 @@ char	*expend(char *str, t_env *envi)
 			{
 				// printf("%s", ptr);
 				ptr = ft_itoa(g_status);
+				ptr = ft_strjoin(ptr, ft_itoa(g_status));
 				i++;
 			}
 			else
@@ -126,8 +140,6 @@ char	*get_variable(char *arg, t_env *env)
 
 	i = 0;
 	str = ft_split(arg, '\"');
-	free(arg);
-	arg = NULL;
 	if (!str)
 		return (NULL);
 	while (str[i])

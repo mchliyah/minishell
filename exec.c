@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/23 21:59:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 00:38:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,32 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
+char	**arr_arg(t_list *cmd)
+{
+	char	**args;
+	int		i;
+
+	i = 0;
+	while (cmd->content->arg->content)
+	{
+		cmd->content->arg = cmd->content->arg->next;
+		i++;
+	}
+	args = malloc(sizeof(char *) * i + 2);
+	args[0] = cmd->content->content;
+	i = 1;
+	while (cmd->content->arg->content)
+	{
+		args[i++] = cmd->content->arg->content;
+		cmd->content->arg = cmd->content->arg->next;
+	}
+	args[i] = NULL;
+	return (args);
+}
+
 void	std_exec(t_list *cmd, char **env)
 {
 	int		pid;
-	int		i;
 	char	**args;
 	char	**path;
 	char	*cmand;
@@ -55,39 +77,16 @@ void	std_exec(t_list *cmd, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		i = 0;
 		if (access(cmd->content->content, X_OK) == 0)
 		{
-			while (cmd->content->args[i])
-				i++;
-			args = malloc(sizeof(char *) * i + 2);
-			args[0] = cmd->content->content;
-			i = 0;
-			while (cmd->content->args[i])
-			{
-				args[i + 1] = cmd->content->args[i];
-				i++;
-			}
-			args[i + 1] = NULL;
-			// for (int i = 0; cmd->content->args[i]; i++)
-			// 	PV(cmd->content->args[i], "%s\n");
+			args = arr_arg(cmd);
 			execve(cmd->content->content, args, env);
 		}
 		else
 		{
 			path = get_cmd_path(env);
 			cmand = get_cmd(path, cmd->content->content);
-			while (cmd->content->args[i])
-			i++;
-			args = malloc(sizeof(char *) * i + 2);
-			args[0] = cmand;
-			i = 0;
-			while (cmd->content->args[i])
-			{
-				args[i + 1] = cmd->content->args[i];
-				i++;
-			}
-			args[i + 1] = NULL;
+			args = arr_arg(cmd);
 			execve(cmand, args, env);
 		}
 		ft_putstr_fd("minishell : ", 2);
@@ -110,6 +109,8 @@ int	check_path(t_env *env, char *key)
 
 void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 {
+	char **args;
+
 	(void)env;
 	if (!strcmp(p_line->left->content->content, "echo"))
 		echo(p_line->left);
@@ -121,7 +122,10 @@ void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 		|| !strcmp(p_line->left->content->content, "PWD"))
 		pwd_cmd(env);
 	else if (!strcmp(p_line->left->content->content, "unset"))
-		env = unset_cmd(env, p_line->left->content->args);
+	{
+		args = arr_arg(p_line->left);
+		env = unset_cmd(env, args);
+	}
 	else if (!strcmp(p_line->left->content->content, "export"))
 		printf("dzt mn han :)\n");
 	else if (!strcmp(p_line->left->content->content, "exit"))
