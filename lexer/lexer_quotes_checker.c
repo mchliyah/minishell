@@ -121,7 +121,7 @@ t_token	*scan_errs(t_token *token, t_env *env)
 				return (NULL);
 		i++;
 	}
-	if (token->args)
+	if (token->arg->content)
 	{
 		token = scan_args(token, env);
 		if (!token)

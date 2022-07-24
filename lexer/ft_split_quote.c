@@ -55,91 +55,20 @@ static char	**c_str(char **str, char const *s, char c)
 	i = 0;
 	k = 0;
 	q = 0;
-	while (s[i])
-	{
+	while (s[i]) {
 		j = i;
-		while (s[i])
-		{
-			if (s[i] == L_DOUBLE_QUOTE)
-			{
-				i++;
-				i = get_inside_quote(s, str, i, &k, c, j);
-			}
-			else if (s[i] == SINGLE_QUOTE) {
-				i++;
-				i = get_inside_squote(s, str, i, &k, c, j);
-			}
-			else {
-				i = get_words(s, str, i, &k, c, j);
-			}
-		}
-		if (s[i] != 0)
+		if (s[i] == L_DOUBLE_QUOTE) {
 			i++;
+			i = get_inside_quote(s, str, i, &k, c, j);
+		} else if (s[i] == SINGLE_QUOTE) {
+			i++;
+			i = get_inside_squote(s, str, i, &k, c, j);
+		} else {
+			i = get_words(s, str, i, &k, c, j);
+		}
 	}
 	return (str);
 }
-/*
-static int	w_count(char const *s, char c)
-{
-	int	state;
-	int	j;
-	int	i;
-	int	count;
-	int	t;
-	int sq;
-
-	count = 0;
-	i = 0;
-	j = 0;
-	sq = 0;
-	state = -1;
-	t = 0;
-	if (is_double_quote_first(s))
-		state = 1;
-	else if (is_single_quote_first(s))
-		state = 0;
-	while (s[i])
-	{
-		if (s[i] == L_DOUBLE_QUOTE && state == 1)
-			j++;
-		else if (s[i] == SINGLE_QUOTE && state == 0)
-			sq++;
-		if (
-			(s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			|| (s[i] == c && s[i + 1] == '\0')
-		)
-		{
-			if (
-				((j == 0 || j % 2 == 0) && state == 1) || s[i + 1] == '\0'
-			)
-			{
-				count++;
-				if (s[i] == L_DOUBLE_QUOTE)
-					t = 1;
-				if (is_single_quote_first(&s[i + t]))
-					state = 0;
-				else if (is_double_quote_first(&s[i + t]))
-					state = 1;
-				else
-					state = -1;
-			}
-			else if (((sq == 0 || sq % 2 == 0) && state == 0) || s[i + 1] == '\0')
-			{
-				count++;
-				if (s[i] == SINGLE_QUOTE)
-					t = 1;
-				if (is_single_quote_first(&s[i + t]))
-					state = 0;
-				else if (is_double_quote_first(&s[i + t]))
-					state = 1;
-				else
-					state = -1;
-			}
-		}
-		i++;
-	}
-	return (count);
-}*/
 
 static int	w_count(char const *str, char c)
 {
@@ -157,10 +86,13 @@ static int	w_count(char const *str, char c)
 			j++;
 			while (str[j])
 			{
+				if (str[j] == SINGLE_QUOTE && str[j + 1] == c)
+					word++;
 				j++;
 				if ((str[j] == SINGLE_QUOTE && (str[j + 1] == c
 							|| str[j + 1] == '\0')) || str[j] == '\0')
 				{
+					printf("here inside single quote %c\n", str[j]);
 					word++;
 					if (str[j])
 						j++;
@@ -173,11 +105,14 @@ static int	w_count(char const *str, char c)
 			j++;
 			while (str[j])
 			{
+				if (str[j] == R_DOUBLE_QUOTE && str[j + 1] == c)
+					word++;
 				j++;
 				if ((str[j] == R_DOUBLE_QUOTE && (str[j + 1] == c
 							|| str[j + 1] == '\0')) || str[j] == '\0')
 				{
 					word++;
+					printf("here inside quote %c\n", str[j]);
 					if (str[j])
 						j++;
 					break ;
@@ -190,6 +125,7 @@ static int	w_count(char const *str, char c)
 				j++;
 			while (str[j] && str[j] == c)
 				j++;
+			printf("here %c\n", str[j]);
 			word++;
 		}
 	}

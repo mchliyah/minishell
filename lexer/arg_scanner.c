@@ -13,22 +13,22 @@
 
 #include "../includes/minishell.h"
 
-int	check_close_q_arg(t_token *token, int *a, int *i)
+int	check_close_q_arg(t_token *token, int *i)
 {
-	while (token->args[*a][*i])
+	while (token->arg->content[*i])
 	{
-		if (token->args[*a][*i] == SINGLE_QUOTE)
+		if (token->arg->content[*i] == SINGLE_QUOTE)
 			return (true);
 		(*i)++;
 	}
 	return (false);
 }
 
-int	check_close_sq_arg(t_token *token, int *a, int *i)
+int	check_close_sq_arg(t_token *token, int *i)
 {
-	while (token->args[*a][*i])
+	while (token->arg->content[*i])
 	{
-		if (token->args[*a][*i] == R_DOUBLE_QUOTE)
+		if (token->arg->content[*i] == R_DOUBLE_QUOTE)
 			return (true);
 		(*i)++;
 	}
@@ -43,24 +43,24 @@ t_token	*scan_args(t_token *token, t_env *env)
 
 	a = 0;
 	i = 0;
-	while (token->args[a])
+	while (token->arg->next)
 	{
 		i = 0;
-		while (token->args[a][i])
+		while (token->arg->content[i])
 		{
-			if (token->args[a][i] == SINGLE_QUOTE)
+			if (token->arg->content[i] == SINGLE_QUOTE)
 			{
 				i++;
-				if (!check_close_q_arg(token, &a, &i))
+				if (!check_close_q_arg(token, &i))
 				{
 					ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
 					return (NULL);
 				}
 			}
-			else if (token->args[a][i] == L_DOUBLE_QUOTE)
+			else if (token->arg->content[i] == L_DOUBLE_QUOTE)
 			{
 				i++;
-				if (!check_close_sq_arg(token, &a, &i))
+				if (!check_close_sq_arg(token, &i))
 				{
 					ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
 					return (NULL);
@@ -68,7 +68,7 @@ t_token	*scan_args(t_token *token, t_env *env)
 			}
 			i++;
 		}
-		a++;
+		token->arg = token->arg->next;
 	}
 	token = remove_quoted_args(token, env);
 	return (token);

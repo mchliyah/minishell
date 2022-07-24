@@ -46,20 +46,23 @@ void	echo(t_list *cmd)
 
 	i = 0;
 	del = 1;
-	if (cmd->content->args[i])
+	if (cmd->content->arg->content)
 	{
-		while (!empty(cmd->content->args[i]) && check_arg(cmd->content->args[i]))
+		while (!empty(cmd->content->arg->content)
+			&& check_arg(cmd->content->arg->content))
+		{
+			cmd->content->arg = cmd->content->arg->next;
 			i++;
+		}
 		if (i != 0)
 			del = 0;
 		//printf("----- here in echo fun----\n");
-		while (cmd->content->args[i])
+		while (cmd->content->arg->content)
 		{
-			if (!empty(cmd->content->args[i]))
-				printf("%s", cmd->content->args[i]);
-			if (cmd->content->args[i + 1])
+			if (!empty(cmd->content->arg->content))
+				printf("%s", cmd->content->arg->content);
+			if (cmd->content->arg->next->content)
 				printf(" |");
-			i++;
 		}
 		//printf("----- here in echo fun----");
 	}

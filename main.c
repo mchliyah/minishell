@@ -31,14 +31,14 @@ void	to_free(t_pipe_line *pipeline)
 	}
 	if (pipeline->right)
 	{
-		free(pipeline->right->content->args);
+		free(pipeline->right->content->arg);
 		free(pipeline->right->content->content);
 		free(pipeline->right->content);
 		free(pipeline->right);
 	}
 	if (pipeline->left)
 	{
-		free(pipeline->left->content->args);
+		free(pipeline->left->content->arg);
 		free(pipeline->left->content->content);
 		free(pipeline->left->content);
 		free(pipeline->left);
@@ -70,9 +70,9 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			add_history(str_rln);
-			if (generate_token(str_rln, pipeline, env) != 1) {
+			if (generate_token(str_rln, pipeline, env) != 1)
+			{
 				exec_cmd(pipeline, env);
-				// printf("%p\n", pipeli);
 				to_free(pipeline);
 			}
 		}

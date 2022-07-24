@@ -111,15 +111,16 @@ t_token	*remove_quoted_args(t_token *token, t_env *env)
 	int	a;
 
 	a = 0;
-	while (token->args[a])
+	while (token->arg->next)
 	{
-		if (is_there_quote(token->args[a]))
-			token->args[a] = rm_quote(token->args[a], env);
-		else if (is_there_squote(token->args[a]))
-			token->args[a] = rm_squote(token->args[a]);
-		else if (check_for_variables(token->args[a]))
-			token->args[a] = get_variable(token->args[a], env);
-		a++;
+		if (is_there_quote(token->arg->content))
+			token->arg->content = rm_quote(token->arg->content, env);
+		else if (is_there_squote(token->arg->content))
+			token->arg->content = rm_squote(token->arg->content);
+		else if (check_for_variables(token->arg->content))
+			token->arg->content = get_variable(token->arg->content, env);
+		printf("*** %s\n", token->arg->content);
+		token->arg = token->arg->next;
 	}
 	return (token);
 }

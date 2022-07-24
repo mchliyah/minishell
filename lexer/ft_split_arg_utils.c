@@ -23,7 +23,8 @@ int	get_inside_squote(char const *s, char **str, int i, size_t *k, char c, int j
 	{
 		str[*k] = ft_substr(s, j, i - j + 1);
 		(*k)++;
-		i++;
+		if (s[i])
+			i++;
 	}
 	return (i);
 }
@@ -35,11 +36,13 @@ int	get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j)
 	{
 		i++;
 	}
-	if (s[i] == R_DOUBLE_QUOTE || s[i] == '0')
+	if (s[i] == R_DOUBLE_QUOTE || s[i] == '\0')
 	{
 		str[*k] = ft_substr(s, j, i - j + 1);
+		printf("%s\n", str[*k]);
 		(*k)++;
-		i++;
+		if (s[i])
+			i++;
 	}
 	return (i);
 }
@@ -52,6 +55,7 @@ int	get_words(char const *s, char **str, int i, size_t *k, char c, int j)
 		{
 			str[*k] = ft_substr(s, j, i - j + 1);
 			(*k)++;
+			j = i + 2;
 		}
 		i++;
 	}
