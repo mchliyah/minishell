@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 22:51:06 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/23 21:59:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 	else if (!strcmp(p_line->left->content->content, "exit"))
 		exit_cmd(p_line);
 	else
+	{
 		if (!check_path(env, "PATH"))
 			std_exec(p_line->left, envp);
+		else
+			printf("~minishell~: %s: No such file or directory\n", p_line->left->content->content);
+	}
 }
