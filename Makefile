@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/25 03:01:05 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/25 19:02:48 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ FILES =	main.c\
 		builtins/cd.c\
 		builtins/pwd.c\
 		builtins/exit.c\
-		builtins/unset.c
+		builtins/unset.c\
+		builtins/array_args.c\
+		builtins/init.c
 
 #!########################
 

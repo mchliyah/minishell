@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 00:44:20 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 19:13:32 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,22 @@ void	echo(t_list *cmd)
 	i = 1;
 	del = 1;
 	args = arr_arg(cmd);
-	if (cmd->content->arg->content)
+	if (cmd->content->arg)
 	{
 		while (!empty(args[i])
 			&& check_arg(args[i]))
 			i++;
-		}
-		if (i != 1)
-			del = 0;
-		while (args[i])
-		{
-			if (!empty(args[i]))
-				printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-			i++;
-		//printf("----- here in echo fun----\n");
-		while (cmd->content->arg->content)
-		{
-			if (!empty(cmd->content->arg->content))
-				printf("%s", cmd->content->arg->content);
-			if (cmd->content->arg->next->content)
-				printf(" |");
-		}
+	}
+	if (i != 1)
+		del = 0;
+	while (args[i])
+	{
+		if (!empty(args[i]))
+			printf("%s", args[i++]);
+		if (args[i])
+			printf(" ");
 	}
 	if (del)
 		printf("\n");
+	free (args);
 }

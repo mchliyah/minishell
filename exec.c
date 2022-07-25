@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 03:26:07 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 19:04:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,33 +44,6 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-char	**arr_arg(t_list *cmd)
-{
-	char	**args;
-	t_arg	*track;
-	t_arg	*track1;
-	int		i;
-
-	i = 0;
-	track = cmd->content->arg;
-	while (track)
-	{
-		track = track->next;
-		i++;
-	}
-	args = malloc(sizeof(char *) * (i + 2));
-	args[0] = cmd->content->content;
-	i = 1;
-	track1 = cmd->content->arg;
-	while (track1)
-	{
-		args[i++] = track1->content;
-		track1 = track1->next;
-	}
-	args[i] = NULL;
-	return (args);
-}
-
 void	std_exec(t_list *cmd, char **env)
 {
 	int		pid;
@@ -97,7 +70,7 @@ void	std_exec(t_list *cmd, char **env)
 		ft_putstr_fd(cmd->content->content, 2);
 		ft_putstr_fd(" : command not found\n", 2);
 	}
-	waitpid(pid, 0, 0);
+	wait(NULL);
 }
 
 int	check_path(t_env *env, char *key)
@@ -111,11 +84,9 @@ int	check_path(t_env *env, char *key)
 	return (1);
 }
 
-void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
+void	exec_cmd(t_pipe_line *p_line, t_env *env, t_env *exp, char **envp)
 {
-	char	**args;
-
-	(void)env;
+	(void)exp;
 	if (!strcmp(p_line->left->content->content, "echo"))
 		echo(p_line->left);
 	else if (!strcmp(p_line->left->content->content, "env"))
@@ -126,10 +97,7 @@ void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 		|| !strcmp(p_line->left->content->content, "PWD"))
 		pwd_cmd(env);
 	else if (!strcmp(p_line->left->content->content, "unset"))
-	{
-		args = arr_arg(p_line->left);
-		env = unset_cmd(env, args);
-	}
+		env = unset_cmd(env, p_line->left);
 	else if (!strcmp(p_line->left->content->content, "export"))
 		printf("dzt mn han :)\n");
 	else if (!strcmp(p_line->left->content->content, "exit"))

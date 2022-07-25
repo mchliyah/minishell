@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/24 22:56:56 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 19:00:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	pipeline = malloc(sizeof(t_pipe_line));
 	pipeline->exit = 0;
-	env = env_init(envp);
-	exp = env_init(envp);
+	env = get_env(envp);
+	exp = get_env(envp);
 	while (!pipeline->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 			add_history(str_rln);
 			if (generate_token(str_rln, pipeline, env) != 1)
 			{
-				exec_cmd(pipeline, env, envp);
+				exec_cmd(pipeline, env, exp, envp);
 				to_free(pipeline);
 			}
 		}
