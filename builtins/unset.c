@@ -6,21 +6,23 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 00:37:46 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 18:55:59 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*unset_cmd(t_env *env, char **args)
+t_env	*unset_cmd(t_env *env, t_list *cmd)
 {
 	t_env	*prev;
 	t_env	*to_f;
+	char	**args;
 	int		i;
 
 	prev = env;
 	to_f = NULL;
 	i = 1;
+	args = arr_arg(cmd);
 	while (args[i])
 	{
 		if (!ft_strncmp(env->pair->key, args[i], ft_strlen(args[i])))
@@ -48,5 +50,6 @@ t_env	*unset_cmd(t_env *env, char **args)
 		}
 		i++;
 	}
+	free(args);
 	return (env);
 }
