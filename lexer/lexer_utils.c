@@ -95,11 +95,6 @@ char	*get_inside_quotes(t_lexer **it)
 
 char	*check_for_args(t_lexer **lex)
 {
-	if ((*lex)->c == SPACE)
-	{
-		while ((*lex)->c == SPACE)
-			*lex = advance(*lex);
-	}
 	if ((*lex)->c == SINGLE_QUOTE)
 		return (get_quote_things(lex));
 	else if ((*lex)->c == R_DOUBLE_QUOTE)
@@ -116,6 +111,13 @@ t_arg	*get_args(t_lexer **lex)
 	opt = NULL;
 	while ((*lex)->c)
 	{
+		if ((*lex)->c == SPACE)
+		{
+			while ((*lex)->c == SPACE)
+				*lex = advance(*lex);
+			if ((*lex)->c == EOS)
+				return (NULL);
+		}
 		s = check_for_args(lex);
 		if (!opt)
 			opt = list_new(s);

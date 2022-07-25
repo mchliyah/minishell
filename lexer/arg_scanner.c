@@ -13,22 +13,22 @@
 
 #include "../includes/minishell.h"
 
-int	check_close_q_arg(t_token *token, int *i)
+int	check_close_q_arg(t_arg *token, int *i)
 {
-	while (token->arg->content[*i])
+	while (token->content[*i])
 	{
-		if (token->arg->content[*i] == SINGLE_QUOTE)
+		if (token->content[*i] == SINGLE_QUOTE)
 			return (true);
 		(*i)++;
 	}
 	return (false);
 }
 
-int	check_close_sq_arg(t_token *token, int *i)
+int	check_close_sq_arg(t_arg *token, int *i)
 {
-	while (token->arg->content[*i])
+	while (token->content[*i])
 	{
-		if (token->arg->content[*i] == R_DOUBLE_QUOTE)
+		if (token->content[*i] == R_DOUBLE_QUOTE)
 			return (true);
 		(*i)++;
 	}
@@ -36,19 +36,19 @@ int	check_close_sq_arg(t_token *token, int *i)
 }
 
 // !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
-t_token	*scan_args(t_token *token, t_env *env)
+t_arg	*scan_args(t_arg *arg, t_env *env)
 {
-	int	i;
-	int	a;
+	t_arg	*token;
+	int		i;
 
-	a = 0;
 	i = 0;
-	while (token->arg->next)
+	token = arg;
+	while (token)
 	{
 		i = 0;
-		while (token->arg->content[i])
+		while (token->content[i])
 		{
-			if (token->arg->content[i] == SINGLE_QUOTE)
+			if (token->content[i] == SINGLE_QUOTE)
 			{
 				i++;
 				if (!check_close_q_arg(token, &i))
@@ -57,7 +57,7 @@ t_token	*scan_args(t_token *token, t_env *env)
 					return (NULL);
 				}
 			}
-			else if (token->arg->content[i] == L_DOUBLE_QUOTE)
+			else if (token->content[i] == L_DOUBLE_QUOTE)
 			{
 				i++;
 				if (!check_close_sq_arg(token, &i))
@@ -68,8 +68,9 @@ t_token	*scan_args(t_token *token, t_env *env)
 			}
 			i++;
 		}
-		token->arg = token->arg->next;
+		token = token->next;
 	}
-	token = remove_quoted_args(token, env);
-	return (token);
+	token = arg;
+	arg = remove_quoted_args(token, env);
+	return (arg);
 }

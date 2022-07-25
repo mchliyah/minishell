@@ -114,8 +114,6 @@ int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
-			// printf("-- %s\n", token->args[0]);
-		// printf("%s    arg %s \n", token->content, token->args[0]);
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);

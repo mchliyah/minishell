@@ -57,33 +57,14 @@ bool	check_for_variables(char *str)
 
 char	*rm_quote(char *arg, t_env *env)
 {
-	char	*str;
 	int		i;
 
 	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
-			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
-			return (get_variable(arg, env));
-		else
-			return (get_simple_word(arg, env));
-		i++;
-	}
-	return (NULL);
-	str = ft_strdup("");
-	if (!str)
-		return (NULL);
-	if (
-		(arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
-			&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
-	)
-		str = ft_strjoin(str, get_variable(arg, env));
+	if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
+		&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
+		return (get_variable(arg, env));
 	else
-		str = ft_strjoin(str, get_simple_word(arg, env));
-	free(arg);
-	arg = NULL;
-	return (str);
+		return (get_simple_word(arg, env));
 }
 
 char	*rm_squote(char *arg)
@@ -98,8 +79,11 @@ char	*rm_squote(char *arg)
 	str = ft_split(arg, '\'');
 	free(arg);
 	arg = NULL;
+	HERE;
 	if (!str)
+	{
 		return (NULL);
+	}
 	ptr = ft_strdup("");
 	if (!ptr)
 		printf("a Null returned in rm squote\n");
@@ -116,21 +100,20 @@ char	*rm_squote(char *arg)
 	return (ptr);
 }
 
-t_token	*remove_quoted_args(t_token *token, t_env *env)
+t_arg	*remove_quoted_args(t_arg *token, t_env *env)
 {
-	int	a;
+	t_arg	*arg;
 
-	a = 0;
-	while (token->arg->next)
+	arg = token;
+	while (token)
 	{
-		if (is_there_quote(token->arg->content))
-			token->arg->content = rm_quote(token->arg->content, env);
-		else if (is_there_squote(token->arg->content))
-			token->arg->content = rm_squote(token->arg->content);
-		else if (check_for_variables(token->arg->content))
-			token->arg->content = get_variable(token->arg->content, env);
-		printf("*** %s\n", token->arg->content);
-		token->arg = token->arg->next;
+		if (is_there_quote(token->content))
+			token->content = rm_quote(token->content, env);
+		else if (is_there_squote(token->content))
+			token->content = rm_squote(token->content);
+		else if (check_for_variables(token->content))
+			token->content = get_variable(token->content, env);
+		token = token->next;
 	}
-	return (token);
+	return (arg);
 }

@@ -5,15 +5,18 @@ char	*get_quote_things(t_lexer **this)
 {
 	char	*s;
 
-	s = ft_strdup(""); // i found substr i think you ment strdup
+	s = ft_strdup("");
 	if (!s)
 		return (s);
 	while ((*this)->c)
 	{
 		s = join_string(s, (*this)->c);
 		*this = advance(*this);
-		if ((*this)->c == SINGLE_QUOTE || (*this)->c == EOS)
+		if ((*this)->c == SINGLE_QUOTE)
+		{
+			s = join_string(s, (*this)->c);
 			break ;
+		}
 	}
 	return (s);
 }
@@ -22,15 +25,18 @@ char	*get_s_quote_things(t_lexer **this)
 {
 	char	*s;
 
-	s = ft_strdup(""); // i found substr i think you ment strdup
+	s = ft_strdup("");
 	if (!s)
 		return (s);
 	while ((*this)->c)
 	{
 		s = join_string(s, (*this)->c);
 		*this = advance(*this);
-		if ((*this)->c == L_DOUBLE_QUOTE || (*this)->c == EOS)
+		if ((*this)->c == L_DOUBLE_QUOTE)
+		{
+			s = join_string(s, (*this)->c);
 			break ;
+		}
 	}
 	return (s);
 }

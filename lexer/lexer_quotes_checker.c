@@ -102,6 +102,7 @@ t_token	*get_substr_single_quotes(t_token *token)
  */
 t_token	*scan_errs(t_token *token, t_env *env)
 {
+	t_arg	*tmp;
 	int		q;
 	int		sq;
 	int		i;
@@ -121,10 +122,11 @@ t_token	*scan_errs(t_token *token, t_env *env)
 				return (NULL);
 		i++;
 	}
-	if (token->arg->content)
+	tmp = token->arg;
+	if (tmp)
 	{
-		token = scan_args(token, env);
-		if (!token)
+		token->arg = scan_args(tmp, env);
+		if (!token->arg)
 			return (NULL);
 	}
 	if (q != 0 || (check_for_variables(token->content)
