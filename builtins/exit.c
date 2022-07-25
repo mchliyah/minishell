@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/22 22:45:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 02:59:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,23 @@ int	str_isnum(char *str)
 
 void	exit_cmd(t_pipe_line *p_line)
 {
-	char	*args0;
+	t_arg	*args;
 
-	args0 = p_line->left->content->args[0];
+	args = p_line->left->content->arg;
 	p_line->exit = 1;
-	if (args0 && p_line->left->content->args[1])
+	if (args && args->next)
 	{
 		printf("salkfjdlskfj\n");
 		g_status = 1;
 		ft_putstr_fd("minishell: exit: arguments error", 2);
 	}
-	else if (args0 && !str_isnum(args0))
+	else if (args && !str_isnum(args->content))
 	{
 		g_status = 255;
 		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args0, 2);
+		ft_putstr_fd(args->content, 2);
 		ft_putendl_fd(": put numeric arg", 2);
 	}
-	else if (args0)
-		g_status = ft_atoi(args0);
+	else if (args)
+		g_status = ft_atoi(args->content);
 }

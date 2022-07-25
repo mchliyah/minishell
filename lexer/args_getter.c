@@ -5,7 +5,7 @@ char	*get_quote_things(t_lexer **this)
 {
 	char	*s;
 
-	s = ft_substr("");
+	s = ft_strdup(""); // i found substr i think you ment strdup
 	if (!s)
 		return (s);
 	while ((*this)->c)
@@ -22,7 +22,7 @@ char	*get_s_quote_things(t_lexer **this)
 {
 	char	*s;
 
-	s = ft_substr("");
+	s = ft_strdup(""); // i found substr i think you ment strdup
 	if (!s)
 		return (s);
 	while ((*this)->c)
@@ -39,7 +39,7 @@ char	*get_s_word(t_lexer **this)
 {
 	char	*s;
 
-	s = ft_substr("");
+	s = ft_strdup("");
 	if (!s)
 		return (s);
 	while ((*this)->c)

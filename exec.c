@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 00:38:47 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/25 03:26:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,25 @@ char	**get_cmd_path(char **env)
 char	**arr_arg(t_list *cmd)
 {
 	char	**args;
+	t_arg	*track;
+	t_arg	*track1;
 	int		i;
 
 	i = 0;
-	while (cmd->content->arg->content)
+	track = cmd->content->arg;
+	while (track)
 	{
-		cmd->content->arg = cmd->content->arg->next;
+		track = track->next;
 		i++;
 	}
-	args = malloc(sizeof(char *) * i + 2);
+	args = malloc(sizeof(char *) * (i + 2));
 	args[0] = cmd->content->content;
 	i = 1;
-	while (cmd->content->arg->content)
+	track1 = cmd->content->arg;
+	while (track1)
 	{
-		args[i++] = cmd->content->arg->content;
-		cmd->content->arg = cmd->content->arg->next;
+		args[i++] = track1->content;
+		track1 = track1->next;
 	}
 	args[i] = NULL;
 	return (args);
@@ -109,7 +113,7 @@ int	check_path(t_env *env, char *key)
 
 void	exec_cmd(t_pipe_line *p_line, t_env *env, char **envp)
 {
-	char **args;
+	char	**args;
 
 	(void)env;
 	if (!strcmp(p_line->left->content->content, "echo"))

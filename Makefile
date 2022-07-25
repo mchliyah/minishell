@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/24 22:51:34 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/25 03:01:05 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ FILES =	main.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
 		lexer/lexer_quotes_checker.c\
+		lexer/args_getter.c\
+		lexer/arg_lst_fun.c\
 		lexer/expending.c\
 		lexer/expending_utils.c\
 		lexer/arg_scanner.c\
