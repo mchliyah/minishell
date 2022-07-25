@@ -47,15 +47,6 @@ char	*join_string(char *ptr, char c)
 	return (j_str);
 }
 
-//char	has_next(t_lexer *it)
-//{
-//	t_lexer	*this;
-//
-//	this = it;
-//	this->i++;
-//	this->c = this->content[this->i];
-//	return (this->c);
-//}
 /*
  *   -------------------------------------
  * 	 function for member of get_char() !!
@@ -78,16 +69,40 @@ char	*get_inside_quotes(t_lexer **it)
 	{
 		ptr = join_string(ptr, (*it)->c);
 		tmp = (*it)->c;
-		if (tmp == SINGLE_QUOTE || tmp == L_DOUBLE_QUOTE)
+		if (tmp == L_DOUBLE_QUOTE)
 			q++;
 		*it = advance(*it);
-		if ((tmp == SINGLE_QUOTE || tmp == L_DOUBLE_QUOTE)
+		if (tmp == L_DOUBLE_QUOTE
 			&& ((*it)->c == SPACE || (*it)->c == LESS
-				|| (*it)->c == EPIPE || (*it)->c == GREATER))
+				|| (*it)->c == EPIPE || (*it)->c == GREATER
+				|| (*it)->c == SINGLE_QUOTE) && (q % 2 == 0 || q == 0))
 			break ;
-		else if ((q % 2 == 0 || q == 0) && ((*it)->c == SPACE
-				|| (*it)->c == LESS || (*it)->c == EPIPE
-				|| (*it)->c == GREATER))
+	}
+	return (ptr);
+}
+
+char	*get_inside_s_quotes(t_lexer **it)
+{
+	int		q;
+	char	tmp;
+	char	*ptr;
+
+	ptr = NULL;
+	ptr = ft_strdup("");
+	if (!ptr)
+		return (NULL);
+	q = 0;
+	while ((*it)->c != '\0')
+	{
+		ptr = join_string(ptr, (*it)->c);
+		tmp = (*it)->c;
+		if (tmp == SINGLE_QUOTE)
+			q++;
+		*it = advance(*it);
+		if (tmp == SINGLE_QUOTE
+			&& ((*it)->c == SPACE || (*it)->c == LESS
+				|| (*it)->c == EPIPE || (*it)->c == GREATER)
+			&& (q % 2 == 0 || q == 0))
 			break ;
 	}
 	return (ptr);
@@ -137,8 +152,10 @@ t_token	*get_char(t_lexer **lex)
 	str = NULL;
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
-	if ((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
+	if ((*lex)->c == L_DOUBLE_QUOTE)
 		ptr = get_inside_quotes(lex);
+	else if ((*lex)->c == SINGLE_QUOTE)
+		ptr = get_inside_s_quotes(lex);
 	else
 	{
 		ptr = ft_strdup("");
@@ -154,7 +171,10 @@ t_token	*get_char(t_lexer **lex)
 			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
 				&& (*lex)->c != '0')
 			{
-				tmp = get_inside_quotes(lex);
+				if ((*lex)->c == L_DOUBLE_QUOTE)
+					tmp = get_inside_quotes(lex);
+				else
+					tmp = get_inside_s_quotes(lex);
 				ptr = ft_strjoin(ptr, tmp);
 				free(tmp);
 				break ;

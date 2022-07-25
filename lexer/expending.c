@@ -55,16 +55,16 @@ bool	check_for_variables(char *str)
 	return (false);
 }
 
-char	*rm_quote(char *arg, t_env *env)
+char	*rm_quote(char *arg, t_env *env, int state)
 {
 	int		i;
 
 	i = 0;
 	if (arg[i] == R_DOUBLE_QUOTE && arg[i + 1] == '$'
 		&& (ft_isalnum(arg[i + 2]) || arg[i + 2] == '?'))
-		return (get_variable(arg, env));
+		return (get_variable(arg, env, state));
 	else
-		return (get_simple_word(arg, env));
+		return (get_simple_word(arg, env, state));
 }
 
 char	*rm_squote(char *arg)
@@ -79,7 +79,6 @@ char	*rm_squote(char *arg)
 	str = ft_split(arg, '\'');
 	free(arg);
 	arg = NULL;
-	HERE;
 	if (!str)
 	{
 		return (NULL);
@@ -108,11 +107,11 @@ t_arg	*remove_quoted_args(t_arg *token, t_env *env)
 	while (token)
 	{
 		if (is_there_quote(token->content))
-			token->content = rm_quote(token->content, env);
+			token->content = rm_quote(token->content, env, 1);
 		else if (is_there_squote(token->content))
 			token->content = rm_squote(token->content);
 		else if (check_for_variables(token->content))
-			token->content = get_variable(token->content, env);
+			token->content = get_variable(token->content, env, 1);
 		token = token->next;
 	}
 	return (arg);

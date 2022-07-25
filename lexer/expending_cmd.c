@@ -14,6 +14,8 @@
 
 t_token	*scan_vars(t_token *token, t_env *env)
 {
-	token->content = rm_quote(token->content, env);
+	token->content = rm_quote(token->content, env, 0);
+	if (token->content == NULL)
+		return (NULL);
 	return (token);
 }
