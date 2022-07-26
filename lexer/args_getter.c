@@ -43,6 +43,7 @@ char	*get_s_quote_things(t_lexer **this)
 
 char	*get_s_word(t_lexer **this)
 {
+	char	tmp;
 	char	*s;
 
 	s = ft_strdup("");
@@ -52,11 +53,16 @@ char	*get_s_word(t_lexer **this)
 	{
 		s = join_string(s, (*this)->c);
 		*this = advance(*this);
-		if ((*this)->c == L_DOUBLE_QUOTE || (*this)->c == SINGLE_QUOTE
-			|| (*this)->c == EPIPE || (*this)->c == REDIRECT_IN
-			|| (*this)->c == REDIRECT_OUT || (*this)->c == SPACE
-			|| (*this)->c == EOS)
+		tmp = (*this)->content[(*this)->i + 1];
+		if (((*this)->c == L_DOUBLE_QUOTE && (tmp == SPACE || tmp == EOS))
+			|| (*this)->c == SINGLE_QUOTE || (*this)->c == EPIPE
+			|| (*this)->c == REDIRECT_IN || (*this)->c == REDIRECT_OUT
+			|| (*this)->c == SPACE || (*this)->c == EOS)
+		{
+			if (((*this)->c == L_DOUBLE_QUOTE && (tmp == SPACE || tmp == EOS)))
+				s = join_string(s, (*this)->c);
 			break ;
+		}
 	}
 	return (s);
 }

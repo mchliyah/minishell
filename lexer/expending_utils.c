@@ -14,6 +14,7 @@
 
 char	*get_simple_word(char *arg, t_env *env, int state)
 {
+	char	*sub;
 	char	*ptr;
 	int		i;
 	int		j;
@@ -35,6 +36,23 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 				free(tmp[i]);
 				free(tmp);
 				return (ptr);
+			}
+			if (tmp[i][j] == '$' && (ft_isalnum(tmp[i][j + 1]) || tmp[i][j + 1] == '_'))
+			{
+				if (ft_isdigit(tmp[i][j + 1]))
+				{
+					sub = ft_substr(tmp[i], j, 2);
+					ptr = get_variable(sub, env, state);
+				}
+				else {
+					while (tmp[i][j])
+					{
+						if (tmp[i][j] == '$' || tmp[i][j] == L_DOUBLE_QUOTE
+							|| tmp[i][j] == SINGLE_QUOTE)
+							break ;
+						j++;
+					}
+				}
 			}
 			ptr = join_string(ptr, tmp[i][j]);
 			j++;
@@ -132,6 +150,8 @@ char	*expend(char *str, t_env *envi, int state)
  	? the variable stops when he found space or anything else
  	? not letter or underscore (-) or number
  	? means that underscore and number
+ 	! state 1 for args
+ 	! state 0 for cmd
  */
 char	*get_variable(char *arg, t_env *env, int state)
 {
@@ -145,6 +165,7 @@ char	*get_variable(char *arg, t_env *env, int state)
 		return (NULL);
 	while (str[i])
 	{
+//		printf("str==> %s\n", str[i]);
 		ptr = expend(str[i], env, state);
 		free(str[i]);
 		str[i] = NULL;

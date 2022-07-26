@@ -146,10 +146,8 @@ t_arg	*get_args(t_lexer **lex)
 t_token	*get_char(t_lexer **lex)
 {
 	char	*ptr;
-	char	**str;
 	char	*tmp;
 
-	str = NULL;
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
 	if ((*lex)->c == L_DOUBLE_QUOTE)
