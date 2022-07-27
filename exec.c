@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:04:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:24:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	exec_cmd(t_pipe_line *p_line, t_env *env, t_env *exp, char **envp)
 	else if (!strcmp(p_line->left->content->content, "unset"))
 		env = unset_cmd(env, p_line->left);
 	else if (!strcmp(p_line->left->content->content, "export"))
-		printf("dzt mn han :)\n");
+		export_cmd(exp, p_line->left);
 	else if (!strcmp(p_line->left->content->content, "exit"))
 		exit_cmd(p_line);
 	else

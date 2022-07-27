@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 12:33:10 by mchliyah          #+#    #+#              #
-#    Updated: 2022/06/17 00:17:51 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/27 20:33:49 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ FILES= 							\
 	./ft_lstiter.c				\
 	./ft_lstlast.c				\
 	./ft_lstnew.c				\
-	./ft_lstsize.c		
+	./ft_lstsize.c				\
+	./ft_strcmp.c
 
 OBJECTS = $(FILES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/25 19:00:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:35:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int ac, char **av, char **envp)
 	pipeline->exit = 0;
 	env = get_env(envp);
 	exp = get_env(envp);
+	exp = sort_exp(exp);
 	while (!pipeline->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");

@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/25 19:02:48 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/27 18:53:49 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = #-Wall -Werror -Wextra 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra
 
 RM = rm -f
 #########################
@@ -46,7 +46,8 @@ FILES =	main.c\
 		builtins/exit.c\
 		builtins/unset.c\
 		builtins/array_args.c\
-		builtins/init.c
+		builtins/init.c\
+		builtins/export.c
 
 #!########################
 

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:08:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:36:15 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@ t_env	*unset_cmd(t_env *env, t_list *cmd);
 char	**arr_arg(t_list *cmd);
 t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
+void	export_cmd(t_env *exp, t_list *c_line);
+t_env	*sort_exp(t_env *exp);
 #endif

@@ -6,33 +6,67 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/23 12:13:32 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:43:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+t_env	*sort_exp(t_env *exp)
+{
+	t_env	*tmp;
+	t_env	*tmp1;
+	t_pair	*pair;
+
+	if (exp)
+	{
+		tmp = exp;
+		while (tmp->next)
+		{
+			tmp1 = tmp->next;
+			while (tmp1)
+			{
+				if (ft_strcmp(tmp->pair->key, tmp1->pair->key) > 0)
+				{
+					pair = tmp->pair;
+					tmp->pair = tmp1->pair;
+					tmp1->pair = pair;
+				}
+				tmp1 = tmp1->next;
+			}
+			tmp = tmp->next;
+		}
+	}
+	return (exp);
+}
+
 static void	print(t_env *exp)
 {
-	while (export)
+	while (exp)
 	{
-		
+		printf("declare -x %s=\"%s\"\n", exp->pair->key, exp->pair->value);
+		exp = exp->next;
 	}
 }
 
 void	export_cmd(t_env *exp, t_list *c_line)
 {
-	if (!c_line->content->args[0])
+	char	**args;
+
+	if (!c_line->content->arg)
 	{
 		print(exp);
-		return (0);
+		return ;
 	}
 	else
 	{
 		while (exp->next)
 			exp = exp->next;
 		exp->next = malloc(sizeof(t_env));
-		exp->next->pair->key = ft_strdup(c_line->content->content);
-		exp->next->pair->value = ft_strdup(c_line->content->args[0]);
+		exp->next->pair = malloc(sizeof(t_pair));
+		args = ft_split(c_line->content->arg->content, '=');
+		exp->next->pair->key = ft_strdup(args[0]);
+		exp->next->pair->value = ft_strdup(args[1]);
+		exp->next->next = NULL;
 	}
 }
