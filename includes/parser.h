@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/19 14:12:42 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 11:44:48 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_files
 	struct s_redirection	*next;
 }	t_files;
 
-t_pipe_line	*parse_to_tree(t_pipe_line *pipeline, t_list *lst_token);
+void		parse_to_tree(t_pipe_line **pipeline, t_list *lst_token);
 t_list		*linked_token(t_list	*lst_token, t_token *token);
 int			pipe_exist(t_list *lst);
 void		error_check(t_list *lst_token);

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:05:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 12:43:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	env_cmd(t_env *env)
 	if (!env)
 		return ;
 	while (env)
-		if (printf("%s=%s\n", env->pair->key, env->pair->value))
-			env = env->next;
+	{
+		printf("%s=%s\n", env->pair->key, env->pair->value);
+		env = env->next;
+	}
 	g_status = 0;
 }

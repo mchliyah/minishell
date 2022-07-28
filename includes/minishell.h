@@ -28,7 +28,9 @@ int g_status;
 // 	int	j;
 // }	t_fdinout;
 void	print_tokens(t_pipe_line *pipeline);
-int		generate_token(char *av, t_pipe_line *pipeline, t_env *env);
+int		generate_token(char *av, t_pipe_line **pipeline, t_env *env);
+void    sort_exp(t_env **exp);
+t_env	*get_env(char **envp);
 
 
 #endif
