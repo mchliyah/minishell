@@ -77,7 +77,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME) -fsanitize=address -g3
+	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME) #-fsanitize=address -g3
 	@$(CLEANLIBFT)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "

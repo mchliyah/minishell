@@ -103,6 +103,7 @@ int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
+//	t_list		*lst;
 
 	lexer = NULL;
 	lst_token = NULL;
@@ -114,11 +115,13 @@ int	generate_token(char *rln_str, t_pipe_line *pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
+		printf("%s\n", token->arg->content);
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
 		lst_token = linked_token(lst_token, token);
 	}
 	pipeline = parse_to_tree(pipeline, lst_token);
+	//print_tokens(pipeline);
 	return (EXIT_SUCCESS);
 }

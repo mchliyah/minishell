@@ -52,6 +52,7 @@ char	*get_s_word(t_lexer **this)
 	while ((*this)->c)
 	{
 		s = join_string(s, (*this)->c);
+		printf("s == %s\n", s);
 		*this = advance(*this);
 		tmp = (*this)->content[(*this)->i + 1];
 		if (((*this)->c == L_DOUBLE_QUOTE && (tmp == SPACE || tmp == EOS))
@@ -59,7 +60,7 @@ char	*get_s_word(t_lexer **this)
 			|| (*this)->c == REDIRECT_IN || (*this)->c == REDIRECT_OUT
 			|| (*this)->c == SPACE || (*this)->c == EOS)
 		{
-			if (((*this)->c == L_DOUBLE_QUOTE && (tmp == SPACE || tmp == EOS)))
+			if ((*this)->c == L_DOUBLE_QUOTE && tmp == EOS)
 				s = join_string(s, (*this)->c);
 			break ;
 		}

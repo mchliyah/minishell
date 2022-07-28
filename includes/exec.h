@@ -25,4 +25,5 @@ t_env	*unset_cmd(t_env *env, t_list *cmd);
 char	**arr_arg(t_list *cmd);
 t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
+int		iterator(t_pipe_line **pipe_line, t_env **env, t_env **exp, char **envp);
 #endif

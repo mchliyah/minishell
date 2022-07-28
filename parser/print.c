@@ -18,11 +18,14 @@ void	printing(t_list	*print)
 
 	while (print)
 	{
-		i = -1;
+		i = 0;
 		printf("   right cmd => %s\n", print->content->content);
-		if (print->content->arg->content)
-			while (print->content->arg->content[++i])
+		if (print->content->arg) {
+			while (print->content->arg) {
 				printf("arg[%d] => %s\n", i + 1, print->content->arg->content);
+				print->content->arg = print->content->arg->next;
+			}
+		}
 		print = print->next;
 	}
 }
@@ -31,19 +34,16 @@ void	print_tokens(t_pipe_line *pipeline)
 {
 	t_list	*print;
 
-	while (pipeline)
+	while (pipeline->left_p)
 	{
+		print = pipeline->right;
 		printf("\n_____  R PIPE____\n");
 		printf("            |\n");
-		print = pipeline->right;
 		printing(print);
-		if (pipeline->left)
-		{
-			print = pipeline->left;
-			printf("\n_____  L PIPE____\n");
-			printf("            |\n");
-			printing(print);
-		}
 		pipeline = pipeline->left_p;
 	}
+	printf("\n_____  L PIPE____\n");
+	printf("            |\n");
+	print = pipeline->left;
+	printing(print);
 }

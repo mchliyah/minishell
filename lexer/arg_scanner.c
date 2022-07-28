@@ -45,6 +45,7 @@ t_arg	*scan_args(t_arg *arg, t_env *env)
 	token = arg;
 	while (token)
 	{
+		printf("arg_token %s\n", token->content);
 		i = 0;
 		while (token->content[i])
 		{

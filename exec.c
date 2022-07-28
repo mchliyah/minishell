@@ -107,6 +107,7 @@ void	exec_cmd(t_pipe_line *p_line, t_env *env, t_env *exp, char **envp)
 		if (!check_path(env, "PATH"))
 			std_exec(p_line->left, envp);
 		else
-			printf("~minishell~: %s: No such file or directory\n", p_line->left->content->content);
+			printf("~minishell~: %s: No such file or directory\n",
+				p_line->left->content->content);
 	}
 }

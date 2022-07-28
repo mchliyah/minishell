@@ -41,7 +41,15 @@ enum
 
 typedef struct s_args
 {
+	enum
+	{
+		WORD,
+		ParameterExpansion
+	} e_arg;
 	char			*content;
+	int				type;
+	int				start;
+	int				end;
 	struct s_args	*next;
 	struct s_args	*prev;
 }	t_arg;
@@ -51,7 +59,7 @@ typedef struct s_token
 {
 	enum
 	{
-		WORD,
+		Word,
 		REDIRECT_IN,
 		REDIRECT_OUT,
 		DELIMITER,
