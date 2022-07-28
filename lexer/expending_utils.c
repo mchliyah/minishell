@@ -14,6 +14,7 @@
 
 char	*get_simple_word(char *arg, t_env *env, int state)
 {
+	int		start;
 	char	*sub;
 	char	*ptr;
 	int		i;
@@ -28,6 +29,7 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	while (tmp[i])
 	{
 		j = 0;
+		printf("tmp =>> %s\n", tmp[i]);
 		while (tmp[i][j])
 		{
 			if (tmp[i][j] == '$' && tmp[i + 1] == NULL)
@@ -44,13 +46,22 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 					sub = ft_substr(tmp[i], j, 2);
 					ptr = get_variable(sub, env, state);
 				}
-				else {
+				else
+				{
+					start = j;
 					while (tmp[i][j])
 					{
-						if (tmp[i][j] == '$' || tmp[i][j] == L_DOUBLE_QUOTE
-							|| tmp[i][j] == SINGLE_QUOTE)
-							break ;
 						j++;
+						if (((tmp[i][j] == '$' || tmp[i][j] == L_DOUBLE_QUOTE
+							|| tmp[i][j] == SINGLE_QUOTE)
+								|| (!ft_isalnum(tmp[i][j]))) && tmp[i][j] != '_')
+						{
+							sub = ft_substr(tmp[i], start, j - start);
+							printf("--%s\n", sub);
+							ptr = ft_strjoin(ptr, get_variable(sub, env, state));
+							free(sub);
+							start = j;
+						}
 					}
 				}
 			}
@@ -165,7 +176,6 @@ char	*get_variable(char *arg, t_env *env, int state)
 		return (NULL);
 	while (str[i])
 	{
-//		printf("str==> %s\n", str[i]);
 		ptr = expend(str[i], env, state);
 		free(str[i]);
 		str[i] = NULL;

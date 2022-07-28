@@ -52,10 +52,9 @@ char	*get_s_word(t_lexer **this)
 	while ((*this)->c)
 	{
 		s = join_string(s, (*this)->c);
-		printf("s == %s\n", s);
 		*this = advance(*this);
 		tmp = (*this)->content[(*this)->i + 1];
-		if (((*this)->c == L_DOUBLE_QUOTE && (tmp == SPACE || tmp == EOS))
+		if (((*this)->c == SPACE && (tmp == L_DOUBLE_QUOTE || tmp == EOS))
 			|| (*this)->c == SINGLE_QUOTE || (*this)->c == EPIPE
 			|| (*this)->c == REDIRECT_IN || (*this)->c == REDIRECT_OUT
 			|| (*this)->c == SPACE || (*this)->c == EOS)
