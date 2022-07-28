@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:04:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 12:42:18 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,30 +84,28 @@ int	check_path(t_env *env, char *key)
 	return (1);
 }
 
-void	exec_cmd(t_pipe_line *p_line, t_env *env, t_env *exp, char **envp)
+void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
 {
-	(void)exp;
-	if (!strcmp(p_line->left->content->content, "echo"))
-		echo(p_line->left);
-	else if (!strcmp(p_line->left->content->content, "env"))
-		env_cmd(env);
-	else if (!strcmp(p_line->left->content->content, "cd"))
-		cd_cmd(p_line->left, env);
-	else if (!strcmp(p_line->left->content->content, "pwd")
-		|| !strcmp(p_line->left->content->content, "PWD"))
+	if (!strcmp((*p_line)->left->content->content, "echo"))
+		echo((*p_line)->left);
+	else if (!strcmp((*p_line)->left->content->content, "env"))
+		env_cmd(*env);
+	else if (!strcmp((*p_line)->left->content->content, "cd"))
+		cd_cmd((*p_line)->left, (*env));
+	else if (!strcmp((*p_line)->left->content->content, "pwd")
+		|| !strcmp((*p_line)->left->content->content, "PWD"))
 		pwd_cmd(env);
-	else if (!strcmp(p_line->left->content->content, "unset"))
-		env = unset_cmd(env, p_line->left);
-	else if (!strcmp(p_line->left->content->content, "export"))
-		printf("dzt mn han :)\n");
-	else if (!strcmp(p_line->left->content->content, "exit"))
+	else if (!strcmp((*p_line)->left->content->content, "unset"))
+		unset_cmd(env, (*p_line)->left);
+	else if (!strcmp((*p_line)->left->content->content, "export"))
+		export_cmd(exp, (*p_line)->left);
+	else if (!strcmp((*p_line)->left->content->content, "exit"))
 		exit_cmd(p_line);
 	else
 	{
-		if (!check_path(env, "PATH"))
-			std_exec(p_line->left, envp);
+		if (!check_path((*env), "PATH"))
+			std_exec((*p_line)->left, envp);
 		else
-			printf("~minishell~: %s: No such file or directory\n",
-				p_line->left->content->content);
+			printf("~minishell~: %s: No such file or directory\n", (*p_line)->left->content->content);
 	}
 }

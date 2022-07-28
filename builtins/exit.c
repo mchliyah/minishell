@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 02:59:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 11:53:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	str_isnum(char *str)
 	return (1);
 }
 
-void	exit_cmd(t_pipe_line *p_line)
+void	exit_cmd(t_pipe_line **p_line)
 {
 	t_arg	*args;
 
-	args = p_line->left->content->arg;
-	p_line->exit = 1;
+	args = (*p_line)->left->content->arg;
+	(*p_line)->exit = 1;
 	if (args && args->next)
 	{
 		printf("salkfjdlskfj\n");
