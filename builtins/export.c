@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 12:30:03 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 22:04:54 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	sort_exp(t_env **exp)
 	}
 }
 
-static void	print(t_env *exp)
+void	print_exp(t_env *exp)
 {
 	while (exp)
 	{
@@ -48,24 +48,49 @@ static void	print(t_env *exp)
 	}
 }
 
+int	check_exp(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i + 1] && str[i] == '+' && str[i + 1] == '=')
+	}
+	
+}
+
+t_env 
+
 void	export_cmd(t_env **exp, t_list *c_line)
 {
 	char	**args;
+	int		i;
 
+	i = 1;
 	if (!c_line->content->arg)
 	{
-		print(*exp);
+		print_exp(*exp);
 		return ;
 	}
 	else
 	{
+		args = arr_arg(c_line);
+		// for (int i = 1;  args[i]; i++)
+		// 	printf("%s\n", args[i]);
 		while ((*exp)->next)
 			*exp = (*exp)->next;
+		while (args[i])
+		{
+			if (check_exp = )
+			i++;
+		}
+		*exp = add_elem();
 		(*exp)->next = malloc(sizeof(t_env));
 		(*exp)->next->pair = malloc(sizeof(t_pair));
-		args = ft_split(c_line->content->arg->content, '=');
 		(*exp)->next->pair->key = ft_strdup(args[0]);
 		(*exp)->next->pair->value = ft_strdup(args[1]);
 		(*exp)->next->next = NULL;
+		free (args);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 12:42:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 21:46:18 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,15 @@ void	std_exec(t_list *cmd, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		args = arr_arg(cmd);
 		if (access(cmd->content->content, X_OK) == 0)
 		{
-			args = arr_arg(cmd);
 			execve(cmd->content->content, args, env);
 		}
 		else
 		{
 			path = get_cmd_path(env);
 			cmand = get_cmd(path, cmd->content->content);
-			args = arr_arg(cmd);
 			execve(cmand, args, env);
 		}
 		ft_putstr_fd("minishell : ", 2);
@@ -73,15 +72,22 @@ void	std_exec(t_list *cmd, char **env)
 	wait(NULL);
 }
 
-int	check_path(t_env *env, char *key)
+void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
 {
+	int	path;
+
+	path = false;
 	while (env)
 	{
-		if (!strncmp(env->pair->key, key, ft_strlen(key)))
-			return (0);
+		if (!strncmp(env->pair->key, "PATH", ft_strlen(env->pair->key)))
+			path = true;
 		env = env->next;
 	}
-	return (1);
+	if (path)
+		std_exec(p_line->left, envp);
+	else
+		if (printf("~minishell~: %s", p_line->left->content->content))
+			printf(": No such file or directory\n");
 }
 
 void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
@@ -96,16 +102,14 @@ void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
 		|| !strcmp((*p_line)->left->content->content, "PWD"))
 		pwd_cmd(env);
 	else if (!strcmp((*p_line)->left->content->content, "unset"))
+	{
 		unset_cmd(env, (*p_line)->left);
+		unset_cmd(exp, (*p_line)->left);
+	}
 	else if (!strcmp((*p_line)->left->content->content, "export"))
 		export_cmd(exp, (*p_line)->left);
 	else if (!strcmp((*p_line)->left->content->content, "exit"))
 		exit_cmd(p_line);
 	else
-	{
-		if (!check_path((*env), "PATH"))
-			std_exec((*p_line)->left, envp);
-		else
-			printf("~minishell~: %s: No such file or directory\n", (*p_line)->left->content->content);
-	}
+		to_std(*env, envp, (*p_line));
 }

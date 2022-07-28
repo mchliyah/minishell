@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 14:22:01 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:43:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	parse_to_tree(t_pipe_line **pipeline, t_list *lst_token)
 	error_check(lst_token);
 	if (pipe_exist(lst_token))
 	{
-		HERE;
 		while (lst_token)
 		{
 			if (lst_token->content->type == PIPE)
