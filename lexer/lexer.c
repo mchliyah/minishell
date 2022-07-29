@@ -74,7 +74,8 @@ t_token	*get_token(t_lexer *lexer)
 	{
 		if (lexer->c == SPACE)
 			advance(lexer);
-		else if (ft_isprint(lexer->c))
+		else if (ft_isprint(lexer->c) && lexer->c != EPIPE
+			&& lexer->c != GREATER && lexer->c != LESS)
 			return (get_char(&lexer));
 		else if (lexer->c == EPIPE)
 			return (get_pipe(&lexer));

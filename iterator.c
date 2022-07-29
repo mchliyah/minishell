@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   iterator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/02 13:23:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 12:21:21 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
+/*   Updated: 2022/07/27 19:57:27 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
-void	pwd_cmd(t_env	**env)
+
+int	iterator(t_pipe_line **pipeline, t_env **env, t_env **exp, char **envp)
 {
-	char	*path;
+	t_pipe_line	*pipe;
 
-	path = get_path("PWD", *env);
-	if (path)
-		printf("%s\n", path);
-	// g_status = 0;
+	this_pipe = *pipeline;
+	while (this_pipe)
+	{
+
+	}
+//	exec_cmd(*pipeline, *env, *exp, envp);
 }

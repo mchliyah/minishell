@@ -25,12 +25,11 @@ t_list	*copy_list(t_list *ret, t_list *to_copy)
 	return (ret);
 }
 
-void	frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
+t_pipe_line	*frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
 {
 	t_list		*left;
 
 	(*pipeline)->type = lst_token->content->type;
-	(*pipeline)->right = NULL;
 	(*pipeline)->left = NULL;
 	(*pipeline)->left_p = NULL;
 	(*pipeline)->right = copy_list((*pipeline)->right, lst_token->next);
@@ -38,17 +37,19 @@ void	frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
 	while (left->prev != NULL)
 		left = left->prev;
 	(*pipeline)->left = copy_list((*pipeline)->left, left);
+	return (*pipeline);
 }
 
-void	to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
+t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 {
 	t_pipe_line	*ret_pipe;
 
 	ret_pipe = NULL;
 	if (frst_p)
-		frst_pipe(pipeline, lst_token);
+		*pipeline = frst_pipe(pipeline, lst_token);
 	else
 	{
+		HERE;
 		ret_pipe = malloc(sizeof(t_pipe_line));
 		ret_pipe->type = lst_token->content->type;
 		ret_pipe->right = NULL;
@@ -56,7 +57,9 @@ void	to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 		ret_pipe->left_p = NULL;
 		ret_pipe->right = copy_list(ret_pipe->right, lst_token->next);
 		ret_pipe->left_p = *pipeline;
+		return (ret_pipe);
 	}
+	return (*pipeline);
 }
 
 void	simple_cmd(t_pipe_line **pipeline, t_list *lst_token)
@@ -83,7 +86,7 @@ void	parse_to_tree(t_pipe_line **pipeline, t_list *lst_token)
 		{
 			if (lst_token->content->type == PIPE)
 			{
-				to_pipe(lst_token, pipeline, frst_pipe);
+				*pipeline = to_pipe(lst_token, pipeline, frst_pipe);
 				frst_pipe = 0;
 			}
 			lst_token = lst_token->next;
@@ -110,11 +113,20 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
+		printf("%d\n", token->type);
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
 		lst_token = linked_token(lst_token, token);
 	}
 	parse_to_tree(pipeline, lst_token);
+	while ((*pipeline)->left_p)
+	{
+		printf("right === %s\n", (*pipeline)->right->content->content);
+		(*pipeline) = (*pipeline)->left_p;
+	}
+	printf("right === %s\n", (*pipeline)->right->content->content);
+	printf("left === %s\n", (*pipeline)->left->content->content);
+	exit(0);
 	return (EXIT_SUCCESS);
 }

@@ -12,8 +12,10 @@
 
 #include "../includes/minishell.h"
 
-char	*get_simple_word(char *arg, t_env *env)
+char	*get_simple_word(char *arg, t_env *env, int state)
 {
+	int		start;
+	char	*sub;
 	char	*ptr;
 	int		i;
 	int		j;
@@ -27,14 +29,41 @@ char	*get_simple_word(char *arg, t_env *env)
 	while (tmp[i])
 	{
 		j = 0;
+		printf("tmp =>> %s\n", tmp[i]);
 		while (tmp[i][j])
 		{
 			if (tmp[i][j] == '$' && tmp[i + 1] == NULL)
 			{
-				ptr = ft_strjoin(ptr, get_variable(&tmp[i][j], env));
+				ptr = ft_strjoin(ptr, get_variable(&tmp[i][j], env, state));
 				free(tmp[i]);
 				free(tmp);
 				return (ptr);
+			}
+			if (tmp[i][j] == '$' && (ft_isalnum(tmp[i][j + 1]) || tmp[i][j + 1] == '_'))
+			{
+				if (ft_isdigit(tmp[i][j + 1]))
+				{
+					sub = ft_substr(tmp[i], j, 2);
+					ptr = get_variable(sub, env, state);
+				}
+				else
+				{
+					start = j;
+					while (tmp[i][j])
+					{
+						j++;
+						if (((tmp[i][j] == '$' || tmp[i][j] == L_DOUBLE_QUOTE
+							|| tmp[i][j] == SINGLE_QUOTE)
+								|| (!ft_isalnum(tmp[i][j]))) && tmp[i][j] != '_')
+						{
+							sub = ft_substr(tmp[i], start, j - start);
+							printf("--%s\n", sub);
+							ptr = ft_strjoin(ptr, get_variable(sub, env, state));
+							free(sub);
+							start = j;
+						}
+					}
+				}
 			}
 			ptr = join_string(ptr, tmp[i][j]);
 			j++;
@@ -83,7 +112,7 @@ char	*get_word(char *str, int *i, char *ptr)
 /*
  *  TODO : handle $? inside quote and if founded
  */
-char	*expend(char *str, t_env *envi)
+char	*expend(char *str, t_env *envi, int state)
 {
 	char	*ptr;
 	int		s;
@@ -105,9 +134,8 @@ char	*expend(char *str, t_env *envi)
 				i++;
 			else if (str[i] == '?')
 			{
-				// printf("%s", ptr);
-				ptr = ft_itoa(g_status);
-				ptr = ft_strjoin(ptr, ft_itoa(g_status));
+				ptr = ft_itoa(255); // g_status
+				ptr = ft_strjoin(ptr, ft_itoa(255)); //g_status
 				i++;
 			}
 			else
@@ -117,8 +145,10 @@ char	*expend(char *str, t_env *envi)
 			if (!tmp)
 				return (NULL);
 			tmp = get_form_my_env(tmp, envi);
-			if (!tmp)
+			if (!tmp && state == 1)
 				tmp = ft_strdup("");
+			else if (!tmp && state == 0)
+				return (NULL);
 			ptr = ft_strjoin(ptr, tmp);
 		}
 		else
@@ -131,8 +161,10 @@ char	*expend(char *str, t_env *envi)
  	? the variable stops when he found space or anything else
  	? not letter or underscore (-) or number
  	? means that underscore and number
+ 	! state 1 for args
+ 	! state 0 for cmd
  */
-char	*get_variable(char *arg, t_env *env)
+char	*get_variable(char *arg, t_env *env, int state)
 {
 	char	*ptr;
 	char	**str;
@@ -144,7 +176,7 @@ char	*get_variable(char *arg, t_env *env)
 		return (NULL);
 	while (str[i])
 	{
-		ptr = expend(str[i], env);
+		ptr = expend(str[i], env, state);
 		free(str[i]);
 		str[i] = NULL;
 		i++;

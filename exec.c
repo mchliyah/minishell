@@ -107,7 +107,9 @@ void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
 		unset_cmd(exp, (*p_line)->left);
 	}
 	else if (!strcmp((*p_line)->left->content->content, "export"))
-		export_cmd(exp, (*p_line)->left);
+	{
+		// export_cmd(exp, (*p_line)->left);
+	}
 	else if (!strcmp((*p_line)->left->content->content, "exit"))
 		exit_cmd(p_line);
 	else

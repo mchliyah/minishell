@@ -16,7 +16,7 @@ t_arg	*list_new(char	*content)
 {
 	t_arg	*ptr;
 
-	ptr = malloc(sizeof(t_list));
+	ptr = malloc(sizeof(t_arg));
 	if (!ptr)
 		return (NULL);
 	ptr->content = content;

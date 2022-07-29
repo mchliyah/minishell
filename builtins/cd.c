@@ -122,5 +122,4 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 			}
 		}
 	}
-	g_status = 0;
 }

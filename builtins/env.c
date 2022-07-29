@@ -49,5 +49,4 @@ void	env_cmd(t_env *env)
 		printf("%s=%s\n", env->pair->key, env->pair->value);
 		env = env->next;
 	}
-	g_status = 0;
 }
