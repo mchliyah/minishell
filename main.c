@@ -69,9 +69,9 @@ int	main(int ac, char **av, char **envp)
 			add_history(str_rln);
 			if (generate_token(str_rln, &pipeline, env) != 1)
 			{
-				// print_tokens(pipeline);
-				exec_cmd(&pipeline, &env, &exp, envp);
-				to_free(pipeline);
+				print_tokens(pipeline);
+				//exec_cmd(&pipeline, &env, &exp, envp);
+				//to_free(pipeline);
 			}
 		}
 	}

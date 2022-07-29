@@ -15,12 +15,11 @@
 
 int	iterator(t_pipe_line **pipeline, t_env **env, t_env **exp, char **envp)
 {
-	t_pipe_line	*pipe;
+	t_pipe_line	*this_pipe;
+	t_pipe_line	*head;
 
 	this_pipe = *pipeline;
-	while (this_pipe)
-	{
-
-	}
-//	exec_cmd(*pipeline, *env, *exp, envp);
+	if (this_pipe->left_p)
+		return (iterator(this_pipe->left_p, envm exp, envp));
+	return (EXIT_SUCCESS);
 }
