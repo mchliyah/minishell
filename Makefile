@@ -14,7 +14,7 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = #-Wall -Werror -Wextra 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = #-Wall -Werror -Wextra
 
 RM = rm -f
 #########################
@@ -47,7 +47,6 @@ FILES =	main.c\
 		builtins/unset.c\
 		builtins/array_args.c\
 		builtins/init.c\
-		builtins/export.c
 
 #!########################
 
@@ -78,7 +77,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME) -fsanitize=address -g3
+	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME) #-fsanitize=address -g3
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

@@ -134,8 +134,8 @@ char	*expend(char *str, t_env *envi, int state)
 				i++;
 			else if (str[i] == '?')
 			{
-				ptr = ft_itoa(g_status);
-				ptr = ft_strjoin(ptr, ft_itoa(g_status));
+				ptr = ft_itoa(255); // g_status
+				ptr = ft_strjoin(ptr, ft_itoa(255)); //g_status
 				i++;
 			}
 			else

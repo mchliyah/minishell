@@ -34,17 +34,16 @@ void	exit_cmd(t_pipe_line **p_line)
 	(*p_line)->exit = 1;
 	if (args && args->next)
 	{
-		printf("salkfjdlskfj\n");
-		g_status = 1;
+		// g_status = 1;
 		ft_putstr_fd("minishell: exit: arguments error", 2);
 	}
 	else if (args && !str_isnum(args->content))
 	{
-		g_status = 255;
+		// g_status = 255;
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args->content, 2);
 		ft_putendl_fd(": put numeric arg", 2);
 	}
-	else if (args)
-		g_status = ft_atoi(args->content);
+	// else if (args)
+	// 	g_status = ft_atoi(args->content);
 }

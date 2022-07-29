@@ -19,5 +19,5 @@ void	pwd_cmd(t_env	**env)
 	path = get_path("PWD", *env);
 	if (path)
 		printf("%s\n", path);
-	g_status = 0;
+	// g_status = 0;
 }

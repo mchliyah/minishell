@@ -25,7 +25,7 @@ t_list	*copy_list(t_list *ret, t_list *to_copy)
 	return (ret);
 }
 
-void	frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
+t_pipe_line	*frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
 {
 	t_list		*left;
 
@@ -38,9 +38,10 @@ void	frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
 	while (left->prev != NULL)
 		left = left->prev;
 	(*pipeline)->left = copy_list((*pipeline)->left, left);
+	return (*pipeline);
 }
 
-void	to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
+t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 {
 	t_pipe_line	*ret_pipe;
 
@@ -56,7 +57,9 @@ void	to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 		ret_pipe->left_p = NULL;
 		ret_pipe->right = copy_list(ret_pipe->right, lst_token->next);
 		ret_pipe->left_p = *pipeline;
+		return (ret_pipe);
 	}
+	return (*pipeline);
 }
 
 void	simple_cmd(t_pipe_line **pipeline, t_list *lst_token)
@@ -83,7 +86,7 @@ void	parse_to_tree(t_pipe_line **pipeline, t_list *lst_token)
 		{
 			if (lst_token->content->type == PIPE)
 			{
-				to_pipe(lst_token, pipeline, frst_pipe);
+				*pipeline = to_pipe(lst_token, pipeline, frst_pipe);
 				frst_pipe = 0;
 			}
 			lst_token = lst_token->next;
@@ -110,6 +113,8 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
+		HERE;
+		printf("%s\n", token->arg->content);
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
