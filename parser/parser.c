@@ -120,13 +120,5 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env)
 		lst_token = linked_token(lst_token, token);
 	}
 	parse_to_tree(pipeline, lst_token);
-	while ((*pipeline)->left_p)
-	{
-		printf("right === %s\n", (*pipeline)->right->content->content);
-		(*pipeline) = (*pipeline)->left_p;
-	}
-	printf("right === %s\n", (*pipeline)->right->content->content);
-	printf("left === %s\n", (*pipeline)->left->content->content);
-	exit(0);
 	return (EXIT_SUCCESS);
 }
