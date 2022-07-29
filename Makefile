@@ -14,7 +14,7 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = #-Wall -Werror -Wextra 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = #-Wall -Werror -Wextra
 
 RM = rm -f
 #########################
