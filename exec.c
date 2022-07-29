@@ -90,28 +90,28 @@ void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
 			printf(": No such file or directory\n");
 }
 
-void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
+void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp)
 {
-	if (!strcmp((*p_line)->left->content->content, "echo"))
+	if (!strcmp((*p_line).content->content, "echo"))
 		echo((*p_line)->left);
-	else if (!strcmp((*p_line)->left->content->content, "env"))
+	else if (!strcmp((*p_line).content->content, "env"))
 		env_cmd(*env);
-	else if (!strcmp((*p_line)->left->content->content, "cd"))
-		cd_cmd((*p_line)->left, (*env));
-	else if (!strcmp((*p_line)->left->content->content, "pwd")
-		|| !strcmp((*p_line)->left->content->content, "PWD"))
+	else if (!strcmp((*p_line).content->content, "cd"))
+		cd_cmd((*p_line), (*env));
+	else if (!strcmp((*p_line).content->content, "pwd")
+		|| !strcmp((*p_line).content->content, "PWD"))
 		pwd_cmd(env);
-	else if (!strcmp((*p_line)->left->content->content, "unset"))
+	else if (!strcmp((*p_line).content->content, "unset"))
 	{
-		unset_cmd(env, (*p_line)->left);
-		unset_cmd(exp, (*p_line)->left);
+		unset_cmd(env, (*p_line));
+		unset_cmd(exp, (*p_line));
 	}
-	else if (!strcmp((*p_line)->left->content->content, "export"))
+	else if (!strcmp((*p_line).content->content, "export"))
 	{
 		// export_cmd(exp, (*p_line)->left);
 	}
-	else if (!strcmp((*p_line)->left->content->content, "exit"))
-		exit_cmd(p_line);
+	else if (!strcmp((*p_line).content->content, "exit"))
+		exit_cmd(&p_line);
 	else
 		to_std(*env, envp, (*p_line));
 }

@@ -26,5 +26,6 @@ char	**arr_arg(t_list *cmd);
 t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
 void	export_cmd(t_env **exp, t_list *c_line);
+int		iterator(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp);
 
 #endif

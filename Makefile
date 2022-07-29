@@ -39,6 +39,7 @@ FILES =	main.c\
 		parser/free.c\
 		parser/print.c\
 		exec.c\
+		iterator.c\
 		builtins/echo.c\
 		builtins/env.c\
 		builtins/cd.c\
