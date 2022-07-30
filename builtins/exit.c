@@ -26,12 +26,12 @@ int	str_isnum(char *str)
 	return (1);
 }
 
-void	exit_cmd(t_pipe_line **p_line)
+void	exit_cmd(t_list *p_line)
 {
 	t_arg	*args;
 
-	args = (*p_line)->left->content->arg;
-	(*p_line)->exit = 1;
+	args = p_line->content->arg;
+//	(*p_line)->exit = 1;
 	if (args && args->next)
 	{
 		// g_status = 1;

@@ -44,7 +44,7 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-void	std_exec(t_list *cmd, char **env)
+void	std_exec(t_list *cmd, char **env, int *p_fd, int child)
 {
 	int		pid;
 	char	**args;
@@ -63,6 +63,20 @@ void	std_exec(t_list *cmd, char **env)
 		{
 			path = get_cmd_path(env);
 			cmand = get_cmd(path, cmd->content->content);
+			if (child == 0)
+			{
+				if (dup2(p_fd[1], STDOUT_FILENO) == -1)
+				{
+					printf("err and should take some work here");
+				}
+			}
+			else
+			{
+				if (dup2(p_fd[0], STDIN_FILENO) == -1)
+				{
+					printf("err and should take some work here");
+				}
+			}
 			execve(cmand, args, env);
 		}
 		ft_putstr_fd("minishell : ", 2);
@@ -72,7 +86,7 @@ void	std_exec(t_list *cmd, char **env)
 	wait(NULL);
 }
 
-void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
+void	to_std(t_env *env, char **envp, t_list *p_line, int *p_fd, int child)
 {
 	int	path;
 
@@ -84,34 +98,56 @@ void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
 		env = env->next;
 	}
 	if (path)
-		std_exec(p_line->left, envp);
+		std_exec(p_line, envp, p_fd, child);
 	else
-		if (printf("~minishell~: %s", p_line->left->content->content))
+		if (printf("~minishell~: %s", p_line->content->content))
 			printf(": No such file or directory\n");
 }
 
-void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp)
+void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, t_exec *exec)
 {
+	if ((exec->cmd_n != exec->cmd_size))
+	{
+		if (dup2(exec->p_fd[exec->p_index + 1], STDOUT_FILENO) == -1)
+		{
+			printf("err and should take some work in dup\n");
+		}
+	}
+	if (child != 0)
+	{
+		if (dup2(p_fd[0], STDIN_FILENO) == -1)
+		{
+			printf("err and should take some work in dup\n");
+		}
+	}
 	if (!strcmp((*p_line).content->content, "echo"))
-		echo((*p_line)->left);
+		echo(p_line);
 	else if (!strcmp((*p_line).content->content, "env"))
 		env_cmd(*env);
 	else if (!strcmp((*p_line).content->content, "cd"))
-		cd_cmd((*p_line), (*env));
+		cd_cmd(p_line, (*env));
 	else if (!strcmp((*p_line).content->content, "pwd")
 		|| !strcmp((*p_line).content->content, "PWD"))
 		pwd_cmd(env);
 	else if (!strcmp((*p_line).content->content, "unset"))
 	{
-		unset_cmd(env, (*p_line));
-		unset_cmd(exp, (*p_line));
+		unset_cmd(env, p_line);
+		unset_cmd(exp, p_line);
 	}
 	else if (!strcmp((*p_line).content->content, "export"))
 	{
 		// export_cmd(exp, (*p_line)->left);
 	}
 	else if (!strcmp((*p_line).content->content, "exit"))
-		exit_cmd(&p_line);
+	{
+		exit_cmd(p_line);
+	}
 	else
-		to_std(*env, envp, (*p_line));
+	{
+		close(p_fd[1]);
+		close(p_fd[0]);
+		to_std(*env, envp, p_line, p_fd, child);
+	}
+//	close(p_fd[1]);
+//	close(p_fd[0]);
 }

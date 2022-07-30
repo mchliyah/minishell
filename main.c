@@ -45,20 +45,55 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
+void	count_pipes(t_pipe_line *pipes, t_exec **exec)
+{
+	int			a;
+	int			i;
+	t_pipe_line	*this;
+
+	this = pipes;
+	a = 1;
+	i = 0;
+	while (this->left_p)
+	{
+		a++;
+		this = this->left_p;
+	}
+	printf("aaaaaa %d\n", a);
+	(*exec)->p_fd = malloc(2 * a);
+	(*exec)->cmd_size = a + 1;
+	while (i < a)
+	{
+		i += 2;
+		if (pipe((*exec)->p_fd + i) < 0)
+		{
+			perror("pipe:");
+		}
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_pipe_line	*pipeline;
 	t_env		*env;
 	t_env		*exp;
 	char		*str_rln;
+	t_exec		*exec;
 
 	(void)ac;
 	(void)av;
 	pipeline = malloc(sizeof(t_pipe_line));
+	if (!pipeline)
+		return (EXIT_FAILURE);
 	pipeline->exit = 0;
 	env = get_env(envp);
 	exp = get_env(envp);
 	// sort_exp(&exp);
+	exec = malloc(sizeof(t_exec));
+	if (!exec)
+		return (EXIT_FAILURE);
+	exec->cmd_n = 0;
+	exec->p_index = 0;
 	while (!pipeline->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
@@ -69,9 +104,8 @@ int	main(int ac, char **av, char **envp)
 			add_history(str_rln);
 			if (generate_token(str_rln, &pipeline, env) != 1)
 			{
-				iterator(pipeline, &env, &exp, envp);
-				// print_tokens(pipeline);
-				//exec_cmd(&pipeline, &env, &exp, envp);
+				count_pipes(pipeline, &exec);
+				iterator(pipeline, &env, &exp, envp, exec);
 				to_free(pipeline);
 			}
 		}

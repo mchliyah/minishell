@@ -12,24 +12,39 @@
 
 #include "includes/minishell.h"
 
-
-int	iterator(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp)
+	/*
+	 *  left    output to 1   |_0_|_1_|
+	 *  right input form 0 and output to 1 if there is no out redirection
+	 */
+void	execute_childes(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp, t_exec *exec)
 {
-	int	ret_pipe;
-	int	p_fd[2];
+	int	child;
 
-	if (this_pipe->left_p)
-	{
-		iterator(this_pipe->left_p, env, exp, envp);
-	}
-	ret_pipe = pipe(p_fd);
-	if (ret_pipe == -1)
-		return (EXIT_FAILURE);
+	child = 0;
+	exec->cmd_n++;
 	if (this_pipe->left)
 	{
-		printf("left == %s\n", this_pipe->left->content->content);
+		exec->cmd_n++;
+		exec_cmd(this_pipe->left, env, exp, envp, child, exec);
+		child = 1;
 	}
 	if (this_pipe->right)
-		printf("right == %s\n", this_pipe->right->content->content);
+	{
+		exec->cmd_n++;
+		exec_cmd(this_pipe->right, env, exp, envp, child, exec);
+	}
+}
+
+/*
+ * closing fds if pipe failed
+ */
+int	iterator(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp, t_exec *exec)
+{
+	if (this_pipe->left_p)
+	{
+//		exec->p_index += 2;
+		iterator(this_pipe->left_p, env, exp, envp, exec);
+	}
+	execute_childes(this_pipe, env, exp, envp, exec);
 	return (EXIT_SUCCESS);
 }
