@@ -45,6 +45,21 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
+t_data	*init_data(int ac, char **av, t_data *data, char **envp)
+{
+	(void)ac;
+	(void)av;
+	data->exit = 0;
+	data->pip_nb = 0;
+	data->pips = NULL;
+	data->fdin = NULL;
+	data->fdout = NULL;
+	data->env = get_env(envp);
+	data->exp = get_env(envp);
+	// sort_exp(&data->exp);
+	return (data);
+}
+
 int	count_pipes(t_pipe_line *pipes, t_exec **exec)
 {
 	int			a;
@@ -87,18 +102,11 @@ int	main(int ac, char **av, char **envp)
 	t_env		*env;
 	t_env		*exp;
 	char		*str_rln;
-	t_exec		*exec;
 
-	(void)ac;
-	(void)av;
 	pipeline = malloc(sizeof(t_pipe_line));
-	if (!pipeline)
-		return (EXIT_FAILURE);
-	pipeline->exit = 0;
-	env = get_env(envp);
-	exp = get_env(envp);
-	// sort_exp(&exp);
-	while (!pipeline->exit)
+	data = malloc(sizeof(t_data));
+	data = init_data(ac, av, data, envp);
+	while (!data->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
 		if (!str_rln)
@@ -106,8 +114,10 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			add_history(str_rln);
-			if (generate_token(str_rln, &pipeline, env) != 1)
+			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 			{
+				printf("%d\n", data->pip_nb);
+				exec_cmd(pipeline->left, &data->env, &data->exp, envp);
 				count_pipes(pipeline, &exec);
 				iterator(pipeline, &env, &exp, envp, exec);
 				to_free(pipeline);

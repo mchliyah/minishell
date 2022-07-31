@@ -19,16 +19,20 @@
 
 // int g_status;
 
-// typedef struct s_fdpip
-// {
-// 	int	*pips;
-// 	int	*fdin;
-// 	int	*fdout;
-// 	int	i;
-// 	int	j;
-// }	t_fdinout;
+typedef struct s_data
+{
+    t_env   *env;
+    t_env   *exp;
+    int		exit;
+    int     pip_nb;
+	int	    *pips;
+	int	    *fdin;
+	int	    *fdout;
+}	t_data;
+
 void	print_tokens(t_pipe_line *pipeline);
-int		generate_token(char *av, t_pipe_line **pipeline, t_env *env);
+int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
+	t_data **data);
 void    sort_exp(t_env **exp);
 t_env	*get_env(char **envp);
 

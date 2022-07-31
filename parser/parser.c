@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/24 22:51:13 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:43:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_pipe_line	*frst_pipe(t_pipe_line	**pipeline, t_list *lst_token)
 	t_list		*left;
 
 	(*pipeline)->type = lst_token->content->type;
-	(*pipeline)->right = NULL;
 	(*pipeline)->left = NULL;
 	(*pipeline)->left_p = NULL;
+	(*pipeline)->right = NULL;
 	(*pipeline)->right = copy_list((*pipeline)->right, lst_token->next);
 	left = lst_token->prev;
 	while (left->prev != NULL)
@@ -47,9 +47,10 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 
 	ret_pipe = NULL;
 	if (frst_p)
-		frst_pipe(pipeline, lst_token);
+		*pipeline = frst_pipe(pipeline, lst_token);
 	else
 	{
+		HERE;
 		ret_pipe = malloc(sizeof(t_pipe_line));
 		ret_pipe->type = lst_token->content->type;
 		ret_pipe->right = NULL;
@@ -74,13 +75,14 @@ void	simple_cmd(t_pipe_line **pipeline, t_list *lst_token)
 	(*pipeline)->left = copy_list((*pipeline)->left, tmp);
 }
 
-void	parse_to_tree(t_pipe_line **pipeline, t_list *lst_token)
+t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **data)
 {
 	int			frst_pipe;
 
 	frst_pipe = 1;
 	error_check(lst_token);
-	if (pipe_exist(lst_token))
+	(*data)->pip_nb = pipe_exist(lst_token);
+	if ((*data)->pip_nb)
 	{
 		while (lst_token)
 		{
@@ -95,9 +97,11 @@ void	parse_to_tree(t_pipe_line **pipeline, t_list *lst_token)
 	}
 	else
 		simple_cmd(pipeline, lst_token);
+	return (*pipeline);
 }
 
-int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env)
+int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
+	t_data **data)
 {
 	t_token		*token;
 	t_lexer		*lexer;
@@ -113,11 +117,12 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env)
 		token = get_token(lexer);
 		if (!token)
 			return (EXIT_FAILURE);
+		printf("%d\n", token->type);
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
 		lst_token = linked_token(lst_token, token);
 	}
-	parse_to_tree(pipeline, lst_token);
+	*pipeline = parse_to_tree(pipeline, lst_token, data);
 	return (EXIT_SUCCESS);
 }

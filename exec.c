@@ -63,20 +63,6 @@ void	std_exec(t_list *cmd, char **env, int *p_fd, int child)
 		{
 			path = get_cmd_path(env);
 			cmand = get_cmd(path, cmd->content->content);
-			if (child == 0)
-			{
-				if (dup2(p_fd[1], STDOUT_FILENO) == -1)
-				{
-					printf("err and should take some work here");
-				}
-			}
-			else
-			{
-				if (dup2(p_fd[0], STDIN_FILENO) == -1)
-				{
-					printf("err and should take some work here");
-				}
-			}
 			execve(cmand, args, env);
 		}
 		ft_putstr_fd("minishell : ", 2);
@@ -86,7 +72,7 @@ void	std_exec(t_list *cmd, char **env, int *p_fd, int child)
 	wait(NULL);
 }
 
-void	to_std(t_env *env, char **envp, t_list *p_line, int *p_fd, int child)
+void	to_std(t_env *env, char **envp, t_list *cmd)
 {
 	int	path;
 
@@ -98,14 +84,18 @@ void	to_std(t_env *env, char **envp, t_list *p_line, int *p_fd, int child)
 		env = env->next;
 	}
 	if (path)
-		std_exec(p_line, envp, p_fd, child);
+		std_exec(cmd, envp);
 	else
-		if (printf("~minishell~: %s", p_line->content->content))
+		if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
 }
 
+void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp)
 void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, t_exec *exec)
 {
+	if (!strcmp(cmd->content->content, "echo"))
+		echo(cmd);
+	else if (!strcmp(cmd->content->content, "env"))
 	int j;
 	int i;
 
@@ -138,31 +128,22 @@ void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, 
 		echo(p_line);
 	else if (!strcmp((*p_line).content->content, "env"))
 		env_cmd(*env);
-	else if (!strcmp((*p_line).content->content, "cd"))
-		cd_cmd(p_line, (*env));
-	else if (!strcmp((*p_line).content->content, "pwd")
-		|| !strcmp((*p_line).content->content, "PWD"))
+	else if (!strcmp(cmd->content->content, "cd"))
+		cd_cmd(cmd, (*env));
+	else if (!strcmp(cmd->content->content, "pwd")
+		|| !strcmp(cmd->content->content, "PWD"))
 		pwd_cmd(env);
-	else if (!strcmp((*p_line).content->content, "unset"))
+	else if (!strcmp(cmd->content->content, "unset"))
 	{
-		unset_cmd(env, p_line);
-		unset_cmd(exp, p_line);
+		unset_cmd(env, cmd);
+		unset_cmd(exp, cmd);
 	}
-	else if (!strcmp((*p_line).content->content, "export"))
-	{
-		// export_cmd(exp, (*p_line)->left);
-	}
-	else if (!strcmp((*p_line).content->content, "exit"))
-	{
-		exit_cmd(p_line);
-	}
+	// else if (!strcmp(cmd->content->content, "export"))
+	// {
+	// 	// export_cmd(exp, cmd);
+	// }
+	// else if (!strcmp(cmd->content->content, "exit"))
+	// 	exit_cmd(p_line);
 	else
-	{
-//		close(p_fd[1]);
-//		close(p_fd[0]);
-		to_std(*env, envp, p_line, exec->p_fd, child);
-	}
-	HERE;
-//	close(p_fd[1]);
-//	close(p_fd[0]);
+		to_std(*env, envp, cmd);
 }
