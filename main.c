@@ -45,14 +45,18 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
-void	count_pipes(t_pipe_line *pipes, t_exec **exec)
+int	count_pipes(t_pipe_line *pipes, t_exec **exec)
 {
 	int			a;
 	int			i;
 	t_pipe_line	*this;
 
+	*exec = malloc(sizeof(t_exec));
+	if (!*exec)
+		return (EXIT_FAILURE);
+	(*exec)->cmd_n = 0;
 	this = pipes;
-	a = 1;
+	a = 0;
 	i = 0;
 	while (this->left_p)
 	{
@@ -62,7 +66,10 @@ void	count_pipes(t_pipe_line *pipes, t_exec **exec)
 	printf("aaaaaa %d\n", a);
 	(*exec)->p_fd = malloc(2 * a);
 	(*exec)->cmd_size = a + 1;
-	while (i < a)
+	(*exec)->p_index = 0;
+	if (a != 0)
+	{
+	while (i < (a * 2))
 	{
 		i += 2;
 		if (pipe((*exec)->p_fd + i) < 0)
@@ -70,6 +77,8 @@ void	count_pipes(t_pipe_line *pipes, t_exec **exec)
 			perror("pipe:");
 		}
 	}
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -89,11 +98,6 @@ int	main(int ac, char **av, char **envp)
 	env = get_env(envp);
 	exp = get_env(envp);
 	// sort_exp(&exp);
-	exec = malloc(sizeof(t_exec));
-	if (!exec)
-		return (EXIT_FAILURE);
-	exec->cmd_n = 0;
-	exec->p_index = 0;
 	while (!pipeline->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");

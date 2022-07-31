@@ -106,8 +106,13 @@ void	to_std(t_env *env, char **envp, t_list *p_line, int *p_fd, int child)
 
 void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, t_exec *exec)
 {
-	if ((exec->cmd_n != exec->cmd_size))
+	int j;
+	int i;
+
+	printf("cmd_size - 1 = %d\n", (exec->cmd_size - 1) * 2);
+	if ((exec->cmd_n+1 != exec->cmd_size))
 	{
+		close(exec->p_fd[exec->p_index - 2]);
 		if (dup2(exec->p_fd[exec->p_index + 1], STDOUT_FILENO) == -1)
 		{
 			printf("err and should take some work in dup\n");
@@ -115,10 +120,19 @@ void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, 
 	}
 	if (child != 0)
 	{
-		if (dup2(p_fd[0], STDIN_FILENO) == -1)
+		close(exec->p_fd[exec->p_index + 1]);
+		if (dup2(exec->p_fd[exec->p_index - 2], STDIN_FILENO) == -1)
 		{
 			printf("err and should take some work in dup\n");
 		}
+	}
+	i = 0;
+	j = ((exec->cmd_size - 1) * 2);
+	while (i < j)
+	{
+//		printf("i\n");
+		close(exec->p_fd[i]);
+		i++;
 	}
 	if (!strcmp((*p_line).content->content, "echo"))
 		echo(p_line);
@@ -144,10 +158,11 @@ void	exec_cmd(t_list *p_line, t_env **env, t_env **exp, char **envp, int child, 
 	}
 	else
 	{
-		close(p_fd[1]);
-		close(p_fd[0]);
-		to_std(*env, envp, p_line, p_fd, child);
+//		close(p_fd[1]);
+//		close(p_fd[0]);
+		to_std(*env, envp, p_line, exec->p_fd, child);
 	}
+	HERE;
 //	close(p_fd[1]);
 //	close(p_fd[0]);
 }

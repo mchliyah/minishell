@@ -26,7 +26,7 @@ typedef struct s_exec
 	int			p_index;
 }	t_exec;
 
-void	exec_cmd(t_list *c_line, t_env **env, t_env **exp, char **envp, int *p_fd, int child, int cmd_n);
+void	exec_cmd(t_list *c_line, t_env **env, t_env **exp, char **envp, int child, t_exec *exec);
 char	*get_path(char *path, t_env *env);
 void	echo(t_list *cmd);
 void	env_cmd(t_env *env);
