@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:49:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 13:45:23 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/31 14:55:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ t_list	*linked_token(t_list	*lst_token, t_token *token)
 
 int	pipe_exist(t_list *lst)
 {
+	int	i;
+
+	i = 0;
 	while (lst)
 	{
 		if (lst->content->type == PIPE)
-			return (1);
+			i++;
 		lst = lst->next;
 	}
-	return (0);
+	return (i);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 12:42:38 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/29 20:09:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define EXEC_H
 
 
-void	exec_cmd(t_pipe_line **c_line, t_env **env, t_env **exp, char **envp);
+void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp);
 char	*get_path(char *path, t_env *env);
 void	echo(t_list *cmd);
 void	env_cmd(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/28 19:54:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/31 15:25:56 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,31 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
+t_data	*init_data(int ac, char **av, t_data *data, char **envp)
+{
+	(void)ac;
+	(void)av;
+	data->exit = 0;
+	data->pip_nb = 0;
+	data->pips = NULL;
+	data->fdin = NULL;
+	data->fdout = NULL;
+	data->env = get_env(envp);
+	data->exp = get_env(envp);
+	// sort_exp(&data->exp);
+	return (data);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_pipe_line	*pipeline;
-	t_env		*env;
-	t_env		*exp;
+	t_data		*data;
 	char		*str_rln;
 
-	(void)ac;
-	(void)av;
 	pipeline = malloc(sizeof(t_pipe_line));
-	pipeline->exit = 0;
-	env = get_env(envp);
-	exp = get_env(envp);
-	// sort_exp(&exp);
-	while (!pipeline->exit)
+	data = malloc(sizeof(t_data));
+	data = init_data(ac, av, data, envp);
+	while (!data->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
 		if (!str_rln)
@@ -67,9 +77,10 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			add_history(str_rln);
-			if (generate_token(str_rln, &pipeline, env) != 1)
+			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 			{
-				exec_cmd(&pipeline, &env, &exp, envp);
+				printf("%d\n", data->pip_nb);
+				exec_cmd(pipeline->left, &data->env, &data->exp, envp);
 				to_free(pipeline);
 			}
 		}

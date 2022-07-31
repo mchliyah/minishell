@@ -6,68 +6,40 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 22:04:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/30 15:15:03 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	sort_exp(t_env **exp)
+void	print_exp(t_env *exp)
 {
-	t_env	*tmp;
-	t_env	*tmp1;
-	t_pair	*pair;
-
-	if (exp)
+	while (exp)
 	{
-		tmp = *exp;
-		while (tmp->next)
-		{
-			tmp1 = tmp->next;
-			while (tmp1)
-			{
-				if (ft_strcmp(tmp->pair->key, tmp1->pair->key) > 0)
-				{
-					pair = tmp->pair;
-					tmp->pair = tmp1->pair;
-					tmp1->pair = pair;
-				}
-				tmp1 = tmp1->next;
-			}
-			tmp = tmp->next;
-		}
+		printf("declare -x %s=\"%s\"\n", exp->pair->key, exp->pair->value);
+		exp = exp->next;
 	}
 }
 
-int	check_exp(char *str)
+void	exp_error(int ret, char *str)
 {
-	int	i;
-
-	i = 0;
-	if (str[0])
-		return (-2);
-	if ((str[0] < 'a' || str[0] >'z') && (str[0] < 'A' || str[0] > 'Z')
-		&& str[0] != '_' )
-		return (-1);
-	while(str[i])
+	if (ret == -1)
 	{
-		if(str[i] == '-')
-			return (-2);
-		else
-		{
-			if (str[i] == '=' && str[i - 1] != '+')
-				return (1);
-			else if (str[i] == '=' && str[i - 1] == '+')
-				return (2);
-		}
-		i++;
+		write (2, "export : ", 10);
+		write (2, &str, 2);
+		write (2, "invalid option\n", 16);
 	}
-	return (0);	
+	else
+	{
+		ft_putstr_fd(2, "export : ");
+		ft_putstr_fd(2, str);
+		ft_putstr_fd(2, ": not a valid identifier\n");
+	}
 }
 
 t_env	*add_elem(t_env *env, char *str, int exist)
 {
-	int 	i;
+	int		i;
 	int		j;
 	t_env	*tm;
 	char	*value;
@@ -78,36 +50,36 @@ t_env	*add_elem(t_env *env, char *str, int exist)
 	tm = env;
 	if (!exist)
 	{
-		while(tm->next)
+		while (tm->next)
 			tm = tm->next;
-		tm->next->pair = malloc(sizeof(t_pair))
+		tm->next->pair = malloc(sizeof(t_pair));
 		if (tm->next)
 		{
-			while(str[i] && str[i] != '=')
+			while (str[i] && str[i] != '=')
 				i++;
 			if (str[i - 1] == '+')
-				tm->next->pair->key = env_dup(tmp_val, i - 1, j);
-			esle
-				tm->next->pair->key = env_dup(tmp_val, i, j);
+				tm->next->pair->key = env_dup(str, i - 1, j);
+			else
+				tm->next->pair->key = env_dup(str, i, j);
 			j = ++i;
-			while(str[i])
+			while (str[i])
 				i++;
-			tm->next->pair->value = env_dup(tmp_val, i, j);
+			tm->next->pair->value = env_dup(str, i, j);
 		}
 
 	}
-	esle
+	else
 	{
-		while(str[i] != '=')
+		while (str[i] != '=')
 			i++;
 		j = ++i;
 		while (str[j])
-			j++; 
+			j++;
 		value = env_dup(str, i, j);
 		while (tm)
 		{
-			if (!strncmp(tm->pair->key), str[i], ft_strlen(tm->pair->key))
-				tmp->pair->value = ft_strjoin(tm->pair->key, value);
+			if (!strncmp(tm->pair->key, str[i], ft_strlen(tm->pair->key)))
+				tm->pair->value = ft_strjoin(tm->pair->key, value);
 			tm = tm->next;
 		}
 		free(value);
@@ -116,20 +88,22 @@ t_env	*add_elem(t_env *env, char *str, int exist)
 
 }
 
-int exist(t_env *env, char *arg)
+void	export_elem(int ret, char arg, t_env **exp, t_env **env)
 {
-	int	i = 0;
-	while(arg[i] && arg[i] != '=')
-		i++;
-	if (arg[i - 1] == '+')
-		i--
-	while(env)
+	if (!ret)
+		exp = add_elem(exp, arg, 0);
+	else
 	{
-		if (!strncmp(env->pair->key, arg, i))
-			return (1);
-		env = env->next;
+		if (ret == 1)
+		{
+			if (exist(exp, arg))
+				exp = add_elem(exp, arg, 1);
+			else
+				exp = add_elem(exp, arg, 0);
+		}
+		else
+			exp = add_elem(exp, arg, 0);
 	}
-	return (0);
 }
 
 void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
@@ -141,10 +115,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	i = 1;
 	ret = 0;
 	if (!c_line->content->arg)
-	{
 		print_exp(*exp);
-		return ;
-	}
 	else
 	{
 		args = arr_arg(c_line);
@@ -152,39 +123,13 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 			*exp = (*exp)->next;
 		while (args[i])
 		{
-			ret = check_exp(arg[i]);
+			ret = check_exp(args[i]);
 			if (ret < 0)
-				exp_error(ret, arg[i]);
+				exp_error(ret, args[i]);
 			else
-			{
-				if (!ret)
-					exp = add_elem(exp, arg[i], 0);
-				else
-				{
-					if (ret == 1)
-					{
-						if (exist(exp, arg[i]))
-							exp = add_elem(exp, arg[i], 1);
-						else
-							exp = add_elem(exp, arg[i], 0);
-
-					}
-					else
-						exp = add_elem(exp, arg[i], 0);
-
-				}
-			}
+				export_elem(ret, args[i], exp, env);
 			i++;
 		}
 		free (args);
-	}
-}
-
-void	print_exp(t_env *exp)
-{
-	while (exp)
-	{
-		printf("declare -x %s=\"%s\"\n", exp->pair->key, exp->pair->value);
-		exp = exp->next;
 	}
 }

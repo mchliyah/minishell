@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 21:46:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/29 20:12:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	std_exec(t_list *cmd, char **env)
 	wait(NULL);
 }
 
-void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
+void	to_std(t_env *env, char **envp, t_list *cmd)
 {
 	int	path;
 
@@ -84,34 +84,34 @@ void	to_std(t_env *env, char **envp, t_pipe_line *p_line)
 		env = env->next;
 	}
 	if (path)
-		std_exec(p_line->left, envp);
+		std_exec(cmd, envp);
 	else
-		if (printf("~minishell~: %s", p_line->left->content->content))
+		if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
 }
 
-void	exec_cmd(t_pipe_line **p_line, t_env **env, t_env **exp, char **envp)
+void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp)
 {
-	if (!strcmp((*p_line)->left->content->content, "echo"))
-		echo((*p_line)->left);
-	else if (!strcmp((*p_line)->left->content->content, "env"))
+	if (!strcmp(cmd->content->content, "echo"))
+		echo(cmd);
+	else if (!strcmp(cmd->content->content, "env"))
 		env_cmd(*env);
-	else if (!strcmp((*p_line)->left->content->content, "cd"))
-		cd_cmd((*p_line)->left, (*env));
-	else if (!strcmp((*p_line)->left->content->content, "pwd")
-		|| !strcmp((*p_line)->left->content->content, "PWD"))
+	else if (!strcmp(cmd->content->content, "cd"))
+		cd_cmd(cmd, (*env));
+	else if (!strcmp(cmd->content->content, "pwd")
+		|| !strcmp(cmd->content->content, "PWD"))
 		pwd_cmd(env);
-	else if (!strcmp((*p_line)->left->content->content, "unset"))
+	else if (!strcmp(cmd->content->content, "unset"))
 	{
-		unset_cmd(env, (*p_line)->left);
-		unset_cmd(exp, (*p_line)->left);
+		unset_cmd(env, cmd);
+		unset_cmd(exp, cmd);
 	}
-	else if (!strcmp((*p_line)->left->content->content, "export"))
-	{
-		// export_cmd(exp, (*p_line)->left);
-	}
-	else if (!strcmp((*p_line)->left->content->content, "exit"))
-		exit_cmd(p_line);
+	// else if (!strcmp(cmd->content->content, "export"))
+	// {
+	// 	// export_cmd(exp, cmd);
+	// }
+	// else if (!strcmp(cmd->content->content, "exit"))
+	// 	exit_cmd(p_line);
 	else
-		to_std(*env, envp, (*p_line));
+		to_std(*env, envp, cmd);
 }
