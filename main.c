@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/31 15:25:56 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/31 20:41:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	data->fdout = NULL;
 	data->env = get_env(envp);
 	data->exp = get_env(envp);
-	// sort_exp(&data->exp);
+	sort_exp(&data->exp);
 	return (data);
 }
 
@@ -79,7 +79,6 @@ int	main(int ac, char **av, char **envp)
 			add_history(str_rln);
 			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 			{
-				printf("%d\n", data->pip_nb);
 				exec_cmd(pipeline->left, &data->env, &data->exp, envp);
 				to_free(pipeline);
 			}

@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/07/31 14:59:52 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/07/31 20:07:54 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,17 +34,20 @@ FILES =	main.c\
 		lexer/ft_split_arg_utils.c\
 		parser/parser.c\
 		parser/pars_utils.c\
-		parser/error.c\
+		error.c\
 		parser/free.c\
 		parser/print.c\
 		exec.c\
 		builtins/echo.c\
 		builtins/env.c\
 		builtins/cd.c\
+		builtins/cd_utils.c\
 		builtins/pwd.c\
 		builtins/unset.c\
 		builtins/array_args.c\
 		builtins/init.c\
+		builtins/export.c\
+		builtins/export_utils.c
 
 #!########################
 

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/29 20:12:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/31 20:40:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,8 @@ void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp)
 		unset_cmd(env, cmd);
 		unset_cmd(exp, cmd);
 	}
-	// else if (!strcmp(cmd->content->content, "export"))
-	// {
-	// 	// export_cmd(exp, cmd);
-	// }
+	else if (!strcmp(cmd->content->content, "export"))
+		export_cmd(exp, env, cmd);
 	// else if (!strcmp(cmd->content->content, "exit"))
 	// 	exit_cmd(p_line);
 	else
