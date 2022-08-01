@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 14:41:23 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 21:47:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/01 23:15:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_exp(char *str)
 	return (0);
 }
 
-int	exist(t_env *env, char *arg)
+int	elem_exist(t_env *env, char *arg)
 {
 	int	i;
 
@@ -83,4 +83,52 @@ int	exist(t_env *env, char *arg)
 		env = env->next;
 	}
 	return (0);
+}
+
+void	dup_exist_elem(t_env *tmp, char *str)
+{
+	int		i;
+	int		j;
+	char	*value;
+
+	i = 0;
+	j = 0;
+	value = NULL;
+	while (str[i] != '=')
+		i++;
+	j = ++i;
+	while (str[j])
+		j++;
+	if (i != j)
+		value = env_dup(str, j, i);
+	while (tmp)
+	{
+		if (!strncmp(tmp->pair->key, &str[0], ft_strlen(tmp->pair->key)))
+			tmp->pair->value = ft_strjoin(tmp->pair->value, value);
+		tmp = tmp->next;
+	}
+	free(value);
+}
+
+t_env	*dup_not_exist_elem(t_env *tmp, char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i - 1] == '+')
+		tmp->pair->key = env_dup(str, i - 1, j);
+	else
+		tmp->pair->key = env_dup(str, i, j);
+	j = ++i;
+	while (str[i])
+		i++;
+	if (i != j)
+		tmp->pair->value = env_dup(str, i, j);
+	else
+		tmp->pair->value = NULL;
+	return (tmp);
 }

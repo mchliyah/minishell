@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 21:56:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/01 23:18:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,58 +27,21 @@ void	print_exp(t_env *exp)
 
 void	add_elem(t_env **env, char *str, int exist)
 {
-	int		i;
-	int		j;
-	t_env	*tm;
-	char	*value;
+	t_env	*tmp;
 
-	j = 0;
-	i = 0;
-	value = NULL;
-	tm = *env;
+	tmp = *env;
 	if (!exist)
 	{
-		while (tm->next)
-			tm = tm->next;
-		tm->next = malloc(sizeof(t_env));
-		tm->next->next = NULL;
-		tm->next->pair = malloc(sizeof(t_pair));
-		if (tm->next)
-		{
-			while (str[i] && str[i] != '=')
-				i++;
-			if (str[i - 1] == '+')
-				tm->next->pair->key = env_dup(str, i - 1, j);
-			else
-				tm->next->pair->key = env_dup(str, i, j);
-			j = ++i;
-			while (str[i])
-				i++;
-			if (i != j)
-				tm->next->pair->value = env_dup(str, i, j);
-			else
-				tm->next->pair->value = NULL;
-		}
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = malloc(sizeof(t_env));
+		tmp->next->next = NULL;
+		tmp->next->pair = malloc(sizeof(t_pair));
+		if (tmp->next)
+			tmp->next = dup_not_exist_elem(tmp->next, str);
 	}
 	else
-	{
-		while (str[i] != '=')
-			i++;
-		j = ++i;
-		while (str[j])
-			j++;
-		if (i != j)
-			value = env_dup(str, j, i);
-		else
-			value = NULL;
-		while (tm)
-		{
-			if (!strncmp(tm->pair->key, &str[0], ft_strlen(tm->pair->key)))
-				tm->pair->value = ft_strjoin(tm->pair->value, value);
-			tm = tm->next;
-		}
-		free(value);
-	}
+		dup_exist_elem(tmp, str);
 }
 
 void	export_elem(int ret, t_list *cmd, char *arg, t_env **exp, t_env **env)
@@ -89,25 +52,37 @@ void	export_elem(int ret, t_list *cmd, char *arg, t_env **exp, t_env **env)
 	{
 		if (ret == 1)
 		{
-			if (exist(*exp, arg))
+			if (elem_exist(*exp, arg))
 				unset_cmd(exp, cmd);
 			add_elem(exp, arg, 0);
-			if (exist(*env, arg))
+			if (elem_exist(*env, arg))
 				unset_cmd(env, cmd);
 			add_elem(env, arg, 0);
 		}
 		else
 		{
-			if (exist(*exp, arg))
+			if (elem_exist(*exp, arg))
 				add_elem(exp, arg, 1);
 			else
 				add_elem(exp, arg, 0);
-			if (exist(*env, arg))
+			if (elem_exist(*env, arg))
 				add_elem(env, arg, 1);
 			else
 				add_elem(env, arg, 0);
 		}
 	}
+}
+
+void	check_add(t_list *c_line, char *args, t_env **exp, t_env **env)
+{
+	int		ret;
+
+	ret = 0;
+	ret = check_exp(args);
+	if (ret < 0)
+		exp_error(ret, args);
+	else
+		export_elem(ret, c_line, args, exp, env);
 }
 
 void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
@@ -116,10 +91,8 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	t_env	*expt;
 	t_env	*envp;
 	int		i;
-	int		ret;
 
 	i = 1;
-	ret = 0;
 	expt = *exp;
 	envp = *env;
 	if (!c_line->content->arg)
@@ -133,11 +106,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 			envp = envp->next;
 		while (args[i])
 		{
-			ret = check_exp(args[i]);
-			if (ret < 0)
-				exp_error(ret, args[i]);
-			else
-				export_elem(ret, c_line, args[i], &expt, &envp);
+			check_add(c_line, args[i], exp, env);
 			i++;
 		}
 		free (args);
