@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 14:41:23 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/30 15:07:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/01 21:47:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	check_exp(char *str)
 				return (1);
 			else if (str[i] == '=' && str[i - 1] == '+')
 				return (2);
+			else if (str[i] == '=')
+				break ;
 		}
 		i++;
 	}

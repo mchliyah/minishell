@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 13:56:05 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/01 21:56:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	print_exp(t_env *exp)
 {
 	while (exp)
 	{
-		printf("declare -x %s=\"%s\"\n", exp->pair->key, exp->pair->value);
+		printf("declare -x %s", exp->pair->key);
+		if (exp->pair->value)
+			printf("=\"%s\"\n", exp->pair->value);
+		else
+			printf("\n");
 		exp = exp->next;
 	}
 }
@@ -50,7 +54,10 @@ void	add_elem(t_env **env, char *str, int exist)
 			j = ++i;
 			while (str[i])
 				i++;
-			tm->next->pair->value = env_dup(str, i, j);
+			if (i != j)
+				tm->next->pair->value = env_dup(str, i, j);
+			else
+				tm->next->pair->value = NULL;
 		}
 	}
 	else
@@ -60,11 +67,14 @@ void	add_elem(t_env **env, char *str, int exist)
 		j = ++i;
 		while (str[j])
 			j++;
-		value = env_dup(str, i, j);
+		if (i != j)
+			value = env_dup(str, j, i);
+		else
+			value = NULL;
 		while (tm)
 		{
-			if (!strncmp(tm->pair->key, &str[i], ft_strlen(tm->pair->key)))
-				tm->pair->value = ft_strjoin(tm->pair->key, value);
+			if (!strncmp(tm->pair->key, &str[0], ft_strlen(tm->pair->key)))
+				tm->pair->value = ft_strjoin(tm->pair->value, value);
 			tm = tm->next;
 		}
 		free(value);
@@ -80,6 +90,15 @@ void	export_elem(int ret, t_list *cmd, char *arg, t_env **exp, t_env **env)
 		if (ret == 1)
 		{
 			if (exist(*exp, arg))
+				unset_cmd(exp, cmd);
+			add_elem(exp, arg, 0);
+			if (exist(*env, arg))
+				unset_cmd(env, cmd);
+			add_elem(env, arg, 0);
+		}
+		else
+		{
+			if (exist(*exp, arg))
 				add_elem(exp, arg, 1);
 			else
 				add_elem(exp, arg, 0);
@@ -87,13 +106,6 @@ void	export_elem(int ret, t_list *cmd, char *arg, t_env **exp, t_env **env)
 				add_elem(env, arg, 1);
 			else
 				add_elem(env, arg, 0);
-		}
-		else
-		{
-			unset_cmd(exp, cmd);
-			add_elem(exp, arg, 0);
-			unset_cmd(env, cmd);
-			add_elem(env, arg, 0);
 		}
 	}
 }
