@@ -28,50 +28,60 @@
 	 *   |_x_|_1_| - |_0_|_3_| - |_x_|_2_|
 	 *  4          2
 	 */
-void	execute_childes(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp, t_exec *exec)
+void	parent_orders(t_data *exec)
 {
-	int	child;
+	int	i;
 
-	child = 0;
-	printf("____________p_index %d\n", exec->p_index);
+	while (i < exec->p_in)
+	{
+		close(exec->p_fd[i]);
+		i++;
+	}
+	waitpid(-1, NULL, 0);
+}
+void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
+{
+	printf("____________p_index %d\n", exec->p_in);
 	if (this_pipe->left)
 	{
+		if (fork() == -1)
+		{
+			perror("fork(): ");
+			return ;
+		}
 		printf("l---------%s----------\n", this_pipe->left->content->content);
-		printf("cmd_n=>%d\n", exec->cmd_n);
-		exec_cmd(this_pipe->left, env, exp, envp, child, exec);
-		exec->cmd_n++;
-		child = 1;
+		exec_cmd(this_pipe->left, envp, exec);
+		exec->cmd_i++;
+		return ;
 	}
-	exec->p_index += 2;
+	exec->p_in += 2;
 	if (this_pipe->right)
 	{
+		if (fork() == -1)
+		{
+			perror("fork(): ");
+			return ;
+		}
 		printf("r---------%s----------\n", this_pipe->right->content->content);
-		printf("cmd_n =>%d\n", exec->cmd_n);
-		exec_cmd(this_pipe->right, env, exp, envp, child, exec);
-		exec->cmd_n++;
+		dup2(fd[0], 0);
+		exec_cmd(this_pipe->right, envp, exec);
+		exec->cmd_i++;
 	}
+	parent_orders(exec);
 }
 
 /*
  * closing fds if pipe failed
  */
-int	iterator(t_pipe_line *this_pipe, t_env **env, t_env **exp, char **envp, t_exec *exec)
+int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+
 	if (this_pipe->left_p)
 	{
-		iterator(this_pipe->left_p, env, exp, envp, exec);
+		iterator(this_pipe->left_p, envp, exec);
 	}
-	exec->p_index += 2;
-	execute_childes(this_pipe, env, exp, envp, exec);
-	i = 0;
-	j = ((exec->cmd_size - 1) * 2);
-	while (i < j)
-	{
-	//	printf("i\n");
-		close(exec->p_fd[i]);
-		i++;
-	}
+	execute_childes(this_pipe, envp, exec);
 	return (EXIT_SUCCESS);
 }

@@ -49,49 +49,39 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 {
 	(void)ac;
 	(void)av;
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->exit = 0;
-	data->pip_nb = 0;
-	data->pips = NULL;
-	data->fdin = NULL;
-	data->fdout = NULL;
+	data->p_fd = NULL;
+	data->fd_in = NULL;
+	data->fd_out = NULL;
 	data->env = get_env(envp);
 	data->exp = get_env(envp);
 	// sort_exp(&data->exp);
 	return (data);
 }
 
-int	count_pipes(t_pipe_line *pipes, t_exec **exec)
+int	init_pipes(t_data **exec)
 {
-	int			a;
 	int			i;
-	t_pipe_line	*this;
 
-	*exec = malloc(sizeof(t_exec));
-	if (!*exec)
-		return (EXIT_FAILURE);
-	(*exec)->cmd_n = 0;
-	this = pipes;
-	a = 0;
-	i = 0;
-	while (this->left_p)
+	(*exec)->cmd_i = 0;
+	printf("pipe_nb%d\n", (*exec)->pip_nb);
+	(*exec)->p_in = 0;
+	if ((*exec)->pip_nb != 0)
 	{
-		a++;
-		this = this->left_p;
-	}
-	printf("aaaaaa %d\n", a);
-	(*exec)->p_fd = malloc(2 * a);
-	(*exec)->cmd_size = a + 1;
-	(*exec)->p_index = 0;
-	if (a != 0)
-	{
-	while (i < (a * 2))
-	{
-		i += 2;
-		if (pipe((*exec)->p_fd + i) < 0)
+		(*exec)->p_fd = malloc(2 * (*exec)->pip_nb);
+		i = 0;
+		while (i < (*exec)->pip_nb)
 		{
-			perror("pipe:");
+			if (pipe((*exec)->p_fd + i * 2) < 0)
+			{
+				perror("couldn't pipe");
+				exit(EXIT_FAILURE);
+			}
+			i++;
 		}
-	}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -99,12 +89,11 @@ int	count_pipes(t_pipe_line *pipes, t_exec **exec)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipe_line	*pipeline;
-	t_env		*env;
-	t_env		*exp;
 	char		*str_rln;
+	t_data		*data;
 
+	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
-	data = malloc(sizeof(t_data));
 	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
@@ -113,14 +102,20 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (*str_rln)
 		{
-			add_history(str_rln);
-			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
+			if (data)
 			{
-				printf("%d\n", data->pip_nb);
-				exec_cmd(pipeline->left, &data->env, &data->exp, envp);
-				count_pipes(pipeline, &exec);
-				iterator(pipeline, &env, &exp, envp, exec);
-				to_free(pipeline);
+				add_history(str_rln);
+				if (generate_token(
+						str_rln,
+						&pipeline,
+						data->env,
+						&data) != 1
+				)
+				{
+					init_pipes(&data);
+					iterator(pipeline, envp, data);
+					to_free(pipeline);
+				}
 			}
 		}
 	}

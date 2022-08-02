@@ -12,12 +12,14 @@
 
 #include "../includes/minishell.h"
 
-void	pwd_cmd(t_env	**env)
+void	pwd_cmd(t_env	**env, t_data *exec)
 {
 	char	*path;
 
 	path = get_path("PWD", *env);
 	if (path)
+	{
 		printf("%s\n", path);
+	}
 	// g_status = 0;
 }
