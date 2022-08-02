@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 18:09:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 21:50:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**get_cmd_path(char **env)
 	while (ft_strncmp("PATH=", *env, 4))
 	{
 		if (ft_strncmp("PATH=", *env, 4) == -1)
-			PV("err cmand \n", "%s");
+			ft_putstr_fd("err cmand \n", 2);
 		env++;
 	}
 	path = ft_split(*env + 5, ':');
