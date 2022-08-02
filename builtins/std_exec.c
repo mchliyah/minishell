@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 21:50:12 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 22:42:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,22 @@ char	**get_cmd_path(char **env)
 
 void	std_exec(t_list *cmd, char **env)
 {
-	int		pid;
 	char	**args;
 	char	**path;
 	char	*cmand;
 
-	pid = fork();
-	if (pid == 0)
+	args = arr_arg(cmd);
+	if (access(cmd->content->content, X_OK) == 0)
+		execve(cmd->content->content, args, env);
+	else
 	{
-		args = arr_arg(cmd);
-		if (access(cmd->content->content, X_OK) == 0)
-			execve(cmd->content->content, args, env);
-		else
-		{
-			path = get_cmd_path(env);
-			cmand = get_cmd(path, cmd->content->content);
-			execve(cmand, args, env);
-		}
-		ft_putstr_fd("minishell : ", 2);
-		ft_putstr_fd(cmd->content->content, 2);
-		ft_putstr_fd(" : command not found\n", 2);
+		path = get_cmd_path(env);
+		cmand = get_cmd(path, cmd->content->content);
+		execve(cmand, args, env);
 	}
-	wait(NULL);
+	ft_putstr_fd("minishell : ", 2);
+	ft_putstr_fd(cmd->content->content, 2);
+	ft_putstr_fd(" : command not found\n", 2);
 }
 
 void	to_std(t_env *env, char **envp, t_list *cmd)

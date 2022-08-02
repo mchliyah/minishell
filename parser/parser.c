@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 15:25:44 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:43:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
-	t_list		*print;
 
 	lexer = NULL;
 	lst_token = NULL;

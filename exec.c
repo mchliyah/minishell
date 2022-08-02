@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 18:30:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 23:05:37 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,64 @@ int	cmpair(char *content, char *key)
 	return (1);
 }
 
-void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp)
+void	open_pipe(t_data **exec, char mode)
+{
+	int	i;
+
+	i = 0;
+	if (mode == 'w')
+	{
+		if ((*exec)->p_in == 0)
+		{
+			close((*exec)->p_fd[(*exec)->p_in]);
+		}
+		else
+		{
+			close((*exec)->p_fd[(*exec)->p_in - 2]);
+		}
+		if (dup2((*exec)->p_fd[(*exec)->p_in + 1], STDOUT_FILENO) == -1)
+		{
+			printf("err and should take some work in dup1\n");
+		}
+	}
+	else
+	{
+		close((*exec)->p_fd[(*exec)->p_in - 1]);
+		if (dup2((*exec)->p_fd[(*exec)->p_in - 2], STDIN_FILENO) == -1)
+		{
+			printf("err and should take some work in dup2\n");
+		}
+	}
+}
+
+void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
 {
 	char	*content;
+	char	mode;
 
+	if ((exec->cmd_i + 1 != exec->pip_nb + 1))
+		mode = 'w';
+	else if (exec->cmd_i > 0)
+		mode = 'r';
+	open_pipe(&exec, mode);
 	content = cmd->content->content;
 	if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
 		echo(cmd);
 	else if (!cmpair(content, "env") || !cmpair(content, "ENV"))
-		env_cmd(*env);
+		env_cmd(exec->env);
 	else if (!cmpair(content, "cd") || !cmpair(content, "CD"))
-		cd_cmd(cmd, (*env));
+		cd_cmd(cmd, exec->env);
 	else if (!cmpair(content, "pwd") || !cmpair(content, "PWD"))
-		pwd_cmd(env);
+		pwd_cmd(exec->env);
 	else if (!cmpair(content, "unset"))
 	{
-		unset_cmd(env, cmd);
-		unset_cmd(exp, cmd);
+		unset_cmd(&exec->env, cmd);
+		unset_cmd(&exec->exp, cmd);
 	}
 	else if (!cmpair(content, "export"))
-		export_cmd(exp, env, cmd);
+		export_cmd(&exec->exp, &exec->env, cmd);
 	else if (!cmpair(content, "exit"))
 		exit_cmd(cmd);
 	else
-		to_std(*env, envp, cmd);
+		to_std(exec->env, envp, cmd);
 }

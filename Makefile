@@ -6,14 +6,14 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/02 18:10:04 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/02 22:23:27 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = gcc
 
-CFLAGS = #-Wall -Werror -Wextra 
+CFLAGS = #-Wall -Werror -Wextra -g
 
 RM = rm -f
 #########################
@@ -39,6 +39,7 @@ FILES =	main.c\
 		parser/print.c\
 		exec.c\
 		builtins/std_exec.c\
+		iterator.c\
 		builtins/echo.c\
 		builtins/env.c\
 		builtins/cd.c\
@@ -80,7 +81,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(CFLAGS) -g $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME) -fsanitize=address -g3
+	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

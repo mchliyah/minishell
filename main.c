@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/02 17:26:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 22:22:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,51 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 {
 	(void)ac;
 	(void)av;
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->exit = 0;
-	data->pip_nb = 0;
-	data->pips = NULL;
-	data->fdin = NULL;
-	data->fdout = NULL;
+	data->p_fd = NULL;
+	data->fd_in = NULL;
+	data->fd_out = NULL;
 	data->env = get_env(envp);
 	data->exp = get_env(envp);
 	sort_exp(&data->exp);
 	return (data);
 }
 
+int	init_pipes(t_data **exec)
+{
+	int			i;
+
+	(*exec)->cmd_i = 0;
+//	printf("pipe_nb%d\n", (*exec)->pip_nb);
+	(*exec)->p_in = 0;
+	if ((*exec)->pip_nb != 0)
+	{
+		(*exec)->p_fd = malloc((2 * (*exec)->pip_nb) * sizeof(int ));
+		i = 0;
+		while (i < (*exec)->pip_nb)
+		{
+			if (pipe((*exec)->p_fd + i * 2) < 0)
+			{
+				perror("couldn't pipe");
+				exit(EXIT_FAILURE);
+			}
+			i++;
+		}
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_pipe_line	*pipeline;
-	t_data		*data;
 	char		*str_rln;
+	t_data		*data;
 
+	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
-	data = malloc(sizeof(t_data));
 	data = init_data(ac, av, data, envp);
 	g_status = 0;
 	while (!data->exit)
@@ -77,11 +103,20 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (*str_rln)
 		{
-			add_history(str_rln);
-			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
+			if (data)
 			{
-				exec_cmd(pipeline->left, &data->env, &data->exp, envp);
-				to_free(pipeline);
+				add_history(str_rln);
+				if (generate_token(
+						str_rln,
+						&pipeline,
+						data->env,
+						&data) != 1
+				)
+				{
+					init_pipes(&data);
+					iterator(pipeline, envp, data);
+					to_free(pipeline);
+				}
 			}
 		}
 	}

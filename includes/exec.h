@@ -6,16 +6,38 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 18:09:33 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 22:50:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+# include "minishell.h"
+
+typedef struct s_data
+{
+    t_env   *env;
+    t_env   *exp;
+    int		exit;
+    int     pip_nb;
+	int	    *p_fd;
+	int	    *fd_in;
+	int	    *fd_out;
+	int		p_in;
+	int		cmd_i;
+}	t_data;
 
 //exec
-void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp);
 void	to_std(t_env *env, char **envp, t_list *cmd);
+void	exec_cmd(t_list *cmd, char **envp, t_data *exec);
+// void	to_std(t_env *env, char **envp, t_list *cmd);
+//char	*get_path(char *path, t_env *env);
+void	echo(t_list *cmd);
+void	env_cmd(t_env *env);
+void	cd_cmd(t_list	*c_line, t_env *env);
+//void	pwd_cmd(t_env **env, t_data *exec);
+void	unset_cmd(t_env **env, t_list *cmd);
+char	**arr_arg(t_list *cmd);
 t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
 char	**arr_arg(t_list *cmd);
@@ -37,7 +59,7 @@ char	*get_path(char *key, t_env *env);
 //other builtins
 t_env	*update_path(t_env *env, char *to_set, char	*to_old);
 void	echo(t_list *cmd);
-void	pwd_cmd(t_env **env);
+void	pwd_cmd(t_env *env);
 void	exit_cmd(t_list *cmd);
 
 #endif
