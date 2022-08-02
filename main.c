@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
-		str_rln = readline("\n\033[1;31m ~minishell~: \033[0m");
+		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
@@ -114,7 +114,6 @@ int	main(int ac, char **av, char **envp)
 				{
 					init_pipes(&data);
 					iterator(pipeline, envp, data);
-//					printf("ps\n");
 					to_free(pipeline);
 				}
 			}

@@ -34,10 +34,11 @@ void	parent_orders(t_data *exec)
 
 int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
+	int	i;
 	int	f_pid;
 	int	_f_pid;
 
-//	printf("____________p_index %d\n", exec->p_in);
+	i = 0;
 	if (this_pipe->left)
 	{
 		f_pid = fork();
@@ -46,12 +47,11 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 			return (0);
 		}
 		if (f_pid == 0) {
-//			printf("l---------%s----------\n", this_pipe->left->content->content);
 			exec_cmd(this_pipe->left, envp, exec);
 			exit(0);
 		}
+		exec->cmd_i++;
 	}
-	exec->cmd_i++;
 	exec->p_in += 2;
 	if (this_pipe->right)
 	{
@@ -63,23 +63,18 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		}
 		if (_f_pid == 0)
 		{
-//			printf("r---------%s----------\n", this_pipe->right->content->content);
 			exec_cmd(this_pipe->right, envp, exec);
 			exit(0);
 		}
 		exec->cmd_i++;
 	}
-	int	i;
-
-	i = 0;
-	PV(i, "%d\n");
 	while (i < exec->p_in)
 	{
 		close(exec->p_fd[i]);
 		i++;
 	}
-	wait(NULL);
-//	parent_orders(exec);
+	while (wait(0) > 0)
+		;
 	return (1);
 }
 

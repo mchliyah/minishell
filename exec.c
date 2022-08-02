@@ -37,7 +37,7 @@ char	**get_cmd_path(char **env)
 	while (ft_strncmp("PATH=", *env, 4))
 	{
 		if (ft_strncmp("PATH=", *env, 4) == -1)
-			PV("err cmand \n", "%s");
+			ft_putstr_fd("error cmd\n", 2);
 		env++;
 	}
 	path = ft_split(*env + 5, ':');
@@ -92,7 +92,6 @@ void	open_pipe(t_data **exec, char mode)
 	{
 		if ((*exec)->p_in == 0)
 		{
-//			fprintf(stderr, "ko in mode 'w'**\n");
 			close((*exec)->p_fd[(*exec)->p_in]);
 		}
 		else
@@ -106,9 +105,7 @@ void	open_pipe(t_data **exec, char mode)
 	}
 	else
 	{
-//		fprintf(stderr, "ko in mode 'r'**\n");
 		close((*exec)->p_fd[(*exec)->p_in - 1]);
-//		printf("here  = %d\n", (*exec)->p_in - 2);
 		if (dup2((*exec)->p_fd[(*exec)->p_in - 2], STDIN_FILENO) == -1)
 		{
 			printf("err and should take some work in dup2\n");

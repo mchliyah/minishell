@@ -50,7 +50,6 @@ t_pipe_line	*to_pipe(t_list *lst_token, t_pipe_line	**pipeline, int frst_p)
 		*pipeline = frst_pipe(pipeline, lst_token);
 	else
 	{
-		HERE;
 		ret_pipe = malloc(sizeof(t_pipe_line));
 		ret_pipe->type = lst_token->content->type;
 		ret_pipe->right = NULL;
