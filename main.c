@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/31 20:41:57 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:26:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int ac, char **av, char **envp)
 	pipeline = malloc(sizeof(t_pipe_line));
 	data = malloc(sizeof(t_data));
 	data = init_data(ac, av, data, envp);
+	g_status = 0;
 	while (!data->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");

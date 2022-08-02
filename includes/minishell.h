@@ -17,7 +17,7 @@
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__ #x, x)
 # define HERE fprintf(stderr, "%s:%d here\n", __FILE__, __LINE__)
 
-// int g_status;
+int g_status;
 
 typedef struct s_data
 {

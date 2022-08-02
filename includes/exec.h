@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 23:18:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 18:09:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 //exec
 void	exec_cmd(t_list *cmd, t_env **env, t_env **exp, char **envp);
+void	to_std(t_env *env, char **envp, t_list *cmd);
 t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
 char	**arr_arg(t_list *cmd);
@@ -37,6 +38,6 @@ char	*get_path(char *key, t_env *env);
 t_env	*update_path(t_env *env, char *to_set, char	*to_old);
 void	echo(t_list *cmd);
 void	pwd_cmd(t_env **env);
-void	exit_cmd(t_pipe_line **p_line);
+void	exit_cmd(t_list *cmd);
 
 #endif

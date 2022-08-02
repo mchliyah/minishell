@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 11:53:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:36:32 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,23 @@ int	str_isnum(char *str)
 	return (1);
 }
 
-void	exit_cmd(t_pipe_line **p_line)
+void	exit_cmd(t_list *cmd)
 {
 	t_arg	*args;
 
-	args = (*p_line)->left->content->arg;
-	(*p_line)->exit = 1;
+	args = cmd->content->arg;
 	if (args && args->next)
 	{
-		// g_status = 1;
+		g_status = 1;
 		ft_putstr_fd("minishell: exit: arguments error", 2);
 	}
 	else if (args && !str_isnum(args->content))
 	{
-		// g_status = 255;
+		g_status = 255;
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args->content, 2);
 		ft_putendl_fd(": put numeric arg", 2);
 	}
-	// else if (args)
-	// 	g_status = ft_atoi(args->content);
+	else if (args)
+		g_status = ft_atoi(args->content);
 }
