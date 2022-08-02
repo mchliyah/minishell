@@ -12,14 +12,6 @@
 
 #include "includes/minishell.h"
 
-
-
-
-//t_exec	*exec_attr(t_exec *exec)
-//{
-////	exec->p_index += 2;
-//	return (exec);
-//}
 	/*
 	 *  left    output to 1   |_0_|_1_|
 	 *  right input form 0 and output to 1 if there is no out redirection
@@ -39,35 +31,56 @@ void	parent_orders(t_data *exec)
 	}
 	waitpid(-1, NULL, 0);
 }
-void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
+
+int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
-	printf("____________p_index %d\n", exec->p_in);
+	int	f_pid;
+	int	_f_pid;
+
+//	printf("____________p_index %d\n", exec->p_in);
 	if (this_pipe->left)
 	{
-		if (fork() == -1)
-		{
+		f_pid = fork();
+		if (f_pid == -1) {
 			perror("fork(): ");
-			return ;
+			return (0);
 		}
-		printf("l---------%s----------\n", this_pipe->left->content->content);
-		exec_cmd(this_pipe->left, envp, exec);
-		exec->cmd_i++;
-		return ;
+		if (f_pid == 0) {
+//			printf("l---------%s----------\n", this_pipe->left->content->content);
+			exec_cmd(this_pipe->left, envp, exec);
+			exit(0);
+		}
 	}
+	exec->cmd_i++;
 	exec->p_in += 2;
 	if (this_pipe->right)
 	{
-		if (fork() == -1)
+		_f_pid = fork();
+		if (_f_pid == -1)
 		{
 			perror("fork(): ");
-			return ;
+			return (0);
 		}
-		printf("r---------%s----------\n", this_pipe->right->content->content);
-		dup2(fd[0], 0);
-		exec_cmd(this_pipe->right, envp, exec);
+		if (_f_pid == 0)
+		{
+//			printf("r---------%s----------\n", this_pipe->right->content->content);
+			exec_cmd(this_pipe->right, envp, exec);
+			exit(0);
+		}
 		exec->cmd_i++;
 	}
-	parent_orders(exec);
+	int	i;
+
+	i = 0;
+	PV(i, "%d\n");
+	while (i < exec->p_in)
+	{
+		close(exec->p_fd[i]);
+		i++;
+	}
+	wait(NULL);
+//	parent_orders(exec);
+	return (1);
 }
 
 /*

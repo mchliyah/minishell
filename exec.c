@@ -90,11 +90,15 @@ void	open_pipe(t_data **exec, char mode)
 {
 	if (mode == 'w')
 	{
-		printf("ko\n");
 		if ((*exec)->p_in == 0)
+		{
+//			fprintf(stderr, "ko in mode 'w'**\n");
 			close((*exec)->p_fd[(*exec)->p_in]);
+		}
 		else
+		{
 			close((*exec)->p_fd[(*exec)->p_in - 2]);
+		}
 		if (dup2((*exec)->p_fd[(*exec)->p_in + 1], STDOUT_FILENO) == -1)
 		{
 			printf("err and should take some work in dup1\n");
@@ -102,9 +106,9 @@ void	open_pipe(t_data **exec, char mode)
 	}
 	else
 	{
-		printf("hiiiii\n");
+//		fprintf(stderr, "ko in mode 'r'**\n");
 		close((*exec)->p_fd[(*exec)->p_in - 1]);
-		printf("here  = %d\n", (*exec)->p_in - 2);
+//		printf("here  = %d\n", (*exec)->p_in - 2);
 		if (dup2((*exec)->p_fd[(*exec)->p_in - 2], STDIN_FILENO) == -1)
 		{
 			printf("err and should take some work in dup2\n");
@@ -120,6 +124,12 @@ void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
 		mode = 'w';
 	else if (exec->cmd_i > 0)
 		mode = 'r';
+//	if ((exec->cmd_i + 1 != exec->pip_nb + 1) && mode == 'r')
+//		if (!isatty(1))
+//		{
+//			HERE ;
+//			dup2(1, exec->p_fd[exec->p_in + 1]);
+//		}
 	open_pipe(&exec, mode);
 	if (!strcmp(cmd->content->content, "echo"))
 		echo(cmd);
