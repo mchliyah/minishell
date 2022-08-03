@@ -6,72 +6,20 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 10:11:46 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/24 22:50:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:23:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# define WHITESPACE " \t\n\r\v"
-# define SYMBOLS " |<>"
-# define EOS '\0'
-#define SPACE ' '
-
-# include <stdbool.h>
+# include "structs.h"
+# include "minishell.h"
 
 /*
  * 	int (keyword), value (identifier) = e_symbols,
  * 	= (operator), 100 (constant) and ; (symbol).
  */
-enum
-{
-	MINUS = '-',
-	EPIPE = '|',
-	SINGLE_QUOTE = '\'',
-	L_DOUBLE_QUOTE = '\"',
-	R_DOUBLE_QUOTE = '\"',
-	LESS = '<',
-	GREATER = '>',
-	ASSIGN = '='
-};
 
-typedef struct s_args
-{
-	char			*content;
-	struct s_args	*next;
-	struct s_args	*prev;
-}	t_arg;
-
-// ! content is the txt cmd
-typedef struct s_token
-{
-	enum
-	{
-		WORD,
-		REDIRECT_IN,
-		REDIRECT_OUT,
-		DELIMITER,
-		REDIRECT_OUT_IN_APPEND_MD,
-		PIPE,
-		SYNTAX_ERR
-	} e_type;
-	int		type;
-	char	*content;
-	t_arg	*arg;
-
-}	t_token;
-
-typedef struct s_lexer
-{
-	char	c;
-	size_t	str_len;
-	size_t	i;
-	char	*content;
-}	t_lexer;
 
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);

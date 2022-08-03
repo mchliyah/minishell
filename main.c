@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/02 22:22:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:55:58 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,10 @@ int	main(int ac, char **av, char **envp)
 			if (data)
 			{
 				add_history(str_rln);
-				if (generate_token(
-						str_rln,
-						&pipeline,
-						data->env,
-						&data) != 1
-				)
+				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
 					init_pipes(&data);
-					iterator(pipeline, envp, data);
+					iterator(pipeline, envp, &data);
 					to_free(pipeline);
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/03 23:06:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:57:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	parent_orders(t_data *exec)
 	waitpid(-1, NULL, 0);
 }
 
-int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
+int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
 	int	i;
 	int	f_pid;
@@ -52,9 +52,9 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 			exec_cmd(this_pipe->left, envp, exec);
 			exit(g_status);
 		}
-		exec->cmd_i++;
+		(*exec)->cmd_i++;
 	}
-	exec->p_in += 2;
+	(*exec)->p_in += 2;
 	if (this_pipe->right)
 	{
 		_f_pid = fork();
@@ -68,11 +68,11 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 			exec_cmd(this_pipe->right, envp, exec);
 			exit(g_status);
 		}
-		exec->cmd_i++;
+		(*exec)->cmd_i++;
 	}
-	while (i < exec->p_in)
+	while (i < (*exec)->p_in)
 	{
-		close(exec->p_fd[i]);
+		close((*exec)->p_fd[i]);
 		i++;
 	}
 	while (wait(0) > 0)
@@ -83,7 +83,7 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 /*
  * closing fds if pipe failed
  */
-int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
+int	iterator(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
 	int	i;
 	int	j;
@@ -93,5 +93,6 @@ int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		iterator(this_pipe->left_p, envp, exec);
 	}
 	execute_childes(this_pipe, envp, exec);
+	PV((*exec)->exit, "%d\n");
 	return (EXIT_SUCCESS);
 }

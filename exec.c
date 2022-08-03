@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/03 23:01:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:31:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,29 @@ void	open_pipe(t_data **exec)
 	}
 }
 
-void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
+void	exec_cmd(t_list *cmd, char **envp, t_data **exec)
 {
 	char	*content;
 
-	open_pipe(&exec);
+	open_pipe(exec);
 	content = cmd->content->content;
 	if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
 		echo(cmd);
 	else if (!cmpair(content, "env") || !cmpair(content, "ENV"))
-		env_cmd(exec->env);
+		env_cmd((*exec)->env);
 	else if (!cmpair(content, "cd") || !cmpair(content, "CD"))
-		cd_cmd(cmd, exec->env);
+		cd_cmd(cmd, (*exec)->env);
 	else if (!cmpair(content, "pwd") || !cmpair(content, "PWD"))
-		pwd_cmd(exec->env);
+		pwd_cmd((*exec)->env);
 	else if (!cmpair(content, "unset"))
 	{
-		unset_cmd(&exec->env, cmd);
-		unset_cmd(&exec->exp, cmd);
+		unset_cmd(&(*exec)->env, cmd);
+		unset_cmd(&(*exec)->exp, cmd);
 	}
 	else if (!cmpair(content, "export"))
-		export_cmd(&exec->exp, &exec->env, cmd);
+		export_cmd(&(*exec)->exp, &(*exec)->env, cmd);
 	else if (!cmpair(content, "exit"))
-		exit_cmd(cmd, &exec);
+		(*exec)->exit = exit_cmd(cmd);
 	else
-		to_std(exec->env, envp, cmd);
+		to_std((*exec)->env, envp, cmd);
 }

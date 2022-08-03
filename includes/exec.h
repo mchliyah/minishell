@@ -6,30 +6,18 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/03 23:02:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:32:51 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+# include "structs.h"
 # include "minishell.h"
-
-typedef struct s_data
-{
-    t_env   *env;
-    t_env   *exp;
-    int		exit;
-    int     pip_nb;
-	int	    *p_fd;
-	int	    *fd_in;
-	int	    *fd_out;
-	int		p_in;
-	int		cmd_i;
-}	t_data;
-
+# include "../libft/libft.h"
 //exec
 void	to_std(t_env *env, char **envp, t_list *cmd);
-void	exec_cmd(t_list *cmd, char **envp, t_data *exec);
+void	exec_cmd(t_list *cmd, char **envp, t_data **exec);
 // void	to_std(t_env *env, char **envp, t_list *cmd);
 //char	*get_path(char *path, t_env *env);
 void	echo(t_list *cmd);
@@ -60,6 +48,6 @@ char	*get_path(char *key, t_env *env);
 t_env	*update_path(t_env *env, char *to_set, char	*to_old);
 void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);
-void	exit_cmd(t_list *cmd, t_data **data);
+int		exit_cmd(t_list *cmd);
 
 #endif
