@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/27 19:57:27 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:06:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 	if (this_pipe->left)
 	{
 		f_pid = fork();
-		if (f_pid == -1) {
+		if (f_pid == -1)
+		{
 			perror("fork(): ");
 			return (0);
 		}
-		if (f_pid == 0) {
+		if (f_pid == 0)
+		{
 			exec_cmd(this_pipe->left, envp, exec);
-			exit(0);
+			exit(g_status);
 		}
 		exec->cmd_i++;
 	}
@@ -64,7 +66,7 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		if (_f_pid == 0)
 		{
 			exec_cmd(this_pipe->right, envp, exec);
-			exit(0);
+			exit(g_status);
 		}
 		exec->cmd_i++;
 	}

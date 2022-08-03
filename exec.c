@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 23:05:37 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:01:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,46 +19,38 @@ int	cmpair(char *content, char *key)
 	return (1);
 }
 
-void	open_pipe(t_data **exec, char mode)
+void	open_pipe(t_data **exec)
 {
-	int	i;
+	int		i;
+	char	mode;
 
 	i = 0;
+	if (((*exec)->cmd_i + 1 != (*exec)->pip_nb + 1))
+		mode = 'w';
+	else if ((*exec)->cmd_i > 0)
+		mode = 'r';
 	if (mode == 'w')
 	{
 		if ((*exec)->p_in == 0)
-		{
 			close((*exec)->p_fd[(*exec)->p_in]);
-		}
 		else
-		{
 			close((*exec)->p_fd[(*exec)->p_in - 2]);
-		}
 		if (dup2((*exec)->p_fd[(*exec)->p_in + 1], STDOUT_FILENO) == -1)
-		{
 			printf("err and should take some work in dup1\n");
-		}
 	}
 	else
 	{
 		close((*exec)->p_fd[(*exec)->p_in - 1]);
 		if (dup2((*exec)->p_fd[(*exec)->p_in - 2], STDIN_FILENO) == -1)
-		{
 			printf("err and should take some work in dup2\n");
-		}
 	}
 }
 
 void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
 {
 	char	*content;
-	char	mode;
 
-	if ((exec->cmd_i + 1 != exec->pip_nb + 1))
-		mode = 'w';
-	else if (exec->cmd_i > 0)
-		mode = 'r';
-	open_pipe(&exec, mode);
+	open_pipe(&exec);
 	content = cmd->content->content;
 	if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
 		echo(cmd);
@@ -76,7 +68,7 @@ void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
 	else if (!cmpair(content, "export"))
 		export_cmd(&exec->exp, &exec->env, cmd);
 	else if (!cmpair(content, "exit"))
-		exit_cmd(cmd);
+		exit_cmd(cmd, &exec);
 	else
 		to_std(exec->env, envp, cmd);
 }

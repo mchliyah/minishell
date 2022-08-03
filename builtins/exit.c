@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 22:19:56 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/03 23:01:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	str_isnum(char *str)
 	return (1);
 }
 
-void	exit_cmd(t_list *cmd)
+void	exit_cmd(t_list *cmd, t_data **data)
 {
 	t_arg	*args;
 
@@ -45,4 +45,5 @@ void	exit_cmd(t_list *cmd)
 	}
 	else if (args)
 		g_status = ft_atoi(args->content);
+	(*data)->exit = 1;
 }
