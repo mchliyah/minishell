@@ -31,7 +31,7 @@ typedef struct s_data
 	int		p_in;
 	int		cmd_i;
 }	t_data;
-
+void	echo(t_list *cmd, t_data* exec);
 void	pwd_cmd(t_env **env, t_data *exec);
 void	print_tokens(t_pipe_line *pipeline);
 int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,

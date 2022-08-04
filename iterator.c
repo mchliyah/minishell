@@ -7,7 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
 /*   Updated: 2022/07/27 19:57:27 by ael-mous         ###   ########.fr       */
-/*                                                                            */
+/*                                                                           */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
@@ -32,21 +32,25 @@ void	parent_orders(t_data *exec)
 	waitpid(-1, NULL, 0);
 }
 
-int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
+void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
+//	char buff[100];
+//	int rd;
 	int	i;
 	int	f_pid;
 	int	_f_pid;
 
-	i = 0;
 	if (this_pipe->left)
 	{
 		f_pid = fork();
-		if (f_pid == -1) {
+		if (f_pid == -1)
+		{
 			perror("fork(): ");
-			return (0);
+			exit(1);
 		}
-		if (f_pid == 0) {
+		if (f_pid == 0)
+		{
+			PV(exec->cmd_i, "--cmd in %d\n");
 			exec_cmd(this_pipe->left, envp, exec);
 			exit(0);
 		}
@@ -59,23 +63,23 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		if (_f_pid == -1)
 		{
 			perror("fork(): ");
-			return (0);
+			exit(1);
 		}
 		if (_f_pid == 0)
 		{
+//			rd = read(exec->p_fd[0], buff, 100);
+//			buff[rd] = '\0';
+//			write (2, buff, ft_strlen(buff));
+//			exit (0);
+			PV(exec->cmd_i, "cmd in %d\n");
 			exec_cmd(this_pipe->right, envp, exec);
 			exit(0);
 		}
 		exec->cmd_i++;
 	}
-	while (i < exec->p_in)
-	{
-		close(exec->p_fd[i]);
-		i++;
-	}
-	while (wait(0) > 0)
-		;
-	return (1);
+//	while (wait(0) > 0)
+//		;
+	//return (1);
 }
 
 /*
@@ -83,7 +87,6 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
  */
 int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
-	int	i;
 	int	j;
 
 	if (this_pipe->left_p)

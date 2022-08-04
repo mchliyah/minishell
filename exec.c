@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-mous <ael-mous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 21:46:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/03 12:27:36 by ael-mous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,50 +86,37 @@ void	to_std(t_data *exec, char **envp, t_list *cmd)
 			printf(": No such file or directory\n");
 }
 
-void	open_pipe(t_data **exec, char mode)
+void	open_pipe(t_data **exec)
 {
-	if (mode == 'w')
+	int	i;
+
+	i = 0;
+	if ((*exec)->cmd_i > 0)
 	{
-		if ((*exec)->p_in == 0)
-		{
-			close((*exec)->p_fd[(*exec)->p_in]);
-		}
-		else
-		{
-			close((*exec)->p_fd[(*exec)->p_in - 2]);
-		}
-		if (dup2((*exec)->p_fd[(*exec)->p_in + 1], STDOUT_FILENO) == -1)
-		{
-			printf("err and should take some work in dup1\n");
-		}
-	}
-	else
-	{
-		close((*exec)->p_fd[(*exec)->p_in - 1]);
 		if (dup2((*exec)->p_fd[(*exec)->p_in - 2], STDIN_FILENO) == -1)
 		{
 			printf("err and should take some work in dup2\n");
 		}
 	}
+	if (((*exec)->cmd_i + 1 != (*exec)->pip_nb + 1))
+	{
+		if (dup2((*exec)->p_fd[(*exec)->p_in + 1], STDOUT_FILENO) == -1)
+		{
+			printf("err and should take some work in dup1\n");
+		}
+	}
+	while (i < (*exec)->pip_nb * 2)
+	{
+		close((*exec)->p_fd[i]);
+		i++;
+	}
 }
 
 void	exec_cmd(t_list *cmd, char **envp, t_data *exec)
 {
-	char	mode;
-
-	if ((exec->cmd_i + 1 != exec->pip_nb + 1))
-		mode = 'w';
-	else if (exec->cmd_i > 0)
-		mode = 'r';
-//	if ((exec->cmd_i + 1 != exec->pip_nb + 1) && mode == 'r')
-//		if (!isatty(1))
-//		{
-//			HERE ;
-//			dup2(1, exec->p_fd[exec->p_in + 1]);
-//		}
-	open_pipe(&exec, mode);
+	open_pipe(&exec);
 	if (!strcmp(cmd->content->content, "echo"))
-		echo(cmd);
+		echo(cmd, exec);
 	else if (!strcmp(cmd->content->content, "env"))
 		env_cmd(exec->env);
 	else if (!strcmp(cmd->content->content, "cd"))

@@ -15,7 +15,7 @@
 # include "minishell.h"
 
 //char	*get_path(char *path, t_env *env);
-void	echo(t_list *cmd);
+
 void	env_cmd(t_env *env);
 void	cd_cmd(t_list	*c_line, t_env *env);
 //void	pwd_cmd(t_env **env, t_data *exec);
