@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
 int	check_close_q_arg(t_arg *token, int *i)
@@ -35,6 +34,33 @@ int	check_close_sq_arg(t_arg *token, int *i)
 	return (false);
 }
 
+int	scan_args_staff(t_arg *token, int i)
+{
+	while (token->content[i])
+	{
+		if (token->content[i] == SINGLE_QUOTE)
+		{
+			i++;
+			if (!check_close_q_arg(token, &i))
+			{
+				ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
+				return (1);
+			}
+		}
+		else if (token->content[i] == L_DOUBLE_QUOTE)
+		{
+			i++;
+			if (!check_close_sq_arg(token, &i))
+			{
+				ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 // !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
 t_arg	*scan_args(t_arg *arg, t_env *env)
 {
@@ -46,28 +72,8 @@ t_arg	*scan_args(t_arg *arg, t_env *env)
 	while (token)
 	{
 		i = 0;
-		while (token->content[i])
-		{
-			if (token->content[i] == SINGLE_QUOTE)
-			{
-				i++;
-				if (!check_close_q_arg(token, &i))
-				{
-					ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
-					return (NULL);
-				}
-			}
-			else if (token->content[i] == L_DOUBLE_QUOTE)
-			{
-				i++;
-				if (!check_close_sq_arg(token, &i))
-				{
-					ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
-					return (NULL);
-				}
-			}
-			i++;
-		}
+		if (scan_args_staff(arg, i) == 1)
+			return (NULL);
 		token = token->next;
 	}
 	token = arg;

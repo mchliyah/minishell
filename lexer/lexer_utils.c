@@ -110,8 +110,6 @@ char	*get_inside_s_quotes(t_lexer **it)
 
 char	*check_for_args(t_lexer **lex)
 {
-	if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
-		return ((void *)0);
 	if ((*lex)->c == SINGLE_QUOTE)
 		return (get_quote_things(lex));
 	else if ((*lex)->c == R_DOUBLE_QUOTE)
@@ -135,6 +133,8 @@ t_arg	*get_args(t_lexer **lex)
 			if ((*lex)->c == EOS)
 				return (NULL);
 		}
+		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
+			break ;
 		s = check_for_args(lex);
 		if (!s)
 			return (NULL);
@@ -142,8 +142,8 @@ t_arg	*get_args(t_lexer **lex)
 			opt = list_new(s);
 		else
 			list_add_back(&opt, list_new(s));
-		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
-			break ;
+//		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
+//			break ;
 		*lex = advance(*lex);
 	}
 	return (opt);

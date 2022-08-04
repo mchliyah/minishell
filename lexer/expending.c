@@ -106,7 +106,6 @@ t_arg	*remove_quoted_args(t_arg *token, t_env *env)
 	arg = token;
 	while (token)
 	{
-		printf("token.arg = %s\n", token->content);
 		if (is_there_quote(token->content))
 			token->content = rm_quote(token->content, env, 1);
 		else if (is_there_squote(token->content))

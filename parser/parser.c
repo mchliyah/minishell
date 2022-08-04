@@ -119,6 +119,13 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
+/*		printf("token == %s\n", token->content);
+		if (token->arg)
+			while (token->arg)
+			{
+				printf("arg %s\n", token->arg->content);
+				token->arg = token->arg->next;
+			}*/
 		lst_token = linked_token(lst_token, token);
 	}
 	*pipeline = parse_to_tree(pipeline, lst_token, data);
