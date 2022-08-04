@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:59:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 15:07:28 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:21:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include "../includes/lexer.h"
-
-typedef struct s_list
-{
-	t_token			*content;
-	struct s_list	*next;
-	struct s_list	*prev;
-}	t_list;
+# include "../includes/structs.h"
 
 //fonct part 1
 int		ft_isalpha(int c);

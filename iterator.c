@@ -32,14 +32,13 @@ void	parent_orders(t_data *exec)
 	waitpid(-1, NULL, 0);
 }
 
-void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
+int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
-//	char buff[100];
-//	int rd;
 	int	i;
 	int	f_pid;
 	int	_f_pid;
 
+	i = 0;
 	if (this_pipe->left)
 	{
 		f_pid = fork();
@@ -50,13 +49,12 @@ void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		}
 		if (f_pid == 0)
 		{
-			PV(exec->cmd_i, "--cmd in %d\n");
 			exec_cmd(this_pipe->left, envp, exec);
-			exit(0);
+			exit(g_status);
 		}
-		exec->cmd_i++;
+		(*exec)->cmd_i++;
 	}
-	exec->p_in += 2;
+	(*exec)->p_in += 2;
 	if (this_pipe->right)
 	{
 		_f_pid = fork();
@@ -67,15 +65,10 @@ void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
 		}
 		if (_f_pid == 0)
 		{
-//			rd = read(exec->p_fd[0], buff, 100);
-//			buff[rd] = '\0';
-//			write (2, buff, ft_strlen(buff));
-//			exit (0);
-			PV(exec->cmd_i, "cmd in %d\n");
 			exec_cmd(this_pipe->right, envp, exec);
-			exit(0);
+			exit(g_status);
 		}
-		exec->cmd_i++;
+		(*exec)->cmd_i++;
 	}
 //	while (wait(0) > 0)
 //		;
@@ -87,6 +80,7 @@ void	execute_childes(t_pipe_line *this_pipe, char **envp, t_data *exec)
  */
 int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
 {
+	int	i;
 	int	j;
 
 	if (this_pipe->left_p)

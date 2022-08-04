@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-mous <ael-mous@student.42.fr>          +#+  +:+       +#+         #
+#    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
 #    Updated: 2022/08/03 12:16:18 by ael-mous         ###   ########.fr        #
@@ -34,10 +34,11 @@ FILES =	main.c\
 		lexer/ft_split_arg_utils.c\
 		parser/parser.c\
 		parser/pars_utils.c\
-		parser/error.c\
+		error.c\
 		parser/free.c\
 		parser/print.c\
 		exec.c\
+		builtins/std_exec.c\
 		iterator.c\
 		builtins/echo.c\
 		builtins/env.c\
@@ -47,6 +48,9 @@ FILES =	main.c\
 		builtins/unset.c\
 		builtins/array_args.c\
 		builtins/init.c\
+		builtins/export.c\
+		builtins/export_utils.c\
+		builtins/exit.c\
 
 #!########################
 

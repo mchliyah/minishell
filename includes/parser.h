@@ -6,54 +6,14 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 14:59:24 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 00:12:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "lexer.h"
-# include "../libft/libft.h"
-
-typedef struct s_pair
-{
-	char			*key;
-	char			*value;
-}	t_pair;
-
-typedef struct s_env
-{
-	struct s_pair	*pair;
-	struct s_env	*next;
-}				t_env;
-
-typedef struct s_cmd_word
-{
-	char	*type;
-	char	*arg;
-}	t_cmd_word;
-
-typedef struct s_pipeline
-{
-	int					type;
-	struct s_pipeline	*left_p;
-	t_list				*left;
-	t_list				*right;
-}	t_pipe_line;
-
-typedef struct s_redirection
-{
-	char					*type;
-	struct s_redirection	*next;
-}	t_redirection;
-
-typedef struct s_files
-{
-	char					*type;
-	int						fd;
-	struct s_redirection	*next;
-}	t_files;
+# include "struct.h"
 
 t_list		*linked_token(t_list	*lst_token, t_token *token);
 int			pipe_exist(t_list *lst);

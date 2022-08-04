@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <ael-mous@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
 /*   Updated: 2022/08/03 12:33:26 by ael-mous         ###   ########.fr       */
@@ -58,7 +58,7 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	data->fd_out = NULL;
 	data->env = get_env(envp);
 	data->exp = get_env(envp);
-	// sort_exp(&data->exp);
+	sort_exp(&data->exp);
 	return (data);
 }
 
@@ -67,8 +67,8 @@ int	init_pipes(t_data **exec)
 	int			i;
 
 	(*exec)->cmd_i = 0;
+//	printf("pipe_nb%d\n", (*exec)->pip_nb);
 	(*exec)->p_in = 0;
-	printf("f %d\n", (*exec)->pip_nb);
 	if ((*exec)->pip_nb != 0)
 	{
 		(*exec)->p_fd = malloc((2 * (*exec)->pip_nb) * sizeof(int ));
@@ -96,6 +96,7 @@ int	main(int ac, char **av, char **envp)
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
 	data = init_data(ac, av, data, envp);
+	g_status = 0;
 	while (!data->exit)
 	{
 		str_rln = readline("\033[1;31m ~minishell~: \033[0m");

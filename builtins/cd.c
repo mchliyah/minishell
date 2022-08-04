@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 16:00:37 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:30:55 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 	to_set = NULL;
 	if (c_line->content->arg)
 		to_set = c_line->content->arg->content;
-	if (!c_line->content->arg)
-		if (!get_path("HOME", env))
-			if (printf("cd: HOME not set\n"))
-				return ;
+	if (!c_line->content->arg && !get_path("HOME", env))
+	{
+		printf("cd: HOME not set\n");
+		g_status = 1;
+		return ;
+	}
 	if (!c_line->content->arg
 		|| !strncmp(to_set, "~", ft_strlen(to_set)))
 		exec_cd(env, "HOME", get_path("PWD", env), 0);
