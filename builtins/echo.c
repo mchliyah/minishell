@@ -41,7 +41,7 @@ int	empty(char *str)
 	return (0);
 }
 
-void	echo(t_list *cmd, t_data *exec)
+void	echo(t_list *cmd)
 {
 	int		i;
 	int		del;
@@ -49,7 +49,6 @@ void	echo(t_list *cmd, t_data *exec)
 
 	i = 1;
 	del = 1;
-//	printf("cmd %s\n", cmd->content->arg->content);
 	args = arr_arg(cmd);
 	if (cmd->content->arg)
 	{
@@ -62,7 +61,6 @@ void	echo(t_list *cmd, t_data *exec)
 	while (args[i])
 	{
 		if (!empty(args[i])) {
-			//ft_putstr_fd (args[i++], exec->p_fd[(exec)->p_in + 1]);
 			printf("%s", args[i++]);
 		}
 		if (args[i])

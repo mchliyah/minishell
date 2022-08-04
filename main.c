@@ -88,7 +88,7 @@ int	init_pipes(t_data **exec)
 
 int	main(int ac, char **av, char **envp)
 {
-	int	i;
+	int			i;
 	t_pipe_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
@@ -115,7 +115,7 @@ int	main(int ac, char **av, char **envp)
 				)
 				{
 					init_pipes(&data);
-					iterator(pipeline, envp, data);
+					iterator(pipeline, envp, &data);
 					i = 0;
 					while (i < data->pip_nb * 2)
 					{

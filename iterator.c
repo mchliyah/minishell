@@ -70,15 +70,13 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 		}
 		(*exec)->cmd_i++;
 	}
-//	while (wait(0) > 0)
-//		;
-	//return (1);
+	return (0);
 }
 
 /*
  * closing fds if pipe failed
  */
-int	iterator(t_pipe_line *this_pipe, char **envp, t_data *exec)
+int	iterator(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
 	int	i;
 	int	j;

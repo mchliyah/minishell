@@ -69,5 +69,5 @@ void	exec_cmd(t_list *cmd, char **envp, t_data **exec)
 	else if (!cmpair(content, "exit"))
 		(*exec)->exit = exit_cmd(cmd);
 	else
-		to_std(exec, envp, cmd);
+		to_std((*exec)->env, envp, cmd);
 }
