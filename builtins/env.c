@@ -6,13 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:41 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 12:43:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 21:41:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*get_env(char **envp) // ,extract_file(argv[0]))
+t_env	*get_env(char **envp)
 {
 	int		i;
 	char	*tmp_value;

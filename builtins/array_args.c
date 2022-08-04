@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:38:59 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 18:43:32 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 21:40:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ char	**arr_arg(t_list *cmd)
 	args[i] = NULL;
 	return (args);
 }
-

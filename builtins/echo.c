@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:13:32 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 21:40:58 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	empty(char *str)
 	return (0);
 }
 
-void	echo(t_list *cmd, t_data *exec)
+void	echo(t_list *cmd)
 {
 	int		i;
 	int		del;
@@ -49,7 +49,6 @@ void	echo(t_list *cmd, t_data *exec)
 
 	i = 1;
 	del = 1;
-//	printf("cmd %s\n", cmd->content->arg->content);
 	args = arr_arg(cmd);
 	if (cmd->content->arg)
 	{
@@ -61,10 +60,8 @@ void	echo(t_list *cmd, t_data *exec)
 		del = 0;
 	while (args[i])
 	{
-		if (!empty(args[i])) {
-			//ft_putstr_fd (args[i++], exec->p_fd[(exec)->p_in + 1]);
+		if (!empty(args[i]))
 			printf("%s", args[i++]);
-		}
 		if (args[i])
 			printf(" ");
 	}

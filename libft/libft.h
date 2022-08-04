@@ -12,7 +12,6 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
-//biblio needed in fonctions
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/04 13:33:27 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 21:31:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	init_pipes(t_data **exec)
 	int			i;
 
 	(*exec)->cmd_i = 0;
+//	printf("pipe_nb%d\n", (*exec)->pip_nb);
 	(*exec)->p_in = 0;
-	printf("f %d\n", (*exec)->pip_nb);
 	if ((*exec)->pip_nb != 0)
 	{
 		(*exec)->p_fd = malloc((2 * (*exec)->pip_nb) * sizeof(int ));
@@ -88,7 +88,7 @@ int	init_pipes(t_data **exec)
 
 int	main(int ac, char **av, char **envp)
 {
-	int	i;
+	int			i;
 	t_pipe_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
@@ -110,13 +110,10 @@ int	main(int ac, char **av, char **envp)
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
 					init_pipes(&data);
-					iterator(pipeline, envp, data);
+					iterator(pipeline, envp, &data);
 					i = 0;
 					while (i < data->pip_nb * 2)
-					{
-						close(data->p_fd[i]);
-						i++;
-					}
+						close(data->p_fd[i++]);
 					while (wait(0) > 0)
 						;
 					to_free(pipeline);

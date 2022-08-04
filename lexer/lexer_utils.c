@@ -142,8 +142,6 @@ t_arg	*get_args(t_lexer **lex)
 			opt = list_new(s);
 		else
 			list_add_back(&opt, list_new(s));
-//		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
-//			break ;
 		*lex = advance(*lex);
 	}
 	return (opt);

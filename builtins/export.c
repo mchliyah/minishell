@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 23:18:57 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/04 21:47:22 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 			envp = envp->next;
 		while (args[i])
 		{
-			check_add(c_line, args[i], exp, env);
+			check_add(c_line, args[i], &expt, &envp);
 			i++;
 		}
 		free (args);
