@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:07:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 21:07:02 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 00:16:40 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include "parser.h"
 # include "exec.h"
 # include <readline/readline.h>
+
+# define TMP_FILE "/Users/mchliyah/.TemporaryItems/.tmp_here_doc"
 
 # define PV(x, y) fprintf(stderr, "%s = " y, #x, x)
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__ #x, x)
