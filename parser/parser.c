@@ -117,6 +117,7 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 	{
 		if (was_rederection == 1)
 		{
+			printf("jj\n");
 			token = get_token_file(&lexer);
 			was_rederection = 0;
 		}
@@ -129,16 +130,6 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 			return (EXIT_FAILURE);
 		if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT)
 			was_rederection = 1;
-		printf("token == %s\n", token->content);
-		if (token->arg)
-		{
-			while (token->arg)
-			{
-				printf("arg %s\n", token->arg->content);
-				token->arg = token->arg->next;
-			}
-		}
-//		printf("-----------------\n");
 		lst_token = linked_token(lst_token, token);
 	}
 	*pipeline = parse_to_tree(pipeline, lst_token, data);

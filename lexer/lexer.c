@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/04 03:30:34 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:45:49 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ t_token	*get_pipe(t_lexer **lex)
 
 t_token	*get_extra( char *ptr)
 {
-	if (!ft_strncmp(ptr, "<>", ft_strlen(ptr)))
-		return (init_token(ptr, LESSGREAT, NULL));
 	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
 		return (init_token(ptr, REDIRECT_IN, NULL));
 	else if (!ft_strncmp(ptr, ">", ft_strlen(ptr)))
 		return (init_token(ptr, REDIRECT_OUT, NULL));
+	else if (!ft_strncmp(ptr, "<>", ft_strlen(ptr)))
+		return (init_token(ptr, LESSGREAT, NULL));
 	else if (!ft_strncmp(ptr, "<<", ft_strlen(ptr)))
 		return (init_token(ptr, DELIMITER, NULL));
 	else if (!ft_strncmp(ptr, ">>", ft_strlen(ptr)))

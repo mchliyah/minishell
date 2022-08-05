@@ -20,17 +20,6 @@
 	 *   |_x_|_1_| - |_0_|_3_| - |_x_|_2_|
 	 *  4          2
 	 */
-//void	parent_orders(t_data *exec)
-//{
-//	int	i;
-//
-//	while (i < exec->p_in)
-//	{
-//		close(exec->p_fd[i]);
-//		i++;
-//	}
-//	waitpid(-1, NULL, 0);
-//}
 
 int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
