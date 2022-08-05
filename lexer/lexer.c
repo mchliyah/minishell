@@ -29,15 +29,15 @@ t_token	*get_pipe(t_lexer **lex)
 
 t_token	*get_extra( char *ptr)
 {
-	if (!ft_strncmp(ptr, "<>", ft_strlen(ptr)))
+	if (!ft_strncmp(ptr, "<>", ft_strlen("<>")))
 		return (init_token(ptr, LESSGREAT, NULL));
-	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
+	else if (!ft_strncmp(ptr, "<", ft_strlen("<")))
 		return (init_token(ptr, REDIRECT_IN, NULL));
-	else if (!ft_strncmp(ptr, ">", ft_strlen(ptr)))
+	else if (!ft_strncmp(ptr, ">", ft_strlen(">")))
 		return (init_token(ptr, REDIRECT_OUT, NULL));
-	else if (!ft_strncmp(ptr, "<<", ft_strlen(ptr)))
+	else if (!ft_strncmp(ptr, "<<", ft_strlen("<<")))
 		return (init_token(ptr, DELIMITER, NULL));
-	else if (!ft_strncmp(ptr, ">>", ft_strlen(ptr)))
+	else if (!ft_strncmp(ptr, ">>", ft_strlen(">>")))
 		return (init_token(ptr, REDIRECT_OUT_IN_APPEND_MD, NULL));
 	else
 		return (init_token(ptr, SYNTAX_ERR, NULL));

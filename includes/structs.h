@@ -43,6 +43,7 @@ typedef struct s_token
 	enum
 	{
 		WORD,
+		WORD_CMD,
 		REDIRECT_IN,
 		REDIRECT_OUT,
 		LESSGREAT,

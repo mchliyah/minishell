@@ -183,5 +183,5 @@ t_token	*get_char(t_lexer **lex)
 			}
 		}
 	}
-	return (init_token(ptr, WORD, get_args(lex)));
+	return (init_token(ptr, WORD_CMD, get_args(lex)));
 }

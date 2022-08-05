@@ -62,20 +62,30 @@ void	open_files(t_data **data, t_list *cmd)
 
 void	open_pipe(t_data **data, t_list *cmd)
 {
+	int	in;
+	int	ou;
 	int	i;
 
 	i = 0;
+	in = 1;
+	ou = 1;
 	open_files(data, cmd);
 	if ((*data)->fd_in == -1)
+	{
+		in = 0;
 		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
+	}
 	if ((*data)->fd_out == -1)
+	{
+		ou = 0;
 		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
-	if ((*data)->cmd_i > 0)
+	}
+	if ((*data)->cmd_i > 0 || in)
 	{
 		if (dup2((*data)->fd_in, STDIN_FILENO) == -1)
 			printf("err and should take some work in dup2\n");
 	}
-	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1))
+	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || ou)
 	{
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
 			printf("err and should take some work in dup1\n");
@@ -87,8 +97,9 @@ void	open_pipe(t_data **data, t_list *cmd)
 	}
 }
 
-void	exec_cmd(t_list *cmd, char **envp, t_data **data)
+void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 {
+	t_list	*cmd;
 	int		f_pid;
 	char	*content;
 
@@ -100,7 +111,12 @@ void	exec_cmd(t_list *cmd, char **envp, t_data **data)
 	}
 	if (f_pid == 0)
 	{
-		open_pipe(data, cmd);
+		open_pipe(data, in_cmd);
+		while (in_cmd->content->type != WORD_CMD)
+			in_cmd = in_cmd->next;
+		cmd = in_cmd;
+		if (in_cmd->content->arg)
+			PV(in_cmd->content->arg->content, "%s\n");
 		content = cmd->content->content;
 		if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
 			echo(cmd);
@@ -121,6 +137,8 @@ void	exec_cmd(t_list *cmd, char **envp, t_data **data)
 			(*data)->exit = exit_cmd(cmd);
 		else
 			to_std((*data)->env, envp, cmd);
+		close((*data)->fd_out);
+		close((*data)->fd_in);
 		exit(g_status);
 	}
 }
