@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/05 18:23:31 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 18:34:12 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,10 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
 	if (this_pipe->left)
 		exec_cmd(this_pipe->left, envp, exec);
-//	{
-//		printf(":cmd0 %s\n", this_pipe->left->content->content);
-//		if (this_pipe->left->content->arg)
-//			while (this_pipe->left->content->arg)
-//			{
-//				printf("%s\n", this_pipe->left->content->arg->content);
-//				this_pipe->left->content->arg = this_pipe->left->content->arg->next;
-//			}
-//	}
 	(*exec)->cmd_i++;
 	(*exec)->p_in += 2;
 	if (this_pipe->right)
 		exec_cmd(this_pipe->right, envp, exec);
-//	{
-//		printf(":cmd1 %s\n", this_pipe->right->content->content);
-//		if (this_pipe->right->content->arg)
-//			while (this_pipe->right->content->arg)
-//			{
-//				printf("%s\n", this_pipe->right->content->arg->content);
-//				this_pipe->right->content->arg = this_pipe->right->content->arg->next;
-//			}
-//	}
 	return (0);
 }
 

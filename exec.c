@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 18:26:07 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 19:33:05 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,65 @@ int	cmpair(char *content, char *key)
 	return (1);
 }
 
-//int	open_files(t_data **data, t_list *cmd)
-//	{
-//		while (cmd->content.)
-//		{
-//
-//		}
-////}
+int	append_file(t_data **data, t_list *cmd, char *file)
+{
+	if (cmd->content->type == DELIMITER)
+	{
+		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
+		if ((*data)->fd_out < 0)
+			if (ft_putstr_fd("outfile Error", 2))
+				return (0);
+	}
+	return (1);
+}
+
+void	open_files(t_data **data, t_list *cmd)
+{
+	t_list	*iterator;
+	char	*file;
+
+	iterator = cmd;
+	while (iterator && iterator->next)
+	{
+		file = iterator->next->content;
+		if (iterator->content->type == REDIRECT_IN)
+		{
+			(*data)->fd_in = open(file, O_RDONLY);
+			if ((*data)->fd_in < 0)
+				if (ft_putstr_fd("infile Error", 2))
+					break ;
+		}
+		else if (iterator->content->type == REDIRECT_OUT)
+		{
+			(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+			if ((*data)->fd_out < 0)
+				if (ft_putstr_fd("outfile Error", 2))
+					break ;
+		}
+		if (!append_file(data, iterator, file))
+			break ;
+		iterator = iterator->next;
+	}
+}
 
 void	open_pipe(t_data **data, t_list *cmd)
 {
 	int	i;
 
 	i = 0;
-	// open_files(data, cmd);
+	open_files(data, cmd);
+	if ((*data)->fd_in == -1)
+		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
+	if ((*data)->fd_out == -1)
+		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
 	if ((*data)->cmd_i > 0)
 	{
-		if (dup2((*data)->p_fd[(*data)->p_in - 2], STDIN_FILENO) == -1)
+		if (dup2((*data)->fd_in, STDIN_FILENO) == -1)
 			printf("err and should take some work in dup2\n");
 	}
 	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1))
 	{
-		if (dup2((*data)->p_fd[(*data)->p_in + 1], STDOUT_FILENO) == -1)
+		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
 			printf("err and should take some work in dup1\n");
 	}
 	while (i < (*data)->pip_nb * 2)
