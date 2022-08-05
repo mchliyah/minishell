@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 19:33:05 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 19:38:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	open_files(t_data **data, t_list *cmd)
 	iterator = cmd;
 	while (iterator && iterator->next)
 	{
-		file = iterator->next->content;
+		file = iterator->next->content->content;
 		if (iterator->content->type == REDIRECT_IN)
 		{
 			(*data)->fd_in = open(file, O_RDONLY);

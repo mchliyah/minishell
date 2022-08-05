@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:38:11 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 19:03:23 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 19:39:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
-		return ;
+		return (0);
 	write(fd, s, ft_strlen(s));
 	return (1);
 }
