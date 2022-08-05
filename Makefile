@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/04 21:04:55 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/05 17:48:48 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES =	main.c\
 		builtins/export.c\
 		builtins/export_utils.c\
 		builtins/exit.c\
+		here_doc/here_doc.c\
 
 #!########################
 

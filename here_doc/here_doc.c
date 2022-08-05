@@ -6,25 +6,11 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 00:29:20 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 17:50:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	args_in(char *arg, t_pb *p)
-{
-	if (!ft_strncmp("here_doc", arg, 8))
-	{
-		p->here_doc = 1;
-		return (6);
-	}
-	else
-	{
-		p->here_doc = 0;
-		return (5);
-	}
-}
 
 void	here_doc(char *key_stop, t_data **data)
 {
@@ -37,15 +23,15 @@ void	here_doc(char *key_stop, t_data **data)
 	while (1)
 	{
 		str = readline("heredoc>");
-		if (!ft_strcmp(str, key_stop, ft_strlen(str)))
+		if (!ft_strncmp(str, key_stop, ft_strlen(str)))
 			break ;
 		ft_putstr_fd(str, tmpfile);
 		free(str);
 	}
-	data->p_in = open(TMP_FILE, O_RDONLY);
-	if (p->fd_in < 0)
+	(*data)->p_in = open(TMP_FILE, O_RDONLY);
+	if ((*data)->fd_in < 0)
 	{
 		unlink(TMP_FILE);
-		err_msg(ERR_HEREDOC);
+		perror("HEREDOC");
 	}
 }
