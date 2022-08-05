@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 00:32:51 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 21:54:44 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old);
 void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
+// here doc
+int     here_doc(char *key_stop, t_data **data);
 
 #endif

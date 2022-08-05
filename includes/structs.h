@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 00:21:31 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:08:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_token
 	enum
 	{
 		WORD,
+		WORD_CMD,
 		REDIRECT_IN,
 		REDIRECT_OUT,
 		LESSGREAT,

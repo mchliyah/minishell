@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 19:38:36 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:10:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ void	open_files(t_data **data, t_list *cmd)
 	while (iterator && iterator->next)
 	{
 		file = iterator->next->content->content;
-		if (iterator->content->type == REDIRECT_IN)
+		if (iterator->content->type == DELIMITER)
+		{
+			if (!here_doc(iterator->next->content->content, data))
+				break ;
+		}
+		else if (iterator->content->type == REDIRECT_IN)
 		{
 			(*data)->fd_in = open(file, O_RDONLY);
 			if ((*data)->fd_in < 0)
@@ -54,7 +59,7 @@ void	open_files(t_data **data, t_list *cmd)
 				if (ft_putstr_fd("outfile Error", 2))
 					break ;
 		}
-		if (!append_file(data, iterator, file))
+		else if (!append_file(data, iterator, file))
 			break ;
 		iterator = iterator->next;
 	}
@@ -87,10 +92,11 @@ void	open_pipe(t_data **data, t_list *cmd)
 	}
 }
 
-void	exec_cmd(t_list *cmd, char **envp, t_data **data)
+void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 {
 	int		f_pid;
 	char	*content;
+	t_list	*cmd;
 
 	f_pid = fork();
 	if (f_pid == -1)
@@ -100,7 +106,10 @@ void	exec_cmd(t_list *cmd, char **envp, t_data **data)
 	}
 	if (f_pid == 0)
 	{
-		open_pipe(data, cmd);
+		open_pipe(data, in_cmd);
+		while (in_cmd->content->type != WORD_CMD)
+			in_cmd = in_cmd->next;
+		cmd = in_cmd;
 		content = cmd->content->content;
 		if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
 			echo(cmd);

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/27 22:20:38 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:09:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,5 @@ t_token	*get_char(t_lexer **lex)
 			}
 		}
 	}
-	return (init_token(ptr, WORD, get_args(lex)));
+	return (init_token(ptr, WORD_CMD, get_args(lex)));
 }
