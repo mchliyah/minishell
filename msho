@@ -20,7 +20,6 @@ RM = rm -f
 # ! files of the minishell
 FILES =	main.c\
 		lexer/lexer.c\
-		lexer/file_getter.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/ft_split_quote.c\
@@ -92,7 +91,7 @@ $(NAME) :  $(OBJECTS)
 	@echo " "
 	@echo "\033[1;35m▐▌ DONE by @abdelhak4  & @mchliyah ▐▌$(C_RES)"
 
-clean :
+clean : 
 	@$(CLEANLIBFT)
 	@$(RM) $(OBJECTS)
 	@echo "$(C_RED)[MINISHELL OBJECTS DELETED!]$(C_RES)"

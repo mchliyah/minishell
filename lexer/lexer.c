@@ -29,6 +29,8 @@ t_token	*get_pipe(t_lexer **lex)
 
 t_token	*get_extra( char *ptr)
 {
+	if (!ft_strncmp(ptr, "<>", ft_strlen(ptr)))
+		return (init_token(ptr, LESSGREAT, NULL));
 	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
 		return (init_token(ptr, REDIRECT_IN, NULL));
 	else if (!ft_strncmp(ptr, ">", ft_strlen(ptr)))
@@ -68,19 +70,19 @@ t_token	*get_redirection(t_lexer **lex)
 	return (get_extra(ptr));
 }
 
-t_token	*get_token(t_lexer *lexer)
+t_token	*get_token(t_lexer **lexer)
 {
-	while (lexer->c != '\0')
+	while ((*lexer)->c != '\0')
 	{
-		if (lexer->c == SPACE)
-			advance(lexer);
-		else if (ft_isprint(lexer->c) && lexer->c != EPIPE
-			&& lexer->c != GREATER && lexer->c != LESS)
-			return (get_char(&lexer));
-		else if (lexer->c == EPIPE)
-			return (get_pipe(&lexer));
-		else if (lexer->c == LESS || lexer->c == GREATER)
-			return (get_redirection(&lexer));
+		if ((*lexer)->c == SPACE)
+			advance(*lexer);
+		if ((*lexer)->c == LESS || (*lexer)->c == GREATER)
+			return (get_redirection(lexer));
+		else if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
+			&& (*lexer)->c != GREATER && (*lexer)->c != LESS)
+			return (get_char(lexer));
+		else if ((*lexer)->c == EPIPE)
+			return (get_pipe(lexer));
 	}
 	return (NULL);
 }

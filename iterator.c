@@ -20,71 +20,53 @@
 	 *   |_x_|_1_| - |_0_|_3_| - |_x_|_2_|
 	 *  4          2
 	 */
-void	parent_orders(t_data *exec)
-{
-	int	i;
-
-	while (i < exec->p_in)
-	{
-		close(exec->p_fd[i]);
-		i++;
-	}
-	waitpid(-1, NULL, 0);
-}
+//void	parent_orders(t_data *exec)
+//{
+//	int	i;
+//
+//	while (i < exec->p_in)
+//	{
+//		close(exec->p_fd[i]);
+//		i++;
+//	}
+//	waitpid(-1, NULL, 0);
+//}
 
 int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
-	int	i;
-	int	f_pid;
-	int	_f_pid;
-
-	i = 0;
 	if (this_pipe->left)
-	{
-		f_pid = fork();
-		if (f_pid == -1)
-		{
-			perror("fork(): ");
-			exit(1);
-		}
-		if (f_pid == 0)
-		{
-			exec_cmd(this_pipe->left, envp, exec);
-			exit(g_status);
-		}
-		(*exec)->cmd_i++;
-	}
+		exec_cmd(this_pipe->left, envp, exec);
+//	{
+//		printf(":cmd0 %s\n", this_pipe->left->content->content);
+//		if (this_pipe->left->content->arg)
+//			while (this_pipe->left->content->arg)
+//			{
+//				printf("%s\n", this_pipe->left->content->arg->content);
+//				this_pipe->left->content->arg = this_pipe->left->content->arg->next;
+//			}
+//	}
+	(*exec)->cmd_i++;
 	(*exec)->p_in += 2;
-	if (this_pipe->right)
-	{
-		_f_pid = fork();
-		if (_f_pid == -1)
-		{
-			perror("fork(): ");
-			exit(1);
-		}
-		if (_f_pid == 0)
-		{
-			exec_cmd(this_pipe->right, envp, exec);
-			exit(g_status);
-		}
-		(*exec)->cmd_i++;
-	}
 	return (0);
+	if (this_pipe->right)
+		exec_cmd(this_pipe->right, envp, exec);
+//	{
+//		printf(":cmd1 %s\n", this_pipe->right->content->content);
+//		if (this_pipe->right->content->arg)
+//			while (this_pipe->right->content->arg)
+//			{
+//				printf("%s\n", this_pipe->right->content->arg->content);
+//				this_pipe->right->content->arg = this_pipe->right->content->arg->next;
+//			}
+//	}
 }
 
-/*
- * closing fds if pipe failed
- */
+
 int	iterator(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
-	int	i;
-	int	j;
-
 	if (this_pipe->left_p)
-	{
 		iterator(this_pipe->left_p, envp, exec);
-	}
+//	printf("cmd %s\n", this_pipe)
 	execute_childes(this_pipe, envp, exec);
 	return (EXIT_SUCCESS);
 }

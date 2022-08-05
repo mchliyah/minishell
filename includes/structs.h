@@ -45,6 +45,7 @@ typedef struct s_token
 		WORD,
 		REDIRECT_IN,
 		REDIRECT_OUT,
+		LESSGREAT,
 		DELIMITER,
 		REDIRECT_OUT_IN_APPEND_MD,
 		PIPE,
@@ -117,8 +118,8 @@ typedef struct s_data
 	int		exit;
 	int		pip_nb;
 	int		*p_fd;
-	int		*fd_in;
-	int		*fd_out;
+	int		fd_in;
+	int		fd_out;
 	int		p_in;
 	int		cmd_i;
 }	t_data;

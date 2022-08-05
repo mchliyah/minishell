@@ -60,9 +60,8 @@ void	echo(t_list *cmd)
 		del = 0;
 	while (args[i])
 	{
-		if (!empty(args[i])) {
+		if (!empty(args[i]))
 			printf("%s", args[i++]);
-		}
 		if (args[i])
 			printf(" ");
 	}
