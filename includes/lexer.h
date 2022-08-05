@@ -23,11 +23,12 @@
 
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
-char	**ft_split_arg(char const *s, char c);
+//char	**ft_split_arg(char const *s, char c);
+t_token	*get_token_file(t_lexer **lex);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);
 int		my_test(t_lexer *lexer);
-t_token	*get_token(t_lexer *lexer);
+t_token	*get_token(t_lexer **lexer);
 int		get_quote(t_token *token, int *i, int *q);
 int		get_s_quote(t_token *token, int *i, int *sq);
 t_token	*get_substr_single_quotes(t_token *token);

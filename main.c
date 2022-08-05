@@ -54,8 +54,8 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 		return (NULL);
 	data->exit = 0;
 	data->p_fd = NULL;
-	data->fd_in = NULL;
-	data->fd_out = NULL;
+	data->fd_in = -1;
+	data->fd_out = -1;
 	data->env = get_env(envp);
 	data->exp = get_env(envp);
 	sort_exp(&data->exp);
@@ -67,7 +67,6 @@ int	init_pipes(t_data **exec)
 	int			i;
 
 	(*exec)->cmd_i = 0;
-//	printf("pipe_nb%d\n", (*exec)->pip_nb);
 	(*exec)->p_in = 0;
 	if ((*exec)->pip_nb != 0)
 	{
