@@ -40,9 +40,9 @@ void	open_files(t_data **data, t_list *cmd)
 	while (iterator && iterator->next)
 	{
 		file = iterator->next->content->content;
-		PV(iterator->content->type, "%d\n");
 		if (iterator->content->type == DELIMITER)
 		{
+			//PV(file, "%s\n");
 			if (!here_doc(iterator->next->content->content, data))
 				exit(g_status);
 		}
@@ -76,23 +76,27 @@ void	open_pipe(t_data **data, t_list *cmd)
 	in = 1;
 	ou = 1;
 	open_files(data, cmd);
-	if ((*data)->fd_in == -1)
+//	if ((*data)->fd_in == -1 && (*data)->pip_nb > 0)
+//	{
+//		in = 0;
+//		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
+//	}
+//	if ((*data)->fd_out == -1 && (*data)->pip_nb > 0)
+//	{
+//		ou = 0;
+//		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
+//	}
+	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
 	{
-		in = 0;
-		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
-	}
-	if ((*data)->fd_out == -1)
-	{
-		ou = 0;
-		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
-	}
-	if ((*data)->cmd_i > 0 || in)
-	{
+		if ((*data)->fd_in == -1)
+			(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
 		if (dup2((*data)->fd_in, STDIN_FILENO) == -1)
 			printf("err and should take some work in dup2\n");
 	}
-	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || ou)
+	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || (*data)->fd_out != -1)
 	{
+		if ((*data)->fd_out == -1)
+			(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
 			printf("err and should take some work in dup1\n");
 	}
@@ -109,7 +113,9 @@ void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 	int		f_pid;
 	char	*content;
 
-	f_pid = fork();
+	f_pid = 0;
+	if ((*data)->pip_nb != 0)
+		f_pid = fork();
 	if (f_pid == -1)
 	{
 		perror("fork(): ");
@@ -140,9 +146,8 @@ void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 		else if (!cmpair(content, "exit"))
 			(*data)->exit = exit_cmd(cmd);
 		else
-			to_std((*data)->env, envp, cmd);
-		close((*data)->fd_out);
-		close((*data)->fd_in);
-		exit(g_status);
+			to_std((*data)->env, envp, cmd, data);
+		if ((*data)->pip_nb != 0)
+			exit(g_status);
 	}
 }

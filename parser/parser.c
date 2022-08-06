@@ -119,6 +119,7 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 		{
 			printf("jj\n");
 			token = get_token_file(&lexer);
+			printf("%s\n", token->content);
 			was_rederection = 0;
 		}
 		else
@@ -128,7 +129,9 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 		token = scan_errs(token, env);
 		if (!token)
 			return (EXIT_FAILURE);
-		if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT)
+		if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
+			|| token->type == LESSGREAT || token->type == DELIMITER
+			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
 			was_rederection = 1;
 		lst_token = linked_token(lst_token, token);
 	}

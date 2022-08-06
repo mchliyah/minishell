@@ -64,20 +64,31 @@ void	std_exec(t_list *cmd, char **env)
 	ft_putstr_fd(" : command not found\n", 2);
 }
 
-void	to_std(t_env *env, char **envp, t_list *cmd)
+void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data)
 {
+	int	f_pid;
 	int	path;
 
-	path = false;
-	while (env)
+	f_pid = 0;
+	if ((*data)->pip_nb == 0)
+		f_pid = fork();
+	if (f_pid == -1)
 	{
-		if (!strncmp(env->pair->key, "PATH", ft_strlen(env->pair->key)))
-			path = true;
-		env = env->next;
+		perror("fork(): ");
+		exit(1);
 	}
-	if (path)
-		std_exec(cmd, envp);
-	else
-		if (printf("~minishell~: %s", cmd->content->content))
+	if (f_pid == 0)
+	{
+		path = false;
+		while (env)
+		{
+			if (!strncmp(env->pair->key, "PATH", ft_strlen(env->pair->key)))
+				path = true;
+			env = env->next;
+		}
+		if (path)
+			std_exec(cmd, envp);
+		else if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
+	}
 }

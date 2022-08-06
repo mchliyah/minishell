@@ -16,7 +16,7 @@
 # include "minishell.h"
 # include "../libft/libft.h"
 //exec
-void	to_std(t_env *env, char **envp, t_list *cmd);
+void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data);
 void	exec_cmd(t_list *cmd, char **envp, t_data **exec);
 // void	to_std(t_env *env, char **envp, t_list *cmd);
 //char	*get_path(char *path, t_env *env);
