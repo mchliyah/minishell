@@ -32,11 +32,12 @@ int	execute_childes(t_pipe_line *this_pipe, char **envp, t_data **exec)
 	return (0);
 }
 
-
 int	iterator(t_pipe_line *this_pipe, char **envp, t_data **exec)
 {
 	if (this_pipe->left_p)
+	{
 		iterator(this_pipe->left_p, envp, exec);
+	}
 	execute_childes(this_pipe, envp, exec);
 	return (EXIT_SUCCESS);
 }

@@ -85,6 +85,31 @@ int	init_pipes(t_data **exec)
 	return (EXIT_SUCCESS);
 }
 
+
+void	get_here_doc(t_list *cmd, t_data **data)
+{
+	t_list	*tmp;
+
+	tmp = cmd;
+	while (tmp && tmp->next)
+	{
+		if (tmp->content->type == DELIMITER)
+			if (!here_doc(tmp->next->content->content, data))
+				return ;
+		tmp = tmp->next;
+	}
+}
+void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
+{
+//
+	if (pipe->left_p)
+		check_for_heredoc(pipe->left_p, data);
+	if (pipe->left)
+		get_here_doc(pipe->left, data);
+	if (pipe->right)
+		get_here_doc(pipe->right, data);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	int			i;
@@ -108,13 +133,14 @@ int	main(int ac, char **av, char **envp)
 				add_history(str_rln);
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
-					init_pipes(&data);
-					iterator(pipeline, envp, &data);
-					i = 0;
-					while (i < data->pip_nb * 2)
-						close(data->p_fd[i++]);
-					while (wait(0) > 0)
-						;
+//					init_pipes(&data);
+//					check_for_heredoc(pipeline, &data);
+//					iterator(pipeline, envp, &data);
+//					i = 0;
+//					while (i < data->pip_nb * 2)
+//						close(data->p_fd[i++]);
+//					while (wait(0) > 0)
+//						;
 					to_free(pipeline);
 				}
 			}

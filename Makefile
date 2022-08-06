@@ -20,6 +20,7 @@ RM = rm -f
 # ! files of the minishell
 FILES =	main.c\
 		lexer/lexer.c\
+		lexer/check_rederections.c\
 		lexer/file_getter.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\

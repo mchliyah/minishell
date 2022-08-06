@@ -102,6 +102,7 @@ t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **d
 int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 	t_data **data)
 {
+	int			first;
 	int			was_rederection;
 	t_token		*token;
 	t_lexer		*lexer;
@@ -109,6 +110,7 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 
 	lexer = NULL;
 	lst_token = NULL;
+	first = 1;
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
 		return (EXIT_FAILURE);
@@ -117,13 +119,11 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 	{
 		if (was_rederection == 1)
 		{
-			printf("jj\n");
 			token = get_token_file(&lexer);
-			printf("%s\n", token->content);
 			was_rederection = 0;
 		}
 		else
-			token = get_token(&lexer);
+			token = get_token(&lexer, first);
 		if (!token)
 			return (EXIT_FAILURE);
 		token = scan_errs(token, env);
@@ -133,8 +133,21 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 			|| token->type == LESSGREAT || token->type == DELIMITER
 			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
 			was_rederection = 1;
+		printf("cmd = %s\n", token->content);
+		printf("cmd type = %d\n", token->type);
+		if (token->arg)
+		{
+			while (token->arg)
+			{
+				printf("arg %s\n", token->arg->content);
+				token->arg = token->arg->next;
+			}
+		}
+		first = 0;
 		lst_token = linked_token(lst_token, token);
 	}
+	if (!check_gaven_file_rd(lst_token))
+		return (EXIT_FAILURE);
 	*pipeline = parse_to_tree(pipeline, lst_token, data);
 	return (EXIT_SUCCESS);
 }

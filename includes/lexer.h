@@ -28,7 +28,7 @@ t_token	*get_token_file(t_lexer **lex);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);
 int		my_test(t_lexer *lexer);
-t_token	*get_token(t_lexer **lexer);
+t_token	*get_token(t_lexer **lexer, int first);
 int		get_quote(t_token *token, int *i, int *q);
 int		get_s_quote(t_token *token, int *i, int *sq);
 t_token	*get_substr_single_quotes(t_token *token);
@@ -43,5 +43,6 @@ char	*get_s_word(t_lexer **this);
 t_arg	*list_new(char	*content);
 t_arg	*list_last(t_arg *lst);
 void	list_add_back(t_arg **lst, t_arg *new);
+int		check_gaven_file_rd(t_list *token);
 
 #endif

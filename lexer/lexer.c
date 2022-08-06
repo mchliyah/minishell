@@ -14,17 +14,26 @@
 #include "../includes/minishell.h"
 
 
-t_token	*get_pipe(t_lexer **lex)
+t_token	*get_pipe(t_lexer **lex, int first)
 {
 	char	*str;
 
-	str = malloc(2 * sizeof(char));
+	str = ft_strdup("");
 	if (!str)
-		return (NULL);
-	ft_bzero(str, 2);
-	str[0] = (*lex)->c;
-	*lex = advance(*lex);
-	return (init_token(str, PIPE, NULL));
+		exit(g_status);
+	while ((*lex)->c)
+	{
+		if ((*lex)->c != EPIPE)
+			break ;
+		str = join_string(str, (*lex)->c);
+		*lex = advance(*lex);
+		while ((*lex)->c == SPACE)
+			*lex = advance(*lex);
+	}
+	printf("== %s\n", str);
+	if (!ft_memcmp(str, "|", ft_strlen(str)) && first == 0)
+		return (init_token(str, PIPE, NULL));
+	return (init_token(str, SYNTAX_ERR, NULL));
 }
 
 t_token	*get_extra( char *ptr)
@@ -70,19 +79,20 @@ t_token	*get_redirection(t_lexer **lex)
 	return (get_extra(ptr));
 }
 
-t_token	*get_token(t_lexer **lexer)
+t_token	*get_token(t_lexer **lexer, int first)
 {
 	while ((*lexer)->c != '\0')
 	{
 		if ((*lexer)->c == SPACE)
 			advance(*lexer);
-		if ((*lexer)->c == LESS || (*lexer)->c == GREATER)
-			return (get_redirection(lexer));
-		else if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
+//		if ((*lexer)->c == EPIPE && (*lexer)->i)
+		if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
 			&& (*lexer)->c != GREATER && (*lexer)->c != LESS)
 			return (get_char(lexer));
+		else if ((*lexer)->c == LESS || (*lexer)->c == GREATER)
+			return (get_redirection(lexer));
 		else if ((*lexer)->c == EPIPE)
-			return (get_pipe(lexer));
+			return (get_pipe(lexer, first));
 	}
 	return (NULL);
 }

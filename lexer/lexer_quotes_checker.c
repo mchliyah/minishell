@@ -94,12 +94,11 @@ t_token	*get_substr_single_quotes(t_token *token)
 	return (token);
 }
 
-/*
- * todo : 1 check for $ signe & join the arr
- *		  2 expend the strings
- *     	  @don't forget the SEGV IN SCAN_ARGS
- *
- */
+void	parser_syntax_err(t_token *token)
+{
+
+}
+
 t_token	*scan_errs(t_token *token, t_env *env)
 {
 	t_arg	*tmp;
@@ -110,6 +109,7 @@ t_token	*scan_errs(t_token *token, t_env *env)
 	i = 0;
 	q = 0;
 	sq = 0;
+	parser_syntax_err(token);
 	while (token->content[i])
 	{
 		if (token->content[i] == L_DOUBLE_QUOTE)
