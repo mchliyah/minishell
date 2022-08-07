@@ -24,6 +24,7 @@ bool	is_redirection(int this)
 /*
  *  this fun for checking is the user gave the file with redirections
  *  and also unclosed pipe by cmd
+   !! if the check_gaven_file_rd returns false I should free the allocated mem
  */
 int	check_gaven_file_rd(t_list *token)
 {
@@ -36,23 +37,26 @@ int	check_gaven_file_rd(t_list *token)
 		{
 			if (!it->next || it->next->content->type != WORD)
 			{
+				g_status = 258;
 				ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
 				return (false);
 			}
 		}
 		else if (it->content->type == SYNTAX_ERR)
 		{
+			g_status = 258;
 			ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 			return (false);
 		}
-		else if (!it->next || it->content->type == EPIPE)
+		else if (it->content->type == EPIPE)
 		{
 			if (!it->next || (it->next->content->type != WORD_CMD
-				&& it->next->content->type != WORD
-				&& it->next->content->type != REDIRECT_OUT
-				&& it->next->content->type != REDIRECT_IN
-				&& it->next->content->type != REDIRECT_OUT_IN_APPEND_MD))
+					&& it->next->content->type != WORD
+					&& it->next->content->type != REDIRECT_OUT
+					&& it->next->content->type != REDIRECT_IN
+					&& it->next->content->type != REDIRECT_OUT_IN_APPEND_MD))
 			{
+				g_status = 258;
 				ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 				return (false);
 			}

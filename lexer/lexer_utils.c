@@ -136,6 +136,7 @@ t_arg	*get_args(t_lexer **lex)
 		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
 			break ;
 		s = check_for_args(lex);
+		printf("s = %s\n", s);
 		if (!s)
 			return (NULL);
 		if (!opt)
@@ -178,7 +179,6 @@ t_token	*get_char(t_lexer **lex)
 				else
 					tmp = get_inside_s_quotes(lex);
 				ptr = ft_strjoin(ptr, tmp);
-				free(tmp);
 				break ;
 			}
 		}

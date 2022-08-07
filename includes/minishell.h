@@ -31,7 +31,7 @@
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__ #x, x)
 # define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
 
-int g_status;
+ int g_status;
 //void	print_tokens(t_pipe_line *pipeline);
 int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 	t_data **data);

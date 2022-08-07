@@ -145,6 +145,8 @@ int	main(int ac, char **av, char **envp)
 				}
 			}
 		}
+		else if (*str_rln == '\0')
+			g_status = 0;
 	}
 	printf("exit\n");
 	return (0);
