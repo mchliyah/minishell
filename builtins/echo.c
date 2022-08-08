@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 21:40:58 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/06 22:53:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int	check_arg(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	if (str[i] && str[i] == '-')
+	if (str[i] && str[i] == '-' && str[i + 1] == 'n')
 		i++;
-	else if (str[i] && str[i] != '-')
+	else if (str[i] && (str[i] != '-' || (str[i] == '-' && str[i + 1] != 'n')))
 		return (0);
 	while (str[i])
 	{

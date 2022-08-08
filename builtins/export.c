@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 21:47:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/08 01:57:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,67 +25,91 @@ void	print_exp(t_env *exp)
 	}
 }
 
-void	add_elem(t_env **env, char *str, int exist)
+void	add_elem(t_env **env, t_pair *to_exp, int exist)
 {
 	t_env	*tmp;
 
 	tmp = *env;
 	if (!exist)
 	{
-		while (tmp->next)
+			HERE;
+		while (tmp)
+		{
+			if (!strncmp(tmp->pair->key, to_exp->key,
+					ft_strlen(tmp->pair->key)))
+			{
+				free(tmp->pair->value);
+				tmp->pair->value = NULL;
+				if (to_exp->value)
+					tmp->pair->value = ft_strdup(to_exp->value);
+				return ;
+			}
 			tmp = tmp->next;
-		tmp->next = malloc(sizeof(t_env));
-		tmp->next->next = NULL;
-		tmp->next->pair = malloc(sizeof(t_pair));
-		if (tmp->next)
-			tmp->next = dup_not_exist_elem(tmp->next, str);
+		}
+			HERE;
+		tmp = dup_not_exist_elem(to_exp);
+		tmp->next = NULL;
 	}
 	else
-		dup_exist_elem(tmp, str);
+		dup_exist_elem(&tmp, to_exp);
 }
 
-void	export_elem(int ret, t_list *cmd, char *arg, t_env **exp, t_env **env)
+void	export_elem(t_list *cmd, t_pair *to_exp, t_env **dynamic_env)
 {
-	if (!ret)
-		add_elem(exp, arg, 0);
-	else
+	int	add;
+
+	HERE;
+	add = ft_strlen(ft_strchr(to_exp->key, '+'));
+	if (add)
 	{
-		if (ret == 1)
-		{
-			if (elem_exist(*exp, arg))
-				unset_cmd(exp, cmd);
-			add_elem(exp, arg, 0);
-			if (elem_exist(*env, arg))
-				unset_cmd(env, cmd);
-			add_elem(env, arg, 0);
-		}
-		else
-		{
-			if (elem_exist(*exp, arg))
-				add_elem(exp, arg, 1);
-			else
-				add_elem(exp, arg, 0);
-			if (elem_exist(*env, arg))
-				add_elem(env, arg, 1);
-			else
-				add_elem(env, arg, 0);
-		}
+		to_exp->key[ft_strlen(to_exp->key) - 1] = '\0';
+		PV(to_exp->key, " in the add elem %s\n");
+		add_elem(dynamic_env, to_exp, 1);
 	}
+	else
+		add_elem(dynamic_env, to_exp, 0);
+	print_exp((*dynamic_env));
+}
+
+int	valide(t_pair *to_exp)
+{
+	if (to_exp->value)
+		return (1);
+	return (0);
 }
 
 void	check_add(t_list *c_line, char *args, t_env **exp, t_env **env)
 {
 	int		ret;
+	t_pair	*to_exp;
+	int		len;
+	int		len_max;
 
-	ret = 0;
-	ret = check_exp(args);
+	len_max = ft_strlen(args);
+	to_exp = malloc(sizeof(t_pair));
+	len = ft_strlen(ft_strchr(args, '='));
+	to_exp->value = NULL;
+	to_exp->key = ft_substr(args, 0, len_max - len);
+	if (len)
+		to_exp->value = ft_substr(args, len_max - len + 1, len_max);
+	ret = check_exp(to_exp->key);
 	if (ret < 0)
 		exp_error(ret, args);
 	else
-		export_elem(ret, c_line, args, exp, env);
+	{
+		if (valide(to_exp))
+		{
+			HERE;
+			export_elem(c_line, to_exp, exp);
+			if (to_exp->value[0] != '\0')
+				export_elem(c_line, to_exp, env);
+		}
+		else
+			export_elem(c_line, to_exp, exp);
+	}
 }
 
-void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
+void	export_cmd(t_data **data, t_list *c_line)
 {
 	char	**args;
 	t_env	*expt;
@@ -93,10 +117,10 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	int		i;
 
 	i = 1;
-	expt = *exp;
-	envp = *env;
+	expt = (*data)->exp;
+	envp = (*data)->env;
 	if (!c_line->content->arg)
-		print_exp(*exp);
+		print_exp((*data)->exp);
 	else
 	{
 		args = arr_arg(c_line);
@@ -111,5 +135,5 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 		}
 		free (args);
 	}
-	sort_exp(exp);
+	sort_exp(&(*data)->exp);
 }
