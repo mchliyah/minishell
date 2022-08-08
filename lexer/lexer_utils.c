@@ -110,12 +110,45 @@ char	*get_inside_s_quotes(t_lexer **it)
 
 char	*check_for_args(t_lexer **lex)
 {
-	if ((*lex)->c == SINGLE_QUOTE)
-		return (get_quote_things(lex));
-	else if ((*lex)->c == R_DOUBLE_QUOTE)
-		return (get_s_quote_things(lex));
+	char	*ptr;
+
+	ptr = NULL;
+	if ((*lex)->c == R_DOUBLE_QUOTE)
+	{
+		ptr = get_quote_things(lex);
+		while ((*lex)->content[(*lex)->i + 1] == L_DOUBLE_QUOTE)
+		{
+			*lex = advance(*lex);
+			ptr = ft_strjoin(ptr, get_quote_things(lex));
+		}
+		if (ft_isalnum((*lex)->content[(*lex)->i + 1]))
+		{
+			*lex = advance(*lex);
+			ptr = ft_strjoin(ptr, get_s_word(lex));
+		}
+		while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
+		{
+			*lex = advance(*lex);
+			ptr = ft_strjoin(ptr, get_s_quote_things(lex));
+		}
+	}
+	else if ((*lex)->c == SINGLE_QUOTE)
+	{
+		ptr = get_s_quote_things(lex);
+		while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
+		{
+			*lex = advance(*lex);
+			ptr = ft_strjoin(ptr, get_quote_things(lex));
+		}
+		if (ft_isalnum((*lex)->content[(*lex)->i + 1]))
+		{
+			*lex = advance(*lex);
+			ptr = ft_strjoin(ptr, get_s_word(lex));
+		}
+	}
 	else
-		return (get_s_word(lex));
+		ptr = get_s_word(lex);
+	return (ptr);
 }
 
 t_arg	*get_args(t_lexer **lex)

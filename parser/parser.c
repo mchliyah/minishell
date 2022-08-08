@@ -126,6 +126,10 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 			token = get_token(&lexer, first);
 		if (!token)
 			return (EXIT_FAILURE);
+		token = scan_errs(token, env);
+		if (!token) {
+			return (EXIT_FAILURE);
+		}
 		printf("cmd = %s\n", token->content);
 		printf("cmd type = %d\n", token->type);
 		if (token->arg)
@@ -136,9 +140,6 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 				token->arg = token->arg->next;
 			}
 		}
-		token = scan_errs(token, env);
-		if (!token)
-			return (EXIT_FAILURE);
 		if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
 			|| token->type == LESSGREAT || token->type == DELIMITER
 			|| token->type == REDIRECT_OUT_IN_APPEND_MD)

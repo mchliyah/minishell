@@ -29,7 +29,6 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	while (tmp[i])
 	{
 		j = 0;
-		printf("tmp =>> %s\n", tmp[i]);
 		while (tmp[i][j])
 		{
 			if (tmp[i][j] == '$' && tmp[i + 1] == NULL)
@@ -39,7 +38,8 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 				free(tmp);
 				return (ptr);
 			}
-			if (tmp[i][j] == '$' && (ft_isalnum(tmp[i][j + 1]) || tmp[i][j + 1] == '_'))
+			if (tmp[i][j] == '$' && (ft_isalnum(tmp[i][j + 1])
+				|| tmp[i][j + 1] == '_'))
 			{
 				if (ft_isdigit(tmp[i][j + 1]))
 				{
