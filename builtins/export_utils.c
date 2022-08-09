@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 14:41:23 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/08 01:06:38 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 01:02:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,47 +68,74 @@ int	check_exp(char *str)
 
 void	dup_exist_elem(t_env **tmp_in, t_pair *to_exp)
 {
-	t_env	**tmp;
+	t_env	*tmp;
 
-	tmp = tmp_in;
-			HERE;
-	while (*tmp)
+	tmp = *tmp_in;
+	while (tmp)
 	{
-		if (!strncmp((*tmp)->pair->key, to_exp->key,
-				ft_strlen((*tmp)->pair->key)))
+		if (!strncmp(tmp->pair->key, to_exp->key,
+				ft_strlen(tmp->pair->key)))
 		{
-			HERE;
-			if ((*tmp)->pair->value)
-				(*tmp)->pair->value
-					= ft_strjoin((*tmp)->pair->value, to_exp->value);
+			if (tmp->pair->value)
+				tmp->pair->value
+					= ft_strjoin(tmp->pair->value, to_exp->value);
 			else
-				(*tmp)->pair->value = ft_strdup(to_exp->value);
+				tmp->pair->value = ft_strdup(to_exp->value);
 			return ;
 		}
-			HERE;
-		(*tmp) = (*tmp)->next;
+		tmp = tmp->next;
 	}
-	*tmp = malloc(sizeof(t_env));
-	(*tmp)->pair = malloc(sizeof(t_pair));
-	(*tmp)->pair->key = ft_strdup(to_exp->key);
-	(*tmp)->pair->value = ft_strdup(to_exp->value);
-	(*tmp)->next = NULL;
+	tmp = *tmp_in;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = malloc(sizeof(t_env));
+	tmp->next->pair = malloc(sizeof(t_pair));
+	tmp->next->pair->key = ft_strdup(to_exp->key);
+	tmp->next->pair->value = ft_strdup(to_exp->value);
+	tmp->next->next = NULL;
 }
 
-t_env	*dup_not_exist_elem(t_pair *to_exp)
+void	dup_not_exist_elem(t_env **env, t_pair *to_exp)
 {
-	t_env	*ret;
+	t_env	*tmp;
 
-	ret = malloc(sizeof(t_env));
-	ret->pair = malloc(sizeof(t_pair));
-			HERE;
-	if (ret->pair)
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = malloc(sizeof(t_env));
+	tmp->next->pair = malloc(sizeof(t_pair));
+	if (tmp->next->pair)
 	{
-		ret->pair->key = ft_strdup(to_exp->key);
-		ret->pair->value = NULL;
+		tmp->next->pair->key = ft_strdup(to_exp->key);
+		tmp->next->pair->value = NULL;
 		if (to_exp->value)
-			ret->pair->value = ft_strdup(to_exp->value);
+			tmp->next->pair->value = ft_strdup(to_exp->value);
 	}
-			HERE;
-	return (ret);
+	tmp->next->next = NULL;
+}
+
+void	add_elem(t_env **env, t_pair *to_exp, int exist)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	if (!exist)
+	{
+		while (tmp)
+		{
+			if (!strncmp(tmp->pair->key, to_exp->key,
+					ft_strlen(tmp->pair->key)))
+			{
+				free(tmp->pair->value);
+				tmp->pair->value = NULL;
+				if (to_exp->value)
+					tmp->pair->value = ft_strdup(to_exp->value);
+				return ;
+			}
+			tmp = tmp->next;
+		}
+		dup_not_exist_elem(env, to_exp);
+	}
+	else
+		dup_exist_elem(env, to_exp);
 }
