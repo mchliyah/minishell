@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 
 
-bool	check_for_variables(char *str)
+bool	check_for_variables(const char *str)
 {
 	int	i;
 
@@ -174,41 +174,43 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 {
 	char	*tmp;
 	int		s;
-
-	if (arg[i] == '$' && (arg[i + 1] == '?'
-			|| ft_isalnum(arg[i + 1])))
-	{
+//s
+//	if (arg[i] == '$' && (arg[i + 1] == '?'
+//			|| ft_isalnum(arg[i + 1])))
+//	{
+	i++;
+	s = i;
+	if (ft_isdigit(arg[i]))
 		i++;
-		s = i;
-		if (ft_isdigit(arg[i]))
-			i++;
-		else if (arg[i] == '?')
-		{
-			arg = ft_itoa(g_status);
-			arg = ft_strjoin(arg, ft_itoa(g_status));
-			i++;
-		}
-		else
-			while ((ft_isalnum(arg[i]) || arg[i] == '_') && arg[i])
-				i++;
-		tmp = ft_substr(arg, s, i - s);
-		if (!tmp)
-			exit(1);
-		printf("**%s\n", tmp);
-		tmp = get_form_my_env(tmp, env);
-		if (!tmp)
-			tmp = ft_strdup("");
-		*ptr = ft_strjoin(*ptr, tmp);
-		if (!*ptr)
-		{
-			perror("NULL");
-			exit(1);
-		}
+	else if (arg[i] == '?')
+	{
+		arg = ft_itoa(g_status);
+		arg = ft_strjoin(arg, ft_itoa(g_status));
+		i++;
 	}
+	else
+	{
+		while ((ft_isalnum(arg[i]) || arg[i] == '_') && arg[i])
+			i++;
+	}
+	tmp = ft_substr(arg, s, i - s);
+	if (!tmp)
+		exit(1);
+	printf("**%s\n", tmp);
+	tmp = get_form_my_env(tmp, env);
+	if (!tmp)
+		tmp = ft_strdup("");
+	*ptr = ft_strjoin(*ptr, tmp);
+	if (!*ptr)
+	{
+		perror("NULL");
+		exit(1);
+	}
+//	}
 	return (i);
 }
 
-char	*variable_expander(char *s)
+char	*variable_expander(char *s, t_env *env)
 {
 	char	*str;
 	int		i;
@@ -217,68 +219,122 @@ char	*variable_expander(char *s)
 	str = ft_strdup("");
 	while (s[i])
 	{
-		if (s[i] == '$')
+		if (s[i] == '$' && (s[i + 1] == '?'
+				|| ft_isalnum(s[i + 1])))
 		{
-			expend_var(&str, i, s, env)
+			expend_var(&str, i, s, env);
 		}
 		else
 			str[i] = s[i];
 		i++;
 	}
+	return (str);
 }
+
 char	*single_quote_remove(char *s, int *i)
 {
 	int		st;
 	char	*ret;
 
-	*i++;
+	(*i)++;
 	st = *i;
 	while (s[*i] && s[*i] != SINGLE_QUOTE)
-		*i++;
+	{
+		(*i)++;
+	}
 	ret = ft_substr(s, st, *i - st);
 	return (ret);
 }
 
-char	*double_quote_remove(char *s, int *i)
+char	*double_quote_remove(char *s, int *i, t_env *env)
 {
 	int		st;
 	char	*ret;
 
-	*i++;
+	(*i)++;
 	st = *i;
-	while (s[*i] && s[*i] != SINGLE_QUOTE)
-		*i++;
+	while (s[*i] && s[*i] != L_DOUBLE_QUOTE)
+		(*i)++;
 	ret = ft_substr(s, st, *i - st);
-	printf("ret == %s", ret);
 	if (check_for_variables(ret))
-		ret = variable_expander(ret);
+		ret = variable_expander(ret, env);
 	return (ret);
 }
 
-char	*string_getter(char *in, int *i)
+char	*string_getter(char *s, int *i, t_env *env)
 {
+	char	*tmp;
+	int		st;
+	char	*str;
 
+	str = ft_strdup("");
+	while (s[*i])
+	{
+		if (s[*i] == '$' && (s[*i + 1] == '?'
+				|| ft_isalnum(s[*i + 1])))
+		{
+			(*i)++;
+			st = *i;
+			if (s[*i] == '?' || ft_isdigit(s[*i]))
+				(*i)++;
+			else
+			{
+				while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
+					(*i)++;
+			}
+			tmp = ft_substr(s, st, *i - st);
+			printf("^^%s\n", tmp);
+			str = ft_strjoin(str, get_form_my_env(tmp, env));
+		}
+		else if (s[*i] == '$' && (s[*i + 1] == SINGLE_QUOTE
+				|| s[*i + 1] == L_DOUBLE_QUOTE))
+			(*i)++;
+		else
+		{
+			str = join_string(str, s[*i]);
+			(*i)++;
+		}
+		if (s[*i] == SINGLE_QUOTE || s[*i] == L_DOUBLE_QUOTE)
+			break ;
+//		(*i)++;i
+	}
+	return (str);
 }
 
+char	*arg_iterator(char *content, t_env *env)
+{
+	char	*saver;
+	char	*c;
+	int		i;
+
+	i = 0;
+	saver = ft_strdup("");
+	while (content[i])
+	{
+		if (content[i] == SINGLE_QUOTE)
+			c = single_quote_remove(content, &i);
+		else if (content[i] == L_DOUBLE_QUOTE)
+			c = double_quote_remove(content, &i, env);
+		else
+		{
+			c = string_getter(content, &i, env);
+			i--;
+		}
+		saver = ft_strjoin(saver, c);
+		i++;
+	}
+//	printf("savvverrr %s\n", saver);
+	free(content);
+	return (saver);
+}
 t_arg	*remove_quoted_args(t_arg *token, t_env *env)
 {
-	int		i;
 	t_arg	*arg;
 
 	arg = token;
 	while (token)
 	{
-		i = 0;
-		while (token->content[i])
-		{
-			if (token->content[i] == SINGLE_QUOTE)
-				single_quote_remove(token->content, &i, env);
-			else if (token->content[i] == L_DOUBLE_QUOTE)
-				double_quote_remove(token->content, &i);
-			else
-				string_getter(token->content, &i, env);
-			i++;
-		}
+		token->content = arg_iterator(token->content, env);
 		token = token->next;
 	}
 	return (arg);

@@ -37,7 +37,7 @@ char	*join_string(char *ptr, char c);
 int		get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j);
 int		get_inside_squote(char const *s, char **str, int i, size_t *k, char c, int j);
 int		get_words(char const *s, char **str, int i, size_t *k, char c, int j);
-bool	check_for_variables(char *str);
+bool	check_for_variables(const char *str);
 char	*get_quote_things(t_lexer **this);
 char	*get_s_quote_things(t_lexer **this);
 char	*get_s_word(t_lexer **this);
