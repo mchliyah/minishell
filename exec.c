@@ -117,7 +117,7 @@ void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 	if (f_pid == -1)
 	{
 		perror("fork(): ");
-		exit(1);
+		exit(g_status);
 	}
 	if (f_pid == 0)
 	{

@@ -93,6 +93,7 @@ int	main(int ac, char **av, char **envp)
 	t_pipe_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
+	int			status;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
@@ -115,13 +116,19 @@ int	main(int ac, char **av, char **envp)
 					i = 0;
 					while (i < data->pip_nb * 2)
 						close(data->p_fd[i++]);
-					while (wait(NULL) > 0)
-						;
+					while (wait(&status) > 0)
+					{
+						if ( WIFEXITED(status) )
+    					{
+    					    g_status = WEXITSTATUS(status);       
+    					    printf("exit\n");
+    					}
+
+					}
 					to_free(pipeline);
 				}
 			}
 		}
 	}
-	printf("exit\n");
-	return (0);
+	return (g_status);
 }
