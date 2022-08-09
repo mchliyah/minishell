@@ -15,7 +15,6 @@
 t_token	*get_token_file(t_lexer **lex)
 {
 	char	*ptr;
-	char	*tmp;
 
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);

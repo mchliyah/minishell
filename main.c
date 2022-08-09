@@ -12,6 +12,8 @@
 
 #include "includes/minishell.h"
 
+int g_status;
+
 /*
   ?? this comments for anything under generate_token function !!
  	if you want to add function under this function
@@ -113,7 +115,7 @@ int	main(int ac, char **av, char **envp)
 					i = 0;
 					while (i < data->pip_nb * 2)
 						close(data->p_fd[i++]);
-					while (wait(0) > 0)
+					while (wait(NULL) > 0)
 						;
 					to_free(pipeline);
 				}

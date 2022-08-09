@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int g_status;
+
 void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 {
 	char	*to_set;

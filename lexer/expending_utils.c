@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int g_status;
+
 char	*get_simple_word(char *arg, t_env *env, int state)
 {
 	int		start;

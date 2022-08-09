@@ -12,6 +12,8 @@
 
 #include "includes/minishell.h"
 
+extern int g_status;
+
 int	cmpair(char *content, char *key)
 {
 	if (!ft_strncmp(content, key, ft_strlen(content)))
@@ -68,13 +70,9 @@ void	open_files(t_data **data, t_list *cmd)
 
 void	open_pipe(t_data **data, t_list *cmd)
 {
-	int	in;
-	int	ou;
 	int	i;
 
 	i = 0;
-	in = 1;
-	ou = 1;
 	open_files(data, cmd);
 //	if ((*data)->fd_in == -1 && (*data)->pip_nb > 0)
 //	{

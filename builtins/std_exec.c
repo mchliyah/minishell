@@ -34,9 +34,9 @@ char	**get_cmd_path(char **env)
 {
 	char	**path;
 
-	while (ft_strncmp("PATH=", *env, 4))
+	while (ft_strncmp("PATH=", *env, 5))
 	{
-		if (ft_strncmp("PATH=", *env, 4) == -1)
+		if (ft_strncmp("PATH=", *env, 5) == -1)
 			ft_putstr_fd("err cmand \n", 2);
 		env++;
 	}

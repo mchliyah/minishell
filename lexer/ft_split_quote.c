@@ -47,14 +47,12 @@
 
 static char	**c_str(char **str, char const *s, char c)
 {
-	int		q;
 	size_t	i;
 	size_t	k;
 	size_t	j;
 
 	i = 0;
 	k = 0;
-	q = 0;
 	while (s[i]) {
 		j = i;
 		if (s[i] == L_DOUBLE_QUOTE) {
