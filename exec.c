@@ -40,12 +40,6 @@ void	open_files(t_data **data, t_list *cmd)
 	while (iterator && iterator->next)
 	{
 		file = iterator->next->content->content;
-//		if (iterator->content->type == DELIMITER)
-//		{
-//			//PV(file, "%s\n");
-//			if (!here_doc(iterator->next->content->content, data))
-//				exit(g_status);
-//		}
 		if (iterator->content->type == REDIRECT_IN)
 		{
 			(*data)->fd_in = open(file, O_RDONLY);
@@ -68,24 +62,10 @@ void	open_files(t_data **data, t_list *cmd)
 
 void	open_pipe(t_data **data, t_list *cmd)
 {
-	int	in;
-	int	ou;
 	int	i;
 
 	i = 0;
-	in = 1;
-	ou = 1;
 	open_files(data, cmd);
-//	if ((*data)->fd_in == -1 && (*data)->pip_nb > 0)
-//	{
-//		in = 0;
-//		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
-//	}
-//	if ((*data)->fd_out == -1 && (*data)->pip_nb > 0)
-//	{
-//		ou = 0;
-//		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
-//	}
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
 	{
 		if ((*data)->fd_in == -1)

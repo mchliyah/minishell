@@ -61,7 +61,6 @@ int	scan_args_staff(t_arg *token, int i)
 	return (0);
 }
 
-// !! WARNING: there is a SEGV ls "ds fj ffjaf afja fkja f 'jfd' fj"
 t_arg	*scan_args(t_arg *arg, t_env *env)
 {
 	t_arg	*token;

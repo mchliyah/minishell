@@ -24,6 +24,7 @@
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 //char	**ft_split_arg(char const *s, char c);
+char	*get_form_my_env(char *tmp, t_env *env);
 t_token	*get_token_file(t_lexer **lex);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex);

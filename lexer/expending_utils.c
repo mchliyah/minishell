@@ -54,11 +54,11 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 						j++;
 						if (((tmp[i][j] == '$' || tmp[i][j] == L_DOUBLE_QUOTE
 							|| tmp[i][j] == SINGLE_QUOTE)
-								|| (!ft_isalnum(tmp[i][j]))) && tmp[i][j] != '_')
+							|| (!ft_isalnum(tmp[i][j]))) && tmp[i][j] != '_')
 						{
 							sub = ft_substr(tmp[i], start, j - start);
-							printf("--%s\n", sub);
-							ptr = ft_strjoin(ptr, get_variable(sub, env, state));
+							ptr = ft_strjoin(ptr,
+									get_variable(sub, env, state));
 							free(sub);
 							start = j;
 						}
@@ -75,17 +75,14 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	return (ptr);
 }
 
-char	*get_form_my_env(char *str, t_env *env)
+char	*get_form_my_env(char *tmp, t_env *env)
 {
-	char	*tmp;
 	t_env	*pp_env;
 
 	pp_env = env;
-	tmp = ft_strjoin(str, "=");
-	free(str);
 	while (pp_env->next)
 	{
-		if (!ft_strncmp(tmp, pp_env->pair->key, ft_strlen(pp_env->pair->key)))
+		if (!ft_strncmp(tmp, pp_env->pair->key, ft_strlen(tmp)))
 		{
 			free(tmp);
 			tmp = NULL;
@@ -93,6 +90,8 @@ char	*get_form_my_env(char *str, t_env *env)
 		}
 		pp_env = pp_env->next;
 	}
+	free(tmp);
+	tmp = NULL;
 	return (NULL);
 }
 
@@ -144,6 +143,7 @@ char	*expend(char *str, t_env *envi, int state)
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);
+			printf("tmp = %s\n", tmp);
 			tmp = get_form_my_env(tmp, envi);
 			if (!tmp && state == 1)
 				tmp = ft_strdup("");

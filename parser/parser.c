@@ -127,9 +127,8 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
 		if (!token)
 			return (EXIT_FAILURE);
 		token = scan_errs(token, env);
-		if (!token) {
+		if (!token)
 			return (EXIT_FAILURE);
-		}
 		printf("cmd = %s\n", token->content);
 		printf("cmd type = %d\n", token->type);
 		if (token->arg)

@@ -26,7 +26,6 @@ int	ft_is_symbol(char c)
 	return (0);
 }
 
-// !'ptr'  freed inside the function
 char	*join_string(char *ptr, char c)
 {
 	char	*j_str;
