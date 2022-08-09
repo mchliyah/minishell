@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/08 20:21:37 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:12:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,7 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 	{
 		if (was_rederection == 1)
 		{
-			printf("jj\n");
 			token = get_token_file(&lexer);
-			printf("%s\n", token->content);
 			was_rederection = 0;
 		}
 		else

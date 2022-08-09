@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/02 17:32:49 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:11:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ char	*expend(char *str, t_env *envi, int state)
 				i++;
 			else if (str[i] == '?')
 			{
-				ptr = ft_itoa(g_status);
 				ptr = ft_strjoin(ptr, ft_itoa(g_status));
 				i++;
 			}

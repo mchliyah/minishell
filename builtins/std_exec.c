@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 22:42:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:21:59 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	std_exec(t_list *cmd, char **env)
 	ft_putstr_fd("minishell : ", 2);
 	ft_putstr_fd(cmd->content->content, 2);
 	ft_putstr_fd(" : command not found\n", 2);
+	exit(127);
 }
 
 void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data)

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/07 22:24:07 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:08:13 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,17 +118,14 @@ int	main(int ac, char **av, char **envp)
 						close(data->p_fd[i++]);
 					while (wait(&status) > 0)
 					{
-						if ( WIFEXITED(status) )
-    					{
-    					    g_status = WEXITSTATUS(status);       
-    					    printf("exit\n");
-    					}
-
+						if (WIFEXITED(status))
+							g_status = WEXITSTATUS(status);
 					}
 					to_free(pipeline);
 				}
 			}
 		}
 	}
+	printf("exit\n");
 	return (g_status);
 }
