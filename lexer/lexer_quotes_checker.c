@@ -124,10 +124,13 @@ t_token	*scan_errs(t_token *token, t_env *env)
 		if (!token->arg)
 			return (NULL);
 	}
+	scan_vars(token, env);
+	/*
 	if (q != 0 || (check_for_variables(token->content)
 			&& !ft_strchr(token->content, SINGLE_QUOTE)))
 		return (get_substr(token, env));
 	else if (sq != 0)
 		return (get_substr_single_quotes(token));
+	 */
 	return (token);
 }
