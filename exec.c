@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 23:30:23 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:50:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	open_files(t_data **data, t_list *cmd)
 				if (ft_putstr_fd("outfile Error", 2))
 					exit(g_status);
 		}
+		else if (iterator->content->type == LESSGREAT)
+			open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else if (!append_file(data, iterator, file))
 			break ;
 		iterator = iterator->next;

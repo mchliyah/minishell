@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 17:30:55 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:54:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	else
 		to_set = get_path(key, env);
 	if (chdir(to_set) == -1)
-		ft_putstr_fd("cd: argument error \n", 2);
+	{
+		ft_putstr_fd("cd: No such file or directory \n", 2);
+		g_status = 1;
+	}
 	else
 		env = update_path(env, to_set, to_old);
 	if (chek)

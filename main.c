@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 19:54:30 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:37:02 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	init_pipes(t_data **exec)
 	return (EXIT_SUCCESS);
 }
 
-
 void	get_here_doc(t_list *cmd, t_data **data)
 {
 	t_list	*tmp;
@@ -127,7 +126,6 @@ void	get_here_doc(t_list *cmd, t_data **data)
 }
 void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
 {
-//
 	if (pipe->left_p)
 		check_for_heredoc(pipe->left_p, data);
 	if (pipe->left)

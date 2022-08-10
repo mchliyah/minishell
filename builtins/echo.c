@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 01:12:17 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 20:13:05 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern int g_status;
 
 static int	check_arg(char *str)
 {
@@ -51,10 +53,8 @@ void	echo(t_list *cmd)
 	del = 1;
 	args = arr_arg(cmd);
 	if (cmd->content->arg)
-	{
 		while (!empty(args[i]) && check_arg(args[i]))
 			i++;
-	}
 	if (i != 1)
 		del = 0;
 	while (args[i])
@@ -67,5 +67,6 @@ void	echo(t_list *cmd)
 	}
 	if (del)
 		printf("\n");
+	g_status = 0;
 	free (args);
 }
