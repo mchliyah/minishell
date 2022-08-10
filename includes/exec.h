@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 01:03:36 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:30:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "minishell.h"
 # include "../libft/libft.h"
 //exec
-void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data);
-void	exec_cmd(t_list *cmd, char **envp, t_data **exec);
+void	to_std(t_env *env, t_list *cmd, t_data **data);
+void	exec_cmd(t_list *cmd, t_data **exec);
 // void	to_std(t_env *env, char **envp, t_list *cmd);
 //char	*get_path(char *path, t_env *env);
 
@@ -50,5 +50,6 @@ void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
 // here doc
 int		here_doc(char *key_stop, t_data **data);
+void	shelvl(t_env **env);
 
 #endif

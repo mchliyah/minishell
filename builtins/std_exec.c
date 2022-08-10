@@ -6,11 +6,40 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 20:21:59 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:34:49 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	**get_env_char(t_env *env)
+{
+	t_env	*tmp;
+	char	**arr;
+	int		size;
+	int		i;
+
+	size = 0;
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	arr = malloc(sizeof(char *) * size + 1);
+	tmp = env;
+	while (tmp)
+	{
+		arr[i] = ft_strdup(tmp->pair->key);
+		arr[i] = ft_strjoin(arr[i], "=");
+		arr[i] = ft_strjoin(arr[i], tmp->pair->value);
+		tmp = tmp->next;
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
+}
 
 static char	*get_cmd(char **path, char *cmd)
 {
@@ -44,20 +73,22 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-void	std_exec(t_list *cmd, char **env)
+void	std_exec(t_list *cmd, t_env *env)
 {
 	char	**args;
 	char	**path;
 	char	*cmand;
+	char	**envp;
 
 	args = arr_arg(cmd);
+	envp = get_env_char(env);
 	if (access(cmd->content->content, X_OK) == 0)
-		execve(cmd->content->content, args, env);
+		execve(cmd->content->content, args, envp);
 	else
 	{
-		path = get_cmd_path(env);
+		path = get_cmd_path(envp);
 		cmand = get_cmd(path, cmd->content->content);
-		execve(cmand, args, env);
+		execve(cmand, args, envp);
 	}
 	ft_putstr_fd("minishell : ", 2);
 	ft_putstr_fd(cmd->content->content, 2);
@@ -65,7 +96,7 @@ void	std_exec(t_list *cmd, char **env)
 	exit(127);
 }
 
-void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data)
+void	to_std(t_env *env, t_list *cmd, t_data **data)
 {
 	int	f_pid;
 	int	path;
@@ -88,7 +119,7 @@ void	to_std(t_env *env, char **envp, t_list *cmd, t_data **data)
 			env = env->next;
 		}
 		if (path)
-			std_exec(cmd, envp);
+			std_exec(cmd, (*data)->env);
 		else if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
 	}
