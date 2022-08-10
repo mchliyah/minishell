@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 22:41:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/08 21:09:32 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+extern int g_status;
 
 int	cmpair(char *content, char *key)
 {
@@ -99,7 +101,7 @@ void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 	if (f_pid == -1)
 	{
 		perror("fork(): ");
-		exit(1);
+		exit(g_status);
 	}
 	if (f_pid == 0)
 	{

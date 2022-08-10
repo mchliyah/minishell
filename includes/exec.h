@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 21:54:44 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 01:03:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	unset_cmd(t_env **env, t_list *cmd);
 int		check_exp(char *str);
 int		elem_exist(t_env *env, char *arg);
 char	*env_dup(char *tmp_val, int i, int j);
-void	dup_exist_elem(t_env *tmp, char *str);
-t_env	*dup_not_exist_elem(t_env *tmp, char *str);
+void	add_elem(t_env **env, t_pair *to_exp, int exist);
 void	exp_error(int ret, char *str);
 //cd cmand
 void	cd_cmd(t_list	*c_line, t_env *env);
@@ -50,6 +49,6 @@ void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
 // here doc
-int     here_doc(char *key_stop, t_data **data);
+int		here_doc(char *key_stop, t_data **data);
 
 #endif

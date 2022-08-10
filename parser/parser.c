@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/28 19:43:31 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:12:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **d
 	return (*pipeline);
 }
 
-int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,
-	t_data **data)
+int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **data)
 {
 	int			first;
 	int			was_rederection;

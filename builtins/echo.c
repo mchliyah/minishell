@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:58:26 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/04 21:40:58 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 01:12:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int	check_arg(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	if (str[i] && str[i] == '-')
+	if (str[i] && str[i] == '-' && str[i + 1] == 'n')
 		i++;
-	else if (str[i] && str[i] != '-')
+	else if (str[i] && (str[i] != '-' || (str[i] == '-' && str[i + 1] != 'n')))
 		return (0);
 	while (str[i])
 	{
@@ -52,8 +52,7 @@ void	echo(t_list *cmd)
 	args = arr_arg(cmd);
 	if (cmd->content->arg)
 	{
-		while (!empty(args[i])
-			&& check_arg(args[i]))
+		while (!empty(args[i]) && check_arg(args[i]))
 			i++;
 	}
 	if (i != 1)
@@ -61,7 +60,8 @@ void	echo(t_list *cmd)
 	while (args[i])
 	{
 		if (!empty(args[i]))
-			printf("%s", args[i++]);
+			printf("%s", args[i]);
+		i++;
 		if (args[i])
 			printf(" ");
 	}

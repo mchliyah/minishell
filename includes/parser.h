@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "struct.h"
+# include "structs.h"
 
 t_list		*linked_token(t_list	*lst_token, t_token *token);
 int			pipe_exist(t_list *lst);

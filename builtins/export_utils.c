@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 14:41:23 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/01 23:15:29 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 01:02:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,93 +42,100 @@ void	sort_exp(t_env **exp)
 int	check_exp(char *str)
 {
 	int	i;
+	int	len;
+	int	join;
 
-	i = 0;
+	i = 1;
+	join = 0;
 	if (str[0] == '-')
 		return (-1);
 	if ((str[0] < 'a' || str[0] > 'z') && (str[0] < 'A' || str[0] > 'Z')
 		&& str[0] != '_' )
 		return (-2);
-	while (str[i])
+	len = ft_strlen(str);
+	if (str[len - 1] == '+')
 	{
-		if (str[i] == '-')
+		join = 1;
+		len--;
+	}
+	while (i < len && str[i])
+		if (!ft_isalnum(str[i++]))
 			return (-3);
-		else
-		{
-			if (str[i] == '=' && str[i - 1] != '+')
-				return (1);
-			else if (str[i] == '=' && str[i - 1] == '+')
-				return (2);
-			else if (str[i] == '=')
-				break ;
-		}
-		i++;
-	}
+	if (join)
+		return (1);
 	return (0);
 }
 
-int	elem_exist(t_env *env, char *arg)
+void	dup_exist_elem(t_env **tmp_in, t_pair *to_exp)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	if (arg[i - 1] == '+')
-		i--;
-	while (env)
-	{
-		if (!strncmp(env->pair->key, arg, i))
-			return (1);
-		env = env->next;
-	}
-	return (0);
-}
-
-void	dup_exist_elem(t_env *tmp, char *str)
-{
-	int		i;
-	int		j;
-	char	*value;
-
-	i = 0;
-	j = 0;
-	value = NULL;
-	while (str[i] != '=')
-		i++;
-	j = ++i;
-	while (str[j])
-		j++;
-	if (i != j)
-		value = env_dup(str, j, i);
+	tmp = *tmp_in;
 	while (tmp)
 	{
-		if (!strncmp(tmp->pair->key, &str[0], ft_strlen(tmp->pair->key)))
-			tmp->pair->value = ft_strjoin(tmp->pair->value, value);
+		if (!strncmp(tmp->pair->key, to_exp->key,
+				ft_strlen(tmp->pair->key)))
+		{
+			if (tmp->pair->value)
+				tmp->pair->value
+					= ft_strjoin(tmp->pair->value, to_exp->value);
+			else
+				tmp->pair->value = ft_strdup(to_exp->value);
+			return ;
+		}
 		tmp = tmp->next;
 	}
-	free(value);
+	tmp = *tmp_in;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = malloc(sizeof(t_env));
+	tmp->next->pair = malloc(sizeof(t_pair));
+	tmp->next->pair->key = ft_strdup(to_exp->key);
+	tmp->next->pair->value = ft_strdup(to_exp->value);
+	tmp->next->next = NULL;
 }
 
-t_env	*dup_not_exist_elem(t_env *tmp, char *str)
+void	dup_not_exist_elem(t_env **env, t_pair *to_exp)
 {
-	int	i;
-	int	j;
+	t_env	*tmp;
 
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (str[i - 1] == '+')
-		tmp->pair->key = env_dup(str, i - 1, j);
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = malloc(sizeof(t_env));
+	tmp->next->pair = malloc(sizeof(t_pair));
+	if (tmp->next->pair)
+	{
+		tmp->next->pair->key = ft_strdup(to_exp->key);
+		tmp->next->pair->value = NULL;
+		if (to_exp->value)
+			tmp->next->pair->value = ft_strdup(to_exp->value);
+	}
+	tmp->next->next = NULL;
+}
+
+void	add_elem(t_env **env, t_pair *to_exp, int exist)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	if (!exist)
+	{
+		while (tmp)
+		{
+			if (!strncmp(tmp->pair->key, to_exp->key,
+					ft_strlen(tmp->pair->key)))
+			{
+				free(tmp->pair->value);
+				tmp->pair->value = NULL;
+				if (to_exp->value)
+					tmp->pair->value = ft_strdup(to_exp->value);
+				return ;
+			}
+			tmp = tmp->next;
+		}
+		dup_not_exist_elem(env, to_exp);
+	}
 	else
-		tmp->pair->key = env_dup(str, i, j);
-	j = ++i;
-	while (str[i])
-		i++;
-	if (i != j)
-		tmp->pair->value = env_dup(str, i, j);
-	else
-		tmp->pair->value = NULL;
-	return (tmp);
+		dup_exist_elem(env, to_exp);
 }

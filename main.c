@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/05 19:30:14 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 20:08:13 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int g_status;
 
 /*
   ?? this comments for anything under generate_token function !!
@@ -116,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 	t_pipe_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
+	int			status;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
@@ -133,14 +136,16 @@ int	main(int ac, char **av, char **envp)
 				add_history(str_rln);
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
-//					init_pipes(&data);
-//					check_for_heredoc(pipeline, &data);
-//					iterator(pipeline, envp, &data);
-//					i = 0;
-//					while (i < data->pip_nb * 2)
-//						close(data->p_fd[i++]);
-//					while (wait(0) > 0)
-//						;
+					init_pipes(&data);
+					iterator(pipeline, envp, &data);
+					i = 0;
+					while (i < data->pip_nb * 2)
+						close(data->p_fd[i++]);
+					while (wait(&status) > 0)
+					{
+						if (WIFEXITED(status))
+							g_status = WEXITSTATUS(status);
+					}
 					to_free(pipeline);
 				}
 			}
@@ -149,5 +154,5 @@ int	main(int ac, char **av, char **envp)
 			g_status = 0;
 	}
 	printf("exit\n");
-	return (0);
+	return (g_status);
 }
