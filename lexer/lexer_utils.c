@@ -114,7 +114,7 @@ char	*check_for_args(t_lexer **lex)
 	ptr = NULL;
 	if ((*lex)->c == R_DOUBLE_QUOTE)
 	{
-		ptr = get_quote_things(lex);
+        ptr = get_quote_things(lex);
 		while ((*lex)->content[(*lex)->i + 1] == L_DOUBLE_QUOTE)
 		{
 			*lex = advance(*lex);
@@ -139,7 +139,7 @@ char	*check_for_args(t_lexer **lex)
 			*lex = advance(*lex);
 			ptr = ft_strjoin(ptr, get_quote_things(lex));
 		}
-		if (ft_isalnum((*lex)->content[(*lex)->i + 1]))
+		if (ft_isalnum((*lex)->content[(*lex)->i]))
 		{
 			*lex = advance(*lex);
 			ptr = ft_strjoin(ptr, get_s_word(lex));
@@ -168,7 +168,6 @@ t_arg	*get_args(t_lexer **lex)
 		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
 			break ;
 		s = check_for_args(lex);
-		printf("s = %s\n", s);
 		if (!s)
 			return (NULL);
 		if (!opt)

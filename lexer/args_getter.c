@@ -59,20 +59,18 @@ char	*get_s_quote_things(t_lexer **this)
 		if ((*this)->c == SINGLE_QUOTE && (c == SPACE || c == EPIPE
 				|| c == LESS || c == GREATER))
 		{
-			HERE ;
 			s = join_string(s, (*this)->c);
-			break ;
+            break ;
 		}
 		else if ((*this)->c == SINGLE_QUOTE && (ft_isalnum(c) || c == SPACE))
 		{
-			HERE ;
 			while ((*this)->c)
 			{
 				if ((*this)->c == SPACE || (*this)->c == EPIPE
 					|| (*this)->c == LESS || (*this)->c == GREATER)
 					return (s);
 				s = join_string(s, (*this)->c);
-				*this = advance(*this);
+                *this = advance(*this);
 			}
 		}
 	}

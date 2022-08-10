@@ -263,6 +263,7 @@ char	*double_quote_remove(char *s, int *i, t_env *env)
 
 char	*string_getter(char *s, int *i, t_env *env)
 {
+	char	*var;
 	char	*tmp;
 	int		st;
 	char	*str;
@@ -284,7 +285,10 @@ char	*string_getter(char *s, int *i, t_env *env)
 			}
 			tmp = ft_substr(s, st, *i - st);
 			printf("^^%s\n", tmp);
-			str = ft_strjoin(str, get_form_my_env(tmp, env));
+			var = get_form_my_env(tmp, env);
+			if (!var)
+				var = ft_strdup("");
+			str = ft_strjoin(str, var);
 		}
 		else if (s[*i] == '$' && (s[*i + 1] == SINGLE_QUOTE
 				|| s[*i + 1] == L_DOUBLE_QUOTE))

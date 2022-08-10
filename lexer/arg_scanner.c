@@ -71,7 +71,7 @@ t_arg	*scan_args(t_arg *arg, t_env *env)
 	while (token)
 	{
 		i = 0;
-		if (scan_args_staff(arg, i) == 1)
+		if (scan_args_staff(token, i) == 1)
 			return (NULL);
 		token = token->next;
 	}
