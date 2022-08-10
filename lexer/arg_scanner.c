@@ -75,7 +75,6 @@ t_arg	*scan_args(t_arg *arg, t_env *env)
 			return (NULL);
 		token = token->next;
 	}
-	token = arg;
-	arg = remove_quoted_args(token, env);
-	return (arg);
+	token = remove_quoted_args(arg, env);
+	return (token);
 }

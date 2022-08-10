@@ -12,26 +12,26 @@
 
 #include "../includes/minishell.h"
 
-t_token	*get_substr(t_token *token, t_env *env)
-{
-	char	*ptr;
-	int		j;
-	char	**str;
-
-	if (check_for_variables(token->content))
-		return (scan_vars(token, env));
-	j = 0;
-	str = ft_split(token->content, '\"');
-	ptr = ft_strdup("");
-	while (str[j])
-	{
-		ptr = ft_strjoin(ptr, str[j]);
-		free(str[j]);
-		j++;
-	}
-	token->content = ptr;
-	return (token);
-}
+//t_token	*get_substr(t_token *token, t_env *env)
+//{
+//	char	*ptr;
+//	int		j;
+//	char	**str;
+//
+//	if (check_for_variables(token->content))
+//		return (scan_vars(token, env));
+//	j = 0;
+//	str = ft_split(token->content, '\"');
+//	ptr = ft_strdup("");
+//	while (str[j])
+//	{
+//		ptr = ft_strjoin(ptr, str[j]);
+//		free(str[j]);
+//		j++;
+//	}
+//	token->content = ptr;
+//	return (token);
+//}
 
 int	check_quote(t_token *token, int *i, int *q)
 {
@@ -72,27 +72,27 @@ int	check_s_quote(t_token *token, int *i, int *sq)
 }
 
 // protect of split
-t_token	*get_substr_single_quotes(t_token *token)
-{
-	char	*ptr;
-	int		j;
-	char	**str;
-
-	j = 0;
-	if (token->content[j] == '$' && token->content[j + 1] == SINGLE_QUOTE)
-		j++;
-	str = ft_split(token->content, '\'');
-	ptr = ft_strdup("");
-	while (str[j])
-	{
-		ptr = ft_strjoin(ptr, str[j]);
-		free(str[j]);
-		j++;
-	}
-	free(token->content);
-	token->content = ptr;
-	return (token);
-}
+//t_token	*get_substr_single_quotes(t_token *token)
+//{
+//	char	*ptr;
+//	int		j;
+//	char	**str;
+//
+//	j = 0;
+//	if (token->content[j] == '$' && token->content[j + 1] == SINGLE_QUOTE)
+//		j++;
+//	str = ft_split(token->content, '\'');
+//	ptr = ft_strdup("");
+//	while (str[j])
+//	{
+//		ptr = ft_strjoin(ptr, str[j]);
+//		free(str[j]);
+//		j++;
+//	}
+//	free(token->content);
+//	token->content = ptr;
+//	return (token);
+//}
 
 
 t_token	*scan_errs(t_token *token, t_env *env)
