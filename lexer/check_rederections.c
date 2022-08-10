@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-
+extern  int g_status;
 bool	is_redirection(int this)
 {
 	if (this == REDIRECT_OUT_IN_APPEND_MD || this == REDIRECT_IN

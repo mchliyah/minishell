@@ -124,7 +124,7 @@ t_token	*scan_errs(t_token *token, t_env *env)
 		if (!token->arg)
 			return (NULL);
 	}
-	scan_vars(token, env);
+	token = scan_vars(token, env);
 	/*
 	if (q != 0 || (check_for_variables(token->content)
 			&& !ft_strchr(token->content, SINGLE_QUOTE)))

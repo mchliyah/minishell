@@ -13,6 +13,7 @@
 
 #include "../includes/minishell.h"
 
+extern  int g_status;
 
 t_token	*get_pipe(t_lexer **lex, int first)
 {

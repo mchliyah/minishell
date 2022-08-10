@@ -12,6 +12,7 @@
 
 #include "../includes/minishell.h"
 
+extern  int g_status;
 
 bool	check_for_variables(const char *str)
 {
@@ -196,12 +197,10 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 	tmp = ft_substr(arg, s, i - s);
 	if (!tmp)
 		exit(1);
-	printf("**%s\n", tmp);
 	tmp = get_form_my_env(tmp, env);
 	if (!tmp)
 		tmp = ft_strdup("");
 	*ptr = ft_strjoin(*ptr, tmp);
-    printf("204 %s\n", *ptr);
 	if (!*ptr)
 	{
 		perror("NULL");
@@ -285,7 +284,6 @@ char	*string_getter(char *s, int *i, t_env *env)
 					(*i)++;
 			}
 			tmp = ft_substr(s, st, *i - st);
-			printf("^^%s\n", tmp);
 			var = get_form_my_env(tmp, env);
 			if (!var)
 				var = ft_strdup("");
@@ -325,11 +323,9 @@ char	*arg_iterator(char *content, t_env *env)
 			c = string_getter(content, &i, env);
 			i--;
 		}
-		printf("327 %s\n", c);
 		saver = ft_strjoin(saver, c);
 		i++;
 	}
-	printf("savvverrr %s\n", saver);
 	free(content);
 	return (saver);
 }

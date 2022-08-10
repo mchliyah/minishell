@@ -88,7 +88,6 @@ char	*get_s_quote_things(t_lexer **this)
 
 char	*get_s_word(t_lexer **this)
 {
-	char	tmp;
 	char	*s;
 
 	s = ft_strdup("");
