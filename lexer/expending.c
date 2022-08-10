@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern  int g_status;
+extern int g_status;
 
 bool	check_for_variables(const char *str)
 {
