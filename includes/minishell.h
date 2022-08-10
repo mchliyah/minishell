@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:07:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 23:42:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:53:45 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # define PV(x, y) fprintf(stderr, "%s = " y, #x, x)
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__ #x, x)
 # define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
-
 
 //void	print_tokens(t_pipe_line *pipeline);
 int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env,

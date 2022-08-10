@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/09 23:42:29 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:54:30 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,31 @@ int	init_pipes(t_data **exec)
 	return (EXIT_SUCCESS);
 }
 
+
+void	get_here_doc(t_list *cmd, t_data **data)
+{
+	t_list	*tmp;
+
+	tmp = cmd;
+	while (tmp && tmp->next)
+	{
+		if (tmp->content->type == DELIMITER)
+			if (!here_doc(tmp->next->content->content, data))
+				return ;
+		tmp = tmp->next;
+	}
+}
+void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
+{
+//
+	if (pipe->left_p)
+		check_for_heredoc(pipe->left_p, data);
+	if (pipe->left)
+		get_here_doc(pipe->left, data);
+	if (pipe->right)
+		get_here_doc(pipe->right, data);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	int			i;
@@ -149,6 +174,8 @@ int	main(int ac, char **av, char **envp)
 				}
 			}
 		}
+		else if (*str_rln == '\0')
+			g_status = 0;
 	}
 	printf("exit\n");
 	return (g_status);

@@ -23,7 +23,7 @@ int	cmpair(char *content, char *key)
 
 int	append_file(t_data **data, t_list *cmd, char *file)
 {
-	if (cmd->content->type == DELIMITER)
+	if (cmd->content->type == REDIRECT_OUT_IN_APPEND_MD)
 	{
 		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
 		if ((*data)->fd_out < 0)
@@ -42,13 +42,7 @@ void	open_files(t_data **data, t_list *cmd)
 	while (iterator && iterator->next)
 	{
 		file = iterator->next->content->content;
-		if (iterator->content->type == DELIMITER)
-		{
-			//PV(file, "%s\n");
-			if (!here_doc(iterator->next->content->content, data))
-				exit(g_status);
-		}
-		else if (iterator->content->type == REDIRECT_IN)
+		if (iterator->content->type == REDIRECT_IN)
 		{
 			(*data)->fd_in = open(file, O_RDONLY);
 			if ((*data)->fd_in < 0)
@@ -74,16 +68,6 @@ void	open_pipe(t_data **data, t_list *cmd)
 
 	i = 0;
 	open_files(data, cmd);
-//	if ((*data)->fd_in == -1 && (*data)->pip_nb > 0)
-//	{
-//		in = 0;
-//		(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
-//	}
-//	if ((*data)->fd_out == -1 && (*data)->pip_nb > 0)
-//	{
-//		ou = 0;
-//		(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
-//	}
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
 	{
 		if ((*data)->fd_in == -1)
