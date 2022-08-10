@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/08 21:09:32 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:30:23 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	open_pipe(t_data **data, t_list *cmd)
 	}
 }
 
-void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
+void	exec_cmd(t_list *in_cmd, t_data **data)
 {
 	t_list	*cmd;
 	int		f_pid;
@@ -144,7 +144,7 @@ void	exec_cmd(t_list *in_cmd, char **envp, t_data **data)
 		else if (!cmpair(content, "exit"))
 			(*data)->exit = exit_cmd(cmd);
 		else
-			to_std((*data)->env, envp, cmd, data);
+			to_std((*data)->env, cmd, data);
 		if ((*data)->pip_nb != 0)
 			exit(g_status);
 	}

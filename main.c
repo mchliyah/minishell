@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/09 20:08:13 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:42:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,43 @@ void	to_free(t_pipe_line *pipeline)
 	}
 }
 
+void	shelvl(t_env **env)
+{
+	t_env	*tmp_env;
+	int		to_set;
+
+	tmp_env = *env;
+	while (tmp_env)
+	{
+		if (!ft_strncmp(tmp_env->pair->key, "SHLVL",
+				ft_strlen(tmp_env->pair->key)))
+		{
+			to_set = ft_atoi(tmp_env->pair->value);
+			free(tmp_env->pair->value);
+			tmp_env->pair->value = ft_strdup(ft_itoa(to_set + 1));
+		}
+		tmp_env = tmp_env->next;
+	}
+}
+
 t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 {
 	(void)ac;
 	(void)av;
-	data = malloc(sizeof(t_data));
 	if (!data)
-		return (NULL);
-	data->exit = 0;
-	data->p_fd = NULL;
-	data->fd_in = -1;
-	data->fd_out = -1;
-	data->env = get_env(envp);
-	data->exp = get_env(envp);
+	{
+		data = malloc(sizeof(t_data));
+		if (!data)
+			return (NULL);
+		data->exit = 0;
+		data->p_fd = NULL;
+		data->fd_in = -1;
+		data->fd_out = -1;
+		data->env = get_env(envp);
+		data->exp = get_env(envp);
+	}
+	shelvl(&data->env);
+	shelvl(&data->exp);
 	sort_exp(&data->exp);
 	return (data);
 }
@@ -112,7 +136,7 @@ int	main(int ac, char **av, char **envp)
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
 					init_pipes(&data);
-					iterator(pipeline, envp, &data);
+					iterator(pipeline, &data);
 					i = 0;
 					while (i < data->pip_nb * 2)
 						close(data->p_fd[i++]);
