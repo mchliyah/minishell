@@ -135,8 +135,10 @@ char	*string_getter(char *s, int *i, t_env *env)
 						(*i)++;
 				}
 			tmp = ft_substr(s, st, *i - st);
+				printf("ttt = %s\n", tmp);
 			var = get_form_my_env(tmp, env);
-			if (!var)
+				printf("tvar = %s\n", var);
+				if (!var)
 				var = ft_strdup("");
 			}
 			str = ft_strjoin(str, var);
