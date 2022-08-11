@@ -23,6 +23,16 @@
 // function deleter of single quote and double quote and expend!
 char	*arg_iterator(char *content, t_env *env);
 
+/*
+	 * expending functions
+ */
+int		expend(char **ptr, char *arg, t_env *env);
+char	*variable_expander(char *s, t_env *env);
+char	*single_quote(char *s, int *i);
+char	*double_quote(char *s, int *i, t_env *env);
+char	*_string_getter(char *s, int i, t_env *env);
+/***************************************************/
+
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 //char	**ft_split_arg(char const *s, char c);

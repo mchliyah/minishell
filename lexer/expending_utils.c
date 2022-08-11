@@ -85,7 +85,6 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	pp_env = env;
 	while (pp_env->next)
 	{
-        printf("key %s\n", pp_env->pair->key);
         if (!ft_strcmp(tmp, pp_env->pair->key))
 		{
 			free(tmp);
@@ -98,7 +97,7 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	tmp = NULL;
 	return (NULL);
 }
-
+/*
 char	*get_word(char *str, int *i, char *ptr)
 {
 	while (str[*i])
@@ -112,9 +111,9 @@ char	*get_word(char *str, int *i, char *ptr)
 	return (ptr);
 }
 
-/*
+*
  *  TODO : handle $? inside quote and if founded
- */
+ *
 char	*expend(char *str, t_env *envi, int state)
 {
 	char	*ptr;
@@ -159,13 +158,13 @@ char	*expend(char *str, t_env *envi, int state)
 	return (ptr);
 }
 
-/*
+
  	? the variable stops when he found space or anything else
  	? not letter or underscore (-) or number
  	? means that underscore and number
  	! state 1 for args
  	! state 0 for cmd
- */
+
 char	*get_variable(char *arg, t_env *env, int state)
 {
 	char	*ptr;
@@ -186,3 +185,4 @@ char	*get_variable(char *arg, t_env *env, int state)
 	free(str);
 	return (ptr);
 }
+*/

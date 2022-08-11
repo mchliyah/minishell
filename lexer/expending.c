@@ -129,8 +129,11 @@ char	*string_getter(char *s, int *i, t_env *env)
 			{
 				if (ft_isdigit(s[*i]))
 					(*i)++;
-				while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
-					(*i)++;
+				else
+				{
+					while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
+						(*i)++;
+				}
 			tmp = ft_substr(s, st, *i - st);
 			var = get_form_my_env(tmp, env);
 			if (!var)
@@ -177,6 +180,7 @@ char	*arg_iterator(char *content, t_env *env)
 	free(content);
 	return (saver);
 }
+
 t_arg	*remove_quoted_args(t_arg *token, t_env *env)
 {
 	t_arg	*arg;

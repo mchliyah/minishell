@@ -12,6 +12,32 @@
 
 #include "../includes/minishell.h"
 
+//char	*expending(char *content, t_data *data)
+//{
+//	char	*saver;
+//	char	*c;
+//	int		i;
+//
+//	i = 0;
+//	saver = ft_strdup("");
+//	while (content[i])
+//	{
+////		if (content[i] == SINGLE_QUOTE)
+////			c = single_quote(content, &i);
+////	if (content[i] == '$')
+////			c = double_quote(content, &i, data->env);
+////		else
+////		{
+////			c = _string_getter(content, &i, data->env);
+////			i--;
+////		}
+//		saver = _string_getter(content, &i, data->env);
+//		saver = ft_strjoin(saver, c);
+//		i++;
+//	}
+//	free(content);
+//	return (saver);
+//}
 int	here_doc(char *key_stop, t_data **data)
 {
 	int		tmpfile;
@@ -25,9 +51,11 @@ int	here_doc(char *key_stop, t_data **data)
 	}
 	while (1)
 	{
-		str = readline("heredoc>");
-		if (!ft_strncmp(str, key_stop, ft_strlen(str)))
+		str = readline("heredoc> ");
+		if (!ft_strncmp(str, key_stop, ft_strlen(str)) && *str)
 			break ;
+		if (check_for_variables(str))
+			str = _string_getter(str, 0, (*data)->env);
 		ft_putstr_fd(str, tmpfile);
 		ft_putstr_fd("\n", tmpfile);
 		free(str);
