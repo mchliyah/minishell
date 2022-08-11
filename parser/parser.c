@@ -113,28 +113,23 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
 		return (EXIT_FAILURE);
-	was_rederection = 0;
+    was_rederection = 0;
 	while (lexer->i < lexer->str_len)
 	{
-		if (was_rederection == 1)
-		{
-			token = get_token_file(&lexer);
-			was_rederection = 0;
-		}
-		else
-			token = get_token(&lexer, first);
-		if (!token) {
+        token = get_token(&lexer, first, was_rederection);
+    	was_rederection = 0;
+		if (!token)
             return (EXIT_FAILURE);
-        }
         token = scan_errs(token, env);
-        if (!token) {
+        if (!token)
             return (EXIT_FAILURE);
-        }
         if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
 			|| token->type == LESSGREAT || token->type == DELIMITER
 			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
 			was_rederection = 1;
 		first = 0;
+        printf("token = |%s|\n", token->content);
+        printf("token = |%d|\n", token->type);
 		lst_token = linked_token(lst_token, token);
 	}
 	if (!check_gaven_file_rd(lst_token))

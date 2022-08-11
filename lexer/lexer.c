@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 19:55:14 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:45:49 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_token	*get_pipe(t_lexer **lex, int first)
 		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);
 	}
-	printf("== %s\n", str);
 	if (!ft_memcmp(str, "|", ft_strlen(str)) && first == 0)
 		return (init_token(str, PIPE, NULL));
 	return (init_token(str, SYNTAX_ERR, NULL));
@@ -80,7 +79,7 @@ t_token	*get_redirection(t_lexer **lex)
 	return (get_extra(ptr));
 }
 
-t_token	*get_token(t_lexer **lexer, int first)
+t_token	*get_token(t_lexer **lexer, int first, int was_rd)
 {
 	while ((*lexer)->c != '\0')
 	{
@@ -89,7 +88,7 @@ t_token	*get_token(t_lexer **lexer, int first)
 //		if ((*lexer)->c == EPIPE && (*lexer)->i)
 		if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
 			&& (*lexer)->c != GREATER && (*lexer)->c != LESS)
-			return (get_char(lexer));
+			return (get_char(lexer, was_rd));
 		else if ((*lexer)->c == LESS || (*lexer)->c == GREATER)
 			return (get_redirection(lexer));
 		else if ((*lexer)->c == EPIPE)

@@ -159,6 +159,7 @@ int	main(int ac, char **av, char **envp)
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
 					init_pipes(&data);
+					check_for_heredoc(pipeline, &data);
 					iterator(pipeline, &data);
 					i = 0;
 					while (i < data->pip_nb * 2)

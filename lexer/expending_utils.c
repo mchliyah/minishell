@@ -14,6 +14,7 @@
 
 extern int g_status;
 
+/*
 char	*get_simple_word(char *arg, t_env *env, int state)
 {
 	int		start;
@@ -75,7 +76,7 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	}
 	free(tmp);
 	return (ptr);
-}
+}*/
 
 char	*get_form_my_env(char *tmp, t_env *env)
 {
@@ -96,7 +97,7 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	tmp = NULL;
 	return (NULL);
 }
-
+/*
 char	*get_word(char *str, int *i, char *ptr)
 {
 	while (str[*i])
@@ -110,9 +111,9 @@ char	*get_word(char *str, int *i, char *ptr)
 	return (ptr);
 }
 
-/*
+*
  *  TODO : handle $? inside quote and if founded
- */
+ *
 char	*expend(char *str, t_env *envi, int state)
 {
 	char	*ptr;
@@ -144,7 +145,6 @@ char	*expend(char *str, t_env *envi, int state)
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);
-			printf("tmp = %s\n", tmp);
 			tmp = get_form_my_env(tmp, envi);
 			if (!tmp && state == 1)
 				tmp = ft_strdup("");
@@ -158,13 +158,13 @@ char	*expend(char *str, t_env *envi, int state)
 	return (ptr);
 }
 
-/*
+
  	? the variable stops when he found space or anything else
  	? not letter or underscore (-) or number
  	? means that underscore and number
  	! state 1 for args
  	! state 0 for cmd
- */
+
 char	*get_variable(char *arg, t_env *env, int state)
 {
 	char	*ptr;
@@ -185,3 +185,4 @@ char	*get_variable(char *arg, t_env *env, int state)
 	free(str);
 	return (ptr);
 }
+*/
