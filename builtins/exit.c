@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 20:32:18 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:58:13 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exit_cmd(t_list *cmd)
 		ft_putendl_fd(": too many arguments", 2);
 		return (0);
 	}
-	else if (args && !str_isnum(args->content) && !args->next->content)
+	else if (args && !str_isnum(args->content))
 	{
 		g_status = 255;
 		ft_putstr_fd("minishell: exit: ", 2);

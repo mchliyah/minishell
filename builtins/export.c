@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 01:02:42 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:18:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern int g_status;
 
 void	print_exp(t_env *exp)
 {
@@ -50,7 +52,7 @@ void	export_elem(t_pair *to_exp, t_env **exp, t_env **env)
 		add_elem(exp, to_exp, 0);
 }
 
-void	check_add(char *args, t_env **exp, t_env **env)
+int	check_add(char *args, t_env **exp, t_env **env)
 {
 	int		ret;
 	t_pair	*to_exp;
@@ -66,9 +68,13 @@ void	check_add(char *args, t_env **exp, t_env **env)
 		to_exp->value = ft_substr(args, len_max - len + 1, len_max);
 	ret = check_exp(to_exp->key);
 	if (ret < 0)
+	{
 		exp_error(ret, args);
+		return (0);
+	}
 	else
 		export_elem(to_exp, exp, env);
+	return (1);
 }
 
 void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
@@ -78,7 +84,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	t_env	*envp;
 	int		i;
 
-	i = 1;
+	i = 0;
 	expt = *exp;
 	envp = *env;
 	if (!c_line->content->arg)
@@ -86,12 +92,16 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	else
 	{
 		args = arr_arg(c_line);
-		while (args[i])
+		while (args[++i])
 		{
-			check_add(args[i], &expt, &envp);
-			i++;
+			if (!check_add(args[i], &expt, &envp))
+			{
+				g_status = 1;
+				return ;
+			}
 		}
 		free (args);
 	}
 	sort_exp(&expt);
+	g_status = 0;
 }

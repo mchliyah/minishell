@@ -175,10 +175,7 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 {
 	char	*tmp;
 	int		s;
-//s
-//	if (arg[i] == '$' && (arg[i + 1] == '?'
-//			|| ft_isalnum(arg[i + 1])))
-//	{
+
 	i++;
 	s = i;
 	if (ft_isdigit(arg[i]))
@@ -220,9 +217,7 @@ char	*variable_expander(char *s, t_env *env)
 	{
 		if (s[i] == '$' && (s[i + 1] == '?'
 				|| ft_isalnum(s[i + 1])))
-		{
 			i = expend_var(&str, i, s, env);
-		}
 		else
 			str[i] = s[i];
 		i++;
@@ -275,17 +270,19 @@ char	*string_getter(char *s, int *i, t_env *env)
 		{
 			(*i)++;
 			st = *i;
-			if (s[*i] == '?' || ft_isdigit(s[*i]))
-				(*i)++;
+			if (s[(*i)++] == '?')
+				var = ft_itoa(g_status);
 			else
 			{
+				if (ft_isdigit(s[*i]))
+					(*i)++;
 				while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
 					(*i)++;
-			}
 			tmp = ft_substr(s, st, *i - st);
 			var = get_form_my_env(tmp, env);
 			if (!var)
 				var = ft_strdup("");
+			}
 			str = ft_strjoin(str, var);
 		}
 		else if (s[*i] == '$' && (s[*i + 1] == SINGLE_QUOTE

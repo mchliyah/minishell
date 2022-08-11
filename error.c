@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 20:01:58 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 19:54:37 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:15:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+extern int g_status;
 
 void	error_exit(t_list *lst_token, t_token *token)
 {
@@ -45,4 +47,5 @@ void	exp_error(int ret, char *str)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
 	}
+	g_status = 1;
 }
