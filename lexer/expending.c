@@ -185,7 +185,6 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 		i++;
 	else if (arg[i] == '?')
 	{
-		arg = ft_itoa(g_status);
 		arg = ft_strjoin(arg, ft_itoa(g_status));
 		i++;
 	}
