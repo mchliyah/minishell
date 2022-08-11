@@ -179,7 +179,7 @@ t_arg	*get_args(t_lexer **lex)
 	return (opt);
 }
 
-t_token	*get_char(t_lexer **lex)
+t_token	*get_char(t_lexer **lex, int was_rd)
 {
 	char	*ptr;
 	char	*tmp;
@@ -213,6 +213,11 @@ t_token	*get_char(t_lexer **lex)
 				break ;
 			}
 		}
+	}
+	if (was_rd)
+	{
+		printf("get |%s|\n", ptr);
+		return (init_token(ptr, WORD, NULL));
 	}
 	return (init_token(ptr, WORD_CMD, get_args(lex)));
 }

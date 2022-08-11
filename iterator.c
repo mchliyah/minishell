@@ -37,6 +37,6 @@ int	iterator(t_pipe_line *this_pipe, t_data **exec)
 {
 	if (this_pipe->left_p)
 		iterator(this_pipe->left_p, exec);
-	execute_childes(this_pipe, exec);
+    execute_childes(this_pipe, exec);
 	return (EXIT_SUCCESS);
 }

@@ -14,6 +14,7 @@
 
 extern int g_status;
 
+/*
 char	*get_simple_word(char *arg, t_env *env, int state)
 {
 	int		start;
@@ -75,7 +76,7 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	}
 	free(tmp);
 	return (ptr);
-}
+}*/
 
 char	*get_form_my_env(char *tmp, t_env *env)
 {
@@ -84,6 +85,7 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	pp_env = env;
 	while (pp_env->next)
 	{
+        printf("key %s\n", pp_env->pair->key);
         if (!ft_strcmp(tmp, pp_env->pair->key))
 		{
 			free(tmp);
@@ -144,7 +146,6 @@ char	*expend(char *str, t_env *envi, int state)
 			tmp = ft_substr(str, s, i - s);
 			if (!tmp)
 				return (NULL);
-			printf("tmp = %s\n", tmp);
 			tmp = get_form_my_env(tmp, envi);
 			if (!tmp && state == 1)
 				tmp = ft_strdup("");
