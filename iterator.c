@@ -24,11 +24,13 @@
 int	execute_childes(t_pipe_line *this_pipe, t_data **exec)
 {
 	if (this_pipe->left)
-		exec_cmd(this_pipe->left, exec);
+		if (!exec_cmd(this_pipe->left, exec))
+			return (1);
 	(*exec)->cmd_i++;
 	(*exec)->p_in += 2;
 	if (this_pipe->right)
-		exec_cmd(this_pipe->right, exec);
+		if (!exec_cmd(this_pipe->right, exec))
+			return (1);
 	return (0);
 }
 

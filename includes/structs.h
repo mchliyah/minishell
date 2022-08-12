@@ -121,6 +121,7 @@ typedef struct s_data
 	int		*p_fd;
 	int		fd_in;
 	int		fd_out;
+	int		fd_saver;
 	int		p_in;
 	int		cmd_i;
 }	t_data;

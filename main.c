@@ -133,7 +133,6 @@ void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
 	if (pipe->right)
 		get_here_doc(pipe->right, data);
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	int			i;
@@ -141,6 +140,7 @@ int	main(int ac, char **av, char **envp)
 	char		*str_rln;
 	t_data		*data;
 	int			status;
+	int fd;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
@@ -148,13 +148,14 @@ int	main(int ac, char **av, char **envp)
 	g_status = 0;
 	while (!data->exit)
 	{
-		str_rln = readline("\033[1;31m ~minishell~: \033[0m");
+		str_rln = readline("\001\033[1;31m\002 ~minishell~ \001\033[0m\002");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
 		{
 			if (data)
 			{
+				fd = dup(1);
 				add_history(str_rln);
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
@@ -166,8 +167,14 @@ int	main(int ac, char **av, char **envp)
 						close(data->p_fd[i++]);
 					while (wait(&status) > 0)
 					{
-						if (WIFEXITED(status))
+						if (WIFEXITED(status)) {
 							g_status = WEXITSTATUS(status);
+						}
+					}
+					if (fd > 0)
+					{
+						dup2(fd, 1);
+						close(fd);
 					}
 					to_free(pipeline);
 				}

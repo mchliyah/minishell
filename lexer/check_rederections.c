@@ -17,7 +17,8 @@ extern int g_status;
 bool	is_redirection(int this)
 {
 	if (this == REDIRECT_OUT_IN_APPEND_MD || this == REDIRECT_IN
-		|| this == REDIRECT_OUT || this == DELIMITER)
+		|| this == REDIRECT_OUT || this == DELIMITER
+			|| this == LESSGREAT)
 		return (true);
 	return (false);
 }
