@@ -12,14 +12,17 @@
 
 #include "../includes/minishell.h"
 
-t_token	*scan_vars(t_token *token, t_env *env)
+t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 {
-    token->content = arg_iterator(token->content, env);
-//	token->content = rm_quote(token->content, env, 0);
-//	if (token->content == NULL)
-//	{
-//		HERE;
-//		return (NULL);
-//	}
+	char	c;
+	char	**ptr;
+	if (was_hered == 2)
+	{
+		if ()
+		ptr = ft_split()
+		token->content = ft_split();
+	}
+	else
+    	token->content = arg_iterator(token->content, env);
 	return (token);
 }

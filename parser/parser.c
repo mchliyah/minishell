@@ -102,7 +102,7 @@ t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **d
 int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **data)
 {
 	int			first;
-	int			was_rederection;
+	int			was_rd;
 	t_token		*token;
 	t_lexer		*lexer;
 	t_list		*lst_token;
@@ -113,20 +113,22 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 	lexer = init_lex(lexer, rln_str);
 	if (!lexer)
 		return (EXIT_FAILURE);
-    was_rederection = 0;
+    was_rd = 0;
 	while (lexer->i < lexer->str_len)
 	{
-        token = get_token(&lexer, first, was_rederection);
-    	was_rederection = 0;
+        token = get_token(&lexer, first, was_rd);
+    	was_rd = 0;
 		if (!token)
             return (EXIT_FAILURE);
-        token = scan_errs(token, env);
+        token = scan_errs(token, env, was_rd);
         if (!token)
             return (EXIT_FAILURE);
         if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
-			|| token->type == LESSGREAT || token->type == DELIMITER
+			|| token->type == LESSGREAT
 			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
-			was_rederection = 1;
+			was_rd = 1;
+		if (token->type == DELIMITER)
+			was_rd = 2;
 		first = 0;
 		lst_token = linked_token(lst_token, token);
 	}
