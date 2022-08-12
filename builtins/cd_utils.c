@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:56:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/31 15:56:56 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:04:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 
 	i = 0;
 	tmp_env = env;
-	while (to_set[i])
+	if (to_set)
 	{
-		if (i != 0 && !to_set[i + 1] && to_set[i] == '/')
-			to_set[i] = '\0';
-		i++;
+		while (to_set[i])
+		{
+			if (i != 0 && !to_set[i + 1] && to_set[i] == '/')
+				to_set[i] = '\0';
+			i++;
+		}
 	}
 	dup_path(tmp_env, to_old, "OLDPWD");
 	tmp_env = env;

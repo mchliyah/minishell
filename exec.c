@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/10 23:50:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/11 23:20:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int g_status;
 
 int	cmpair(char *content, char *key)
 {
-	if (!ft_strncmp(content, key, ft_strlen(content)))
+	if (!ft_strcmp(content, key))
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/10 23:54:04 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 00:09:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	i = 0;
 	if (chek)
 	{
-		to_set = ft_strdup(get_path("PWD", env));
-		while (to_set[i])
-			i++;
-		while (i != 0 && to_set[i] != '/')
-			i--;
-		to_set[i + 1] = '\0';
+		to_set = getcwd(NULL, 1024);
+		if (to_set)
+		{
+			while (to_set[i])
+				i++;
+			while (i != 0 && to_set[i] != '/')
+				i--;
+			to_set[i + 1] = '\0';
+		}
 	}
 	else
 		to_set = get_path(key, env);
+	printf("%s\n", to_set);
 	if (chdir(to_set) == -1)
 	{
 		ft_putstr_fd("cd: No such file or directory \n", 2);
@@ -73,13 +77,13 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 		return ;
 	}
 	if (!c_line->content->arg
-		|| !strncmp(to_set, "~", ft_strlen(to_set)))
-		exec_cd(env, "HOME", get_path("PWD", env), 0);
-	else if (!strncmp(to_set, "-", 1))
-		exec_cd(env, "OLDPWD", get_path("PWD", env), 0);
-	else if (!strncmp(to_set, "..", 2))
-		exec_cd(env, NULL, get_path("PWD", env), 1);
-	else if (!strncmp(to_set, ".", 1))
+		|| !ft_strcmp(to_set, "~"))
+		exec_cd(env, "HOME", getcwd(NULL, 1024), 0);
+	else if (!ft_strcmp(to_set, "-"))
+		exec_cd(env, "OLDPWD", getcwd(NULL, 1024), 0);
+	else if (!ft_strcmp(to_set, ".."))
+		exec_cd(env, NULL, getcwd(NULL, 1024), 1);
+	else if (!ft_strcmp(to_set, "."))
 		return ;
 	else
 		chdir_cd(env, to_set);
