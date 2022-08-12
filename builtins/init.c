@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:56:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/07/25 19:10:55 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 23:03:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ t_env	*start(char **envp)
 	my_env->pair = init_pair(tmp_value);
 	if (!my_env->pair)
 		return (NULL);
-	my_env->next = 0;
+	my_env->next = NULL;
 	return (my_env);
 }

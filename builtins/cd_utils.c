@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:56:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/11 21:04:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 22:47:38 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_path(char *key, t_env *env)
 	tmp_env = env;
 	while (tmp_env)
 	{
-		if (!strncmp(tmp_env->pair->key, key, ft_strlen(key)))
+		if (!strcmp(tmp_env->pair->key, key))
 			return (tmp_env->pair->value);
 		tmp_env = tmp_env->next;
 	}
@@ -30,11 +30,11 @@ void	dup_path(t_env *tmp_env, char *to_set, char *to_up)
 {
 	while (tmp_env)
 	{
-		if (!strncmp(tmp_env->pair->key, to_up, ft_strlen(to_up)))
+		if (!strcmp(tmp_env->pair->key, to_up))
 		{
 			if (to_set)
 				tmp_env->pair->value = ft_strdup(to_set);
-			break ;
+			return ;
 		}
 		tmp_env = tmp_env->next;
 	}
