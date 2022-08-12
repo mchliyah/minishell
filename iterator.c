@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 19:54:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:48:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	execute_childes(t_pipe_line *this_pipe, t_data **exec)
 		exec_cmd(this_pipe->right, exec);
 	return (0);
 }
-
 
 int	iterator(t_pipe_line *this_pipe, t_data **exec)
 {

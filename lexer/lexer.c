@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:38 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/05 22:45:49 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 03:13:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ t_token	*get_pipe(t_lexer **lex, int first)
 
 t_token	*get_extra( char *ptr)
 {
-	if (!ft_strncmp(ptr, "<", ft_strlen(ptr)))
+	if (!ft_strcmp(ptr, "<"))
 		return (init_token(ptr, REDIRECT_IN, NULL));
-	else if (!ft_strncmp(ptr, ">", ft_strlen(ptr)))
+	else if (!ft_strcmp(ptr, ">"))
 		return (init_token(ptr, REDIRECT_OUT, NULL));
-	else if (!ft_strncmp(ptr, "<>", ft_strlen(ptr)))
+	else if (!ft_strcmp(ptr, "<>"))
 		return (init_token(ptr, LESSGREAT, NULL));
-	else if (!ft_strncmp(ptr, "<<", ft_strlen(ptr)))
+	else if (!ft_strcmp(ptr, "<<"))
 		return (init_token(ptr, DELIMITER, NULL));
-	else if (!ft_strncmp(ptr, ">>", ft_strlen(ptr)))
+	else if (!ft_strcmp(ptr, ">>"))
 		return (init_token(ptr, REDIRECT_OUT_IN_APPEND_MD, NULL));
 	else
 		return (init_token(ptr, SYNTAX_ERR, NULL));

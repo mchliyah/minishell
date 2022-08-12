@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:23:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/02 22:46:47 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:50:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	pwd_cmd(t_env	*env)
 {
-	char	*path;
-
-	path = get_path("PWD", env);
-	if (path)
-		printf("%s\n", path);
+	(void)env;
+	printf("%s\n", getcwd(NULL, 1024));
 }

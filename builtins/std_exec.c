@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/10 23:27:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:03:30 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ void	std_exec(t_list *cmd, t_env *env)
 	}
 	ft_putstr_fd("minishell : ", 2);
 	ft_putstr_fd(cmd->content->content, 2);
-	ft_putstr_fd(" : command not found\n", 2);
+	if (getcwd(cmd->content->content, ft_strlen(cmd->content->content)) != 0)
+		ft_putstr_fd(" : is directory\n", 2);
+	else
+		ft_putstr_fd(" : command not found\n", 2);
+	printf("%s\n", cmd->content->content);
 	exit(127);
 }
 

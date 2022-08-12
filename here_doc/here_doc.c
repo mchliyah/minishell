@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/05 22:05:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 03:12:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	here_doc(char *key_stop, t_data **data)
 	while (1)
 	{
 		str = readline("heredoc> ");
-		if (!ft_strncmp(str, key_stop, ft_strlen(str)) && *str)
+		if (!ft_strcmp(str, key_stop) && *str)
 			break ;
 		if (check_for_variables(str))
 			str = _string_getter(str, 0, (*data)->env);

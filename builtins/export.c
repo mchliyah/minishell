@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/10 22:18:29 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 02:19:08 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ int	check_add(char *args, t_env **exp, t_env **env)
 void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 {
 	char	**args;
-	t_env	*expt;
-	t_env	*envp;
 	int		i;
 
 	i = 0;
-	expt = *exp;
-	envp = *env;
+	printf("%p\n", &env);
+	printf("%p\n", &exp);
 	if (!c_line->content->arg)
 		print_exp(*exp);
 	else
@@ -94,7 +92,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 		args = arr_arg(c_line);
 		while (args[++i])
 		{
-			if (!check_add(args[i], &expt, &envp))
+			if (!check_add(args[i], exp, env))
 			{
 				g_status = 1;
 				return ;
@@ -102,6 +100,6 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 		}
 		free (args);
 	}
-	sort_exp(&expt);
+	sort_exp(exp);
 	g_status = 0;
 }
