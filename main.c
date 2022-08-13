@@ -88,19 +88,23 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	return (data);
 }
 
-int	init_pipes(t_data **exec)
+int	init_pipes(t_data **data)
 {
 	int			i;
 
-	(*exec)->cmd_i = 0;
-	(*exec)->p_in = 0;
-	if ((*exec)->pip_nb != 0)
+	(*data)->cmd_i = 0;
+	(*data)->p_in = 0;
+	(*data)->exit = 0;
+	(*data)->p_fd = NULL;
+	(*data)->fd_in = -1;
+	(*data)->fd_out = -1;
+	if ((*data)->pip_nb != 0)
 	{
-		(*exec)->p_fd = malloc((2 * (*exec)->pip_nb) * sizeof(int ));
+		(*data)->p_fd = malloc((2 * (*data)->pip_nb) * sizeof(int ));
 		i = 0;
-		while (i < (*exec)->pip_nb)
+		while (i < (*data)->pip_nb)
 		{
-			if (pipe((*exec)->p_fd + i * 2) < 0)
+			if (pipe((*data)->p_fd + i * 2) < 0)
 			{
 				perror("couldn't pipe");
 				exit(EXIT_FAILURE);
@@ -144,13 +148,14 @@ int	main(int ac, char **av, char **envp)
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
-	data = init_data(ac, av, data, envp);
 	g_status = 0;
+	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
 		str_rln = readline("\001\033[1;31m\002 ~minishell~ \001\033[0m\002");
-		if (!str_rln)
+		if (!str_rln) {
 			break ;
+		}
 		if (*str_rln)
 		{
 			if (data)

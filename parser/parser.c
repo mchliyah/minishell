@@ -117,12 +117,12 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 	while (lexer->i < lexer->str_len)
 	{
         token = get_token(&lexer, first, was_rd);
-    	was_rd = 0;
 		if (!token)
             return (EXIT_FAILURE);
         token = scan_errs(token, env, was_rd);
         if (!token)
             return (EXIT_FAILURE);
+		was_rd = 0;
         if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
 			|| token->type == LESSGREAT
 			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
