@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 23:37:02 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/12 23:30:48 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	get_here_doc(t_list *cmd, t_data **data)
 		tmp = tmp->next;
 	}
 }
+
 void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
 {
 	if (pipe->left_p)
@@ -136,6 +137,13 @@ void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
 		get_here_doc(pipe->left, data);
 	if (pipe->right)
 		get_here_doc(pipe->right, data);
+}
+
+void	execution(t_data **data, t_pipe_line *pipeline)
+{
+	init_pipes(data);
+	check_for_heredoc(pipeline, data);
+	iterator(pipeline, data);
 }
 int	main(int ac, char **av, char **envp)
 {
@@ -164,9 +172,7 @@ int	main(int ac, char **av, char **envp)
 				add_history(str_rln);
 				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 				{
-					init_pipes(&data);
-					check_for_heredoc(pipeline, &data);
-					iterator(pipeline, &data);
+					execution(&data, pipeline);
 					i = 0;
 					while (i < data->pip_nb * 2)
 						close(data->p_fd[i++]);

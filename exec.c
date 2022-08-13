@@ -84,7 +84,6 @@ bool	open_pipe(t_data **data, t_list *cmd)
 	}
 	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || (*data)->fd_out != -1)
 	{
-		HERE;
 		if ((*data)->fd_out == -1) {
 			(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
 		}

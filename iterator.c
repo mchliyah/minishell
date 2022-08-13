@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/11 20:48:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:32:50 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,21 @@
 	 *  4          2
 	 */
 
-int	execute_childes(t_pipe_line *this_pipe, t_data **exec)
+int	execute_childes(t_pipe_line *this_pipe, t_data **data)
 {
 	if (this_pipe->left)
-		if (!exec_cmd(this_pipe->left, exec))
-			return (1);
-	(*exec)->cmd_i++;
-	(*exec)->p_in += 2;
+		exec_cmd(this_pipe->left, data);
+	(*data)->cmd_i++;
+	(*data)->p_in += 2;
 	if (this_pipe->right)
-		if (!exec_cmd(this_pipe->right, exec))
-			return (1);
+		exec_cmd(this_pipe->right, data);
 	return (0);
 }
 
-int	iterator(t_pipe_line *this_pipe, t_data **exec)
+int	iterator(t_pipe_line *this_pipe, t_data **data)
 {
 	if (this_pipe->left_p)
-		iterator(this_pipe->left_p, exec);
-    execute_childes(this_pipe, exec);
+		iterator(this_pipe->left_p, data);
+	execute_childes(this_pipe, data);
 	return (EXIT_SUCCESS);
 }
