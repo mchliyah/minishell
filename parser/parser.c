@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 01:41:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 19:54:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **d
 	}
 	else
 		simple_cmd(pipeline, lst_token);
+	free_list(lst_token);
 	return (*pipeline);
 }
 

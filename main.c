@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/12 23:30:48 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 19:45:14 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ void	free_list(t_list *to_f)
 	{
 		while (to_f->content->arg)
 		{
+			printf("freead\n");
 			arg = to_f->content->arg;
 			to_f->content->arg = to_f->content->arg->next;
 			free(arg);
 		}
+		printf("freead\n");
 		if (to_f->content->content)
 			free(to_f->content->content);
 		if (to_f->content)
@@ -58,7 +60,6 @@ void	free_pipe(t_pipe_line *pipeline)
 {
 	// t_pipe_line	*to_f_pipe;
 	// t_pipe_line	*prev;
-
 
 	// to_f_pipe = pipeline;
 	while (pipeline->left_p)
@@ -94,7 +95,6 @@ void	free_env(t_env *env)
 		free(prev_env->pair);
 		free(prev_env);
 	}
-	
 
 }
 
@@ -230,11 +230,8 @@ int	main(int ac, char **av, char **envp)
 					while (i < data->pip_nb * 2)
 						close(data->p_fd[i++]);
 					while (wait(&status) > 0)
-					{
-						if (WIFEXITED(status)) {
+						if (WIFEXITED(status))
 							g_status = WEXITSTATUS(status);
-						}
-					}
 					if (fd > 0)
 					{
 						dup2(fd, 1);
