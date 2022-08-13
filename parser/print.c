@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 22:13:31 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/06/28 19:46:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:48:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	printing(t_list	*print)
 	{
 		i = 0;
 		printf("   right cmd => %s\n", print->content->content);
-		if (print->content->arg) {
-			while (print->content->arg) {
+		if (print->content->arg)
+		{
+			while (print->content->arg)
+			{
 				printf("arg[%d] => %s\n", i + 1, print->content->arg->content);
 				print->content->arg = print->content->arg->next;
 			}
@@ -30,7 +32,7 @@ void	printing(t_list	*print)
 	}
 }
 
-void	print_tokens(t_pipe_line *pipeline)
+void	print_tokens(t_p_line *pipeline)
 {
 	t_list	*print;
 

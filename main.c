@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/13 23:03:26 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:54:49 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	free_list(t_list *to_f)
 		free(to_f);
 }
 
-void	free_pipe(t_pipe_line *pipeline)
+void	free_pipe(t_p_line *pipeline)
 {
-	// t_pipe_line	*to_f_pipe;
-	// t_pipe_line	*prev;
+	// t_p_line	*to_f_pipe;
+	// t_p_line	*prev;
 
 	// to_f_pipe = pipeline;
 	while (pipeline->left_p)
@@ -182,7 +182,7 @@ void	get_here_doc(t_list *cmd, t_data **data)
 	}
 }
 
-void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
+void	check_for_heredoc(t_p_line *pipe, t_data **data)
 {
 	if (pipe->left_p)
 		check_for_heredoc(pipe->left_p, data);
@@ -194,14 +194,14 @@ void	check_for_heredoc(t_pipe_line *pipe, t_data **data)
 int	main(int ac, char **av, char **envp)
 {
 	int			i;
-	t_pipe_line	*pipeline;
+	t_p_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
 	int			status;
 	int fd;
 
 	data = NULL;
-	pipeline = malloc(sizeof(t_pipe_line));
+	pipeline = malloc(sizeof(t_p_line));
 	data = init_data(ac, av, data, envp);
 	if (!data)
 		return (1);
@@ -215,7 +215,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			fd = dup(1);
 			add_history(str_rln);
-			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
+			if (generate_token(str_rln, &pipeline, &data) != 1)
 			{
 				init_pipes(&data);
 				check_for_heredoc(pipeline, &data);

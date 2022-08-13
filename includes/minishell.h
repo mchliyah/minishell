@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:07:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 23:18:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:48:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@
 # define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
 
 
-//void	print_tokens(t_pipe_line *pipeline);
+//void	print_tokens(t_p_line *pipeline);
 
-int		iterator(t_pipe_line *this_pipe, t_data **exec);
+int		iterator(t_p_line *this_pipe, t_data **exec);
 void    sort_exp(t_env **exp);
 t_env	*get_env(char **envp);
 void	free_list(t_list *to_f);

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 23:26:23 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:54:22 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,6 @@ enum
 	PIPE,
 	SYNTAX_ERR
 };
-
-typedef struct s_genr_tok
-{
-	int			first;
-	int			was_rederection;
-	t_token		*token;
-	t_lexer		*lexer;
-	t_list		*lst_token;
-}	t_gen_tok;
 
 typedef struct s_args
 {
@@ -107,7 +98,7 @@ typedef struct s_pipeline
 	struct s_pipeline	*left_p;
 	t_list				*left;
 	t_list				*right;
-}	t_pipe_line;
+}	t_p_line;
 
 typedef struct s_redirection
 {
@@ -134,5 +125,14 @@ typedef struct s_data
 	int		p_in;
 	int		cmd_i;
 }	t_data;
+
+typedef struct s_genr_tok
+{
+	int			first;
+	int			was_rederection;
+	t_token		*token;
+	t_lexer		*lexer;
+	t_list		*lst_token;
+}	t_gen_tok;
 
 #endif
