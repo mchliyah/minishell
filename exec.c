@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 extern int g_status;
 
 int	cmpair(char *content, char *key)
@@ -33,7 +32,7 @@ int	append_file(t_data **data, t_list *cmd, char *file)
 	return (1);
 }
 
-void	open_files(t_data **data, t_list *cmd)
+bool	open_files(t_data **data, t_list *cmd)
 {
 	t_list	*iterator;
 	char	*file;
@@ -46,52 +45,64 @@ void	open_files(t_data **data, t_list *cmd)
 		{
 			(*data)->fd_in = open(file, O_RDONLY);
 			if ((*data)->fd_in < 0)
-				if (ft_putstr_fd("infile Error", 2))
-					exit(g_status);
+				if (ft_putstr_fd("minishell: NO such file or directory\n", 2))
+					return (false);
 		}
-		else if (iterator->content->type == REDIRECT_OUT)
+		else if (iterator->content->type == REDIRECT_OUT
+			|| iterator->content->type == LESSGREAT)
 		{
+			//close((*data)->fd_out);
 			(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if ((*data)->fd_out < 0)
-				if (ft_putstr_fd("outfile Error", 2))
-					exit(g_status);
+				if (ft_putstr_fd("minishell: NO such file or directory\n", 2))
+					return (false);
 		}
-		else if (iterator->content->type == LESSGREAT)
-			open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else if (!append_file(data, iterator, file))
-			break ;
+			return (false);
 		iterator = iterator->next;
 	}
+	return (true);
 }
 
-void	open_pipe(t_data **data, t_list *cmd)
+bool	open_pipe(t_data **data, t_list *cmd)
 {
 	int	i;
 
 	i = 0;
-	open_files(data, cmd);
+	if (!open_files(data, cmd))
+		return (false);
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
 	{
-		if ((*data)->fd_in == -1)
+		if ((*data)->fd_in == -1) {
 			(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
+		}
 		if (dup2((*data)->fd_in, STDIN_FILENO) == -1)
-			printf("err and should take some work in dup2\n");
+		{
+			printf("error dup2 failed to duplicate fd\n");
+			return (false);
+		}
 	}
 	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || (*data)->fd_out != -1)
 	{
-		if ((*data)->fd_out == -1)
+		if ((*data)->fd_out == -1) {
 			(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
+		}
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
-			printf("err and should take some work in dup1\n");
+		{
+			printf("error dup2 failed to duplicate fd\n");
+			return (false);
+		}
+		close((*data)->fd_out);
 	}
 	while (i < (*data)->pip_nb * 2)
 	{
 		close((*data)->p_fd[i]);
 		i++;
 	}
+	return (true);
 }
 
-void	exec_cmd(t_list *in_cmd, t_data **data)
+bool	exec_cmd(t_list *in_cmd, t_data **data)
 {
 	t_list	*cmd;
 	int		f_pid;
@@ -107,7 +118,8 @@ void	exec_cmd(t_list *in_cmd, t_data **data)
 	}
 	if (f_pid == 0)
 	{
-		open_pipe(data, in_cmd);
+		if (!open_pipe(data, in_cmd))
+			return false;
 		while (in_cmd->content->type != WORD_CMD)
 			in_cmd = in_cmd->next;
 		cmd = in_cmd;
@@ -134,4 +146,5 @@ void	exec_cmd(t_list *in_cmd, t_data **data)
 		if ((*data)->pip_nb != 0)
 			exit(g_status);
 	}
+	return (true);
 }

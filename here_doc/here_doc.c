@@ -55,7 +55,7 @@ int	here_doc(char *key_stop, t_data **data)
 		if (!ft_strcmp(str, key_stop) && *str)
 			break ;
 		if (check_for_variables(str))
-			str = _string_getter(str, 0, (*data)->env);
+			str = h_string_getter(str, 0, (*data)->env);
 		ft_putstr_fd(str, tmpfile);
 		ft_putstr_fd("\n", tmpfile);
 		free(str);

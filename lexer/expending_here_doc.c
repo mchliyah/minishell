@@ -89,7 +89,7 @@ extern int	g_status;
 //	return (ret);
 //}
 
-char	*_string_getter(char *s, int i, t_env *env)
+char	*h_string_getter(char *s, int i, t_env *env)
 {
 	char	*var;
 	char	*tmp;
@@ -97,7 +97,6 @@ char	*_string_getter(char *s, int i, t_env *env)
 	char	*str;
 
 	str = ft_strdup("");
-	printf("$= %s\n", s);
 	while (s[i])
 	{
 		if (s[i] == '$' && (s[i + 1] == '?'
