@@ -130,6 +130,7 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 		first = 0;
 		lst_token = linked_token(lst_token, token);
 	}
+	free(lexer);
 	if (!check_gaven_file_rd(lst_token))
 		return (EXIT_FAILURE);
 	*pipeline = parse_to_tree(pipeline, lst_token, data);

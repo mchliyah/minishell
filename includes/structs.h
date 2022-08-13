@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 21:14:13 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:08:57 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ enum
 	ASSIGN = '='
 };
 
+enum
+{
+	WORD,
+	WORD_CMD,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	LESSGREAT,
+	DELIMITER,
+	REDIRECT_OUT_IN_APPEND_MD,
+	PIPE,
+	SYNTAX_ERR
+};
+
 typedef struct s_args
 {
 	char			*content;
@@ -40,18 +53,6 @@ typedef struct s_args
 // ! content is the txt cmd
 typedef struct s_token
 {
-	enum
-	{
-		WORD,
-		WORD_CMD,
-		REDIRECT_IN,
-		REDIRECT_OUT,
-		LESSGREAT,
-		DELIMITER,
-		REDIRECT_OUT_IN_APPEND_MD,
-		PIPE,
-		SYNTAX_ERR
-	};
 	int		type;
 	char	*content;
 	t_arg	*arg;
@@ -121,7 +122,6 @@ typedef struct s_data
 	int		*p_fd;
 	int		fd_in;
 	int		fd_out;
-	int		fd_saver;
 	int		p_in;
 	int		cmd_i;
 }	t_data;

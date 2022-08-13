@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 t_list	*ft_lstnew(t_token *content)
 {
@@ -22,5 +23,6 @@ t_list	*ft_lstnew(t_token *content)
 	ptr->content = content;
 	ptr->next = NULL;
 	ptr->prev = NULL;
+	printf("alocated\n");
 	return (ptr);
 }

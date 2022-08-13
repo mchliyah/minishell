@@ -23,36 +23,97 @@ int g_status;
 	quote or single quote !!
  */
 
-void	to_free(t_pipe_line *pipeline)
+void	free_list(t_list *to_f)
 {
+	t_arg	*arg;
+
+	while (to_f->next)
+	{
+		while (to_f->content->arg)
+		{
+			arg = to_f->content->arg;
+			to_f->content->arg = to_f->content->arg->next;
+			free(arg);
+		}
+		if (to_f->content->content)
+			free(to_f->content->content);
+		if (to_f->content)
+			free(to_f->content);
+		to_f = to_f->next;
+	}
+	while (to_f->prev)
+	{
+		printf("freead\n");
+		free(to_f->next);
+		to_f = to_f->prev;
+	}
+	if (to_f)
+	{
+		printf("freead\n");
+		free(to_f);
+	}
+}
+
+void	free_pipe(t_pipe_line *pipeline)
+{
+	// t_pipe_line	*to_f_pipe;
+	// t_pipe_line	*prev;
+
+
+	// to_f_pipe = pipeline;
 	while (pipeline->left_p)
 	{
-		free(pipeline->right->content);
-		free(pipeline->right);
+		free_list(pipeline->right);
 		pipeline = pipeline->left_p;
 	}
 	if (pipeline->right)
-	{
-		free(pipeline->right->content->arg);
-		free(pipeline->right->content->content);
-		free(pipeline->right->content);
-		free(pipeline->right);
-	}
+		free_list(pipeline->right);
 	if (pipeline->left)
+		free_list(pipeline->left);
+	// while(to_f_pipe->left_p)
+	// {
+	// 	prev = to_f_pipe;
+	// 	to_f_pipe = to_f_pipe->left_p;
+	// 	if (prev)
+	// 		free(prev);
+	// }
+	// if (to_f_pipe)
+	// 	free(to_f_pipe);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*prev_env;
+
+	while (env)
 	{
-		free(pipeline->left->content->arg);
-		free(pipeline->left->content->content);
-		free(pipeline->left->content);
-		free(pipeline->left);
+		prev_env = env;
+		env = env->next;
+		free(prev_env->pair->key);
+		free(prev_env->pair->value);
+		free(prev_env->pair);
+		free(prev_env);
 	}
+	
+
+}
+
+void	free_data(t_data *data)
+{
+	free_env(data->env);
+	free_env(data->exp);
+	free(data->p_fd);
+	free(data);
 }
 
 void	shelvl(t_env **env)
 {
 	t_env	*tmp_env;
 	int		to_set;
+	char	*itoa_val;
 
 	tmp_env = *env;
+	itoa_val = NULL;
 	while (tmp_env)
 	{
 		if (!ft_strncmp(tmp_env->pair->key, "SHLVL",
@@ -60,7 +121,9 @@ void	shelvl(t_env **env)
 		{
 			to_set = ft_atoi(tmp_env->pair->value);
 			free(tmp_env->pair->value);
-			tmp_env->pair->value = ft_strdup(ft_itoa(to_set + 1));
+			itoa_val = ft_itoa(to_set + 1);
+			tmp_env->pair->value = ft_strdup(itoa_val);
+			free(itoa_val);
 		}
 		tmp_env = tmp_env->next;
 	}
@@ -177,13 +240,15 @@ int	main(int ac, char **av, char **envp)
 						dup2(fd, 1);
 						close(fd);
 					}
-					to_free(pipeline);
+					free_pipe(pipeline);
 				}
 			}
 		}
 		else if (*str_rln == '\0')
 			g_status = 0;
 	}
+	free(pipeline);
+	free_data(data);
 	printf("exit\n");
 	return (g_status);
 }
