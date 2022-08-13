@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/10 22:55:47 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/13 21:42:28 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ FILES =	main.c\
 		parser/free.c\
 		parser/print.c\
 		exec.c\
+		builtins/builtins.c\
 		builtins/std_exec.c\
 		iterator.c\
 		builtins/echo.c\

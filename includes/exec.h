@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/09 23:30:36 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 22:10:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 # include "../libft/libft.h"
 //exec
-void	to_std(t_env *env, t_list *cmd, t_data **data);
+void	to_std(t_list *cmd, t_data **data);
 bool	exec_cmd(t_list *cmd, t_data **exec);
 // void	to_std(t_env *env, char **envp, t_list *cmd);
 //char	*get_path(char *path, t_env *env);
@@ -44,6 +44,8 @@ char	*get_path(char *path, t_env *env);
 void	dup_path(t_env *tmp_env, char *to_set, char *to_up);
 char	*get_path(char *key, t_env *env);
 //other builtins
+int		is_builtins(char *content);
+void	buuiltins(char *content, t_list *cmd, t_data **data);
 t_env	*update_path(t_env *env, char *to_set, char	*to_old);
 void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);

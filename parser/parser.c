@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 19:54:01 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:26:46 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,23 @@ t_pipe_line	*parse_to_tree(t_pipe_line **pipeline, t_list *lst_token, t_data **d
 	return (*pipeline);
 }
 
-int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **data)
+int	check_token(t_token *token, t_data **data)
 {
-	int			first;
-	int			was_rederection;
-	t_token		*token;
-	t_lexer		*lexer;
-	t_list		*lst_token;
+	if (!token)
+		return (0);
+    token = scan_errs(token, (*data)->env);
+    if (!token)
+		return (0);
+    if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
+		|| token->type == LESSGREAT || token->type == DELIMITER
+		|| token->type == REDIRECT_OUT_IN_APPEND_MD)
+		return (1);
+	return (0);
+}
+
+int	generate_token(char *rln_str, t_pipe_line **pipeline, t_data **data)
+{
+	t_gen_tok var;
 
 	lexer = NULL;
 	lst_token = NULL;
@@ -119,14 +129,9 @@ int	generate_token(char *rln_str, t_pipe_line **pipeline, t_env *env, t_data **d
 	{
         token = get_token(&lexer, first, was_rederection);
     	was_rederection = 0;
-		if (!token)
-            return (EXIT_FAILURE);
-        token = scan_errs(token, env);
-        if (!token)
-            return (EXIT_FAILURE);
-        if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
-			|| token->type == LESSGREAT || token->type == DELIMITER
-			|| token->type == REDIRECT_OUT_IN_APPEND_MD)
+		if (!check_token(token, data))
+			return (EXIT_FAILURE);
+		else
 			was_rederection = 1;
 		first = 0;
 		lst_token = linked_token(lst_token, token);

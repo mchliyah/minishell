@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/13 19:45:14 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:03:26 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ void	free_list(t_list *to_f)
 	{
 		while (to_f->content->arg)
 		{
-			printf("freead\n");
 			arg = to_f->content->arg;
 			to_f->content->arg = to_f->content->arg->next;
 			free(arg);
 		}
-		printf("freead\n");
 		if (to_f->content->content)
 			free(to_f->content->content);
 		if (to_f->content)
@@ -45,15 +43,11 @@ void	free_list(t_list *to_f)
 	}
 	while (to_f->prev)
 	{
-		printf("freead\n");
 		free(to_f->next);
 		to_f = to_f->prev;
 	}
 	if (to_f)
-	{
-		printf("freead\n");
 		free(to_f);
-	}
 }
 
 void	free_pipe(t_pipe_line *pipeline)
@@ -209,6 +203,8 @@ int	main(int ac, char **av, char **envp)
 	data = NULL;
 	pipeline = malloc(sizeof(t_pipe_line));
 	data = init_data(ac, av, data, envp);
+	if (!data)
+		return (1);
 	g_status = 0;
 	while (!data->exit)
 	{
@@ -217,28 +213,25 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (*str_rln)
 		{
-			if (data)
+			fd = dup(1);
+			add_history(str_rln);
+			if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
 			{
-				fd = dup(1);
-				add_history(str_rln);
-				if (generate_token(str_rln, &pipeline, data->env, &data) != 1)
+				init_pipes(&data);
+				check_for_heredoc(pipeline, &data);
+				iterator(pipeline, &data);
+				i = 0;
+				while (i < data->pip_nb * 2)
+					close(data->p_fd[i++]);
+				while (wait(&status) > 0)
+					if (WIFEXITED(status))
+						g_status = WEXITSTATUS(status);
+				if (fd > 0)
 				{
-					init_pipes(&data);
-					check_for_heredoc(pipeline, &data);
-					iterator(pipeline, &data);
-					i = 0;
-					while (i < data->pip_nb * 2)
-						close(data->p_fd[i++]);
-					while (wait(&status) > 0)
-						if (WIFEXITED(status))
-							g_status = WEXITSTATUS(status);
-					if (fd > 0)
-					{
-						dup2(fd, 1);
-						close(fd);
-					}
-					free_pipe(pipeline);
+					dup2(fd, 1);
+					close(fd);
 				}
+				free_pipe(pipeline);
 			}
 		}
 		else if (*str_rln == '\0')
@@ -246,6 +239,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(pipeline);
 	free_data(data);
-	printf("exit\n");
 	return (g_status);
 }
