@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 19:57:26 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/13 00:32:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:48:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	 *  4          2
 	 */
 
-int	execute_childes(t_pipe_line *this_pipe, t_data **data)
+int	execute_childes(t_p_line *this_pipe, t_data **data)
 {
 	if (this_pipe->left)
 		exec_cmd(this_pipe->left, data);
@@ -32,7 +32,7 @@ int	execute_childes(t_pipe_line *this_pipe, t_data **data)
 	return (0);
 }
 
-int	iterator(t_pipe_line *this_pipe, t_data **data)
+int	iterator(t_p_line *this_pipe, t_data **data)
 {
 	if (this_pipe->left_p)
 		iterator(this_pipe->left_p, data);

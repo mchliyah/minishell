@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 22:25:26 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 22:41:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern int g_status;
 
 char	**get_env_char(t_env *env)
 {
@@ -73,13 +75,15 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-void	std_exec(t_list *cmd, t_env *env)
+void	std_exec(t_list *cmd, t_data **data)
 {
 	char	**args;
 	char	**path;
 	char	*cmand;
 	char	**envp;
+	t_env	*env;
 
+	env = (*data)->env;
 	args = arr_arg(cmd);
 	envp = get_env_char(env);
 	if (access(cmd->content->content, X_OK) == 0)
@@ -95,17 +99,19 @@ void	std_exec(t_list *cmd, t_env *env)
 	if (getcwd(cmd->content->content, ft_strlen(cmd->content->content)) != 0)
 		perror(cmd->content->content);
 	else
-		perror("command not found\n");
-	printf("%s\n", cmd->content->content);
-	exit(127);
+		ft_putstr_fd(": command not found\n", 2);
+	g_status = 127;
+	(*data)->exit = 1;
 }
 
-void	to_std(t_env *env, t_list *cmd, t_data **data)
+void	to_std(t_list *cmd, t_data **data)
 {
-	int	f_pid;
-	int	path;
+	int		f_pid;
+	int		path;
+	t_env	*env;
 
 	f_pid = 0;
+	env = (*data)->env;
 	if ((*data)->pip_nb == 0)
 		f_pid = fork();
 	if (f_pid == -1)
@@ -118,12 +124,12 @@ void	to_std(t_env *env, t_list *cmd, t_data **data)
 		path = false;
 		while (env)
 		{
-			if (!strncmp(env->pair->key, "PATH", ft_strlen(env->pair->key)))
+			if (!strcmp(env->pair->key, "PATH"))
 				path = true;
 			env = env->next;
 		}
 		if (path)
-			std_exec(cmd, (*data)->env);
+			std_exec(cmd, data);
 		else if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
 	}

@@ -11,14 +11,8 @@
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-extern int g_status;
 
-int	cmpair(char *content, char *key)
-{
-	if (!ft_strcmp(content, key))
-		return (0);
-	return (1);
-}
+extern int g_status;
 
 int	append_file(t_data **data, t_list *cmd, char *file)
 {
@@ -51,7 +45,6 @@ bool	open_files(t_data **data, t_list *cmd)
 		else if (iterator->content->type == REDIRECT_OUT
 			|| iterator->content->type == LESSGREAT)
 		{
-			//close((*data)->fd_out);
 			(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if ((*data)->fd_out < 0)
 				if (ft_putstr_fd("minishell: NO such file or directory\n", 2))
@@ -73,9 +66,8 @@ bool	open_pipe(t_data **data, t_list *cmd)
 		return (false);
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
 	{
-		if ((*data)->fd_in == -1) {
+		if ((*data)->fd_in == -1)
 			(*data)->fd_in = (*data)->p_fd[(*data)->p_in - 2];
-		}
 		if (dup2((*data)->fd_in, STDIN_FILENO) == -1)
 		{
 			printf("error dup2 failed to duplicate fd\n");
@@ -84,27 +76,20 @@ bool	open_pipe(t_data **data, t_list *cmd)
 	}
 	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || (*data)->fd_out != -1)
 	{
-		if ((*data)->fd_out == -1) {
+		if ((*data)->fd_out == -1)
 			(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
-		}
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
-		{
-			printf("error dup2 failed to duplicate fd\n");
-			return (false);
-		}
+			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
+				return (false);
 		close((*data)->fd_out);
 	}
 	while (i < (*data)->pip_nb * 2)
-	{
-		close((*data)->p_fd[i]);
-		i++;
-	}
+		close((*data)->p_fd[i++]);
 	return (true);
 }
 
 bool	exec_cmd(t_list *in_cmd, t_data **data)
 {
-	t_list	*cmd;
 	int		f_pid;
 	char	*content;
 
@@ -114,37 +99,20 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	if (f_pid == -1)
 	{
 		perror("fork(): ");
-		exit(g_status);
+		(*data)->exit = 1;
+		return (false);
 	}
 	if (f_pid == 0)
 	{
 		if (!open_pipe(data, in_cmd))
-			return false;
+			return (false);
 		while (in_cmd->content->type != WORD_CMD)
 			in_cmd = in_cmd->next;
-		cmd = in_cmd;
-		content = cmd->content->content;
-		if (!cmpair(content, "echo") || !cmpair(content, "ECHO"))
-			echo(cmd);
-		else if (!cmpair(content, "env") || !cmpair(content, "ENV"))
-			env_cmd((*data)->env);
-		else if (!cmpair(content, "cd") || !cmpair(content, "CD"))
-			cd_cmd(cmd, (*data)->env);
-		else if (!cmpair(content, "pwd") || !cmpair(content, "PWD"))
-			pwd_cmd((*data)->env);
-		else if (!cmpair(content, "unset"))
-		{
-			unset_cmd(&(*data)->env, cmd);
-			unset_cmd(&(*data)->exp, cmd);
-		}
-		else if (!cmpair(content, "export"))
-			export_cmd(&(*data)->exp, &(*data)->env, cmd);
-		else if (!cmpair(content, "exit"))
-			(*data)->exit = exit_cmd(cmd);
+		content = in_cmd->content->content;
+		if (is_builtins(content))
+			buuiltins(content, in_cmd, data);
 		else
-			to_std((*data)->env, cmd, data);
-		if ((*data)->pip_nb != 0)
-			exit(g_status);
+			to_std(in_cmd, data);
 	}
 	return (true);
 }

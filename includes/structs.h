@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 21:14:13 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:54:22 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ enum
 	ASSIGN = '='
 };
 
+enum
+{
+	WORD,
+	WORD_CMD,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	LESSGREAT,
+	DELIMITER,
+	REDIRECT_OUT_IN_APPEND_MD,
+	PIPE,
+	SYNTAX_ERR
+};
+
 typedef struct s_args
 {
 	char			*content;
@@ -40,18 +53,6 @@ typedef struct s_args
 // ! content is the txt cmd
 typedef struct s_token
 {
-	enum
-	{
-		WORD,
-		WORD_CMD,
-		REDIRECT_IN,
-		REDIRECT_OUT,
-		LESSGREAT,
-		DELIMITER,
-		REDIRECT_OUT_IN_APPEND_MD,
-		PIPE,
-		SYNTAX_ERR
-	};
 	int		type;
 	char	*content;
 	t_arg	*arg;
@@ -97,7 +98,7 @@ typedef struct s_pipeline
 	struct s_pipeline	*left_p;
 	t_list				*left;
 	t_list				*right;
-}	t_pipe_line;
+}	t_p_line;
 
 typedef struct s_redirection
 {
@@ -121,9 +122,17 @@ typedef struct s_data
 	int		*p_fd;
 	int		fd_in;
 	int		fd_out;
-	int		fd_saver;
 	int		p_in;
 	int		cmd_i;
 }	t_data;
+
+typedef struct s_genr_tok
+{
+	int			first;
+	int			was_rederection;
+	t_token		*token;
+	t_lexer		*lexer;
+	t_list		*lst_token;
+}	t_gen_tok;
 
 #endif

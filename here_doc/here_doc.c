@@ -6,11 +6,35 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 03:12:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:55:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	get_here_doc(t_list *cmd, t_data **data)
+{
+	t_list	*tmp;
+
+	tmp = cmd;
+	while (tmp && tmp->next)
+	{
+		if (tmp->content->type == DELIMITER)
+			if (!here_doc(tmp->next->content->content, data))
+				return ;
+		tmp = tmp->next;
+	}
+}
+
+void	check_for_heredoc(t_p_line *pipe, t_data **data)
+{
+	if (pipe->left_p)
+		check_for_heredoc(pipe->left_p, data);
+	if (pipe->left)
+		get_here_doc(pipe->left, data);
+	if (pipe->right)
+		get_here_doc(pipe->right, data);
+}
 
 //char	*expending(char *content, t_data *data)
 //{

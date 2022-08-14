@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 20:01:58 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/10 22:15:20 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:06:00 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int g_status;
 void	error_exit(t_list *lst_token, t_token *token)
 {
 	printf("%s : SYNTAX ERROR !\n", token->content);
-	free_lst(lst_token);
+	free_list(lst_token);
 }
 
 void	error_check(t_list *lst_token)

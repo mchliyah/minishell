@@ -39,10 +39,6 @@ char	*join_string(char *ptr, char c)
 	j_str = ft_strjoin(ptr, str);
 	if (!j_str)
 		return (NULL);
-	free(str);
-	free(ptr);
-	str = NULL;
-	ptr = NULL;
 	return (j_str);
 }
 
