@@ -163,7 +163,6 @@ char	*arg_iterator(char *content, t_env *env)
 
 	i = 0;
 	saver = ft_strdup("");
-	printf("cent %s\n", content);
 	while (content[i])
 	{
 		if (content[i] == SINGLE_QUOTE)
@@ -175,7 +174,6 @@ char	*arg_iterator(char *content, t_env *env)
 			c = string_getter(content, &i, env);
 			i--;
 		}
-		printf("c = %s\n", c);
 		saver = ft_strjoin(saver, c);
 		i++;
 	}

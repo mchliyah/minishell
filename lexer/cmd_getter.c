@@ -32,7 +32,7 @@
 //		}
 char	*get_s_quote(t_lexer **this)
 {
-	char	c;
+//	char	c;
 	char	*s;
 
 	s = ft_strdup("");
@@ -43,7 +43,10 @@ char	*get_s_quote(t_lexer **this)
 		s = join_string(s, (*this)->c);
 		*this = advance(*this);
 		if ((*this)->c == SINGLE_QUOTE)
+		{
+			s = join_string(s, (*this)->c);
 			break ;
+		}
 	}
 	return (s);
 }
