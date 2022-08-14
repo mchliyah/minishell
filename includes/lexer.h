@@ -27,24 +27,19 @@ char	*arg_iterator(char *content, t_env *env);
 	 * expending functions
  */
 int		expend(char **ptr, char *arg, t_env *env);
+char	*double_quote(char *s, int *i, t_env *env);
 char	*variable_expander(char *s, t_env *env);
 char	*single_quote(char *s, int *i);
-char	*double_quote(char *s, int *i, t_env *env);
 char	*h_string_getter(char *s, int i, t_env *env);
 /***************************************************/
 
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
-//char	**ft_split_arg(char const *s, char c);
 char	*get_form_my_env(char *tmp, t_env *env);
-t_token	*get_token_file(t_lexer **lex);
 t_lexer	*advance(t_lexer *lexer);
 t_token	*get_char(t_lexer **lex, int was_rd);
-//int		my_test(t_lexer *lexer);
+char	*cmd_getter(t_lexer **lex);
 t_token	*get_token(t_lexer **lexer, int first, int was_rd);
-//int		get_quote(t_token *token, int *i, int *q);
-//int		get_s_quote(t_token *token, int *i, int *sq);
-//t_token	*get_substr_single_quotes(t_token *token);
 char	*join_string(char *ptr, char c);
 int		get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j);
 int		get_inside_squote(char const *s, char **str, int i, size_t *k, char c, int j);
@@ -57,5 +52,11 @@ t_arg	*list_new(char	*content);
 t_arg	*list_last(t_arg *lst);
 void	list_add_back(t_arg **lst, t_arg *new);
 int		check_gaven_file_rd(t_list *token);
+t_token	*get_token_file(t_lexer **lex);
+//char	**ft_split_arg(char const *s, char c);
+//int		my_test(t_lexer *lexer);
+//int		get_quote(t_token *token, int *i, int *q);
+//int		get_s_quote(t_token *token, int *i, int *sq);
+//t_token	*get_substr_single_quotes(t_token *token);
 
 #endif

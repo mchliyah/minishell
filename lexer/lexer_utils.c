@@ -18,13 +18,13 @@ t_lexer	*advance(t_lexer *lexer)
 	lexer->c = lexer->content[lexer->i];
 	return (lexer);
 }
-
-int	ft_is_symbol(char c)
-{
-	if (c == EPIPE || c == LESS || c == GREATER || c == SPACE || c == '\0')
-		return (1);
-	return (0);
-}
+//
+//int	ft_is_symbol(char c)
+//{
+//	if (c == EPIPE || c == LESS || c == GREATER || c == SPACE || c == '\0')
+//		return (1);
+//	return (0);
+//}
 
 char	*join_string(char *ptr, char c)
 {
@@ -49,59 +49,59 @@ char	*join_string(char *ptr, char c)
   	 !  "ls""| pwd  should be fixed
   	 todo there is a mistake here in quote counter !!
  */
-char	*get_inside_quotes(t_lexer **it)
-{
-	int		q;
-	char	tmp;
-	char	*ptr;
+//char	*get_inside_quotes(t_lexer **it)
+//{
+//	int		q;
+//	char	tmp;
+//	char	*ptr;
+//
+//	ptr = NULL;
+//	ptr = ft_strdup("");
+//	if (!ptr)
+//		return (NULL);
+//	q = 0;
+//	while ((*it)->c != '\0')
+//	{
+//		ptr = join_string(ptr, (*it)->c);
+//		tmp = (*it)->c;
+//		if (tmp == L_DOUBLE_QUOTE)
+//			q++;
+//		*it = advance(*it);
+//		if (tmp == L_DOUBLE_QUOTE
+//			&& ((*it)->c == SPACE || (*it)->c == LESS
+//				|| (*it)->c == EPIPE || (*it)->c == GREATER
+//				|| (*it)->c == SINGLE_QUOTE) && (q % 2 == 0 || q == 0))
+//			break ;
+//	}
+//	return (ptr);
+//}
 
-	ptr = NULL;
-	ptr = ft_strdup("");
-	if (!ptr)
-		return (NULL);
-	q = 0;
-	while ((*it)->c != '\0')
-	{
-		ptr = join_string(ptr, (*it)->c);
-		tmp = (*it)->c;
-		if (tmp == L_DOUBLE_QUOTE)
-			q++;
-		*it = advance(*it);
-		if (tmp == L_DOUBLE_QUOTE
-			&& ((*it)->c == SPACE || (*it)->c == LESS
-				|| (*it)->c == EPIPE || (*it)->c == GREATER
-				|| (*it)->c == SINGLE_QUOTE) && (q % 2 == 0 || q == 0))
-			break ;
-	}
-	return (ptr);
-}
-
-char	*get_inside_s_quotes(t_lexer **it)
-{
-	int		q;
-	char	tmp;
-	char	*ptr;
-
-	ptr = NULL;
-	ptr = ft_strdup("");
-	if (!ptr)
-		return (NULL);
-	q = 0;
-	while ((*it)->c != '\0')
-	{
-		ptr = join_string(ptr, (*it)->c);
-		tmp = (*it)->c;
-		if (tmp == SINGLE_QUOTE)
-			q++;
-		*it = advance(*it);
-		if (tmp == SINGLE_QUOTE
-			&& ((*it)->c == SPACE || (*it)->c == LESS
-				|| (*it)->c == EPIPE || (*it)->c == GREATER)
-			&& (q % 2 == 0 || q == 0))
-			break ;
-	}
-	return (ptr);
-}
+//char	*get_inside_s_quotes(t_lexer **it)
+//{
+//	int		q;
+//	char	tmp;
+//	char	*ptr;
+//
+//	ptr = NULL;
+//	ptr = ft_strdup("");
+//	if (!ptr)
+//		return (NULL);
+//	q = 0;
+//	while ((*it)->c != '\0')
+//	{
+//		ptr = join_string(ptr, (*it)->c);
+//		tmp = (*it)->c;
+//		if (tmp == SINGLE_QUOTE)
+//			q++;
+//		*it = advance(*it);
+//		if (tmp == SINGLE_QUOTE
+//			&& ((*it)->c == SPACE || (*it)->c == LESS
+//				|| (*it)->c == EPIPE || (*it)->c == GREATER)
+//			&& (q % 2 == 0 || q == 0))
+//			break ;
+//	}
+//	return (ptr);
+//}
 
 char	*check_for_args(t_lexer **lex)
 {
@@ -152,7 +152,7 @@ t_arg	*get_args(t_lexer **lex)
 	t_arg	*opt;
 
 	opt = NULL;
-	while ((*lex)->c)
+	while ((*lex)->c != '\0')
 	{
 		if ((*lex)->c == SPACE)
 		{
@@ -178,38 +178,9 @@ t_arg	*get_args(t_lexer **lex)
 t_token	*get_char(t_lexer **lex, int was_rd)
 {
 	char	*ptr;
-	char	*tmp;
 
-	while ((*lex)->c == SPACE)
-		*lex = advance(*lex);
-	if ((*lex)->c == L_DOUBLE_QUOTE)
-		ptr = get_inside_quotes(lex);
-	else if ((*lex)->c == SINGLE_QUOTE)
-		ptr = get_inside_s_quotes(lex);
-	else
-	{
-		ptr = ft_strdup("");
-		if (!ptr)
-			return (NULL);
-		while ((*lex)->c != '\0')
-		{
-			ptr = join_string(ptr, (*lex)->c);
-			*lex = advance(*lex);
-			if ((*lex)->c == SPACE || (*lex)->c == EPIPE || (*lex)->c == LESS
-				|| (*lex)->c == GREATER)
-				break ;
-			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
-				&& (*lex)->c != '0')
-			{
-				if ((*lex)->c == L_DOUBLE_QUOTE)
-					tmp = get_inside_quotes(lex);
-				else
-					tmp = get_inside_s_quotes(lex);
-				ptr = ft_strjoin(ptr, tmp);
-				break ;
-			}
-		}
-	}
+	ptr = cmd_getter(lex);
+	printf("cmd %s\n", ptr);
 	if (was_rd)
 	{
 		return (init_token(ptr, WORD, NULL));
