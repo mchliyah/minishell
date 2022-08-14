@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/13 23:56:31 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/14 01:04:41 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ RM = rm -f
 #########################
 # ! files of the minishell
 FILES =	main.c\
+		init.c\
 		lexer/lexer.c\
 		lexer/check_rederections.c\
 		lexer/file_getter.c\
@@ -38,7 +39,7 @@ FILES =	main.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		error.c\
-		parser/free.c\
+		free.c\
 		parser/print.c\
 		parser/parser_utils.c\
 		exec.c\
@@ -52,7 +53,6 @@ FILES =	main.c\
 		builtins/pwd.c\
 		builtins/unset.c\
 		builtins/array_args.c\
-		builtins/init.c\
 		builtins/export.c\
 		builtins/export_utils.c\
 		builtins/exit.c\

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 00:39:17 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:58:06 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 			}
 			lst_token = lst_token->next;
 		}
-		free_lst(lst_token);
+		free_list(lst_token);
 	}
 	else
 		simple_cmd(pipeline, lst_token);
@@ -66,33 +66,29 @@ int	check_token(t_token *token, t_data **data)
 
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
-	int			first;
-	int			was_rederection;
-	t_token		*token;
-	t_lexer		*lexer;
-	t_list		*lst_token;
+	t_gen_tok	var;
 
-	lexer = NULL;
-	lst_token = NULL;
-	first = 1;
-	lexer = init_lex(lexer, rln_str);
-	if (!lexer)
+	var.lexer = NULL;
+	var.lst_token = NULL;
+	var.first = 1;
+	var.lexer = init_lex(var.lexer, rln_str);
+	if (!var.lexer)
 		return (EXIT_FAILURE);
-	was_rederection = 0;
-	while (lexer->i < lexer->str_len)
+	var.was_rederection = 0;
+	while (var.lexer->i < var.lexer->str_len)
 	{
-		token = get_token(&lexer, first, was_rederection);
-		was_rederection = 0;
-		if (!check_token(token, data))
+		var.token = get_token(&var.lexer, var.first, var.was_rederection);
+		var.was_rederection = 0;
+		if (!check_token(var.token, data))
 			return (EXIT_FAILURE);
-		else if (check_token(token, data) == 1)
-			was_rederection = 1;
-		first = 0;
-		lst_token = linked_token(lst_token, token);
+		else if (check_token(var.token, data) == 1)
+			var.was_rederection = 1;
+		var.first = 0;
+		var.lst_token = linked_token(var.lst_token, var.token);
 	}
-	free(lexer);
-	if (!check_gaven_file_rd(lst_token))
+	free(var.lexer);
+	if (!check_gaven_file_rd(var.lst_token))
 		return (EXIT_FAILURE);
-	*pipeline = to_tree(pipeline, lst_token, data);
+	*pipeline = to_tree(pipeline, var.lst_token, data);
 	return (EXIT_SUCCESS);
 }
