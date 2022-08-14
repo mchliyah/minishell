@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 23:00:40 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:29:56 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,12 @@ bool	open_pipe(t_data **data, t_list *cmd)
 		if ((*data)->fd_out == -1)
 			(*data)->fd_out = (*data)->p_fd[(*data)->p_in + 1];
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
-		{
-			printf("error dup2 failed to duplicate fd\n");
-			return (false);
-		}
+			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
+				return (false);
 		close((*data)->fd_out);
 	}
 	while (i < (*data)->pip_nb * 2)
-	{
-		close((*data)->p_fd[i]);
-		i++;
-	}
+		close((*data)->p_fd[i++]);
 	return (true);
 }
 

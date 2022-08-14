@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 00:58:06 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:33:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 	return (*pipeline);
 }
 
-int	check_token(t_token *token, t_data **data)
+int	check_token(t_token *token, t_data **data, int was_rd)
 {
 	if (!token)
 		return (0);
-	token = scan_errs(token, (*data)->env);
+	token = scan_errs(token, (*data)->env, was_rd);
 	if (!token)
 		return (0);
 	if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
@@ -79,9 +79,9 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
 		var.was_rederection = 0;
-		if (!check_token(var.token, data))
+		if (!check_token(var.token, data, var.was_rederection))
 			return (EXIT_FAILURE);
-		else if (check_token(var.token, data) == 1)
+		else if (check_token(var.token, data, var.was_rederection) == 1)
 			var.was_rederection = 1;
 		var.first = 0;
 		var.lst_token = linked_token(var.lst_token, var.token);

@@ -73,10 +73,11 @@ int	here_doc(char *key_stop, t_data **data)
 		perror("HEREDOC");
 		return (0);
 	}
+	printf("|%s|\n", key_stop);
 	while (1)
 	{
 		str = readline("heredoc> ");
-		if (!ft_strcmp(str, key_stop) && *str)
+		if (!ft_strcmp(str, key_stop))
 			break ;
 		if (check_for_variables(str))
 			str = h_string_getter(str, 0, (*data)->env);

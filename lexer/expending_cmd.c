@@ -12,14 +12,69 @@
 
 #include "../includes/minishell.h"
 
-t_token	*scan_vars(t_token *token, t_env *env)
+static bool	is_double_quote_first(char const *str)
 {
-    token->content = arg_iterator(token->content, env);
-//	token->content = rm_quote(token->content, env, 0);
-//	if (token->content == NULL)
-//	{
-//		HERE;
-//		return (NULL);
-//	}
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == SINGLE_QUOTE)
+			break ;
+		else if (str[i] == L_DOUBLE_QUOTE)
+			return (true);
+	}
+	return (false);
+}
+
+static bool	is_single_quote_first(char const *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == L_DOUBLE_QUOTE)
+			break ;
+		else if (str[i] == SINGLE_QUOTE)
+			return (true);
+	}
+	return (false);
+}
+
+t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
+{
+	char	c;
+	char	*tmp;
+	char	**ptr;
+	if (was_hered == 2)
+	{
+		if (is_double_quote_first(token->content))
+			c = '"';
+		else if (is_single_quote_first(token->content))
+			c = '\'';
+		else
+			return (token);
+		ptr = ft_split(token->content, c);
+		if (!ptr) {
+			return (NULL);
+		}
+		if (!*ptr)
+			tmp = ft_strdup("");
+		else
+		{
+			tmp = (*ptr)++;
+			while (*ptr) {
+				tmp = ft_strjoin(tmp, *ptr);
+				free(*ptr);
+				(*ptr)++;
+			}
+		}
+		free(ptr);
+		free(token->content);
+		token->content = tmp;
+	}
+	else
+    	token->content = arg_iterator(token->content, env);
 	return (token);
 }

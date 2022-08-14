@@ -212,7 +212,6 @@ t_token	*get_char(t_lexer **lex, int was_rd)
 	}
 	if (was_rd)
 	{
-		printf("get |%s|\n", ptr);
 		return (init_token(ptr, WORD, NULL));
 	}
 	return (init_token(ptr, WORD_CMD, get_args(lex)));
