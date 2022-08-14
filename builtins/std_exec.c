@@ -102,25 +102,26 @@ void	std_exec(t_list *cmd, t_data **data)
 		ft_putstr_fd(": command not found\n", 2);
 	g_status = 127;
 	(*data)->exit = 1;
+	HERE ;
 }
 
 void	to_std(t_list *cmd, t_data **data)
 {
-	int		f_pid;
+//	int		f_pid;
 	int		path;
 	t_env	*env;
 
-	f_pid = 0;
+//	f_pid = 0;
 	env = (*data)->env;
-	if ((*data)->pip_nb == 0)
-		f_pid = fork();
-	if (f_pid == -1)
-	{
-		perror("fork(): ");
-		exit(1);
-	}
-	if (f_pid == 0)
-	{
+//	if ((*data)->pip_nb == 0)
+//		f_pid = fork();
+//	if (f_pid == -1)
+//	{
+//		perror("fork(): ");
+//		exit(1);
+//	}
+//	if (f_pid == 0)
+//	{
 		path = false;
 		while (env)
 		{
@@ -132,5 +133,5 @@ void	to_std(t_list *cmd, t_data **data)
 			std_exec(cmd, data);
 		else if (printf("~minishell~: %s", cmd->content->content))
 			printf(": No such file or directory\n");
-	}
+//	}
 }

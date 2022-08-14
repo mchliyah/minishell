@@ -60,7 +60,7 @@ void	echo(t_list *cmd)
 	while (args[i])
 	{
 		if (!empty(args[i]))
-			printf("%s", args[i]);
+			write(1, args[i], ft_strlen(args[i]));
 		i++;
 		if (args[i])
 			printf(" ");

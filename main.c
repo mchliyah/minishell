@@ -68,6 +68,7 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 		i = 0;
 		while (i < data->pip_nb * 2)
 			close(data->p_fd[i++]);
+//		close(fd);
 		while (wait(&status) > 0)
 			if (WIFEXITED(status))
 				g_status = WEXITSTATUS(status);
