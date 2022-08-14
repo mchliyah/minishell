@@ -80,6 +80,12 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	}
 }
 
+void handle_sigint(int sig)
+{
+		printf("%d\n", sig);
+    	ft_putstr_fd("\n\001\033[1;31m\002 ~minishell~ \001\033[0m\002", STDOUT_FILENO);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_p_line	*pipeline;
@@ -93,9 +99,10 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	data = init_data(ac, av, data, envp);
+	signal(SIGINT, handle_sigint);
 	while (!data->exit)
 	{
-		str_rln = readline("\001\033[1;31m\002 ~minishell~ \001\033[0m\002");
+		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
