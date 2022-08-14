@@ -180,7 +180,7 @@ t_token	*get_char(t_lexer **lex, int was_rd)
 	char	*ptr;
 
 	ptr = cmd_getter(lex);
-	printf("cmd %s\n", ptr);
+//	printf("cmd %s\n", ptr);
 	if (was_rd)
 	{
 		return (init_token(ptr, WORD, NULL));

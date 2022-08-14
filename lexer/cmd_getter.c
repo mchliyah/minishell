@@ -99,8 +99,11 @@ char	*cmd_getter(t_lexer **lex)
 			s = get_s_quote(lex);
 		else
 			s = get_c_word(lex);
-		printf("s %s\n", s);
+//		printf("s %s\n", s);
 		ptr = ft_strjoin(ptr, s);
+		if ((*lex)->c == EPIPE || (*lex)->c == LESS
+			||  (*lex)->c == GREATER || (*lex)->c == SPACE)
+			break ;
 		if ((*lex)->c != '\0')
 			*lex = advance(*lex);
 		if ((*lex)->c == EPIPE || (*lex)->c == LESS
