@@ -31,17 +31,6 @@ char	*get_quote_things(t_lexer **this)
 	}
 	return (s);
 }
-//		else if ((*this)->c == L_DOUBLE_QUOTE && (ft_isalnum(c) || c == SPACE))
-//		{
-//			HERE ;
-//			while ((*this)->c)
-//			{
-//				if ((*this)->c == SPACE || (*this)->c == EPIPE
-//					|| (*this)->c == LESS || (*this)->c == GREATER)
-//					return (s);
-//				s = join_string(s, (*this)->c);
-//				*this = advance(*this);
-//			}
 
 char	*get_s_quote_things(t_lexer **this)
 {
@@ -76,15 +65,6 @@ char	*get_s_quote_things(t_lexer **this)
 	}
 	return (s);
 }
-//		if (((*this)->c == SPACE && (tmp == L_DOUBLE_QUOTE || tmp == EOS))
-//			|| (*this)->c == SINGLE_QUOTE || (*this)->c == EPIPE
-//			|| (*this)->c == REDIRECT_IN || (*this)->c == REDIRECT_OUT
-//			|| (*this)->c == SPACE || (*this)->c == EOS)
-//		{
-//			if ((*this)->c == L_DOUBLE_QUOTE && tmp == EOS)
-//				s = join_string(s, (*this)->c);
-//			break ;
-//		}
 
 char	*get_s_word(t_lexer **this)
 {

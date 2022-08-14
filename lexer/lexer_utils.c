@@ -179,52 +179,11 @@ t_arg	*get_args(t_lexer **lex)
 	return (opt);
 }
 
-//t_token	*get_char(t_lexer **lex, int was_rd)
-//{
-//	char	*ptr;
-//	char	*tmp;
-//
-//	while ((*lex)->c == SPACE)
-//		*lex = advance(*lex);
-//	if ((*lex)->c == L_DOUBLE_QUOTE)
-//		ptr = get_inside_quotes(lex);
-//	else if ((*lex)->c == SINGLE_QUOTE)
-//		ptr = get_inside_s_quotes(lex);
-//	else
-//	{
-//		ptr = ft_strdup("");
-//		if (!ptr)
-//			return (NULL);
-//		while ((*lex)->c != '\0')
-//		{
-//			ptr = join_string(ptr, (*lex)->c);
-//			*lex = advance(*lex);
-//			if ((*lex)->c == SPACE || (*lex)->c == EPIPE || (*lex)->c == LESS
-//				|| (*lex)->c == GREATER)
-//				break ;
-//			else if (((*lex)->c == SINGLE_QUOTE || (*lex)->c == L_DOUBLE_QUOTE)
-//				&& (*lex)->c != '0')
-//			{
-//				if ((*lex)->c == L_DOUBLE_QUOTE)
-//					tmp = get_inside_quotes(lex);
-//				else
-//					tmp = get_inside_s_quotes(lex);
-//				ptr = ft_strjoin(ptr, tmp);
-//				break ;
-//			}
-//		}
-//	}
-//	if (was_rd)
-//	{
-//		return (init_token(ptr, WORD, NULL));
-//	}
-//	return (init_token(ptr, WORD_CMD, get_args(lex)));
-//}
 t_token	*get_char(t_lexer **lex, int was_rd)
 {
 	char	*ptr;
 
-	ptr = check_for_args(lex);
+	ptr = cmd_getter(lex);
 	printf("cmd %s\n", ptr);
 	if (was_rd)
 	{
