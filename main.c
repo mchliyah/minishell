@@ -27,11 +27,12 @@ void handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+		ft_putchar_fd('\n', 1);
+        // rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
+	g_status = 1;
 }
 
 int	init_pipes(t_data **data)
@@ -106,6 +107,8 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, handle_sigint);
 	while (!data->exit)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
 		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
 		if (!str_rln)
 			break ;
@@ -116,6 +119,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(pipeline);
 	free_data(data);
-	rl_clear_history();
+	// rl_clear_history();
 	return (g_status);
 }
