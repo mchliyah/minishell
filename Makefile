@@ -13,7 +13,7 @@
 NAME = minishell
 CC = clang
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = #-Wall -Werror -Wextra -g
 
 READFLAG = -lreadline -L /Users/mchliyah/goinfre/.brew/opt/readline/lib -I /Users/mchliyah/goinfre/.brew/opt/readline/include
 
