@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	get_here_doc(t_list *cmd, t_data **data)
+int	get_here_doc(t_list *cmd, t_data **data)
 {
 	t_list	*tmp;
 
@@ -21,19 +21,23 @@ void	get_here_doc(t_list *cmd, t_data **data)
 	{
 		if (tmp->content->type == DELIMITER)
 			if (!here_doc(tmp->next->content->content, data))
-				return ;
+				return (0);
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
-void	check_for_heredoc(t_p_line *pipe, t_data **data)
+int	check_for_heredoc(t_p_line *pipe, t_data **data)
 {
 	if (pipe->left_p)
 		check_for_heredoc(pipe->left_p, data);
 	if (pipe->left)
-		get_here_doc(pipe->left, data);
+		if (!get_here_doc(pipe->left, data))
+			return (0);
 	if (pipe->right)
-		get_here_doc(pipe->right, data);
+		if (!get_here_doc(pipe->right, data))
+			return (0);
+	return (1);
 }
 
 //char	*expending(char *content, t_data *data)
@@ -73,10 +77,11 @@ int	here_doc(char *key_stop, t_data **data)
 		perror("HEREDOC");
 		return (0);
 	}
-	printf("|%s|\n", key_stop);
 	while (1)
 	{
 		str = readline("heredoc> ");
+		if (!str)
+
 		if (!ft_strcmp(str, key_stop))
 			break ;
 		if (check_for_variables(str))

@@ -28,8 +28,8 @@ void handle_sigint(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-        // rl_replace_line("", 0);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	g_status = 1;
@@ -72,7 +72,8 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	if (generate_token(str_rln, &pipeline, &data) != 1)
 	{
 		init_pipes(&data);
-		check_for_heredoc(pipeline, &data);
+		if (!check_for_heredoc(pipeline, &data))
+			return;
 		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
@@ -110,7 +111,6 @@ int	main(int ac, char **av, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
 		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
-		printf("|%s|\n", str_rln);
 		if (!str_rln)
 			break ;
 		if (*str_rln)

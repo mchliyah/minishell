@@ -29,7 +29,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define TMP_FILE "/Users/$USER/.TemporaryItems/.tmp_here_doc"
+# define TMP_FILE "/Users/ael-mous/.TemporaryItems/.tmp_here_doc"
 
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__, #x, x)
 # define PV(x, y) fprintf(stderr, "%s = " y, #x, x)
@@ -37,7 +37,7 @@
 
 
 //void	print_tokens(t_p_line *pipeline);
-
+void rl_replace_line(char *txt, int i);
 t_data	*init_data(int ac, char **av, t_data *data, char **envp);
 
 int		iterator(t_p_line *this_pipe, t_data **exec);
