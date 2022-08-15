@@ -15,7 +15,7 @@ CC = clang
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-READFLAG = -lreadline -L /Users/mchliyah/goinfre/.brew/opt/readline/lib -I /Users/mchliyah/goinfre/.brew/opt/readline/include
+READFLAG = -lreadline -L/goinfre/ael-mous/.brew/opt/readline/lib -I/goinfre/ael-mous/.brew/opt/readline/include
 
 RM = rm -f
 #########################
@@ -90,7 +90,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB) $(READFLAG) -o $(NAME)
+	@$(CC)   -fsanitize=address -g3 $(OBJECTS) $(ARLIB) -o $(NAME) $(READFLAG)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

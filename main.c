@@ -68,25 +68,24 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	int	i;
 	int	fd;
 
-	fd = dup(1);
 	add_history(str_rln);
 	if (generate_token(str_rln, &pipeline, &data) != 1)
 	{
 		init_pipes(&data);
 		check_for_heredoc(pipeline, &data);
+		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
 		while (i < data->pip_nb * 2)
 			close(data->p_fd[i++]);
-//		close(fd);
-		while (wait(&status) > 0)
-			if (WIFEXITED(status))
-				g_status = WEXITSTATUS(status);
 		if (fd > 0)
 		{
 			dup2(fd, 1);
 			close(fd);
 		}
+		while (wait(&status) > 0)
+			if (WIFEXITED(status))
+				g_status = WEXITSTATUS(status);
 		free_pipe(pipeline);
 	}
 }
@@ -111,6 +110,7 @@ int	main(int ac, char **av, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
 		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
+		printf("|%s|\n", str_rln);
 		if (!str_rln)
 			break ;
 		if (*str_rln)
@@ -118,8 +118,11 @@ int	main(int ac, char **av, char **envp)
 		else if (*str_rln == '\0')
 			g_status = 0;
 	}
-	free(pipeline);
-	free_data(data);
+	if (str_rln)
+	{
+		free(pipeline);
+		free_data(data);
+	}
 	// rl_clear_history();
 	return (g_status);
 }

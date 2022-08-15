@@ -38,6 +38,7 @@ bool	open_files(t_data **data, t_list *cmd)
 			file = iterator->next->content->content;
 		if (iterator->content->type == REDIRECT_IN)
 		{
+			PV(file, "|%s|\n");
 			(*data)->fd_in = open(file, O_RDONLY);
 			if ((*data)->fd_in < 0)
 				if (ft_putstr_fd("minishell: NO such file or directory\n", 2))
