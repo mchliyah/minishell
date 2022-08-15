@@ -92,12 +92,24 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	}
 }
 
+int SignalsEcho(void)
+{
+	struct termios		terminal;
+ 
+	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
+		return -1;
+	terminal.c_lflag |= ~ISIG;
+	terminal.c_cc[VSUSP] = 0;
+	terminal.c_lflag ^= ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
+	return 0;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_p_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
-	// struct sigaction sa;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_p_line));
@@ -108,9 +120,10 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
+	SignalsEcho();
 	while (!data->exit)
 	{
-		str_rln = readline("~🤮🤮minishell🤮🤮:~");
+		str_rln = readline("~m🤮n🤮she🤮🤮:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)

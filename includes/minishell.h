@@ -21,6 +21,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <termios.h>
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"

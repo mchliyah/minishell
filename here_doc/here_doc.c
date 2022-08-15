@@ -15,14 +15,27 @@
 void	get_here_doc(t_list *cmd, t_data **data)
 {
 	t_list	*tmp;
+	int		pid;
 
 	tmp = cmd;
-	while (tmp && tmp->next)
+	pid = fork();
+	if (pid == -1)
 	{
-		if (tmp->content->type == DELIMITER)
-			if (!here_doc(tmp->next->content->content, data))
-				return ;
-		tmp = tmp->next;
+		perror("fork():");
+		exit (1);
+	}
+	if (!pid)
+	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
+		while (tmp && tmp->next)
+		{
+			if (tmp->content->type == DELIMITER)
+				if (!here_doc(tmp->next->content->content, data))
+					exit (1);
+			tmp = tmp->next;
+		}
+		exit (0);
 	}
 }
 
