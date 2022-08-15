@@ -52,8 +52,8 @@ void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
 // here doc
-void	get_here_doc(t_list *cmd, t_data **data);
-void	check_for_heredoc(t_p_line *pipe, t_data **data);
+int	get_here_doc(t_list *cmd, t_data **data);
+int		check_for_heredoc(t_p_line *pipe, t_data **data);
 int		here_doc(char *key_stop, t_data **data);
 void	shelvl(t_env **env);
 

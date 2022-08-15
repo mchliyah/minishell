@@ -105,9 +105,6 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 		if (!data)
 			return (NULL);
 		data->exit = 0;
-		data->p_fd = NULL;
-		data->fd_in = -1;
-		data->fd_out = -1;
 		data->env = get_env(envp);
 		data->exp = get_env(envp);
 	}

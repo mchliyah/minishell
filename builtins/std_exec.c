@@ -105,20 +105,18 @@ void	std_exec(t_list *cmd, t_data **data)
 
 void	to_std(t_list *cmd, t_data **data)
 {
-	int		f_pid;
 	int		path;
+	int		pid;
 	t_env	*env;
 
-	f_pid = 0;
 	env = (*data)->env;
-	// if ((*data)->pip_nb == 0)
-	f_pid = fork();
-	if (f_pid == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("fork(): ");
 		exit(1);
 	}
-	if (f_pid == 0)
+	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		path = false;

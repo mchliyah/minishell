@@ -32,11 +32,13 @@ bool	open_files(t_data **data, t_list *cmd)
 	char	*file;
 
 	iterator = cmd;
-	while (iterator && iterator->next)
+	while (iterator)
 	{
-		file = iterator->next->content->content;
-		if (iterator->content->type == REDIRECT_IN)
+		if (iterator->next)
+			file = iterator->next->content->content;
+		if (iterator->content->type == REDIRECT_IN || iterator->content->type == WORD)
 		{
+			PV(file, "|%s|\n");
 			(*data)->fd_in = open(file, O_RDONLY);
 			if ((*data)->fd_in < 0)
 				if (ft_putstr_fd("minishell: NO such file or directory\n", 2))
@@ -73,6 +75,7 @@ bool	open_pipe(t_data **data, t_list *cmd)
 			printf("error dup2 failed to duplicate fd\n");
 			return (false);
 		}
+		close((*data)->fd_in);
 	}
 	if (((*data)->cmd_i + 1 != (*data)->pip_nb + 1) || (*data)->fd_out != -1)
 	{
@@ -90,11 +93,15 @@ bool	open_pipe(t_data **data, t_list *cmd)
 
 bool	exec_cmd(t_list *in_cmd, t_data **data)
 {
+	t_list	*cmd;
 	int		f_pid;
 	char	*content;
 
 	f_pid = 0;
-	if ((*data)->pip_nb != 0)
+	cmd = in_cmd;
+	while (cmd->content->type != WORD_CMD)
+		cmd = cmd->next;
+	if ((*data)->pip_nb != 0 || !is_builtins(cmd->content->content))
 		f_pid = fork();
 	if (f_pid == -1)
 	{
