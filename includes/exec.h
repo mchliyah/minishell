@@ -15,6 +15,7 @@
 # include "structs.h"
 # include "minishell.h"
 # include "../libft/libft.h"
+
 //exec
 void	to_std(t_list *cmd, t_data **data);
 bool	exec_cmd(t_list *cmd, t_data **exec);

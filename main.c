@@ -23,7 +23,17 @@ int g_status;
 	quote or single quote !!
  */
 
-
+void handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+        // rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	g_status = 1;
+}
 
 int	init_pipes(t_data **data)
 {
@@ -86,6 +96,7 @@ int	main(int ac, char **av, char **envp)
 	t_p_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
+	// struct sigaction sa;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_p_line));
@@ -94,9 +105,12 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	data = init_data(ac, av, data, envp);
+	signal(SIGINT, handle_sigint);
 	while (!data->exit)
 	{
-		str_rln = readline("\001\033[1;31m\002 ~minishell~ \001\033[0m\002");
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
+		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
@@ -106,5 +120,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(pipeline);
 	free_data(data);
+	// rl_clear_history();
 	return (g_status);
 }

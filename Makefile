@@ -15,6 +15,8 @@ CC = clang
 
 CFLAGS = -Wall -Werror -Wextra -g
 
+READFLAG = -lreadline -L /Users/mchliyah/goinfre/.brew/opt/readline/lib -I /Users/mchliyah/goinfre/.brew/opt/readline/include
+
 RM = rm -f
 #########################
 # ! files of the minishell
@@ -88,7 +90,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
+	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB) $(READFLAG) -o $(NAME)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

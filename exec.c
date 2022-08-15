@@ -110,6 +110,8 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	}
 	if (f_pid == 0)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, SIG_IGN);
 		if (!open_pipe(data, in_cmd))
 			return (false);
 		while (in_cmd->content->type != WORD_CMD)
