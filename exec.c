@@ -36,7 +36,7 @@ bool	open_files(t_data **data, t_list *cmd)
 	{
 		if (iterator->next)
 			file = iterator->next->content->content;
-		if (iterator->content->type == REDIRECT_IN)
+		if (iterator->content->type == REDIRECT_IN || iterator->content->type == WORD)
 		{
 			PV(file, "|%s|\n");
 			(*data)->fd_in = open(file, O_RDONLY);
