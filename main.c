@@ -23,7 +23,16 @@ int g_status;
 	quote or single quote !!
  */
 
-
+void handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+	}
+}
 
 int	init_pipes(t_data **data)
 {
@@ -80,17 +89,12 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	}
 }
 
-void handle_sigint(int sig)
-{
-		printf("%d\n", sig);
-    	ft_putstr_fd("\n\001\033[1;31m\002 ~minishell~ \001\033[0m\002", STDOUT_FILENO);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_p_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
+	// struct sigaction sa;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_p_line));
@@ -112,5 +116,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(pipeline);
 	free_data(data);
+	rl_clear_history();
 	return (g_status);
 }

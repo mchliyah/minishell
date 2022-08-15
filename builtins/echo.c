@@ -60,13 +60,13 @@ void	echo(t_list *cmd)
 	while (args[i])
 	{
 		if (!empty(args[i]))
-			printf("%s", args[i]);
+			ft_putstr_fd(args[i], STDOUT_FILENO);
 		i++;
 		if (args[i])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (del)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	g_status = 0;
 	free (args);
 }

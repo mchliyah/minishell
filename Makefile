@@ -88,7 +88,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB)  -lreadline -o $(NAME)
+	@$(CC) -fsanitize=address -g3 $(OBJECTS) $(ARLIB)  -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include -o $(NAME)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
