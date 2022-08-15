@@ -68,6 +68,7 @@ int	is_rederiction(t_token *token)
 		return (true);
 	return (false);
 }
+
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
 	t_gen_tok	var;

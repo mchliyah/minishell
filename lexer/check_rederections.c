@@ -18,11 +18,27 @@ bool	is_redirection(int this)
 {
 	if (this == REDIRECT_OUT_IN_APPEND_MD || this == REDIRECT_IN
 		|| this == REDIRECT_OUT || this == DELIMITER
-			|| this == LESSGREAT)
+		|| this == LESSGREAT)
 		return (true);
 	return (false);
 }
 
+bool	is_not_next(t_list *it)
+{
+	if (!it->next || (it->next->content->type != WORD_CMD
+			&& it->next->content->type != WORD
+			&& it->next->content->type != REDIRECT_OUT
+			&& it->next->content->type != REDIRECT_IN
+			&& it->next->content->type != REDIRECT_OUT_IN_APPEND_MD))
+		return (true);
+	return (false);
+}
+
+void	syntax_err(void)
+{
+	g_status = 258;
+	ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
+}
 /*
  *  this fun for checking is the user gave the file with redirections
  *  and also unclosed pipe by cmd
@@ -39,27 +55,20 @@ int	check_gaven_file_rd(t_list *token)
 		{
 			if (!it->next || it->next->content->type != WORD)
 			{
-				g_status = 258;
-				ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
+				syntax_err();
 				return (false);
 			}
 		}
 		else if (it->content->type == SYNTAX_ERR)
 		{
-			g_status = 258;
-			ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
+			syntax_err();
 			return (false);
 		}
-		else if (it->content->type == EPIPE)
+		else if (it->content->type == PIPE)
 		{
-			if (!it->next || (it->next->content->type != WORD_CMD
-					&& it->next->content->type != WORD
-					&& it->next->content->type != REDIRECT_OUT
-					&& it->next->content->type != REDIRECT_IN
-					&& it->next->content->type != REDIRECT_OUT_IN_APPEND_MD))
+			if (is_not_next(it))
 			{
-				g_status = 258;
-				ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
+				syntax_err();
 				return (false);
 			}
 		}

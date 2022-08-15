@@ -13,16 +13,18 @@
 #include "../includes/minishell.h"
 
 
-int	check_quote(t_token *token, int *i, int *q)
+int	check_quote(t_token *token, int *i)
 {
+	int	q;
+
 	(*i)++;
-	(*q)++;
+	q = 0;
 	while (token->content[*i] != L_DOUBLE_QUOTE
 		&& token->content[*i] != '\0')
 		(*i)++;
 	if (token->content[*i] == R_DOUBLE_QUOTE)
-		(*q)++;
-	if (*q % 2 != 0 && token->content[*i] == '\0')
+		q++;
+	if (q % 2 != 0 && token->content[*i] == '\0')
 	{
 		printf("err alm3lam sad l quotes\n");
 		return (false);
@@ -31,18 +33,20 @@ int	check_quote(t_token *token, int *i, int *q)
 	return (true);
 }
 
-int	check_s_quote(t_token *token, int *i, int *sq)
+int	check_s_quote(t_token *token, int *i)
 {
+	int	sq;
+
 	(*i)++;
-	(*sq)++;
+	sq = 0;
 	while (token->content[*i] != SINGLE_QUOTE
 		&& token->content[*i] != '\0')
 	{
 		(*i)++;
 	}
 	if (token->content[*i] == SINGLE_QUOTE)
-		(*sq)++;
-	if (*sq % 2 != 0 && token->content[*i] == '\0')
+		sq++;
+	if (sq % 2 != 0 && token->content[*i] == '\0')
 	{
 		printf("err alm3lam sad l single quotes\n");
 		return (false);
@@ -55,22 +59,18 @@ int	check_s_quote(t_token *token, int *i, int *sq)
 t_token	*scan_errs(t_token *token, t_env *env, int was_rd)
 {
 	t_arg	*tmp;
-	int		q;
-	int		sq;
 	int		i;
 
 	i = 0;
-	q = 0;
-	sq = 0;
 	while (token->content[i])
 	{
 		if (token->content[i] == L_DOUBLE_QUOTE)
 		{
-			if (!check_quote(token, &i, &q))
+			if (!check_quote(token, &i))
 				return (NULL);
 		}
 		else if (token->content[i] == SINGLE_QUOTE)
-			if (!check_s_quote(token, &i, &sq))
+			if (!check_s_quote(token, &i))
 				return (NULL);
 		i++;
 	}

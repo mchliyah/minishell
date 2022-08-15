@@ -13,7 +13,7 @@
 
 #include "../includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 t_token	*get_pipe(t_lexer **lex, int first)
 {
@@ -85,7 +85,6 @@ t_token	*get_token(t_lexer **lexer, int first, int was_rd)
 	{
 		if ((*lexer)->c == SPACE)
 			advance(*lexer);
-//		if ((*lexer)->c == EPIPE && (*lexer)->i)
 		if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
 			&& (*lexer)->c != GREATER && (*lexer)->c != LESS)
 			return (get_char(lexer, was_rd));

@@ -16,14 +16,15 @@ extern int g_status;
 
 bool	check_for_variables(const char *str)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (str[++i]) {
-        if (str[i] == '$')
-            return (true);
-    }
-    return (false);
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '$')
+			return (true);
+	}
+	return (false);
 }
 
 int	expend_var(char **ptr, int i, char *arg, t_env *env)
@@ -52,11 +53,6 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 	if (!tmp)
 		tmp = ft_strdup("");
 	*ptr = ft_strjoin(*ptr, tmp);
-	if (!*ptr)
-	{
-		perror("NULL");
-		exit(1);
-	}
 	return (i);
 }
 
@@ -71,8 +67,8 @@ char	*variable_expander(char *s, t_env *env)
 	{
 		if (s[i] == '$' && (s[i + 1] == '?'
 				|| ft_isalnum(s[i + 1])))
-            i = expend_var(&str, i, s, env);
-        str = join_string(str, s[i]);
+			i = expend_var(&str, i, s, env);
+		str = join_string(str, s[i]);
 		i++;
 	}
 	return (str);
@@ -108,11 +104,34 @@ char	*double_quote_remove(char *s, int *i, t_env *env)
 	return (ret);
 }
 
-char	*string_getter(char *s, int *i, t_env *env)
+void	get_status(int *i, char *s, t_env *env, char **str)
 {
-	char	*var;
 	char	*tmp;
 	int		st;
+	char	*var;
+
+	st = *i;
+	if (s[(*i)++] == '?')
+		var = ft_itoa(g_status);
+	else
+	{
+		if (ft_isdigit(s[*i]))
+			(*i)++;
+		else
+		{
+			while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
+				(*i)++;
+		}
+		tmp = ft_substr(s, st, *i - st);
+		var = get_form_my_env(tmp, env);
+		if (!var)
+			var = ft_strdup("");
+	}
+	*str = ft_strjoin(*str, var);
+}
+
+char	*string_getter(char *s, int *i, t_env *env)
+{
 	char	*str;
 
 	str = ft_strdup("");
@@ -122,24 +141,7 @@ char	*string_getter(char *s, int *i, t_env *env)
 				|| ft_isalnum(s[*i + 1])))
 		{
 			(*i)++;
-			st = *i;
-			if (s[(*i)++] == '?')
-				var = ft_itoa(g_status);
-			else
-			{
-				if (ft_isdigit(s[*i]))
-					(*i)++;
-				else
-				{
-					while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
-						(*i)++;
-				}
-			tmp = ft_substr(s, st, *i - st);
-			var = get_form_my_env(tmp, env);
-			if (!var)
-				var = ft_strdup("");
-			}
-			str = ft_strjoin(str, var);
+			get_status(i, s, env, &str);
 		}
 		else if (s[*i] == '$' && (s[*i + 1] == SINGLE_QUOTE
 				|| s[*i + 1] == L_DOUBLE_QUOTE))

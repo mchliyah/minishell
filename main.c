@@ -14,14 +14,6 @@
 
 int g_status;
 
-/*
-  ?? this comments for anything under generate_token function !!
- 	if you want to add function under this function
- 	you should add a condition for it
- 	!! if (generate... != 1) then do what you want
- 	else if generate .. == 1 means that there is unclosed
-	quote or single quote !!
- */
 
 void handle_sigint(int sig)
 {
@@ -73,7 +65,7 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	{
 		init_pipes(&data);
 		if (!check_for_heredoc(pipeline, &data))
-			return;
+			return ;
 		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
@@ -96,7 +88,6 @@ int	main(int ac, char **av, char **envp)
 	t_p_line	*pipeline;
 	char		*str_rln;
 	t_data		*data;
-	// struct sigaction sa;
 
 	data = NULL;
 	pipeline = malloc(sizeof(t_p_line));
@@ -123,6 +114,5 @@ int	main(int ac, char **av, char **envp)
 		free(pipeline);
 		free_data(data);
 	}
-	// rl_clear_history();
 	return (g_status);
 }
