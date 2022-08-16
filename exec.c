@@ -58,14 +58,16 @@ bool	open_files(t_data **data, t_list *cmd)
 			else if (iterator->content->type == REDIRECT_OUT
 				|| iterator->content->type == LESSGREAT)
 			{
-				PVL("x", "%s\n");
 				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+				PVL((*data)->fd_out, "%d\n");
 				if ((*data)->fd_out < 0)
 					if (ft_putstr_fd("minishell: NO such file or directory 3\n", 2))
 						exit (127);
 			}
 		}
-		else
+		else if (iterator->content->type == WORD && iterator->prev->content->type != DELIMITER
+			&& iterator->prev->content->type != REDIRECT_IN && iterator->prev->content->type != REDIRECT_OUT_IN_APPEND_MD
+			&& iterator->prev->content->type != LESSGREAT)
 			(*data)->fd_in = open(iterator->content->content, O_RDONLY);
 		if (!append_file(data, iterator, file))
 			return (false);
@@ -100,7 +102,7 @@ bool	open_pipe(t_data **data, t_list *cmd)
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
 			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
 				return (false);
-		close((*data)->fd_out);
+		
 	}
 	while (i < (*data)->pip_nb * 2)
 		close((*data)->p_fd[i++]);

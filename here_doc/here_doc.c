@@ -90,7 +90,7 @@ int	here_doc(char *key_stop, t_data **data)
 		ft_putstr_fd("\n", tmpfile);
 		free(str);
 	}
-	// (*data)->fd_in = open(TMP_FILE, O_RDONLY);
+	//close (tmpfile);
 	// if ((*data)->fd_in < 0)
 	// {
 	// 	unlink(TMP_FILE);
