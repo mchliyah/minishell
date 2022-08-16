@@ -65,8 +65,8 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	{
 		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
-		if (!check_for_heredoc(pipeline, &data))
-			return ;
+		// if (!check_for_heredoc(pipeline, &data))
+		// 	return ;
 		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
@@ -91,18 +91,18 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	}
 }
 
-//int SignalsEcho(void)
-//{
-//	struct termios		terminal;
-//
-//	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
-//		return -1;
-//	terminal.c_lflag |= ~ISIG;
-//	terminal.c_cc[VSUSP] = 0;
-//	terminal.c_lflag ^= ECHOCTL;
-//	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
-//	return 0;
-//}
+int SignalsEcho(void)
+{
+	struct termios		terminal;
+ 
+	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
+		return -1;
+	terminal.c_lflag |= ~ISIG;
+	terminal.c_cc[VSUSP] = 0;
+	terminal.c_lflag ^= ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
+	return 0;
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -119,7 +119,7 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-//	SignalsEcho();
+	SignalsEcho();
 	while (!data->exit)
 	{
 		str_rln = readline("~m🤮n🤮she🤮🤮:~");
@@ -135,5 +135,6 @@ int	main(int ac, char **av, char **envp)
 		free(pipeline);
 		free_data(data);
 	}
+	// rl_clear_history();
 	return (g_status);
 }

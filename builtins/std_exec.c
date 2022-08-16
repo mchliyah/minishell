@@ -75,17 +75,13 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-void	std_exec(t_list *cmd, t_data **data)
+void	std_exec(t_list *cmd, t_data **data, char **envp, char **args)
 {
-	char	**args;
 	char	**path;
 	char	*cmand;
-	char	**envp;
 	t_env	*env;
 
 	env = (*data)->env;
-	args = arr_arg(cmd);
-	envp = get_env_char(env);
 	if (access(cmd->content->content, X_OK) == 0)
 		execve(cmd->content->content, args, envp);
 	else
@@ -106,9 +102,15 @@ void	std_exec(t_list *cmd, t_data **data)
 void	to_std(t_list *cmd, t_data **data)
 {
 	int		path;
+	char	**envp;
+	char	**args;
+	// int		pid;
 	t_env	*env;
 
 	env = (*data)->env;
+	envp = get_env_char(env);
+	args = arr_arg(cmd);
+	signal(SIGINT, SIG_DFL);
 	path = false;
 	while (env)
 	{
@@ -117,7 +119,14 @@ void	to_std(t_list *cmd, t_data **data)
 		env = env->next;
 	}
 	if (path)
-		std_exec(cmd, data);
-	else if (printf("~minishell~: %s", cmd->content->content))
-		printf(": No such file or directory\n");
+		std_exec(cmd, data, envp, args);
+	else
+	{
+		if (access(cmd->content->content, X_OK) == 0)
+			execve(cmd->content->content, args, envp);
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(cmd->content->content, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	exit(127);
 }

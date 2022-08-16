@@ -23,13 +23,19 @@
 
 int	execute_childes(t_p_line *this_pipe, t_data **data)
 {
+	
 	if (this_pipe->left)
+	{
+		get_here_doc(this_pipe->left, data);
 		exec_cmd(this_pipe->left, data);
+	}
 	if (this_pipe->right)
 	{
 		(*data)->cmd_i++;
 		(*data)->p_in += 2;
+		get_here_doc(this_pipe->right, data);
 		exec_cmd(this_pipe->right, data);
+
 	}
 	return (0);
 }
