@@ -49,7 +49,7 @@ char	*get_s_quote_things(t_lexer **this)
 				|| c == LESS || c == GREATER))
 		{
 			s = join_string(s, (*this)->c);
-            break ;
+			break ;
 		}
 		else if ((*this)->c == SINGLE_QUOTE && (ft_isalnum(c) || c == SPACE))
 		{
@@ -59,7 +59,7 @@ char	*get_s_quote_things(t_lexer **this)
 					|| (*this)->c == LESS || (*this)->c == GREATER)
 					return (s);
 				s = join_string(s, (*this)->c);
-                *this = advance(*this);
+				*this = advance(*this);
 			}
 		}
 	}

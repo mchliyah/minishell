@@ -102,7 +102,6 @@ void	std_exec(t_list *cmd, t_data **data)
 		ft_putstr_fd(": command not found\n", 2);
 	g_status = 127;
 	(*data)->exit = 1;
-	HERE ;
 }
 
 void	to_std(t_list *cmd, t_data **data)

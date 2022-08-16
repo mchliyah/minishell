@@ -27,7 +27,6 @@ FILES =	main.c\
 		lexer/file_getter.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
-		lexer/ft_split_quote.c\
 		lexer/lexer_quotes_checker.c\
 		lexer/args_getter.c\
 		lexer/arg_lst_fun.c\
@@ -36,7 +35,6 @@ FILES =	main.c\
 		lexer/arg_scanner.c\
 		lexer/lexer_helper.c\
 		lexer/expending_cmd.c\
-		lexer/ft_split_arg_utils.c\
 		lexer/expending_here_doc.c\
 		lexer/cmd_getter.c\
 		parser/parser.c\
@@ -90,7 +88,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)   -fsanitize=address -g3 $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME)
+	@$(CC) $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

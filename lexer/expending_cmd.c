@@ -47,6 +47,7 @@ t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 	char	c;
 	char	*tmp;
 	char	**ptr;
+
 	if (was_hered == 2)
 	{
 		if (is_double_quote_first(token->content))
@@ -56,15 +57,15 @@ t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 		else
 			return (token);
 		ptr = ft_split(token->content, c);
-		if (!ptr) {
+		if (!ptr)
 			return (NULL);
-		}
 		if (!*ptr)
 			tmp = ft_strdup("");
 		else
 		{
 			tmp = (*ptr)++;
-			while (*ptr) {
+			while (*ptr)
+			{
 				tmp = ft_strjoin(tmp, *ptr);
 				free(*ptr);
 				(*ptr)++;
@@ -75,6 +76,6 @@ t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 		token->content = tmp;
 	}
 	else
-    	token->content = arg_iterator(token->content, env);
+		token->content = arg_iterator(token->content, env);
 	return (token);
 }

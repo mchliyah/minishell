@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 /*
 char	*get_simple_word(char *arg, t_env *env, int state)
@@ -85,7 +85,7 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	pp_env = env;
 	while (pp_env->next)
 	{
-        if (!ft_strcmp(tmp, pp_env->pair->key))
+		if (!ft_strcmp(tmp, pp_env->pair->key))
 		{
 			free(tmp);
 			tmp = NULL;
@@ -97,6 +97,7 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	tmp = NULL;
 	return (NULL);
 }
+
 /*
 char	*get_word(char *str, int *i, char *ptr)
 {

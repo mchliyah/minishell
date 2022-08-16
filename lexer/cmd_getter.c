@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 char	*get_s_quote(t_lexer **this)
 {
 	char	*s;
@@ -64,7 +63,7 @@ int	cmd_checker(t_lexer **lex)
 	if ((*lex)->c == EPIPE || (*lex)->c == LESS
 		|| (*lex)->c == GREATER || (*lex)->c == SPACE)
 	{
-		if ((*lex)->c == SPACE)
+		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);
 		return (1);
 	}
@@ -73,7 +72,7 @@ int	cmd_checker(t_lexer **lex)
 	if ((*lex)->c == EPIPE || (*lex)->c == LESS
 		|| (*lex)->c == GREATER || (*lex)->c == SPACE)
 	{
-		if ((*lex)->c == SPACE)
+		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);
 		return (1);
 	}

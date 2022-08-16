@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 bool	is_redirection(int this)
 {
@@ -39,6 +39,7 @@ void	syntax_err(void)
 	g_status = 258;
 	ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
 }
+
 /*
  *  this fun for checking is the user gave the file with redirections
  *  and also unclosed pipe by cmd
