@@ -20,7 +20,8 @@ void handle_sigint(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		rl_replace_line("", 0);
+        rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 	g_status = 1;
@@ -79,6 +80,12 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 		while (wait(&status) > 0)
 			if (WIFEXITED(status))
 				g_status = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == SIGQUIT)
+					printf("Quit\n");
+				g_status = 128 + WTERMSIG(status);
+			}
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
 	}
