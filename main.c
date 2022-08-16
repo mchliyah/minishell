@@ -20,7 +20,6 @@ void handle_sigint(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
@@ -63,6 +62,7 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	add_history(str_rln);
 	if (generate_token(str_rln, &pipeline, &data) != 1)
 	{
+		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
 		if (!check_for_heredoc(pipeline, &data))
 			return ;
@@ -80,7 +80,21 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 			if (WIFEXITED(status))
 				g_status = WEXITSTATUS(status);
 		free_pipe(pipeline);
+		signal(SIGINT, handle_sigint);
 	}
+}
+
+int SignalsEcho(void)
+{
+	struct termios		terminal;
+ 
+	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
+		return -1;
+	terminal.c_lflag |= ~ISIG;
+	terminal.c_cc[VSUSP] = 0;
+	terminal.c_lflag ^= ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
+	return 0;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -96,12 +110,12 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	data = init_data(ac, av, data, envp);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
+	SignalsEcho();
 	while (!data->exit)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_sigint);
-		str_rln = readline("\001\033[1;31m\002 ~minishell:~ \001\033[0m\002");
+		str_rln = readline("~m🤮n🤮she🤮🤮:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
