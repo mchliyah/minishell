@@ -37,19 +37,8 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		}
 		exit (0);
 	}
-	return (1);
-}
-
-int	check_for_heredoc(t_p_line *pipe, t_data **data)
-{
-	if (pipe->left_p)
-		check_for_heredoc(pipe->left_p, data);
-	if (pipe->left)
-		if (!get_here_doc(pipe->left, data))
-			return (0);
-	if (pipe->right)
-		if (!get_here_doc(pipe->right, data))
-			return (0);
+	else
+		wait(NULL);
 	return (1);
 }
 
@@ -92,10 +81,8 @@ int	here_doc(char *key_stop, t_data **data)
 	}
 	while (1)
 	{
-		str = readline("heredoc> ");
-		if (!str)
-
-		if (!ft_strcmp(str, key_stop))
+		str = readline("> ");
+		if (!str || !ft_strcmp(str, key_stop))
 			break ;
 		if (check_for_variables(str))
 			str = h_string_getter(str, 0, (*data)->env);
@@ -103,12 +90,12 @@ int	here_doc(char *key_stop, t_data **data)
 		ft_putstr_fd("\n", tmpfile);
 		free(str);
 	}
-	(*data)->fd_in = open(TMP_FILE, O_RDONLY);
-	if ((*data)->fd_in < 0)
-	{
-		unlink(TMP_FILE);
-		perror("HEREDOC");
-		return (0);
-	}
+	// (*data)->fd_in = open(TMP_FILE, O_RDONLY);
+	// if ((*data)->fd_in < 0)
+	// {
+	// 	unlink(TMP_FILE);
+	// 	perror("HEREDOC");
+	// 	return (0);
+	// }
 	return (1);
 }

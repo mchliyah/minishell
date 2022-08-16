@@ -73,8 +73,8 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	{
 		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
-		if (!check_for_heredoc(pipeline, &data))
-			return;
+		// if (!check_for_heredoc(pipeline, &data))
+		// 	return ;
 		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;

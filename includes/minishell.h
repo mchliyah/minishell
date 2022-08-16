@@ -30,7 +30,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define TMP_FILE "/Users/ael-mous/.TemporaryItems/.tmp_here_doc"
+// # define USER $USER
+# define TMP_FILE "/Users/mchliyah/.TemporaryItems/.tmp_here_doc"
 
 # define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__, #x, x)
 # define PV(x, y) fprintf(stderr, "%s = " y, #x, x)
