@@ -12,15 +12,15 @@
 
 #include "includes/minishell.h"
 
-int g_status;
+int	g_status;
 
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-        rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -65,8 +65,6 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 	{
 		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
-		// if (!check_for_heredoc(pipeline, &data))
-		// 	return ;
 		fd = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
@@ -80,12 +78,12 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 		while (wait(&status) > 0)
 			if (WIFEXITED(status))
 				g_status = WEXITSTATUS(status);
-			if (WIFSIGNALED(status))
-			{
-				if (WTERMSIG(status) == SIGQUIT)
-					printf("Quit\n");
-				g_status = 128 + WTERMSIG(status);
-			}
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGQUIT)
+				printf("Quit\n");
+			g_status = 128 + WTERMSIG(status);
+		}
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
 	}
@@ -119,7 +117,7 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-	SignalsEcho();
+	//SignalsEcho();
 	while (!data->exit)
 	{
 		str_rln = readline("~m🤮n🤮she🤮🤮:~");

@@ -69,7 +69,7 @@ int	is_rederiction(t_token *token)
 	return (false);
 }
 
-int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
+t_gen_tok	generate_init(char *rln_str)
 {
 	t_gen_tok	var;
 
@@ -78,11 +78,23 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	var.first = 1;
 	var.lexer = init_lex(var.lexer, rln_str);
 	if (!var.lexer)
-		return (EXIT_FAILURE);
+	{
+		perror("malloc");
+		exit(1);
+	}
 	var.was_rederection = 0;
+	return (var);
+}
+
+int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
+{
+	t_gen_tok	var;
+
+	var = generate_init(rln_str);
 	while (var.lexer->i < var.lexer->str_len)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
+		printf("cmd %s\n", var.token->content);
 		if (!check_token(var.token, data, var.was_rederection))
 			return (EXIT_FAILURE);
 		var.was_rederection = 0;

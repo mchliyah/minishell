@@ -44,6 +44,7 @@ static bool	is_single_quote_first(char const *str)
 
 t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 {
+	int	i;
 	char	c;
 	char	*tmp;
 	char	**ptr;
@@ -56,24 +57,36 @@ t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 			c = '\'';
 		else
 			return (token);
+		tmp = ft_strdup("");
 		ptr = ft_split(token->content, c);
 		if (!ptr)
 			return (NULL);
-		if (!*ptr)
-			tmp = ft_strdup("");
-		else
+		if (*ptr)
 		{
-			tmp = (*ptr)++;
-			while (*ptr)
+			i = 0;
+			while (ptr[i])
 			{
-				tmp = ft_strjoin(tmp, *ptr);
-				free(*ptr);
-				(*ptr)++;
+				printf("|%s|\n", ptr[i]);
+				tmp = ft_strjoin(tmp, ptr[i]);
+				i++;
 			}
 		}
 		free(ptr);
 		free(token->content);
 		token->content = tmp;
+	}
+	else if (was_hered)
+	{
+		if (!is_single_quote_first(token->content)
+			&& !is_double_quote_first(token->content)
+			&& check_for_variables(token->content))
+		{
+			tmp = variable_expander(token->content, env);
+			if (*tmp == '\0')
+			{
+				token->type = SYNTAX_ERR;
+			}
+		}
 	}
 	else
 		token->content = arg_iterator(token->content, env);

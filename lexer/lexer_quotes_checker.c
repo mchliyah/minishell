@@ -18,7 +18,7 @@ int	check_quote(t_token *token, int *i)
 	int	q;
 
 	(*i)++;
-	q = 0;
+	q = 1;
 	while (token->content[*i] != L_DOUBLE_QUOTE
 		&& token->content[*i] != '\0')
 		(*i)++;
@@ -28,7 +28,6 @@ int	check_quote(t_token *token, int *i)
 	{
 		printf("err alm3lam sad l quotes\n");
 		return (false);
-		// ! should free here
 	}
 	return (true);
 }
@@ -38,7 +37,7 @@ int	check_s_quote(t_token *token, int *i)
 	int	sq;
 
 	(*i)++;
-	sq = 0;
+	sq = 1;
 	while (token->content[*i] != SINGLE_QUOTE
 		&& token->content[*i] != '\0')
 	{
@@ -50,7 +49,6 @@ int	check_s_quote(t_token *token, int *i)
 	{
 		printf("err alm3lam sad l single quotes\n");
 		return (false);
-		// ! should free here
 	}
 	return (true);
 }

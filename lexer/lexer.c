@@ -60,7 +60,7 @@ t_token	*get_redirection(t_lexer **lex)
 	ptr = ft_strdup("");
 	if (!ptr)
 		return (NULL);
-	if ((*lex)->c == SPACE)
+	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
 	while ((*lex)->c != '\0' && ((*lex)->c == LESS || (*lex)->c == GREATER))
 	{
@@ -76,6 +76,8 @@ t_token	*get_redirection(t_lexer **lex)
 		str = NULL;
 		*lex = advance(*lex);
 	}
+	while ((*lex)->c == SPACE)
+		*lex = advance(*lex);
 	return (get_extra(ptr));
 }
 
@@ -83,8 +85,8 @@ t_token	*get_token(t_lexer **lexer, int first, int was_rd)
 {
 	while ((*lexer)->c != '\0')
 	{
-		if ((*lexer)->c == SPACE)
-			advance(*lexer);
+		while ((*lexer)->c == SPACE)
+			*lexer = advance(*lexer);
 		if (ft_isprint((*lexer)->c) && (*lexer)->c != EPIPE
 			&& (*lexer)->c != GREATER && (*lexer)->c != LESS)
 			return (get_char(lexer, was_rd));

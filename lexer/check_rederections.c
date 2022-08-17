@@ -56,6 +56,12 @@ int	check_gaven_file_rd(t_list *token)
 		{
 			if (!it->next || it->next->content->type != WORD)
 			{
+				if (it->next && it->next->content->type == SYNTAX_ERR)
+				{
+					g_status = 1;
+					ft_putendl_fd("minishell: ambiguous redirect", 2);
+					return (false);
+				}
 				syntax_err();
 				return (false);
 			}

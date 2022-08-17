@@ -18,7 +18,6 @@ int	append_file(t_data **data, t_list *cmd, char *file)
 {
 	if (cmd->content->type == REDIRECT_OUT_IN_APPEND_MD)
 	{
-		PVL("x", "%s\n");
 		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
 		if ((*data)->fd_out < 0)
 			if (ft_putstr_fd("outfile Error", 2))
@@ -40,7 +39,6 @@ bool	open_files(t_data **data, t_list *cmd)
 				file = iterator->next->content->content;
 			if (iterator->content->type == REDIRECT_IN || iterator->content->type == DELIMITER)
 			{
-				PV(file, "%s\n");
 				// FILE IN WITHOUT DELEMITERS !!!!
 				if (iterator->content->type == DELIMITER)
 				{
@@ -59,7 +57,6 @@ bool	open_files(t_data **data, t_list *cmd)
 				|| iterator->content->type == LESSGREAT)
 			{
 				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-				PVL((*data)->fd_out, "%d\n");
 				if ((*data)->fd_out < 0)
 					if (ft_putstr_fd("minishell: NO such file or directory 3\n", 2))
 						exit (127);
@@ -102,7 +99,6 @@ bool	open_pipe(t_data **data, t_list *cmd)
 		if (dup2((*data)->fd_out, STDOUT_FILENO) == -1)
 			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
 				return (false);
-		
 	}
 	while (i < (*data)->pip_nb * 2)
 		close((*data)->p_fd[i++]);
@@ -117,7 +113,7 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 
 	f_pid = 0;
 	cmd = in_cmd;
-	while (cmd->content->type != WORD_CMD)
+	while (cmd->content->type != WORD_CMD && cmd->next)
 		cmd = cmd->next;
 	if ((*data)->pip_nb != 0 || !is_builtins(cmd->content->content))
 		f_pid = fork();
@@ -132,6 +128,8 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 		signal(SIGINT, SIG_DFL);
 		if (!open_pipe(data, in_cmd))
 			return (false);
+		if (cmd->content->type != WORD_CMD)
+			exit(1);
 		while (in_cmd->content->type != WORD_CMD)
 			in_cmd = in_cmd->next;
 		content = in_cmd->content->content;

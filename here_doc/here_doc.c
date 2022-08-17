@@ -42,32 +42,6 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	return (1);
 }
 
-//char	*expending(char *content, t_data *data)
-//{
-//	char	*saver;
-//	char	*c;
-//	int		i;
-//
-//	i = 0;
-//	saver = ft_strdup("");
-//	while (content[i])
-//	{
-////		if (content[i] == SINGLE_QUOTE)
-////			c = single_quote(content, &i);
-////	if (content[i] == '$')
-////			c = double_quote(content, &i, data->env);
-////		else
-////		{
-////			c = _string_getter(content, &i, data->env);
-////			i--;
-////		}
-//		saver = _string_getter(content, &i, data->env);
-//		saver = ft_strjoin(saver, c);
-//		i++;
-//	}
-//	free(content);
-//	return (saver);
-//}
 int	here_doc(char *key_stop, t_data **data)
 {
 	int		tmpfile;
@@ -90,12 +64,5 @@ int	here_doc(char *key_stop, t_data **data)
 		ft_putstr_fd("\n", tmpfile);
 		free(str);
 	}
-	//close (tmpfile);
-	// if ((*data)->fd_in < 0)
-	// {
-	// 	unlink(TMP_FILE);
-	// 	perror("HEREDOC");
-	// 	return (0);
-	// }
 	return (1);
 }
