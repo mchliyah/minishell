@@ -76,13 +76,15 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 			close(fd);
 		}
 		while (wait(&status) > 0)
+		{
 			if (WIFEXITED(status))
 				g_status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGQUIT)
-				printf("Quit\n");
-			g_status = 128 + WTERMSIG(status);
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == SIGQUIT)
+					printf("Quit\n");
+				g_status = 128 + WTERMSIG(status);
+			}
 		}
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
