@@ -83,8 +83,6 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	int		i;
 
 	i = 0;
-	printf("%p\n", &env);
-	printf("%p\n", &exp);
 	if (!c_line->content->arg)
 		print_exp(*exp);
 	else

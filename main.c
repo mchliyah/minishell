@@ -122,7 +122,7 @@ int	main(int ac, char **av, char **envp)
 	//SignalsEcho();
 	while (!data->exit)
 	{
-		str_rln = readline("~m🤮n🤮she🤮🤮:~");
+		str_rln = readline("~minishell:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)

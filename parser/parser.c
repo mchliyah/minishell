@@ -94,7 +94,7 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	while (var.lexer->i < var.lexer->str_len)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
-		printf("cmd %s\n", var.token->content);
+//		printf("cmd %s\n", var.token->content);
 		if (!check_token(var.token, data, var.was_rederection))
 			return (EXIT_FAILURE);
 		var.was_rederection = 0;

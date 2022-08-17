@@ -133,10 +133,12 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 		while (in_cmd->content->type != WORD_CMD)
 			in_cmd = in_cmd->next;
 		content = in_cmd->content->content;
-		if (is_builtins(content))
+		if (is_builtins(content)){
 			buuiltins(content, in_cmd, data);
 		else
 			to_std(in_cmd, data);
+		if ((*data)->pip_nb != 0)
+			exit(1);
 	}
 	return (true);
 }
