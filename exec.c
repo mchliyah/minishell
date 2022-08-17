@@ -26,6 +26,37 @@ int	append_file(t_data **data, t_list *cmd, char *file)
 	return (1);
 }
 
+void	fd_error_exit(char *str)
+{
+	perror(str);
+	exit(127);
+}
+
+void	del_or_redrction(t_data **data, t_list *iterator, char *file)
+{
+	if (iterator->content->type == REDIRECT_IN
+		|| iterator->content->type == DELIMITER)
+	{
+		if (iterator->content->type == DELIMITER)
+		{
+			(*data)->fd_in = open(TMP_FILE, O_RDONLY);
+			if ((*data)->fd_in < 0)
+				fd_error_exit("open");
+		}
+		else
+			(*data)->fd_in = open(file, O_RDONLY);
+		if ((*data)->fd_in < 0)
+			fd_error_exit("open");
+	}
+	else if (iterator->content->type == REDIRECT_OUT
+		|| iterator->content->type == LESSGREAT)
+	{
+		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		if ((*data)->fd_out < 0)
+			fd_error_exit("open");
+	}
+}
+
 bool	open_files(t_data **data, t_list *cmd)
 {
 	t_list	*iterator;
@@ -36,34 +67,13 @@ bool	open_files(t_data **data, t_list *cmd)
 	{
 		if (iterator->next)
 		{
-				file = iterator->next->content->content;
-			if (iterator->content->type == REDIRECT_IN || iterator->content->type == DELIMITER)
-			{
-				// FILE IN WITHOUT DELEMITERS !!!!
-				if (iterator->content->type == DELIMITER)
-				{
-					(*data)->fd_in = open(TMP_FILE, O_RDONLY);
-					if ((*data)->fd_in < 0)
-						if (ft_putstr_fd("minishell: NO such file or directory 1\n", 2))
-							exit (127);
-				}
-				else
-					(*data)->fd_in = open(file, O_RDONLY);
-				if ((*data)->fd_in < 0)
-					if (ft_putstr_fd("minishell: NO such file or directory 2\n", 2))
-						exit (127);
-			}
-			else if (iterator->content->type == REDIRECT_OUT
-				|| iterator->content->type == LESSGREAT)
-			{
-				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-				if ((*data)->fd_out < 0)
-					if (ft_putstr_fd("minishell: NO such file or directory 3\n", 2))
-						exit (127);
-			}
+			file = iterator->next->content->content;
+			del_or_redrction(data, iterator, file);
 		}
-		else if (iterator->content->type == WORD && iterator->prev->content->type != DELIMITER
-			&& iterator->prev->content->type != REDIRECT_IN && iterator->prev->content->type != REDIRECT_OUT_IN_APPEND_MD
+		else if (iterator->content->type == WORD
+			&& iterator->prev->content->type != DELIMITER
+			&& iterator->prev->content->type != REDIRECT_IN
+			&& iterator->prev->content->type != REDIRECT_OUT_IN_APPEND_MD
 			&& iterator->prev->content->type != LESSGREAT)
 			(*data)->fd_in = open(iterator->content->content, O_RDONLY);
 		if (!append_file(data, iterator, file))
@@ -125,6 +135,7 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	}
 	if (f_pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		if (!open_pipe(data, in_cmd))
 			return (false);
