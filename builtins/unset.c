@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+extern int g_status;
+
 void	unset_insid(t_env **env, t_env *prev, char **args, int i)
 {
 	t_env	*to_f;
@@ -57,4 +59,5 @@ void	unset_cmd(t_env **env, t_list *cmd)
 		}
 	}
 	free(args);
+	g_status = 0;
 }

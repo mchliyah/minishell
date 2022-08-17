@@ -14,6 +14,12 @@
 
 extern int g_status;
 
+void	chdirror(char *err)
+{
+	perror(err);
+	g_status = 1;
+}
+
 void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 {
 	char	*to_set;
@@ -35,10 +41,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	else
 		to_set = get_path(key, env);
 	if (chdir(to_set) == -1)
-	{
-		perror(to_set);
-		g_status = 1;
-	}
+		chdirror(to_set);
 	else
 		env = update_path(env, to_set, to_old);
 	if (chek)
@@ -48,10 +51,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 void	chdir_cd(t_env *env, char *to_set)
 {
 	if (chdir(to_set) == -1)
-	{
-		perror(to_set);
-		g_status = 1;
-	}
+		chdirror(to_set);
 	else
 	{
 		if (!strncmp("/", to_set, ft_strlen(to_set)))
@@ -70,6 +70,7 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 	char	*to_set;
 
 	to_set = NULL;
+	g_status = 0;
 	if (c_line->content->arg)
 		to_set = c_line->content->arg->content;
 	if (!c_line->content->arg && !get_path("HOME", env))

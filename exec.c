@@ -78,7 +78,6 @@ bool	open_pipe(t_data **data, t_list *cmd)
 	int	i;
 
 	i = 0;
-	(void)cmd;
 	if (!open_files(data, cmd))
 		return (false);
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
@@ -102,6 +101,7 @@ bool	open_pipe(t_data **data, t_list *cmd)
 	}
 	while (i < (*data)->pip_nb * 2)
 		close((*data)->p_fd[i++]);
+	close((*data)->fd_out);
 	return (true);
 }
 

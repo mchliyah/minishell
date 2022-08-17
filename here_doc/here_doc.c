@@ -26,7 +26,6 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	}
 	if (!pid)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, SIG_DFL);
 		while (tmp && tmp->next)
 		{

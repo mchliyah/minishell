@@ -14,7 +14,6 @@
 
 int	g_status;
 
-
 void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
@@ -54,9 +53,25 @@ int	init_pipes(t_data **data)
 	return (EXIT_SUCCESS);
 }
 
-void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
+void	wait_status(void)
 {
 	int	status;
+
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			g_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGQUIT)
+				printf("Quit\n");
+			g_status = 128 + WTERMSIG(status);
+		}
+	}
+}
+
+int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
+{
 	int	i;
 	int	fd;
 
@@ -71,30 +86,19 @@ void	extend_main(char *str_rln, t_data *data, t_p_line *pipeline)
 		while (i < data->pip_nb * 2)
 			close(data->p_fd[i++]);
 		if (fd > 0)
-		{
-			dup2(fd, 1);
-			close(fd);
-		}
-		while (wait(&status) > 0)
-		{
-			if (WIFEXITED(status))
-				g_status = WEXITSTATUS(status);
-			if (WIFSIGNALED(status))
-			{
-				if (WTERMSIG(status) == SIGQUIT)
-					printf("Quit\n");
-				g_status = 128 + WTERMSIG(status);
-			}
-		}
+			if (dup2(fd, 1))
+				close(fd);
+		wait_status();
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
 	}
+	return (1);
 }
 
-int SignalsEcho(void)
+int	SignalsEcho(void)
 {
 	struct termios		terminal;
- 
+
 	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
 		return -1;
 	terminal.c_lflag |= ~ISIG;
@@ -102,6 +106,16 @@ int SignalsEcho(void)
 	terminal.c_lflag ^= ECHOCTL;
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
 	return 0;
+}
+
+int	clean(char *str, t_p_line *pipeline, t_data *data)
+{
+	if (str)
+	{
+		free(pipeline);
+		free_data(data);
+	}
+	return (g_status);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -119,22 +133,17 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-	//SignalsEcho();
+	SignalsEcho();
 	while (!data->exit)
 	{
 		str_rln = readline("~m🤮n🤮she🤮🤮:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
-			extend_main(str_rln, data, pipeline);
+			get_tkn_exec(str_rln, data, pipeline);
 		else if (*str_rln == '\0')
 			g_status = 0;
+		free (str_rln);
 	}
-	if (str_rln)
-	{
-		free(pipeline);
-		free_data(data);
-	}
-	// rl_clear_history();
-	return (g_status);
+	return (clean(str_rln, pipeline, data));
 }

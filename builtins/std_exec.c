@@ -104,7 +104,6 @@ void	to_std(t_list *cmd, t_data **data)
 	int		path;
 	char	**envp;
 	char	**args;
-	// int		pid;
 	t_env	*env;
 
 	env = (*data)->env;

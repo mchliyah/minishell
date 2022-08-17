@@ -41,10 +41,14 @@ void	free_list(t_list *to_f)
 
 void	free_pipe(t_p_line *pipeline)
 {
+	t_p_line	*tmp;
+
 	while (pipeline->left_p)
 	{
+		tmp = pipeline;
 		free_list(pipeline->right);
 		pipeline = pipeline->left_p;
+		free(tmp);
 	}
 	if (pipeline->right)
 		free_list(pipeline->right);
@@ -65,7 +69,6 @@ void	free_env(t_env *env)
 		free(prev_env->pair);
 		free(prev_env);
 	}
-
 }
 
 void	free_data(t_data *data)

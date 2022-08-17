@@ -91,13 +91,8 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	{
 		args = arr_arg(c_line);
 		while (args[++i])
-		{
 			if (!check_add(args[i], exp, env))
-			{
-				g_status = 1;
 				return ;
-			}
-		}
 		free (args);
 	}
 	sort_exp(exp);

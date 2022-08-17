@@ -12,14 +12,16 @@
 
 #include "../includes/minishell.h"
 
+extern int g_status;
+
 void	pwd_cmd(t_env	*env)
 {
-	(void)env;
-	char *pwd;
+	char	*pwd;
 
 	pwd = getcwd(NULL, 1024);
 	if (!pwd)
 		pwd = get_path("PWD", env);
 	if (pwd)
 		printf("%s\n", pwd);
+	g_status = 0;
 }
