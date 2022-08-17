@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/16 15:47:00 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/18 00:29:03 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ RM = rm -f
 # ! files of the minishell
 FILES =	main.c\
 		init.c\
+		init_utils.c\
 		lexer/lexer.c\
 		lexer/check_rederections.c\
 		lexer/file_getter.c\

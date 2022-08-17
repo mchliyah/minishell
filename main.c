@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/12 23:30:48 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 00:40:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,6 @@ void	handle_sigint(int sig)
 	g_status = 1;
 }
 
-int	init_pipes(t_data **data)
-{
-	int			i;
-
-	(*data)->cmd_i = 0;
-	(*data)->p_in = 0;
-	(*data)->exit = 0;
-	(*data)->p_fd = NULL;
-	(*data)->fd_in = -1;
-	(*data)->fd_out = -1;
-	if ((*data)->pip_nb != 0)
-	{
-		(*data)->p_fd = malloc((2 * (*data)->pip_nb) * sizeof(int ));
-		i = 0;
-		while (i < (*data)->pip_nb)
-		{
-			if (pipe((*data)->p_fd + i * 2) < 0)
-			{
-				perror("pipe()");
-				exit(EXIT_FAILURE);
-			}
-			i++;
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-
 void	wait_status(void)
 {
 	int	status;
@@ -70,10 +43,10 @@ void	wait_status(void)
 	}
 }
 
-int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
+void	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 {
 	int	i;
-	int	fd;
+	int	fd0;
 	int	fd1;
 
 	add_history(str_rln);
@@ -81,36 +54,22 @@ int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 	{
 		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
-		fd = dup(1);
-		fd1 = dup(0);
+		fd0 = dup(0);
+		fd1 = dup(1);
 		iterator(pipeline, &data);
 		i = 0;
 		while (i < data->pip_nb * 2)
 			close(data->p_fd[i++]);
-		if (fd > 0)
-			if (dup2(fd, 1))
-				close(fd);
+		if (fd0 > 0)
+			if (dup2(fd0, 0))
+				close(fd0);
 		if (fd1 > 0)
-			if (dup2(fd1, 0))
+			if (dup2(fd1, 1))
 				close(fd1);
 		wait_status();
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
 	}
-	return (1);
-}
-
-int	SignalsEcho(void)
-{
-	struct termios		terminal;
-
-	if(tcgetattr(STDOUT_FILENO, &terminal)== -1)
-		return -1;
-	terminal.c_lflag |= ~ISIG;
-	terminal.c_cc[VSUSP] = 0;
-	terminal.c_lflag ^= ECHOCTL;
-	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
-	return 0;
 }
 
 int	clean(char *str, t_p_line *pipeline, t_data *data)
@@ -136,9 +95,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	data = init_data(ac, av, data, envp);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
-	SignalsEcho();
 	while (!data->exit)
 	{
 		str_rln = readline("~minishell:~");

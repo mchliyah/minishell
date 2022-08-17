@@ -6,11 +6,24 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:56:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 01:02:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 00:28:31 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	signalsecho(void)
+{
+	struct termios		terminal;
+
+	if (tcgetattr(STDOUT_FILENO, &terminal) == -1)
+		return (-1);
+	terminal.c_lflag |= ~ISIG;
+	terminal.c_cc[VSUSP] = 0;
+	terminal.c_lflag ^= ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
+	return (0);
+}
 
 char	*env_dup(char *tmp_val, int i, int j)
 {
@@ -72,29 +85,6 @@ t_env	*start(char **envp)
 	return (my_env);
 }
 
-void	shelvl(t_env **env)
-{
-	t_env	*tmp_env;
-	int		to_set;
-	char	*itoa_val;
-
-	tmp_env = *env;
-	itoa_val = NULL;
-	while (tmp_env)
-	{
-		if (!ft_strncmp(tmp_env->pair->key, "SHLVL",
-				ft_strlen(tmp_env->pair->key)))
-		{
-			to_set = ft_atoi(tmp_env->pair->value);
-			free(tmp_env->pair->value);
-			itoa_val = ft_itoa(to_set + 1);
-			tmp_env->pair->value = ft_strdup(itoa_val);
-			free(itoa_val);
-		}
-		tmp_env = tmp_env->next;
-	}
-}
-
 t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 {
 	(void)ac;
@@ -111,5 +101,8 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	shelvl(&data->env);
 	shelvl(&data->exp);
 	sort_exp(&data->exp);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	signalsecho();
 	return (data);
 }
