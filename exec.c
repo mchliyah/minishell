@@ -137,6 +137,8 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 			buuiltins(content, in_cmd, data);
 		else
 			to_std(in_cmd, data);
+		if ((*data)->pip_nb != 0)
+			exit(1);
 	}
 	return (true);
 }

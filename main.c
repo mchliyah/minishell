@@ -74,6 +74,7 @@ int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 {
 	int	i;
 	int	fd;
+	int	fd1;
 
 	add_history(str_rln);
 	if (generate_token(str_rln, &pipeline, &data) != 1)
@@ -81,6 +82,7 @@ int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 		signal(SIGINT, SIG_IGN);
 		init_pipes(&data);
 		fd = dup(1);
+		fd1 = dup(0);
 		iterator(pipeline, &data);
 		i = 0;
 		while (i < data->pip_nb * 2)
@@ -88,6 +90,9 @@ int	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 		if (fd > 0)
 			if (dup2(fd, 1))
 				close(fd);
+		if (fd1 > 0)
+			if (dup2(fd1, 0))
+				close(fd1);
 		wait_status();
 		free_pipe(pipeline);
 		signal(SIGINT, handle_sigint);
@@ -136,7 +141,7 @@ int	main(int ac, char **av, char **envp)
 	SignalsEcho();
 	while (!data->exit)
 	{
-		str_rln = readline("~m🤮n🤮she🤮🤮:~");
+		str_rln = readline("~minishell:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)
