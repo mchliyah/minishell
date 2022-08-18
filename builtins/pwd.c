@@ -22,6 +22,9 @@ void	pwd_cmd(t_env	*env)
 	if (!pwd)
 		pwd = get_path("PWD", env);
 	if (pwd)
+	{
 		printf("%s\n", pwd);
+		free(pwd);
+	}
 	g_status = 0;
 }

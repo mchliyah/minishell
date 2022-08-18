@@ -33,7 +33,11 @@ void	dup_path(t_env *tmp_env, char *to_set, char *to_up)
 		if (!strcmp(tmp_env->pair->key, to_up))
 		{
 			if (to_set)
+			{
+				if (tmp_env->pair->value)
+					free(tmp_env->pair->value);
 				tmp_env->pair->value = ft_strdup(to_set);
+			}
 			return ;
 		}
 		tmp_env = tmp_env->next;
@@ -59,5 +63,9 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 	dup_path(tmp_env, to_old, "OLDPWD");
 	tmp_env = env;
 	dup_path(tmp_env, to_set, "PWD");
+	if(to_old)
+		free(to_old);
+	if (to_set)
+		free(to_set);
 	return (env);
 }

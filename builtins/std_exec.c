@@ -79,9 +79,10 @@ void	std_exec(t_list *cmd, t_data **data, char **envp, char **args)
 {
 	char	**path;
 	char	*cmand;
-	t_env	*env;
+	// t_env	*env;
 
-	env = (*data)->env;
+	// env = (*data)->env;
+	(void)data;
 	if (access(cmd->content->content, X_OK) == 0)
 		execve(cmd->content->content, args, envp);
 	else

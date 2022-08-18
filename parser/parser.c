@@ -46,7 +46,7 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 	}
 	else
 		simple_cmd(pipeline, lst_token);
-	// free_list(lst_token);
+	free_list(lst_token);
 	return (*pipeline);
 }
 

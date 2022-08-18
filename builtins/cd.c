@@ -44,12 +44,17 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 		chdirror(to_set);
 	else
 		env = update_path(env, to_set, to_old);
-	if (chek)
+	if (to_set)
 		free(to_set);
+	if (to_old)
+		free(to_old);
 }
 
 void	chdir_cd(t_env *env, char *to_set)
 {
+	char	*tmp;
+
+	tmp = NULL;
 	if (chdir(to_set) == -1)
 		chdirror(to_set);
 	else
@@ -58,9 +63,12 @@ void	chdir_cd(t_env *env, char *to_set)
 			env = update_path(env, to_set, get_path("PWD", env));
 		else
 		{
+			tmp = to_set;
 			to_set = ft_strjoin("/", to_set);
 			to_set = ft_strjoin(get_path("PWD", env), to_set);
 			env = update_path(env, to_set, get_path("PWD", env));
+			if (tmp)
+				free(tmp);
 		}
 	}
 }
