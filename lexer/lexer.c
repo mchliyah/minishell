@@ -26,7 +26,7 @@ t_token	*get_pipe(t_lexer **lex, int first)
 	{
 		if ((*lex)->c != EPIPE)
 			break ;
-		str = join_string(str, (*lex)->c);
+		join_string(&str, (*lex)->c);
 		*lex = advance(*lex);
 		while ((*lex)->c == SPACE)
 			*lex = advance(*lex);

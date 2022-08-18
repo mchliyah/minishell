@@ -61,20 +61,19 @@ int	scan_args_staff(t_arg *token, int i)
 	return (0);
 }
 
-t_arg	*scan_args(t_arg *arg, t_env *env)
+int	scan_args(t_arg **arg, t_env *env)
 {
 	t_arg	*token;
 	int		i;
 
-	i = 0;
-	token = arg;
+	token = *arg;
 	while (token)
 	{
 		i = 0;
 		if (scan_args_staff(token, i) == 1)
-			return (NULL);
+			return (false);
 		token = token->next;
 	}
-	token = remove_quoted_args(arg, env);
-	return (token);
+	*arg = remove_quoted_args(*arg, env);
+	return (true);
 }

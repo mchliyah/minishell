@@ -68,7 +68,7 @@ char	*variable_expander(char *s, t_env *env)
 		if (s[i] == '$' && (s[i + 1] == '?'
 				|| ft_isalnum(s[i + 1])))
 			i = expend_var(&str, i, s, env);
-		str = join_string(str, s[i]);
+		join_string(&str, s[i]);
 		i++;
 	}
 	return (str);
@@ -148,7 +148,7 @@ char	*string_getter(char *s, int *i, t_env *env)
 			(*i)++;
 		else
 		{
-			str = join_string(str, s[*i]);
+			join_string(&str, s[*i]);
 			(*i)++;
 		}
 		if (s[*i] == SINGLE_QUOTE || s[*i] == L_DOUBLE_QUOTE)
@@ -159,6 +159,7 @@ char	*string_getter(char *s, int *i, t_env *env)
 
 char	*arg_iterator(char *content, t_env *env)
 {
+	char	*tmp;
 	char	*saver;
 	char	*c;
 	int		i;
@@ -176,7 +177,10 @@ char	*arg_iterator(char *content, t_env *env)
 			c = string_getter(content, &i, env);
 			i--;
 		}
-		saver = ft_strjoin(saver, c);
+		tmp = ft_strjoin(saver, c);
+		free(saver);
+		saver = tmp;
+		free(c);
 		i++;
 	}
 	free(content);

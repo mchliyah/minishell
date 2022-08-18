@@ -11,18 +11,19 @@
 # **************************************************************************** #
 
 NAME = minishell
-CC = clang
+CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
-READFLAG = -lreadline -L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
-
+#READFLAG = -lreadline -L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
+READFLAG = -lreadline -L /goinfre/ael-mous/.brew/opt/readline/lib -I /goinfre/ael-mous/.brew/opt/readline/include
 RM = rm -f
 #########################
 # ! files of the minishell
 FILES =	main.c\
 		init.c\
 		init_utils.c\
+		lexer/free_lexer.c\
 		lexer/lexer.c\
 		lexer/check_rederections.c\
 		lexer/file_getter.c\
@@ -65,7 +66,7 @@ FILES =	main.c\
 OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $^ -o $@
+	@$(CC) -g $(CFLAGS) -c $^ -o $@
 
 LIBFT = ./libft
 ARLIB = $(LIBFT)/libft.a
@@ -89,7 +90,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME)
+	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME)
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

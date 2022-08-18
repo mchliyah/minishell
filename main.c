@@ -43,6 +43,20 @@ void	wait_status(void)
 	}
 }
 
+void	dup_std_fd(int fd0, int fd1)
+{
+	if (fd0 > 0)
+	{
+		dup2(fd0, 0);
+		close(fd0);
+	}
+	if (fd1 > 0)
+	{
+		dup2(fd1, 1);
+		close(fd1);
+	}
+}
+
 void	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 {
 	int	i;
@@ -60,14 +74,10 @@ void	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 		i = 0;
 		while (i < data->pip_nb * 2)
 			close(data->p_fd[i++]);
-		if (fd0 > 0)
-			if (dup2(fd0, 0))
-				close(fd0);
-		if (fd1 > 0)
-			if (dup2(fd1, 1))
-				close(fd1);
 		wait_status();
+		dup_std_fd(fd0, fd1);
 		free_pipe(pipeline);
+		free_parser_data(&data);
 		signal(SIGINT, handle_sigint);
 	}
 }
@@ -105,6 +115,7 @@ int	main(int ac, char **av, char **envp)
 		else if (*str_rln == '\0')
 			g_status = 0;
 		free (str_rln);
+		system("leaks minishell");
 	}
 	return (clean(str_rln, pipeline, data));
 }

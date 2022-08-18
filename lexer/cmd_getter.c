@@ -21,11 +21,11 @@ char	*get_s_quote(t_lexer **this)
 		return (s);
 	while ((*this)->c)
 	{
-		s = join_string(s, (*this)->c);
+		join_string(&s, (*this)->c);
 		*this = advance(*this);
 		if ((*this)->c == SINGLE_QUOTE)
 		{
-			s = join_string(s, (*this)->c);
+			join_string(&s, (*this)->c);
 			break ;
 		}
 	}
@@ -34,6 +34,7 @@ char	*get_s_quote(t_lexer **this)
 
 char	*get_c_word(t_lexer **this)
 {
+	char	*tmp;
 	char	*s;
 
 	s = ft_strdup("");
@@ -42,11 +43,19 @@ char	*get_c_word(t_lexer **this)
 	while ((*this)->c)
 	{
 		if ((*this)->c == L_DOUBLE_QUOTE)
-			s = ft_strjoin(s, get_quote_things(this));
+		{
+			tmp = get_quote_things(this);
+			s = ft_strjoin(s, tmp);
+			free(tmp);
+		}
 		else if ((*this)->c == SINGLE_QUOTE)
-			s = ft_strjoin(s, get_s_quote(this));
+		{
+			tmp = get_s_quote(this);
+			s = ft_strjoin(s, tmp);
+			free(tmp);
+		}
 		else
-			s = join_string(s, (*this)->c);
+			join_string(&s, (*this)->c);
 		if ((*this)->c == EPIPE || (*this)->c == LESS
 			|| (*this)->c == GREATER || (*this)->c == SPACE)
 			break ;
@@ -82,6 +91,7 @@ int	cmd_checker(t_lexer **lex)
 char	*cmd_getter(t_lexer **lex)
 {
 	char	*ptr;
+	char	*tmp;
 	char	*s;
 
 	ptr = ft_strdup("");
@@ -100,7 +110,10 @@ char	*cmd_getter(t_lexer **lex)
 			s = get_s_quote(lex);
 		else
 			s = get_c_word(lex);
-		ptr = ft_strjoin(ptr, s);
+		tmp = ft_strjoin(ptr, s);
+		free(ptr);
+		ptr = tmp;
+		free(s);
 		if (cmd_checker(lex))
 			break ;
 	}

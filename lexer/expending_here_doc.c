@@ -49,7 +49,7 @@ char	*h_string_getter(char *s, int i, t_env *env)
 		}
 		else
 		{
-			str = join_string(str, s[i]);
+			join_string(&str, s[i]);
 			i++;
 		}
 	}
