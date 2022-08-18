@@ -104,26 +104,24 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		else if (is_rederiction(var.token))
 			var.was_rederection = 1;
 		var.first = 0;
-		//var.lst_token = linked_token(var.lst_token, var.token);
+		var.lst_token = linked_token(var.lst_token, var.token);
 	}
-	printf("--%s\n", var.token->content);
 	if (!check_gaven_file_rd(var.lst_token))
 	{
 		free_lexer_var(var);
 		return (EXIT_FAILURE);
 	}
 	free(var.lexer);
-	HERE;
-//	while (var.token->arg)
-//	{
-//		free(var.token->arg->content);
-//		free(var.token->arg);
-//		var.token->arg = var.token->arg->next;
-//	}
-//	free(var.token->arg);
-//	free(var.token->content);
-//	free(var.token);
-//	return (1);
+	while (var.token->arg)
+	{
+		free(var.token->arg->content);
+		free(var.token->arg);
+		var.token->arg = var.token->arg->next;
+	}
+	free(var.token->arg);
+	free(var.token->content);
+	free(var.token);
+	return (1);
 	*pipeline = to_tree(pipeline, var.lst_token, data);
 	return (EXIT_SUCCESS);
 }
