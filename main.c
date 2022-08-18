@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/18 00:40:07 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:20:30 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
-		str_rln = readline("~minishell:~");
+		str_rln = readline("~mi🙂nish🙂ell:~");
 		if (!str_rln)
 			break ;
 		if (*str_rln)

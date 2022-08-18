@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 00:27:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:23:25 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 		chdirror(to_set);
 	else
 		env = update_path(env, to_set, to_old);
-	if (to_set)
-		free(to_set);
-	if (to_old)
-		free(to_old);
+	// if (to_set)
+	// 	free(to_set);
+	// if (to_old)
+	// 	free(to_old);
 }
 
 void	chdir_cd(t_env *env, char *to_set)
