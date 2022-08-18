@@ -112,16 +112,6 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		return (EXIT_FAILURE);
 	}
 	free(var.lexer);
-	while (var.token->arg)
-	{
-		free(var.token->arg->content);
-		free(var.token->arg);
-		var.token->arg = var.token->arg->next;
-	}
-	free(var.token->arg);
-	free(var.token->content);
-	free(var.token);
-	return (1);
 	*pipeline = to_tree(pipeline, var.lst_token, data);
 	return (EXIT_SUCCESS);
 }
