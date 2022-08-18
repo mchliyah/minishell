@@ -21,11 +21,11 @@ char	*get_quote_things(t_lexer **this)
 		return (s);
 	while ((*this)->c)
 	{
-		s = join_string(s, (*this)->c);
+		join_string(&s, (*this)->c);
 		*this = advance(*this);
 		if ((*this)->c == R_DOUBLE_QUOTE)
 		{
-			s = join_string(s, (*this)->c);
+			join_string(&s, (*this)->c);
 			break ;
 		}
 	}
@@ -42,13 +42,13 @@ char	*get_s_quote_things(t_lexer **this)
 		return (s);
 	while ((*this)->c)
 	{
-		s = join_string(s, (*this)->c);
+		join_string(&s, (*this)->c);
 		*this = advance(*this);
 		c = (*this)->content[(*this)->i + 1];
 		if ((*this)->c == SINGLE_QUOTE && (c == SPACE || c == EPIPE
 				|| c == LESS || c == GREATER))
 		{
-			s = join_string(s, (*this)->c);
+			join_string(&s, (*this)->c);
 			break ;
 		}
 		else if ((*this)->c == SINGLE_QUOTE && (ft_isalnum(c) || c == SPACE))
@@ -58,7 +58,7 @@ char	*get_s_quote_things(t_lexer **this)
 				if ((*this)->c == SPACE || (*this)->c == EPIPE
 					|| (*this)->c == LESS || (*this)->c == GREATER)
 					return (s);
-				s = join_string(s, (*this)->c);
+				join_string(&s, (*this)->c);
 				*this = advance(*this);
 			}
 		}
@@ -80,7 +80,7 @@ char	*get_s_word(t_lexer **this)
 		else if ((*this)->c == SINGLE_QUOTE)
 			s = ft_strjoin(s, get_s_quote_things(this));
 		else
-			s = join_string(s, (*this)->c);
+			join_string(&s, (*this)->c);
 		if ((*this)->c == EPIPE || (*this)->c == LESS
 			|| (*this)->c == GREATER || (*this)->c == SPACE)
 			break ;

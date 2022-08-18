@@ -46,16 +46,15 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 	}
 	else
 		simple_cmd(pipeline, lst_token);
-	// free_list(lst_token);
+	free_list(lst_token);
 	return (*pipeline);
 }
 
-int	check_token(t_token *token, t_data **data, int was_rd)
+int	check_token(t_token **token, t_data **data, int was_rd)
 {
 	if (!token)
 		return (0);
-	token = scan_errs(token, (*data)->env, was_rd);
-	if (!token)
+	if (!scan_errs(token, (*data)->env, was_rd))
 		return (0);
 	return (2);
 }
@@ -94,19 +93,37 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	while (var.lexer->i < var.lexer->str_len)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
-		if (!check_token(var.token, data, var.was_rederection))
+		if (!check_token(&var.token, data, var.was_rederection))
+		{
+			free_lexer_var(var);
 			return (EXIT_FAILURE);
+		}
 		var.was_rederection = 0;
 		if (var.token->type == DELIMITER)
 			var.was_rederection = 2;
 		else if (is_rederiction(var.token))
 			var.was_rederection = 1;
 		var.first = 0;
-		var.lst_token = linked_token(var.lst_token, var.token);
+		//var.lst_token = linked_token(var.lst_token, var.token);
+	}
+	printf("--%s\n", var.token->content);
+	if (!check_gaven_file_rd(var.lst_token))
+	{
+		free_lexer_var(var);
+		return (EXIT_FAILURE);
 	}
 	free(var.lexer);
-	if (!check_gaven_file_rd(var.lst_token))
-		return (EXIT_FAILURE);
+	HERE;
+//	while (var.token->arg)
+//	{
+//		free(var.token->arg->content);
+//		free(var.token->arg);
+//		var.token->arg = var.token->arg->next;
+//	}
+//	free(var.token->arg);
+//	free(var.token->content);
+//	free(var.token);
+//	return (1);
 	*pipeline = to_tree(pipeline, var.lst_token, data);
 	return (EXIT_SUCCESS);
 }

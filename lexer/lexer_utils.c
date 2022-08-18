@@ -13,37 +13,24 @@
 #include "../includes/minishell.h"
 
 
-//
-//int	ft_is_symbol(char c)
-//{
-//	if (c == EPIPE || c == LESS || c == GREATER || c == SPACE || c == '\0')
-//		return (1);
-//	return (0);
-//}
 
-char	*join_string(char *ptr, char c)
+void	join_string(char **ptr, char c)
 {
 	char	*j_str;
 	char	*str;
 
 	str = malloc(2 * sizeof(char));
 	if (!str)
-		return (NULL);
+		exit(1);
 	ft_bzero(str, 2);
 	str[0] = c;
-	j_str = ft_strjoin(ptr, str);
+	j_str = ft_strjoin(*ptr, str);
 	if (!j_str)
-		return (NULL);
-	return (j_str);
+		exit(1);
+	free(str);
+	free(*ptr);
+	*ptr = j_str;
 }
-
-/*
- *   -------------------------------------
- * 	 function for member of get_char() !!
- * 	 -----------------------------------
-  	 !  "ls""| pwd  should be fixed
-  	 todo there is a mistake here in quote counter !!
-*/
 
 char	*get_l_quote(t_lexer **lex, char	*ptr)
 {

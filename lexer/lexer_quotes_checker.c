@@ -54,31 +54,30 @@ int	check_s_quote(t_token *token, int *i)
 }
 
 
-t_token	*scan_errs(t_token *token, t_env *env, int was_rd)
+bool	scan_errs(t_token **token, t_env *env, int was_rd)
 {
 	t_arg	*tmp;
 	int		i;
 
 	i = 0;
-	while (token->content[i])
+	while ((*token)->content[i])
 	{
-		if (token->content[i] == L_DOUBLE_QUOTE)
+		if ((*token)->content[i] == L_DOUBLE_QUOTE)
 		{
-			if (!check_quote(token, &i))
+			if (!check_quote((*token), &i))
 				return (NULL);
 		}
-		else if (token->content[i] == SINGLE_QUOTE)
-			if (!check_s_quote(token, &i))
-				return (NULL);
+		else if ((*token)->content[i] == SINGLE_QUOTE)
+			if (!check_s_quote((*token), &i))
+				return (false);
 		i++;
 	}
-	tmp = token->arg;
+	tmp = (*token)->arg;
 	if (tmp)
 	{
-		token->arg = scan_args(tmp, env);
-		if (!token->arg)
+		if (!scan_args(&(*token)->arg, env))
 			return (NULL);
 	}
-	token = scan_vars(token, env, was_rd);
-	return (token);
+	scan_vars((*token), env, was_rd);
+	return (true);
 }
