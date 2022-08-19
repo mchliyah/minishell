@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/19 18:57:24 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:30:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,12 @@ int	main(int ac, char **av, char **envp)
 	if (!data)
 		return (1);
 	g_status = 0;
-	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
-		pipeline = malloc(sizeof(t_p_line));
-		str_rln = readline("~mi🙂nish🙂ell:~");
+		str_rln = readline("~mi🙂nish🙂ell:~ ");
 		if (!str_rln)
 			break ;
+		pipeline = malloc(sizeof(t_p_line));
 		if (*str_rln)
 			get_tkn_exec(str_rln, data, pipeline);
 		else if (*str_rln == '\0')
@@ -107,7 +106,6 @@ int	main(int ac, char **av, char **envp)
 		free(pipeline);
 		pipeline = NULL;
 	}
-	free(pipeline);
-	free_data(data);;
+	free_data(data);
 	return (g_status);
 }

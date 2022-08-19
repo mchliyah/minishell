@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 00:26:36 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 00:27:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:13:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	shelvl(t_env **env)
 	itoa_val = NULL;
 	while (tmp_env)
 	{
-		if (!ft_strncmp(tmp_env->pair->key, "SHLVL",
-				ft_strlen(tmp_env->pair->key)))
+		if (!ft_strcmp(tmp_env->pair->key, "SHLVL"))
 		{
 			to_set = ft_atoi(tmp_env->pair->value);
 			free(tmp_env->pair->value);
