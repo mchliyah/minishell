@@ -73,7 +73,7 @@ char	*get_s_word(t_lexer **this)
 	s = ft_strdup("");
 	if (!s)
 		return (s);
-	while ((*this)->c)
+	while ((*this)->c != '\0')
 	{
 		if ((*this)->c == L_DOUBLE_QUOTE)
 			s = ft_strjoin(s, get_quote_things(this));

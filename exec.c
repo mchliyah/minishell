@@ -51,7 +51,10 @@ void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 	else if (iterator->content->type == REDIRECT_OUT
 		|| iterator->content->type == LESSGREAT)
 	{
-		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		if (iterator->content->type == LESSGREAT)
+			(*data)->fd_in = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		else
+				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if ((*data)->fd_out < 0)
 			fd_error_exit("open");
 	}

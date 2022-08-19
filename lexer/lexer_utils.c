@@ -53,6 +53,7 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 	return (ptr);
 }
 
+// leaks !!
 char	*check_for_args(t_lexer **lex)
 {
 	char	*ptr;
@@ -92,7 +93,7 @@ t_arg	*get_args(t_lexer **lex)
 			while ((*lex)->c == SPACE)
 				*lex = advance(*lex);
 			if ((*lex)->c == EOS)
-				return (NULL);
+				break ;
 		}
 		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
 			break ;
