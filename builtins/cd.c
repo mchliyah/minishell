@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 18:23:25 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:24:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 			while (i != 0 && to_set[i] != '/')
 				i--;
 			to_set[i + 1] = '\0';
+			i = 1;
 		}
 	}
 	else
@@ -44,10 +45,8 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 		chdirror(to_set);
 	else
 		env = update_path(env, to_set, to_old);
-	// if (to_set)
-	// 	free(to_set);
-	// if (to_old)
-	// 	free(to_old);
+	if (i)
+		free(to_set);
 }
 
 void	chdir_cd(t_env *env, char *to_set)
@@ -65,10 +64,11 @@ void	chdir_cd(t_env *env, char *to_set)
 		{
 			tmp = to_set;
 			to_set = ft_strjoin("/", to_set);
+			free(tmp);
+			tmp = to_set;
 			to_set = ft_strjoin(get_path("PWD", env), to_set);
+			free(tmp);
 			env = update_path(env, to_set, get_path("PWD", env));
-			if (tmp)
-				free(tmp);
 		}
 	}
 }
@@ -80,7 +80,7 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 	to_set = NULL;
 	g_status = 0;
 	if (c_line->content->arg)
-		to_set = c_line->content->arg->content;
+		to_set = ft_strdup(c_line->content->arg->content);
 	if (!c_line->content->arg && !get_path("HOME", env))
 	{
 		printf("cd: HOME not set\n");

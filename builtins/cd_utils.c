@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:56:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 18:23:33 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:22:45 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	dup_path(t_env *tmp_env, char *to_set, char *to_up)
 			if (to_set)
 			{
 				if (tmp_env->pair->value)
-				// 	free(tmp_env->pair->value);
+					// free(tmp_env->pair->value);
 				tmp_env->pair->value = ft_strdup(to_set);
 			}
 			return ;
@@ -63,9 +63,7 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 	dup_path(tmp_env, to_old, "OLDPWD");
 	tmp_env = env;
 	dup_path(tmp_env, to_set, "PWD");
-	if(to_old)
+	if (to_old)
 		free(to_old);
-	if (to_set)
-		free(to_set);
 	return (env);
 }
