@@ -83,19 +83,22 @@ t_gen_tok	generate_init(char *rln_str, t_data **data)
 	return (var);
 }
 
-void	index_heredoc(t_data **data)
+int	index_heredoc(t_data **data)
 {
+	int		max;
 	t_list	*list;
 	int		indx;
 	int		there;
 
 	indx = 0;
 	there = 0;
+	max = 0;
 	list = (*data)->lst_tok;
 	while (list)
 	{
 		if (list->content->type == DELIMITER)
 		{
+			max++;
 			list->content->indx = indx;
 			there = 1;
 		}
@@ -106,16 +109,24 @@ void	index_heredoc(t_data **data)
 		}
 		list = list->next;
 	}
+	return (max);
 }
 
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
+	t_arg	*a;
 	t_gen_tok	var;
 
 	var = generate_init(rln_str, data);
 	while (var.lexer->i < var.lexer->str_len)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
+		a = var.token->arg;
+		while (a)
+		{
+			printf("=>|%s|\n", a->content);
+			a = a->next;
+		}
 		if (!check_token(&var.token, data, var.was_rederection))
 		{
 			free_lexer_var(var);
@@ -130,7 +141,11 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		(*data)->lst_tok = linked_token((*data)->lst_tok, var.token);
 	}
 	free(var.lexer);
-	index_heredoc(data);
+	if (index_heredoc(data) > 16)
+	{
+		ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
+		return (1);
+	}
 	get_here_doc((*data)->lst_tok, data);
 	*pipeline = to_tree(pipeline, (*data)->lst_tok, data);
 	if (!check_gaven_file_rd((*data)->lst_tok))

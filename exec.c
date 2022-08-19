@@ -51,7 +51,10 @@ void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 	else if (iterator->content->type == REDIRECT_OUT
 		|| iterator->content->type == LESSGREAT)
 	{
-		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		if (iterator->content->type == LESSGREAT)
+			(*data)->fd_in = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		else
+				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if ((*data)->fd_out < 0)
 			fd_error_exit("open");
 	}
@@ -109,6 +112,13 @@ bool	open_pipe(t_data **data, t_list *cmd)
 			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
 				return (false);
 	}
+	while (i < (*data)->here_size)
+	{
+		close((*data)->here_fd[i][0]);
+		close((*data)->here_fd[i][1]);
+		i++;
+	}
+	i = 0;
 	while (i < (*data)->pip_nb * 2)
 		close((*data)->p_fd[i++]);
 	close((*data)->fd_out);

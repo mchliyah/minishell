@@ -28,6 +28,20 @@ int	count_here(t_list *list)
 	return (counter);
 }
 
+bool	is_heredoc_next(int index, t_list *cmd)
+{
+	t_list *cur;
+
+	cur = cmd;
+	while (cur)
+	{
+		if (cur->content->type == DELIMITER && cur->content->indx == index)
+			return (true);
+		cur = cur->next;
+	}
+	return (false);
+}
+
 int	here_doc(t_list *cmd, t_data **data)
 {
 	char	*str;
@@ -41,12 +55,17 @@ int	here_doc(t_list *cmd, t_data **data)
 			break ;
 		if (check_for_variables(str))
 			str = h_string_getter(str, 0, (*data)->env);
-		ft_putstr_fd(str, (*data)->here_fd[indx][1]);
-		ft_putstr_fd("\n", (*data)->here_fd[indx][1]);
+		close((*data)->here_fd[indx][0]);
+		if (!is_heredoc_next(cmd->content->indx, cmd->next))
+		{
+			ft_putstr_fd(str, (*data)->here_fd[indx][1]);
+			ft_putstr_fd("\n", (*data)->here_fd[indx][1]);
+		}
 		free(str);
 	}
 	return (1);
 }
+
 
 int	get_here_doc(t_list *cmd, t_data **data)
 {
@@ -57,6 +76,7 @@ int	get_here_doc(t_list *cmd, t_data **data)
 
 	tmp = cmd;
 	count = count_here(tmp);
+	(*data)->here_size = count;
 	i = 0;
 	if (count)
 	{
@@ -80,12 +100,18 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		while (tmp)
 		{
 			if (tmp->content->type == DELIMITER)
-				if (!here_doc(tmp, data))
-					exit (1);
+			{
+				here_doc(tmp, data);
+			}
 			tmp = tmp->next;
 		}
+		i = 0;
 		while (i < count)
-			close((*data)->here_fd[i++][1]);
+		{
+			close((*data)->here_fd[i][0]);
+			close((*data)->here_fd[i][1]);
+			i++;
+		}
 		exit (0);
 	}
 	else
