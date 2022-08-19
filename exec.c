@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 00:38:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 01:57:40 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 	{
 		if (iterator->content->type == DELIMITER)
 		{
-			(*data)->fd_in = open(TMP_FILE, O_RDONLY);
+			(*data)->fd_in = (*data)->here_fd[iterator->content->indx][0];
 			if ((*data)->fd_in < 0)
 				fd_error_exit("open");
 		}

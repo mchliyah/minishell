@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 01:04:07 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 03:01:07 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ void	echo(t_list *cmd);
 void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
 // here doc
-int	get_here_doc(t_list *cmd, t_data **data);
+int		get_here_doc(t_list *cmd, t_data **data);
 int		check_for_heredoc(t_p_line *pipe, t_data **data);
-int		here_doc(char *key_stop, t_data **data);
 void	shelvl(t_env **env);
 
 

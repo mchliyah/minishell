@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/18 18:20:30 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:23:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 			close(data->p_fd[i++]);
 		wait_status();
 		dup_std_fd(fd0, fd1);
-		free_pipe(pipeline);
 		free_parser_data(&data);
 		signal(SIGINT, handle_sigint);
 	}
@@ -99,7 +98,6 @@ int	main(int ac, char **av, char **envp)
 	t_data		*data;
 
 	data = NULL;
-	pipeline = malloc(sizeof(t_p_line));
 	data = init_data(ac, av, data, envp);
 	if (!data)
 		return (1);
@@ -107,6 +105,7 @@ int	main(int ac, char **av, char **envp)
 	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
+		pipeline = malloc(sizeof(t_p_line));
 		str_rln = readline("~mi🙂nish🙂ell:~");
 		if (!str_rln)
 			break ;
@@ -115,6 +114,10 @@ int	main(int ac, char **av, char **envp)
 		else if (*str_rln == '\0')
 			g_status = 0;
 		free (str_rln);
+		free_list(data->lst_tok);
+		free_pipe(pipeline);
+		free(pipeline);
+		pipeline = NULL;
 		system("leaks minishell");
 	}
 	return (clean(str_rln, pipeline, data));

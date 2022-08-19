@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 23:44:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 23:51:08 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:03:21 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
+	t_arg	*arg;
+	
+	arg = NULL;
 	while (to_copy && to_copy->content->type != PIPE)
 	{
 		if (!ret)
 			ret = ft_lstnew(to_copy->content);
 		else
 			ft_lstadd_back(&ret, ft_lstnew(to_copy->content));
+		// free(to_copy->content->content);
+		// while (to_copy->content->arg)
+		// {
+		// 	arg = to_copy->content->arg;
+		// 	free(to_copy->content->arg->content);
+		// 	to_copy->content->arg = to_copy->content->arg->next;
+		// 	free(arg);
+		// }
+		// free(to_copy->content);
 		to_copy = to_copy->next;
 	}
 	return (ret);

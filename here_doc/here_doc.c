@@ -6,17 +6,66 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 00:55:01 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 03:03:58 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	count_here(t_list *list)
+{
+	int		counter;
+	t_list	*lst;
+
+	counter = 0;
+	lst = list;
+	while (lst)
+	{
+		if (lst->content->type == DELIMITER && lst->content->indx != -1)
+			counter = lst->content->indx + 1;
+		lst = lst->next;
+	}
+	return (counter);
+}
+
+int	here_doc(t_list *cmd, t_data **data)
+{
+	char	*str;
+	int		indx;
+
+	indx = cmd->content->indx;
+	while (1)
+	{
+		str = readline("> ");
+		if (!str || !ft_strcmp(str, cmd->next->content->content))
+			break ;
+		if (check_for_variables(str))
+			str = h_string_getter(str, 0, (*data)->env);
+		ft_putstr_fd(str, (*data)->here_fd[indx][1]);
+		ft_putstr_fd("\n", (*data)->here_fd[indx][1]);
+		free(str);
+	}
+	return (1);
+}
+
 int	get_here_doc(t_list *cmd, t_data **data)
 {
 	t_list	*tmp;
 	int		pid;
+	int		count;
+	int		i;
 
+	count = count_here(cmd);
+	i = 0;
+	if (count)
+	{
+		(*data)->here_fd = malloc(sizeof(int *) * count);
+		while (i < count)
+			(*data)->here_fd[i++] = malloc(sizeof(int) * 2);
+		i = 0;
+		while (i < count)
+			pipe((*data)->here_fd[i++]);
+	}
 	tmp = cmd;
 	pid = fork();
 	if (pid == -1)
@@ -27,13 +76,15 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	if (!pid)
 	{
 		signal(SIGINT, SIG_DFL);
-		while (tmp && tmp->next)
+		while (tmp)
 		{
 			if (tmp->content->type == DELIMITER)
-				if (!here_doc(tmp->next->content->content, data))
+				if (!here_doc(tmp, data))
 					exit (1);
 			tmp = tmp->next;
 		}
+		while (i < count)
+			close((*data)->here_fd[i++][1]);
 		exit (0);
 	}
 	else
@@ -41,27 +92,9 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	return (1);
 }
 
-int	here_doc(char *key_stop, t_data **data)
-{
-	int		tmpfile;
-	char	*str;
+// char	*get_pipe_fd(char *key, t_data *data, t_p_line *pipe)
+// {
+// 	int	*here_fd;
 
-	tmpfile = open(TMP_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tmpfile < 0)
-	{
-		perror("HEREDOC");
-		return (0);
-	}
-	while (1)
-	{
-		str = readline("> ");
-		if (!str || !ft_strcmp(str, key_stop))
-			break ;
-		if (check_for_variables(str))
-			str = h_string_getter(str, 0, (*data)->env);
-		ft_putstr_fd(str, tmpfile);
-		ft_putstr_fd("\n", tmpfile);
-		free(str);
-	}
-	return (1);
-}
+// 	here_fd = malloc(count_here(pipe) * 2);
+// }

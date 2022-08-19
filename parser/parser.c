@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/14 01:33:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 02:50:51 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 			}
 			lst_token = lst_token->next;
 		}
-		// free_list(lst_token);
 	}
 	else
 		simple_cmd(pipeline, lst_token);
-	free_list(lst_token);
 	return (*pipeline);
 }
 
@@ -68,12 +66,12 @@ int	is_rederiction(t_token *token)
 	return (false);
 }
 
-t_gen_tok	generate_init(char *rln_str)
+t_gen_tok	generate_init(char *rln_str, t_data **data)
 {
 	t_gen_tok	var;
 
 	var.lexer = NULL;
-	var.lst_token = NULL;
+	(*data)->lst_tok = NULL;
 	var.first = 1;
 	var.lexer = init_lex(var.lexer, rln_str);
 	if (!var.lexer)
@@ -85,11 +83,36 @@ t_gen_tok	generate_init(char *rln_str)
 	return (var);
 }
 
+void	index_heredoc(t_data **data)
+{
+	t_list	*list;
+	int		indx;
+	int		there;
+
+	indx = 0;
+	there = 0;
+	list = (*data)->lst_tok;
+	while (list)
+	{
+		if (list->content->type == DELIMITER)
+		{
+			list->content->indx = indx;
+			there = 1;
+		}
+		else if (list->content->type == PIPE && there)
+		{
+			indx++;
+			there = 0;
+		}
+		list = list->next;
+	}
+}
+
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
 	t_gen_tok	var;
 
-	var = generate_init(rln_str);
+	var = generate_init(rln_str, data);
 	while (var.lexer->i < var.lexer->str_len)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
@@ -104,14 +127,16 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		else if (is_rederiction(var.token))
 			var.was_rederection = 1;
 		var.first = 0;
-		var.lst_token = linked_token(var.lst_token, var.token);
+		(*data)->lst_tok = linked_token((*data)->lst_tok, var.token);
 	}
-	if (!check_gaven_file_rd(var.lst_token))
+	free(var.lexer);
+	index_heredoc(data);
+	get_here_doc((*data)->lst_tok, data);
+	*pipeline = to_tree(pipeline, (*data)->lst_tok, data);
+	if (!check_gaven_file_rd((*data)->lst_tok))
 	{
 		free_lexer_var(var);
 		return (EXIT_FAILURE);
 	}
-	free(var.lexer);
-	*pipeline = to_tree(pipeline, var.lst_token, data);
 	return (EXIT_SUCCESS);
 }

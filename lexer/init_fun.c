@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 14:17:30 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/06/27 22:20:51 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 01:06:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_token	*init_token(char *str, int type, t_arg *args)
 	token->type = type;
 	token->content = str;
 	token->arg = args;
+	token->indx = -1;
 	return (token);
 }
 

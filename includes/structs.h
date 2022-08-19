@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 23:54:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 01:04:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_args
 typedef struct s_token
 {
 	int		type;
+	int		indx;
 	char	*content;
 	t_arg	*arg;
 
@@ -115,15 +116,17 @@ typedef struct s_files
 
 typedef struct s_data
 {
-	t_env	*env;
-	t_env	*exp;
-	int		exit;
-	int		pip_nb;
-	int		*p_fd;
-	int		fd_in;
-	int		fd_out;
-	int		p_in;
-	int		cmd_i;
+	t_env		*env;
+	t_env		*exp;
+	t_list		*lst_tok;
+	int			exit;
+	int			pip_nb;
+	int			*p_fd;
+	int			fd_in;
+	int			fd_out;
+	int			p_in;
+	int			cmd_i;
+	int			**here_fd;
 }	t_data;
 
 typedef struct s_genr_tok
@@ -132,7 +135,6 @@ typedef struct s_genr_tok
 	int			was_rederection;
 	t_token		*token;
 	t_lexer		*lexer;
-	t_list		*lst_token;
 }	t_gen_tok;
 
 #endif
