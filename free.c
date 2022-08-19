@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 23:21:54 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:39:41 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	free_pipe(t_p_line *pipeline)
 
 	while (pipeline->left_p)
 	{
+		HERE;
 		tmp = pipeline;
 		free_list(pipeline->right);
 		pipeline = pipeline->left_p;
@@ -95,6 +96,5 @@ void	free_data(t_data *data)
 {
 	free_env(data->env);
 	free_env(data->exp);
-	free(data->p_fd);
 	free(data);
 }

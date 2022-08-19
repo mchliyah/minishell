@@ -66,13 +66,14 @@ char	*get_s_quote_things(t_lexer **this)
 	return (s);
 }
 
+// *leaks
 char	*get_s_word(t_lexer **this)
 {
 	char	*s;
 
 	s = ft_strdup("");
 	if (!s)
-		return (s);
+		exit(1);
 	while ((*this)->c != '\0')
 	{
 		if ((*this)->c == L_DOUBLE_QUOTE)

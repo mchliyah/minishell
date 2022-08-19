@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/19 21:30:52 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:59:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	wait_status(void)
 		if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGQUIT)
-				printf("Quit\n");
+				printf("^\\Quit: %d\n", status);
 			g_status = 128 + WTERMSIG(status);
 		}
 	}
@@ -97,12 +97,14 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		pipeline = malloc(sizeof(t_p_line));
 		if (*str_rln)
+		{
 			get_tkn_exec(str_rln, data, pipeline);
+			free (str_rln);
+			free_list(data->lst_tok);
+			free_pipe(pipeline);
+		}
 		else if (*str_rln == '\0')
 			g_status = 0;
-		free (str_rln);
-		free_list(data->lst_tok);
-		free_pipe(pipeline);
 		free(pipeline);
 		pipeline = NULL;
 	}

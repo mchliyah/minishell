@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/05 22:09:25 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:40:16 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	join_string(char **ptr, char c)
 	*ptr = j_str;
 }
 
+// leaks !!
 char	*get_l_quote(t_lexer **lex, char	*ptr)
 {
 	ptr = get_quote_things(lex);
@@ -53,9 +54,10 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 	return (ptr);
 }
 
-// leaks !!
 char	*check_for_args(t_lexer **lex)
 {
+	char	*save;
+	char	*qstr;
 	char	*ptr;
 
 	ptr = NULL;
@@ -67,12 +69,24 @@ char	*check_for_args(t_lexer **lex)
 		while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
 		{
 			*lex = advance(*lex);
-			ptr = ft_strjoin(ptr, get_quote_things(lex));
+			qstr = get_quote_things(lex);
+			save = ft_strjoin(ptr, qstr);
+			free(ptr);
+			free(qstr);
+			ptr = NULL;
+			qstr = NULL;
+			ptr = save;
 		}
 		if (ft_isalnum((*lex)->content[(*lex)->i]))
 		{
 			*lex = advance(*lex);
-			ptr = ft_strjoin(ptr, get_s_word(lex));
+			qstr = get_s_word(lex);
+			save = ft_strjoin(ptr, qstr);
+			free(ptr);
+			free(qstr);
+			ptr = NULL;
+			qstr = NULL;
+			ptr = save;
 		}
 	}
 	else
@@ -104,7 +118,8 @@ t_arg	*get_args(t_lexer **lex)
 			opt = list_new(s);
 		else
 			list_add_back(&opt, list_new(s));
-		*lex = advance(*lex);
+		if ((*lex)->c != '\0')
+			*lex = advance(*lex);
 	}
 	return (opt);
 }

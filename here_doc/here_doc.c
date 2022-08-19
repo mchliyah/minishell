@@ -6,11 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 03:39:36 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:45:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern int	g_status;
 
 int	count_here(t_list *list)
 {
@@ -73,6 +75,7 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	int		pid;
 	int		count;
 	int		i;
+	int		status;
 
 	tmp = cmd;
 	count = count_here(tmp);
@@ -115,8 +118,18 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		exit (0);
 	}
 	else
-		wait(NULL);
-	i = 0;
+	{
+		wait(&status);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+			{
+				g_status = WTERMSIG(status);
+				kill(pid, 3);
+				return (0);
+			}
+		}
+	}
 	return (1);
 }
 

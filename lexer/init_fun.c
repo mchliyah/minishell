@@ -14,8 +14,11 @@
 
 t_lexer	*advance(t_lexer *lexer)
 {
-	lexer->i++;
-	lexer->c = lexer->content[lexer->i];
+	if (lexer->c != '\0')
+	{
+		lexer->i++;
+		lexer->c = lexer->content[lexer->i];
+	}
 	return (lexer);
 }
 

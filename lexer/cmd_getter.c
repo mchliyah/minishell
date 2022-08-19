@@ -34,6 +34,7 @@ char	*get_s_quote(t_lexer **this)
 
 char	*get_c_word(t_lexer **this)
 {
+	char 	*save;
 	char	*tmp;
 	char	*s;
 
@@ -45,14 +46,18 @@ char	*get_c_word(t_lexer **this)
 		if ((*this)->c == L_DOUBLE_QUOTE)
 		{
 			tmp = get_quote_things(this);
-			s = ft_strjoin(s, tmp);
+			save = ft_strjoin(s, tmp);
 			free(tmp);
+			free(s);
+			s = save;
 		}
 		else if ((*this)->c == SINGLE_QUOTE)
 		{
 			tmp = get_s_quote(this);
-			s = ft_strjoin(s, tmp);
+			save = ft_strjoin(s, tmp);
 			free(tmp);
+			free(s);
+			s = save;
 		}
 		else
 			join_string(&s, (*this)->c);

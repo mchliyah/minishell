@@ -77,7 +77,8 @@ bool	open_files(t_data **data, t_list *cmd)
 			&& iterator->prev->content->type != DELIMITER
 			&& iterator->prev->content->type != REDIRECT_IN
 			&& iterator->prev->content->type != REDIRECT_OUT_IN_APPEND_MD
-			&& iterator->prev->content->type != LESSGREAT)
+			&& iterator->prev->content->type != LESSGREAT
+			&& iterator->prev->content->type != REDIRECT_OUT)
 			(*data)->fd_in = open(iterator->content->content, O_RDONLY);
 		if (!append_file(data, iterator, file))
 			return (false);
