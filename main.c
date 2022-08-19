@@ -90,7 +90,6 @@ int	main(int ac, char **av, char **envp)
 	if (!data)
 		return (1);
 	g_status = 0;
-	data = init_data(ac, av, data, envp);
 	while (!data->exit)
 	{
 		pipeline = malloc(sizeof(t_p_line));
@@ -98,14 +97,19 @@ int	main(int ac, char **av, char **envp)
 		if (!str_rln)
 			break ;
 		if (*str_rln)
+		{
 			get_tkn_exec(str_rln, data, pipeline);
+			free (str_rln);
+			free_list(data->lst_tok);
+			free_pipe(pipeline);
+		}
 		else if (*str_rln == '\0')
 			g_status = 0;
-		free (str_rln);
-		free_list(data->lst_tok);
-		free_pipe(pipeline);
-		free(pipeline);
-		pipeline = NULL;
+//		if (str_rln != NULL)
+//		{
+//			free(pipeline);
+//			pipeline = NULL;
+//		}
 	}
 	free(pipeline);
 	free_data(data);
