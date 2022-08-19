@@ -14,18 +14,6 @@
 
 int	g_status;
 
-void	handle_sigint(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_putchar_fd('\n', 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	g_status = 1;
-}
-
 void	wait_status(void)
 {
 	int	status;
@@ -91,16 +79,6 @@ void	get_tkn_exec(char *str_rln, t_data *data, t_p_line *pipeline)
 	}
 }
 
-int	clean(char *str, t_p_line *pipeline, t_data *data)
-{
-	if (str)
-	{
-		free(pipeline);
-		free_data(data);
-	}
-	return (g_status);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_p_line	*pipeline;
@@ -128,7 +106,8 @@ int	main(int ac, char **av, char **envp)
 		free_pipe(pipeline);
 		free(pipeline);
 		pipeline = NULL;
-		system("leaks minishell");
 	}
-	return (clean(str_rln, pipeline, data));
+	free(pipeline);
+	free_data(data);;
+	return (g_status);
 }

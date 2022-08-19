@@ -12,6 +12,8 @@
 
 #include "includes/minishell.h"
 
+extern int g_status;
+
 int	signalsecho(void)
 {
 	struct termios		terminal;
@@ -23,6 +25,18 @@ int	signalsecho(void)
 	terminal.c_lflag ^= ECHOCTL;
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
 	return (0);
+}
+
+void	handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	g_status = 1;
 }
 
 char	*env_dup(char *tmp_val, int i, int j)
@@ -66,6 +80,7 @@ t_pair	*init_pair(char *tmp_val)
 	if (!pair->value)
 		return (NULL);
 	free(tmp_val);
+	tmp_val = NULL;
 	return (pair);
 }
 
