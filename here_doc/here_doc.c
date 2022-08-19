@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 03:03:58 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 03:39:36 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	int		count;
 	int		i;
 
-	count = count_here(cmd);
+	tmp = cmd;
+	count = count_here(tmp);
 	i = 0;
 	if (count)
 	{
@@ -89,6 +90,7 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	}
 	else
 		wait(NULL);
+	i = 0;
 	return (1);
 }
 
