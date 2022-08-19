@@ -159,4 +159,8 @@ void	add_elem(t_env **env, t_pair *to_exp, int exist)
 	}
 	else
 		dup_exist_elem(env, to_exp);
+	free(to_exp->key);
+	if (to_exp->value)
+		free(to_exp->value);
+	free(to_exp);
 }
