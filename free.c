@@ -19,16 +19,13 @@ void	free_list(t_list *to_f)
 
 	while (to_f)
 	{
-		HERE;
 		lst = to_f;
 		if (to_f->content)
 		{
 			while (to_f->content->arg)
 			{
-				HERE;
 				arg = to_f->content->arg;
 				to_f->content->arg = to_f->content->arg->next;
-				HERE;
 				if (arg)
 				{
 					free(arg->content);
@@ -37,7 +34,6 @@ void	free_list(t_list *to_f)
 					arg = NULL;
 				}
 			}
-			HERE;
 			if (to_f->content->content)
 			{
 				free(to_f->content->content);
@@ -46,9 +42,7 @@ void	free_list(t_list *to_f)
 			free(to_f->content);
 			to_f->content = NULL;
 		}
-		HERE;
 		to_f = to_f->next;
-		HERE;
 		if (lst)
 		{
 			free(lst);
@@ -76,7 +70,6 @@ void	free_pipe(t_p_line *pipeline)
 	}
 	if (pipeline->left)
 	{
-		HERE;
 		free(pipeline->left);
 		pipeline->left = NULL;
 	}

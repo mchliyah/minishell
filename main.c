@@ -128,7 +128,7 @@ int	main(int ac, char **av, char **envp)
 		free_pipe(pipeline);
 		free(pipeline);
 		pipeline = NULL;
-		system("leaks minishell");
+//		system("leaks minishell");
 	}
 	return (clean(str_rln, pipeline, data));
 }

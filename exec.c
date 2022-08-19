@@ -109,6 +109,13 @@ bool	open_pipe(t_data **data, t_list *cmd)
 			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
 				return (false);
 	}
+	while (i < (*data)->here_size)
+	{
+		close((*data)->here_fd[i][0]);
+		close((*data)->here_fd[i][1]);
+		i++;
+	}
+	i = 0;
 	while (i < (*data)->pip_nb * 2)
 		close((*data)->p_fd[i++]);
 	close((*data)->fd_out);
