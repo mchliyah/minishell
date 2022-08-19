@@ -84,7 +84,8 @@ void	free_env(t_env *env)
 		prev_env = env;
 		env = env->next;
 		free(prev_env->pair->key);
-		free(prev_env->pair->value);
+		if (prev_env->pair->value)
+			free(prev_env->pair->value);
 		free(prev_env->pair);
 		free(prev_env);
 	}

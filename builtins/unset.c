@@ -26,8 +26,12 @@ void	unset_insid(t_env **env, t_env *prev, char **args, int i)
 		if (!ft_strcmp(to_f->pair->key, args[i]))
 		{
 			prev->next = prev->next->next;
+			free(to_f->pair->key);
+			if (to_f->pair->value)
+				free(to_f->pair->value);
 			free(to_f->pair);
 			free(to_f);
+			break ;
 		}
 		prev = prev->next;
 		to_f = to_f->next;
@@ -50,6 +54,9 @@ void	unset_cmd(t_env **env, t_list *cmd)
 			if (!ft_strcmp((*env)->pair->key, args[i]))
 			{
 				*env = (*env)->next;
+				free(prev->pair->key);
+				if (prev->pair->value)
+					free(prev->pair->value);
 				free(prev->pair);
 				free(prev);
 			}

@@ -128,6 +128,7 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 			var = ft_strdup("");
 	}
 	*str = ft_strjoin(*str, var);
+	free (var);
 }
 
 char	*string_getter(char *s, int *i, t_env *env)
@@ -161,7 +162,7 @@ char	*arg_iterator(char *content, t_env *env)
 {
 	char	*tmp;
 	char	*saver;
-	char	*c;
+	char	*str;
 	int		i;
 
 	i = 0;
@@ -169,18 +170,18 @@ char	*arg_iterator(char *content, t_env *env)
 	while (content[i])
 	{
 		if (content[i] == SINGLE_QUOTE)
-			c = single_quote_remove(content, &i);
+			str = single_quote_remove(content, &i);
 		else if (content[i] == L_DOUBLE_QUOTE)
-			c = double_quote_remove(content, &i, env);
+			str = double_quote_remove(content, &i, env);
 		else
 		{
-			c = string_getter(content, &i, env);
+			str = string_getter(content, &i, env);
 			i--;
 		}
-		tmp = ft_strjoin(saver, c);
+		tmp = ft_strjoin(saver, str);
+		free(str);
 		free(saver);
 		saver = tmp;
-		free(c);
 		i++;
 	}
 	free(content);

@@ -114,7 +114,7 @@ void	to_std(t_list *cmd, t_data **data)
 	path = false;
 	while (env)
 	{
-		if (!strcmp(env->pair->key, "PATH"))
+		if (!ft_strcmp(env->pair->key, "PATH"))
 			path = true;
 		env = env->next;
 	}

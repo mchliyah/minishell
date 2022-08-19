@@ -14,9 +14,9 @@
 
 t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
-	t_arg	*arg;
+	// t_arg	*arg;
 	
-	arg = NULL;
+	// arg = NULL;
 	while (to_copy && to_copy->content->type != PIPE)
 	{
 		if (!ret)

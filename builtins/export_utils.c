@@ -82,7 +82,7 @@ void	dup_exist_elem(t_env **tmp_in, t_pair *to_exp)
 	}
 	while (tmp)
 	{
-		if (!strcmp(tmp->pair->key, to_exp->key))
+		if (!ft_strcmp(tmp->pair->key, to_exp->key))
 		{
 			if (tmp->pair->value)
 				tmp->pair->value
@@ -145,7 +145,7 @@ void	add_elem(t_env **env, t_pair *to_exp, int exist)
 	{
 		while (tmp)
 		{
-			if (!strcmp(tmp->pair->key, to_exp->key))
+			if (!ft_strcmp(tmp->pair->key, to_exp->key))
 			{
 				free(tmp->pair->value);
 				tmp->pair->value = NULL;
@@ -159,4 +159,8 @@ void	add_elem(t_env **env, t_pair *to_exp, int exist)
 	}
 	else
 		dup_exist_elem(env, to_exp);
+	free(to_exp->key);
+	if (to_exp->value)
+		free(to_exp->value);
+	free(to_exp);
 }

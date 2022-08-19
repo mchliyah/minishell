@@ -19,7 +19,7 @@ char	*get_path(char *key, t_env *env)
 	tmp_env = env;
 	while (tmp_env)
 	{
-		if (!strcmp(tmp_env->pair->key, key))
+		if (!ft_strcmp(tmp_env->pair->key, key))
 			return (tmp_env->pair->value);
 		tmp_env = tmp_env->next;
 	}
@@ -30,12 +30,12 @@ void	dup_path(t_env *tmp_env, char *to_set, char *to_up)
 {
 	while (tmp_env)
 	{
-		if (!strcmp(tmp_env->pair->key, to_up))
+		if (!ft_strcmp(tmp_env->pair->key, to_up))
 		{
 			if (to_set)
 			{
 				if (tmp_env->pair->value)
-					// free(tmp_env->pair->value);
+					free(tmp_env->pair->value);
 				tmp_env->pair->value = ft_strdup(to_set);
 			}
 			return ;
@@ -63,7 +63,5 @@ t_env	*update_path(t_env *env, char *to_set, char	*to_old)
 	dup_path(tmp_env, to_old, "OLDPWD");
 	tmp_env = env;
 	dup_path(tmp_env, to_set, "PWD");
-	if (to_old)
-		free(to_old);
 	return (env);
 }
