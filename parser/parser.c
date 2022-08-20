@@ -112,6 +112,20 @@ int	index_heredoc(t_data **data)
 	return (max);
 }
 
+bool	check_syntax(t_list *list)
+{
+	t_list	*this;
+
+	this = list;
+	while (this)
+	{
+		if (!syntax_err_checker(this))
+			return (false);
+		this = this->next;
+	}
+	return (true);
+}
+
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
 	t_gen_tok	var;
@@ -136,9 +150,11 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	}
 	if (index_heredoc(data) > 16)
 		if (ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2))
-			return (1);
+			exit(2);
 	*pipeline = to_tree(pipeline, (*data)->lst_tok, data);
 	if (!get_here_doc((*data)->lst_tok, data))
+		return (1);
+	if (!check_syntax((*data)->lst_tok))
 		return (1);
 	return (EXIT_SUCCESS);
 }

@@ -195,7 +195,6 @@ char	*arg_iterator(char *content, t_env *env)
 		i++;
 	}
 	free(content);
-	printf("%s\n", saver);
 	return (saver);
 }
 

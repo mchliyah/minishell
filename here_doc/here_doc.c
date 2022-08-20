@@ -149,10 +149,3 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	}
 	return (1);
 }
-
-// char	*get_pipe_fd(char *key, t_data *data, t_p_line *pipe)
-// {
-// 	int	*here_fd;
-
-// 	here_fd = malloc(count_here(pipe) * 2);
-// }
