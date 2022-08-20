@@ -27,6 +27,7 @@ bool	check_for_variables(const char *str)
 	return (false);
 }
 
+//leaks
 int	expend_var(char **ptr, int i, char *arg, t_env *env)
 {
 	char	*tmp;
@@ -47,6 +48,7 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 			i++;
 	}
 	tmp = ft_substr(arg, s, i - s);
+	printf("%s\n", tmp);
 	if (!tmp)
 		exit(1);
 	tmp = get_form_my_env(tmp, env);
