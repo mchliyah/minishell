@@ -41,7 +41,11 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 		*lex = advance(*lex);
 		ptr = ft_strjoin(ptr, get_quote_things(lex));
 	}
-	if (ft_isalnum((*lex)->content[(*lex)->i + 1]))
+	if (ft_isprint((*lex)->content[(*lex)->i + 1])
+		&& (*lex)->content[(*lex)->i + 1] != EPIPE
+		&& (*lex)->content[(*lex)->i + 1] != LESS
+		&& (*lex)->content[(*lex)->i + 1] != GREATER
+		&& (*lex)->content[(*lex)->i + 1] != SPACE)
 	{
 		*lex = advance(*lex);
 		ptr = ft_strjoin(ptr, get_s_word(lex));

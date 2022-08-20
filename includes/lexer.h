@@ -48,7 +48,7 @@ char	*get_s_word(t_lexer **this);
 t_arg	*list_new(char	*content);
 t_arg	*list_last(t_arg *lst);
 void	list_add_back(t_arg **lst, t_arg *new);
-int		check_gaven_file_rd(t_list *token);
+int		syntax_err_checker(t_list *token);
 void	free_parser_data(t_data **data);
 
 int		get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j);

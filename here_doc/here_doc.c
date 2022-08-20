@@ -57,11 +57,12 @@ int	here_doc(t_list *cmd, t_data **data)
 			break ;
 		if (check_for_variables(str))
 			str = h_string_getter(str, 0, (*data)->env);
-		close((*data)->here_fd[indx][0]);
+		//close((*data)->here_fd[indx][0]);
 		if (!is_heredoc_next(cmd->content->indx, cmd->next))
 		{
 			ft_putstr_fd(str, (*data)->here_fd[indx][1]);
 			ft_putstr_fd("\n", (*data)->here_fd[indx][1]);
+		//	close((*data)->here_fd[indx][1]);
 		}
 		free(str);
 	}
@@ -102,6 +103,11 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		signal(SIGINT, SIG_DFL);
 		while (tmp)
 		{
+			if (!syntax_err_checker(tmp))
+			{
+				HERE;
+				exit(1);
+			}
 			if (tmp->content->type == DELIMITER)
 			{
 				here_doc(tmp, data);
@@ -115,18 +121,27 @@ int	get_here_doc(t_list *cmd, t_data **data)
 			close((*data)->here_fd[i][1]);
 			i++;
 		}
-		exit (0);
+		exit (1);
 	}
 	else
 	{
-		wait(&status);
-		if (WIFSIGNALED(status))
+		while (wait(&status) > 0)
 		{
-			if (WTERMSIG(status) == SIGINT)
+			if (WIFSIGNALED(status))
 			{
-				g_status = WTERMSIG(status);
-				kill(pid, 3);
-				return (0);
+				if (WTERMSIG(status) == SIGINT)
+				{
+					i = 0;
+					while (i < count)
+					{
+						close((*data)->here_fd[i][0]);
+						close((*data)->here_fd[i][1]);
+						i++;
+					}
+					g_status = WTERMSIG(status);
+					kill(pid, SIGQUIT);
+					return (0);
+				}
 			}
 		}
 	}

@@ -52,11 +52,17 @@ void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 		|| iterator->content->type == LESSGREAT)
 	{
 		if (iterator->content->type == LESSGREAT)
-			(*data)->fd_in = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		{
+			(*data)->fd_in = open(file, O_RDWR | O_CREAT, 0644);
+			if ((*data)->fd_in < 0)
+				fd_error_exit("open");
+		}
 		else
-				(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		if ((*data)->fd_out < 0)
-			fd_error_exit("open");
+		{
+			(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+			if ((*data)->fd_out < 0)
+				fd_error_exit("open");
+		}
 	}
 }
 
@@ -147,7 +153,6 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	if (f_pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
 		if (!open_pipe(data, in_cmd))
 			return (false);
 		if (cmd->content->type != WORD_CMD)
