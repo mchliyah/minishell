@@ -55,24 +55,23 @@ void	free_pipe(t_p_line *pipeline)
 {
 	t_p_line	*tmp;
 
-	while (pipeline->left_p)
-	{
-		HERE;
-		tmp = pipeline;
-		free_list(pipeline->right);
-		pipeline = pipeline->left_p;
-		free(tmp);
-		tmp = NULL;
-	}
-	if (pipeline->right)
-	{
-		free(pipeline->right);
-		pipeline->right = NULL;
-	}
-	if (pipeline->left)
-	{
-		free(pipeline->left);
-		pipeline->left = NULL;
+	if (pipeline) {
+		while (pipeline->left_p) {
+			HERE;
+			tmp = pipeline;
+			free_list(pipeline->right);
+			pipeline = pipeline->left_p;
+			free(tmp);
+			tmp = NULL;
+		}
+		if (pipeline->right) {
+			free(pipeline->right);
+			pipeline->right = NULL;
+		}
+		if (pipeline->left) {
+			free(pipeline->left);
+			pipeline->left = NULL;
+		}
 	}
 }
 

@@ -40,46 +40,38 @@ void	syntax_err(void)
 	ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
 }
 
-/*
- *  this fun for checking is the user gave the file with redirections
- *  and also unclosed pipe by cmd
-   !! if the check_gaven_file_rd returns false I should free the allocated mem
- */
-int	check_gaven_file_rd(t_list *token)
+
+int	syntax_err_checker(t_list *token)
 {
 	t_list	*it;
 
 	it = token;
-	while (it)
+	if (is_redirection(it->content->type))
 	{
-		if (is_redirection(it->content->type))
+		if (!it->next || it->next->content->type != WORD)
 		{
-			if (!it->next || it->next->content->type != WORD)
+			if (it->next && it->next->content->type == SYNTAX_ERR)
 			{
-				if (it->next && it->next->content->type == SYNTAX_ERR)
-				{
-					g_status = 1;
-					ft_putendl_fd("minishell: ambiguous redirect", 2);
-					return (false);
-				}
-				syntax_err();
+				g_status = 1;
+				ft_putendl_fd("minishell: ambiguous redirect", 2);
 				return (false);
 			}
+			syntax_err();
+			return (false);
 		}
-		else if (it->content->type == SYNTAX_ERR)
+	}
+	else if (it->content->type == SYNTAX_ERR)
+	{
+		syntax_err();
+		return (false);
+	}
+	else if (it->content->type == PIPE)
+	{
+		if (is_not_next(it))
 		{
 			syntax_err();
 			return (false);
 		}
-		else if (it->content->type == PIPE)
-		{
-			if (is_not_next(it))
-			{
-				syntax_err();
-				return (false);
-			}
-		}
-		it = it->next;
 	}
 	return (true);
 }
