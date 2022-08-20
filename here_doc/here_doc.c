@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 22:45:10 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:47:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	int		pid;
 	int		count;
 	int		i;
-	int		status;
+	// int		status;
 
 	tmp = cmd;
 	count = count_here(tmp);
@@ -119,16 +119,16 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	}
 	else
 	{
-		wait(&status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-			{
-				g_status = WTERMSIG(status);
-				kill(pid, 3);
-				return (0);
-			}
-		}
+		wait(NULL);
+		// if (WIFSIGNALED(status))
+		// {
+		// 	if (WTERMSIG(status) == SIGINT)
+		// 	{
+		// 		g_status = WTERMSIG(status);
+		// 		kill(pid, 3);
+		// 		return (0);
+		// 	}
+		// }
 	}
 	return (1);
 }
