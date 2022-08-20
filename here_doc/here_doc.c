@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 21:30:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:53:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,11 @@ int	get_here_doc(t_list *cmd, t_data **data)
 					here_doc(tmp, data);
 				tmp = tmp->next;
 			}
-			i = 0;
-			while (i < count)
+			i = -1;
+			while (++i < count)
 			{
 				close((*data)->here_fd[i][0]);
 				close((*data)->here_fd[i][1]);
-				i++;
 			}
 			exit (0);
 		}
@@ -124,12 +123,14 @@ int	get_here_doc(t_list *cmd, t_data **data)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 			{
-				printf("%d\n ", status);
-				g_status =WEXITSTATUS(status );
+				if (status > 255)
+					g_status = 256 + WEXITSTATUS(status);
+				else
+					g_status = WEXITSTATUS(status);
+				return (0);
 			}
 			if (WIFSIGNALED(status))
 			{
-				HERE;
 				if (WTERMSIG(status) == SIGINT)
 				{
 					g_status = 1;
@@ -142,9 +143,8 @@ int	get_here_doc(t_list *cmd, t_data **data)
 					}
 					kill(pid, SIGQUIT);
 				}
-			}
-			if (g_status != 0)
 				return (0);
+			}
 		}
 	}
 	return (1);
