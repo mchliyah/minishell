@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   std_exec_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/02 13:23:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:42:25 by mchliyah         ###   ########.fr       */
+/*   Created: 2022/08/20 23:48:07 by mchliyah          #+#    #+#             */
+/*   Updated: 2022/08/20 23:48:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-extern int g_status;
-
-void	pwd_cmd(t_env	*env)
+char	**get_env_char(t_env *env)
 {
-	char	*pwd;
-	int		must_free;
+	t_env	*tmp;
+	char	**arr;
+	int		size;
+	int		i;
 
-	must_free = 0;
-	pwd = get_path("PWD", env);
-	if (!pwd)
+	size = 0;
+	i = 0;
+	tmp = env;
+	while (tmp)
 	{
-		pwd = getcwd(NULL, 1024);
-		must_free = 1;
+		size++;
+		tmp = tmp->next;
 	}
-	if (pwd)
+	arr = malloc(sizeof(char *) * size + 1);
+	tmp = env;
+	while (tmp)
 	{
-		printf("%s\n", pwd);
-		if (must_free)
-			free(pwd);
+		arr[i] = ft_strdup(tmp->pair->key);
+		arr[i] = ft_strjoin(arr[i], "=");
+		arr[i] = ft_strjoin(arr[i], tmp->pair->value);
+		tmp = tmp->next;
+		i++;
 	}
-	g_status = 0;
+	arr[i] = NULL;
+	return (arr);
 }

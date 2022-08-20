@@ -6,42 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:07:34 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/13 22:41:36 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 23:48:42 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 extern int g_status;
-
-char	**get_env_char(t_env *env)
-{
-	t_env	*tmp;
-	char	**arr;
-	int		size;
-	int		i;
-
-	size = 0;
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		size++;
-		tmp = tmp->next;
-	}
-	arr = malloc(sizeof(char *) * size + 1);
-	tmp = env;
-	while (tmp)
-	{
-		arr[i] = ft_strdup(tmp->pair->key);
-		arr[i] = ft_strjoin(arr[i], "=");
-		arr[i] = ft_strjoin(arr[i], tmp->pair->value);
-		tmp = tmp->next;
-		i++;
-	}
-	arr[i] = NULL;
-	return (arr);
-}
 
 static char	*get_cmd(char **path, char *cmd)
 {
@@ -79,9 +50,7 @@ void	std_exec(t_list *cmd, t_data **data, char **envp, char **args)
 {
 	char	**path;
 	char	*cmand;
-	// t_env	*env;
 
-	// env = (*data)->env;
 	(void)data;
 	if (access(cmd->content->content, X_OK) == 0)
 		execve(cmd->content->content, args, envp);
@@ -100,6 +69,17 @@ void	std_exec(t_list *cmd, t_data **data, char **envp, char **args)
 	exit(127);
 }
 
+bool	true_path(t_env *env)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->pair->key, "PATH"))
+			return (true);
+		env = env->next;
+	}
+	return (false);
+}
+
 void	to_std(t_list *cmd, t_data **data)
 {
 	int		path;
@@ -111,13 +91,7 @@ void	to_std(t_list *cmd, t_data **data)
 	envp = get_env_char(env);
 	args = arr_arg(cmd);
 	signal(SIGINT, SIG_DFL);
-	path = false;
-	while (env)
-	{
-		if (!ft_strcmp(env->pair->key, "PATH"))
-			path = true;
-		env = env->next;
-	}
+	path = true_path(env);
 	if (path)
 		std_exec(cmd, data, envp, args);
 	else
