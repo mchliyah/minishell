@@ -35,11 +35,17 @@ void	join_string(char **ptr, char c)
 // leaks !!
 char	*get_l_quote(t_lexer **lex, char	*ptr)
 {
+	char	*save;
+	char	*tmp;
+
 	ptr = get_quote_things(lex);
 	while ((*lex)->content[(*lex)->i + 1] == L_DOUBLE_QUOTE)
 	{
 		*lex = advance(*lex);
-		ptr = ft_strjoin(ptr, get_quote_things(lex));
+		save = get_quote_things(lex);
+		tmp = ft_strjoin(ptr, save);
+		free_strjoin(&ptr, &save);
+		ptr = tmp;
 	}
 	if (ft_isprint((*lex)->content[(*lex)->i + 1])
 		&& (*lex)->content[(*lex)->i + 1] != EPIPE
@@ -48,12 +54,18 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 		&& (*lex)->content[(*lex)->i + 1] != SPACE)
 	{
 		*lex = advance(*lex);
-		ptr = ft_strjoin(ptr, get_s_word(lex));
+		save = get_s_word(lex);
+		tmp = ft_strjoin(ptr, save);
+		free_strjoin(&ptr, &save);
+		ptr = tmp;
 	}
 	while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
 	{
 		*lex = advance(*lex);
-		ptr = ft_strjoin(ptr, get_s_quote_things(lex));
+		save = get_s_quote_things(lex);
+		tmp = ft_strjoin(ptr, save);
+		free_strjoin(&ptr, &save);
+		ptr = tmp;
 	}
 	return (ptr);
 }
@@ -75,10 +87,7 @@ char	*check_for_args(t_lexer **lex)
 			*lex = advance(*lex);
 			qstr = get_quote_things(lex);
 			save = ft_strjoin(ptr, qstr);
-			free(ptr);
-			free(qstr);
-			ptr = NULL;
-			qstr = NULL;
+			free_strjoin(&ptr, &qstr);
 			ptr = save;
 		}
 		if (ft_isalnum((*lex)->content[(*lex)->i]))
@@ -86,10 +95,7 @@ char	*check_for_args(t_lexer **lex)
 			*lex = advance(*lex);
 			qstr = get_s_word(lex);
 			save = ft_strjoin(ptr, qstr);
-			free(ptr);
-			free(qstr);
-			ptr = NULL;
-			qstr = NULL;
+			free_strjoin(&ptr, &qstr);
 			ptr = save;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 18:42:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:30:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	count_here(t_list *list)
 
 bool	is_heredoc_next(int index, t_list *cmd)
 {
-	t_list *cur;
+	t_list	*cur;
 
 	cur = cmd;
 	while (cur)
@@ -81,6 +81,7 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	count = count_here(tmp);
 	(*data)->here_size = count;
 	i = 0;
+	pid = 1;
 	if (count)
 	{
 		(*data)->here_fd = malloc(sizeof(int *) * count);
@@ -89,54 +90,61 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		i = 0;
 		while (i < count)
 			pipe((*data)->here_fd[i++]);
-	}
-	tmp = cmd;
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork():");
-		exit (1);
-	}
-	if (!pid)
-	{
-		signal(SIGINT, SIG_DFL);
-		while (tmp)
+		pid = fork();
+		if (pid == -1)
 		{
-			if (!syntax_err_checker(tmp))
-				exit(1);
-			if (tmp->content->type == DELIMITER)
-			{
-				here_doc(tmp, data);
-			}
-			tmp = tmp->next;
+			perror("fork():");
+			exit (1);
 		}
-		i = 0;
-		while (i < count)
+		if (!pid)
 		{
-			close((*data)->here_fd[i][0]);
-			close((*data)->here_fd[i][1]);
-			i++;
-		}
-		exit (1);
-	}
-	else
-	{
-		wait(&status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
+			signal(SIGINT, SIG_DFL);
+			while (tmp)
 			{
-				i = 0;
-				while (i < count)
+				if (!syntax_err_checker(tmp))
 				{
-					close((*data)->here_fd[i][0]);
-					close((*data)->here_fd[i][1]);
-					i++;
+					PV(g_status, "%d\n");
+					exit(g_status);
 				}
-				g_status = WTERMSIG(status);
-				kill(pid, SIGQUIT);
-				return (0);
+				if (tmp->content->type == DELIMITER)
+					here_doc(tmp, data);
+				tmp = tmp->next;
 			}
+			i = 0;
+			while (i < count)
+			{
+				close((*data)->here_fd[i][0]);
+				close((*data)->here_fd[i][1]);
+				i++;
+			}
+			exit (0);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				printf("%d\n ", status);
+				g_status =WEXITSTATUS(status );
+			}
+			if (WIFSIGNALED(status))
+			{
+				HERE;
+				if (WTERMSIG(status) == SIGINT)
+				{
+					g_status = 1;
+					i = 0;
+					while (i < count)
+					{
+						close((*data)->here_fd[i][0]);
+						close((*data)->here_fd[i][1]);
+						i++;
+					}
+					kill(pid, SIGQUIT);
+				}
+			}
+			if (g_status != 0)
+				return (0);
 		}
 	}
 	return (1);

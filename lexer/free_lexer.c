@@ -21,3 +21,11 @@ void	free_lexer_var(t_gen_tok var)
 {
 	free(var.lexer);
 }
+
+void	free_strjoin(char **ptr, char **save)
+{
+	free(*ptr);
+	free(*save);
+	*ptr = NULL;
+	*save = NULL;
+}

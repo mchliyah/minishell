@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/20 18:55:59 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:08:23 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			get_tkn_exec(str_rln, data, pipeline);
-			free (str_rln);
 			free_list(data->lst_tok);
 			free_pipe(pipeline);
 		}
@@ -107,6 +106,7 @@ int	main(int ac, char **av, char **envp)
 			g_status = 0;
 		free(pipeline);
 		pipeline = NULL;
+		free(str_rln);
 	}
 	free_data(data);
 	return (g_status);

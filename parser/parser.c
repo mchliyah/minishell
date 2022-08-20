@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 22:24:46 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:43:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,10 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		(*data)->lst_tok = linked_token((*data)->lst_tok, var.token);
 	}
 	if (index_heredoc(data) > 16)
-	{
-		ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
-		return (1);
-	}
+		if (ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2))
+			return (1);
 	*pipeline = to_tree(pipeline, (*data)->lst_tok, data);
 	if (!get_here_doc((*data)->lst_tok, data))
-	{
 		return (1);
-	}
 	return (EXIT_SUCCESS);
 }
