@@ -54,6 +54,7 @@ t_token	*get_extra( char *ptr)
 
 t_token	*get_redirection(t_lexer **lex)
 {
+	char	*tmp;
 	char	*str;
 	char	*ptr;
 
@@ -69,11 +70,11 @@ t_token	*get_redirection(t_lexer **lex)
 			return (NULL);
 		ft_bzero(str, 2);
 		str[0] = (*lex)->c;
-		ptr = ft_strjoin(ptr, str);
-		if (!ptr)
+		tmp = ft_strjoin(ptr, str);
+		if (!tmp)
 			return (NULL);
-		free(str);
-		str = NULL;
+		free_strjoin(&ptr, &str);
+		ptr = tmp;
 		*lex = advance(*lex);
 	}
 	while ((*lex)->c == SPACE)

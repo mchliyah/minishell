@@ -34,7 +34,7 @@ char	*get_s_quote(t_lexer **this)
 
 char	*get_c_word(t_lexer **this)
 {
-	char 	*save;
+	char	*save;
 	char	*tmp;
 	char	*s;
 
@@ -47,16 +47,14 @@ char	*get_c_word(t_lexer **this)
 		{
 			tmp = get_quote_things(this);
 			save = ft_strjoin(s, tmp);
-			free(tmp);
-			free(s);
+			free_strjoin(&s, &tmp);
 			s = save;
 		}
 		else if ((*this)->c == SINGLE_QUOTE)
 		{
 			tmp = get_s_quote(this);
 			save = ft_strjoin(s, tmp);
-			free(tmp);
-			free(s);
+			free_strjoin(&s, &tmp);
 			s = save;
 		}
 		else

@@ -15,10 +15,6 @@
 # include "structs.h"
 # include "minishell.h"
 
-/*
- * 	int (keyword), value (identifier) = e_symbols,
- * 	= (operator), 100 (constant) and ; (symbol).
- */
 
 // function deleter of single quote and double quote and expend!
 char	*arg_iterator(char *content, t_env *env);
@@ -27,12 +23,19 @@ char	*arg_iterator(char *content, t_env *env);
 	 * expending functions
  */
 
-char	*variable_expander(char *s, t_env *env);
+void	variable_expander(char **s, t_env *env);
 char	*single_quote(char *s, int *i);
 char	*h_string_getter(char *s, int i, t_env *env);
 /***************************************************/
 
+/*
+ *free functions
+ */
 void	free_lexer_var(t_gen_tok var);
+void	free_strjoin(char **ptr, char **save);
+/*
+ * end of free functions
+ */
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 char	*get_form_my_env(char *tmp, t_env *env);

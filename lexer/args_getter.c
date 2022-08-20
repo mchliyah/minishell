@@ -69,6 +69,8 @@ char	*get_s_quote_things(t_lexer **this)
 // *leaks
 char	*get_s_word(t_lexer **this)
 {
+	char	*save;
+	char	*tmp;
 	char	*s;
 
 	s = ft_strdup("");
@@ -77,9 +79,19 @@ char	*get_s_word(t_lexer **this)
 	while ((*this)->c != '\0')
 	{
 		if ((*this)->c == L_DOUBLE_QUOTE)
-			s = ft_strjoin(s, get_quote_things(this));
+		{
+			save = get_quote_things(this);
+			tmp = ft_strjoin(s, save);
+			free_strjoin(&s, &save);
+			s = tmp;
+		}
 		else if ((*this)->c == SINGLE_QUOTE)
-			s = ft_strjoin(s, get_s_quote_things(this));
+		{
+			save = get_s_quote_things(this);
+			tmp = ft_strjoin(s, save);
+			free_strjoin(&s, &save);
+			s = tmp;
+		}
 		else
 			join_string(&s, (*this)->c);
 		if ((*this)->c == EPIPE || (*this)->c == LESS

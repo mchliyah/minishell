@@ -99,7 +99,6 @@ int	main(int ac, char **av, char **envp)
 		if (*str_rln)
 		{
 			get_tkn_exec(str_rln, data, pipeline);
-			free (str_rln);
 			free_list(data->lst_tok);
 			free_pipe(pipeline);
 		}
@@ -107,7 +106,10 @@ int	main(int ac, char **av, char **envp)
 			g_status = 0;
 		free(pipeline);
 		pipeline = NULL;
+		free(str_rln);
+		system("leaks minishell");
 	}
 	free_data(data);
+	system("leaks minishell");
 	return (g_status);
 }

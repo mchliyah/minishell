@@ -105,7 +105,6 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		{
 			if (!syntax_err_checker(tmp))
 			{
-				HERE;
 				exit(1);
 			}
 			if (tmp->content->type == DELIMITER)
