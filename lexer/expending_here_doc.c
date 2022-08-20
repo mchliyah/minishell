@@ -14,21 +14,38 @@
 
 extern int	g_status;
 
-char	*h_string_getter(char *s, int i, t_env *env)
+/*
+ *  check str in strjoin should free i guess
+ */
+int	ft_h_string_getter_helper(char *s, int i, t_env *env, char **str)
 {
 	char	*var;
 	char	*tmp;
 	int		st;
-	char	*str;
 
-	str = ft_strdup("");
-	while (s[i])
+	st = i;
+	if (s[(i)++] == '?')
+		var = ft_itoa(g_status);
+	else
 	{
-		if (s[i] == '$' && (s[i + 1] == '?'
-				|| ft_isalnum(s[i + 1])) && s[i])
-		{
+		if (ft_isdigit(s[i]))
 			i++;
-			st = i;
+		else
+		{
+			while ((ft_isalnum(s[i]) || s[i] == '_') && s[i])
+				i++;
+		}
+		tmp = ft_substr(s, st, i - st);
+		var = get_form_my_env(tmp, env);
+		if (!var)
+			var = ft_strdup("");
+	}
+	*str = ft_strjoin(*str, var);
+	return (i);
+}
+
+/*
+ * 	st = i;
 			if (s[(i)++] == '?')
 				var = ft_itoa(g_status);
 			else
@@ -46,6 +63,19 @@ char	*h_string_getter(char *s, int i, t_env *env)
 					var = ft_strdup("");
 			}
 			str = ft_strjoin(str, var);
+ */
+char	*h_string_getter(char *s, int i, t_env *env)
+{
+	char	*str;
+
+	str = ft_strdup("");
+	while (s[i])
+	{
+		if (s[i] == '$' && (s[i + 1] == '?'
+				|| ft_isalnum(s[i + 1])) && s[i])
+		{
+			i++;
+			i = ft_h_string_getter_helper(s, i, env, &str);
 		}
 		else
 		{

@@ -42,10 +42,23 @@ static bool	is_single_quote_first(char const *str)
 	return (false);
 }
 
-t_token	*ft_get_heredoc(t_token *token)
+void	ft_get_heredoc_helper(char **ptr, char **tmp)
 {
 	char	*save;
 	int		i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		save = ft_strjoin(*tmp, ptr[i]);
+		free_strjoin(tmp, &ptr[i]);
+		*tmp = save;
+		i++;
+	}
+}
+
+t_token	*ft_get_heredoc(t_token *token)
+{
 	char	c;
 	char	*tmp;
 	char	**ptr;
@@ -61,25 +74,17 @@ t_token	*ft_get_heredoc(t_token *token)
 	if (!ptr)
 		return (NULL);
 	if (*ptr)
-	{
-		i = 0;
-		while (ptr[i])
-		{
-			save = ft_strjoin(tmp, ptr[i]);
-			free_strjoin(&tmp, &ptr[i]);
-			tmp = save;
-			i++;
-		}
-	}
+		ft_get_heredoc_helper(ptr, &tmp);
 	free(ptr);
 	free(token->content);
 	token->content = tmp;
+	return (token);
 }
 
 t_token	*scan_vars(t_token *token, t_env *env, int was_hered)
 {
 	if (was_hered == 2)
-		ft_get_heredoc(token);
+		token = ft_get_heredoc(token);
 	else if (was_hered)
 	{
 		if (!is_single_quote_first(token->content)
