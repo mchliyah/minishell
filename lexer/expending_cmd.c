@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:48:21 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 19:58:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:43:03 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ static bool	is_single_quote_first(char const *str)
 			return (true);
 	}
 	return (false);
-}
-
-void	ft_get_heredoc_helper(char **ptr, char **tmp)
-{
-	char	*save;
-	int		i;
-
-	i = 0;
-	while (ptr[i])
-	{
-		save = ft_strjoin(*tmp, ptr[i]);
-		free_strjoin(tmp, &ptr[i]);
-		*tmp = save;
-		i++;
-	}
 }
 
 void	free_get_here(char **ptr, t_token *token)

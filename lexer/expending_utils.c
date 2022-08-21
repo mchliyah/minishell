@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 14:54:34 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/09 20:11:53 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:43:10 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,21 @@ char	*get_form_my_env(char *tmp, t_env *env)
 		pp_env = pp_env->next;
 	}
 	return (NULL);
+}
+
+void	ft_get_heredoc_helper(char **ptr, char **tmp)
+{
+	char	*save;
+	int		i;
+
+	i = 0;
+	while (ptr[i])
+	{
+		save = ft_strjoin(*tmp, ptr[i]);
+		free_strjoin(tmp, &ptr[i]);
+		*tmp = save;
+		i++;
+	}
 }
 
 /*

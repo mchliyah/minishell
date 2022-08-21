@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 19:21:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:40:34 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,6 @@ bool	is_heredoc_next(int index, t_list *cmd)
 		cur = cur->next;
 	}
 	return (false);
-}
-
-int	index_heredoc(t_data **data)
-{
-	int		max;
-	t_list	*list;
-	int		indx;
-	int		there;
-
-	indx = 0;
-	there = 0;
-	max = 0;
-	list = (*data)->lst_tok;
-	while (list)
-	{
-		if (list->content->type == DELIMITER)
-		{
-			max++;
-			list->content->indx = indx;
-			there = 1;
-		}
-		else if (list->content->type == PIPE && there)
-		{
-			indx++;
-			there = 0;
-		}
-		list = list->next;
-	}
-	return (max);
 }
 
 int	here_doc(t_list *cmd, t_data **data)
