@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/20 18:34:23 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/20 23:49:10 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ FILES =	main.c\
 		exec_utils.c\
 		builtins/builtins.c\
 		builtins/std_exec.c\
+		builtins/std_exec_utils.c\
 		iterator.c\
 		builtins/echo.c\
 		builtins/env.c\
@@ -63,6 +64,7 @@ FILES =	main.c\
 		builtins/array_args.c\
 		builtins/export.c\
 		builtins/export_utils.c\
+		builtins/export_more_utils.c\
 		builtins/exit.c\
 		here_doc/here_doc.c\
 		here_doc/here_doc_utiles.c\

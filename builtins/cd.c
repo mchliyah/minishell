@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 15:24:04 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/20 23:16:04 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,16 @@ void	chdir_cd(t_env *env, char *to_set)
 	}
 }
 
-void	cd_cmd(t_list	*c_line, t_env *env)
+int	check_cd_exec(t_list *c_line, t_env *env, char *to_set, char *cwd)
 {
-	char	*to_set;
-	char	*cwd;
-
-	to_set = NULL;
-	g_status = 0;
-	cwd = getcwd(NULL, 1024);
-	if (c_line->content->arg)
-		to_set = ft_strdup(c_line->content->arg->content);
 	if (!c_line->content->arg && !get_path("HOME", env))
 	{
 		printf("cd: HOME not set\n");
 		g_status = 1;
-		return ;
+		return (0);
 	}
+	if (c_line->content->arg)
+		to_set = ft_strdup(c_line->content->arg->content);
 	if (!c_line->content->arg
 		|| !ft_strcmp(to_set, "~"))
 		exec_cd(env, "HOME", cwd, 0);
@@ -99,6 +93,19 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 		exec_cd(env, ".", cwd, 1);
 	else
 		chdir_cd(env, to_set);
+	return (1);
+}
+
+void	cd_cmd(t_list	*c_line, t_env *env)
+{
+	char	*to_set;
+	char	*cwd;
+
+	to_set = NULL;
+	g_status = 0;
+	cwd = getcwd(NULL, 1024);
+	if (!check_cd_exec(c_line, env, to_set, cwd))
+		return ;
 	if (cwd)
 	{
 		free(cwd);
