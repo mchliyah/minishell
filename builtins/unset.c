@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/12 01:41:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:44:27 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,35 @@ void	unset_insid(t_env **env, t_env *prev, char **args, int i)
 	}
 }
 
+void	free_pair(t_env *prev)
+{
+	free(prev->pair->key);
+	if (prev->pair->value)
+		free(prev->pair->value);
+	free(prev->pair);
+	free(prev);
+}
+
 void	unset_cmd(t_env **env, t_list *cmd)
 {
 	t_env	*prev;
 	char	**args;
 	int		i;
 
-	i = 1;
+	i = 0;
 	args = arr_arg(cmd);
 	if (env && *env)
 	{	
-		while (args[i])
+		while (args[++i])
 		{
 			prev = *env;
 			if (!ft_strcmp((*env)->pair->key, args[i]))
 			{
 				*env = (*env)->next;
-				free(prev->pair->key);
-				if (prev->pair->value)
-					free(prev->pair->value);
-				free(prev->pair);
-				free(prev);
+				free_pair(prev);
 			}
 			else
 				unset_insid(env, prev, args, i);
-			i++;
 		}
 	}
 	free(args);

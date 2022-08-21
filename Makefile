@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/20 23:49:10 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/21 13:59:14 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ FILES =	main.c\
 		builtins/export_more_utils.c\
 		builtins/exit.c\
 		here_doc/here_doc.c\
+		here_doc/here_doc_utils.c\
 
 #!########################
 
@@ -92,7 +93,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) #-fsanitize=address -g3
+	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g3
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
