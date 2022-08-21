@@ -120,12 +120,10 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	t_list	*tmp;
 	int		pid;
 	int		count;
-//	int		i;
 
 	tmp = cmd;
 	count = count_here(tmp);
 	(*data)->here_size = count;
-//	i = 0;
 	pid = 1;
 	if (count)
 	{

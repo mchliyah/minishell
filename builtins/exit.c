@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 int	str_isnum(char *str)
 {

@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 void	unset_insid(t_env **env, t_env *prev, char **args, int i)
 {
