@@ -33,6 +33,7 @@ t_token	*init_token(char *str, int type, t_arg *args)
 	token->content = str;
 	token->arg = args;
 	token->indx = -1;
+	token->is_q = false;
 	return (token);
 }
 

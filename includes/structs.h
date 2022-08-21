@@ -17,6 +17,7 @@
 # define SYMBOLS " |<>"
 # define EOS '\0'
 # define SPACE ' '
+# include <stdbool.h>
 
 enum
 {
@@ -55,6 +56,7 @@ typedef struct s_token
 {
 	int		type;
 	int		indx;
+	bool	is_q;
 	char	*content;
 	t_arg	*arg;
 

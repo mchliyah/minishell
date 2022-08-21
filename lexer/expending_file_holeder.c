@@ -64,7 +64,6 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 	save = ft_strjoin(*ptr, tmp);
 	free(*ptr);
 	*ptr = save;
-	//i--;
 	return (i);
 }
 

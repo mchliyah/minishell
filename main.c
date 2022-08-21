@@ -80,6 +80,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	parser_main(str_rln, &data);
-	free_data(data);
+	//free_data(data);
 	return (g_status);
 }

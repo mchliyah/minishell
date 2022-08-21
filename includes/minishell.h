@@ -35,7 +35,7 @@
 //# define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
 
 //void	print_tokens(t_p_line *pipeline);
-//void	rl_replace_line(char *txt, int i);
+void	rl_replace_line(char *txt, int i);
 int		init_pipes(t_data **data);
 t_data	*init_data(int ac, char **av, t_data *data, char **envp);
 void	shelvl(t_env **env);

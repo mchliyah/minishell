@@ -46,10 +46,8 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 		if (ft_isdigit(s[*i]))
 			(*i)++;
 		else
-		{
 			while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
 				(*i)++;
-		}
 		tmp = ft_substr(s, st, *i - st);
 		var = get_form_my_env(tmp, env);
 		if (!var)

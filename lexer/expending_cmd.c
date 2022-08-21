@@ -57,6 +57,12 @@ void	ft_get_heredoc_helper(char **ptr, char **tmp)
 	}
 }
 
+void	free_get_here(char **ptr, t_token *token)
+{
+	free(ptr);
+	free(token->content);
+}
+
 t_token	*ft_get_heredoc(t_token *token)
 {
 	char	c;
@@ -64,9 +70,15 @@ t_token	*ft_get_heredoc(t_token *token)
 	char	**ptr;
 
 	if (is_double_quote_first(token->content))
+	{
 		c = '"';
+		token->is_q = true;
+	}
 	else if (is_single_quote_first(token->content))
+	{
 		c = '\'';
+		token->is_q = true;
+	}
 	else
 		return (token);
 	tmp = ft_strdup("");
@@ -75,8 +87,7 @@ t_token	*ft_get_heredoc(t_token *token)
 		return (NULL);
 	if (*ptr)
 		ft_get_heredoc_helper(ptr, &tmp);
-	free(ptr);
-	free(token->content);
+	free_get_here(ptr, token);
 	token->content = tmp;
 	return (token);
 }

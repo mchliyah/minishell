@@ -68,7 +68,7 @@ int	here_doc(t_list *cmd, t_data **data)
 		str = readline("> ");
 		if (!str || !ft_strcmp(str, cmd->next->content->content))
 			break ;
-		if (check_for_variables(str))
+		if (check_for_variables(str) && !cmd->next->content->is_q)
 			str = h_string_getter(str, 0, (*data)->env);
 		if (!is_heredoc_next(cmd->content->indx, cmd->next))
 		{
