@@ -12,27 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
-
-void	join_string(char **ptr, char c)
-{
-	char	*j_str;
-	char	*str;
-
-	str = malloc(2 * sizeof(char));
-	if (!str)
-		exit(1);
-	ft_bzero(str, 2);
-	str[0] = c;
-	j_str = ft_strjoin(*ptr, str);
-	if (!j_str)
-		exit(1);
-	free(str);
-	free(*ptr);
-	*ptr = j_str;
-}
-
-// leaks !!
 char	*get_l_quote(t_lexer **lex, char	*ptr)
 {
 	char	*save;
@@ -47,11 +26,7 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 		free_strjoin(&ptr, &save);
 		ptr = tmp;
 	}
-	if (ft_isprint((*lex)->content[(*lex)->i + 1])
-		&& (*lex)->content[(*lex)->i + 1] != EPIPE
-		&& (*lex)->content[(*lex)->i + 1] != LESS
-		&& (*lex)->content[(*lex)->i + 1] != GREATER
-		&& (*lex)->content[(*lex)->i + 1] != SPACE)
+	if (check_spectial_char(lex))
 	{
 		*lex = advance(*lex);
 		save = get_s_word(lex);
@@ -60,14 +35,20 @@ char	*get_l_quote(t_lexer **lex, char	*ptr)
 		ptr = tmp;
 	}
 	while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
-	{
-		*lex = advance(*lex);
-		save = get_s_quote_things(lex);
-		tmp = ft_strjoin(ptr, save);
-		free_strjoin(&ptr, &save);
-		ptr = tmp;
-	}
+		ft_single(lex, &ptr);
 	return (ptr);
+}
+
+void	ft_double_q(t_lexer **lex, char **ptr)
+{
+	char	*qstr;
+	char	*save;
+
+	*lex = advance(*lex);
+	qstr = get_quote_things(lex);
+	save = ft_strjoin(*ptr, qstr);
+	free_strjoin(ptr, &qstr);
+	*ptr = save;
 }
 
 char	*check_for_args(t_lexer **lex)
@@ -83,13 +64,7 @@ char	*check_for_args(t_lexer **lex)
 	{
 		ptr = get_s_quote_things(lex);
 		while ((*lex)->content[(*lex)->i + 1] == SINGLE_QUOTE)
-		{
-			*lex = advance(*lex);
-			qstr = get_quote_things(lex);
-			save = ft_strjoin(ptr, qstr);
-			free_strjoin(&ptr, &qstr);
-			ptr = save;
-		}
+			ft_double_q(lex, &ptr);
 		if (ft_isalnum((*lex)->content[(*lex)->i]))
 		{
 			*lex = advance(*lex);
@@ -112,13 +87,8 @@ t_arg	*get_args(t_lexer **lex)
 	opt = NULL;
 	while ((*lex)->c != '\0')
 	{
-		if ((*lex)->c == SPACE)
-		{
-			while ((*lex)->c == SPACE)
-				*lex = advance(*lex);
-			if ((*lex)->c == EOS)
-				break ;
-		}
+		if (!ft_space_advacer(lex))
+			break ;
 		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
 			break ;
 		s = check_for_args(lex);

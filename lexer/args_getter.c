@@ -32,6 +32,21 @@ char	*get_quote_things(t_lexer **this)
 	return (s);
 }
 
+int	norm_heleper1(t_lexer **this, char **s)
+{
+	while ((*this)->c)
+	{
+		if ((*this)->c == SPACE || (*this)->c == EPIPE
+			|| (*this)->c == LESS || (*this)->c == GREATER)
+		{
+			return (false);
+		}
+		join_string(s, (*this)->c);
+		*this = advance(*this);
+	}
+	return (1);
+}
+
 char	*get_s_quote_things(t_lexer **this)
 {
 	char	c;
@@ -52,25 +67,48 @@ char	*get_s_quote_things(t_lexer **this)
 			break ;
 		}
 		else if ((*this)->c == SINGLE_QUOTE && (ft_isalnum(c) || c == SPACE))
-		{
-			while ((*this)->c)
-			{
-				if ((*this)->c == SPACE || (*this)->c == EPIPE
-					|| (*this)->c == LESS || (*this)->c == GREATER)
-					return (s);
-				join_string(&s, (*this)->c);
-				*this = advance(*this);
-			}
-		}
+			if (!norm_heleper1(this, &s))
+				return (s);
 	}
 	return (s);
 }
 
-// *leaks
-char	*get_s_word(t_lexer **this)
+void	get_s_word_norm_helper(t_lexer **this, char **s)
 {
 	char	*save;
 	char	*tmp;
+
+	if ((*this)->c == L_DOUBLE_QUOTE)
+	{
+		save = get_quote_things(this);
+		tmp = ft_strjoin(*s, save);
+		free_strjoin(s, &save);
+		*s = tmp;
+	}
+	else if ((*this)->c == SINGLE_QUOTE)
+	{
+		save = get_s_quote_things(this);
+		tmp = ft_strjoin(*s, save);
+		free_strjoin(s, &save);
+		*s = tmp;
+	}
+}
+
+//		{
+//			save = get_quote_things(this);
+//			tmp = ft_strjoin(s, save);
+//			free_strjoin(&s, &save);
+//			s = tmp;
+//		}
+//		else if ((*this)->c == SINGLE_QUOTE)
+//		{
+//			save = get_s_quote_things(this);
+//			tmp = ft_strjoin(s, save);
+//			free_strjoin(&s, &save);
+//			s = tmp;
+//		}
+char	*get_s_word(t_lexer **this)
+{
 	char	*s;
 
 	s = ft_strdup("");
@@ -78,20 +116,8 @@ char	*get_s_word(t_lexer **this)
 		exit(1);
 	while ((*this)->c != '\0')
 	{
-		if ((*this)->c == L_DOUBLE_QUOTE)
-		{
-			save = get_quote_things(this);
-			tmp = ft_strjoin(s, save);
-			free_strjoin(&s, &save);
-			s = tmp;
-		}
-		else if ((*this)->c == SINGLE_QUOTE)
-		{
-			save = get_s_quote_things(this);
-			tmp = ft_strjoin(s, save);
-			free_strjoin(&s, &save);
-			s = tmp;
-		}
+		if ((*this)->c == L_DOUBLE_QUOTE || (*this)->c == SINGLE_QUOTE)
+			get_s_word_norm_helper(this, &s);
 		else
 			join_string(&s, (*this)->c);
 		if ((*this)->c == EPIPE || (*this)->c == LESS

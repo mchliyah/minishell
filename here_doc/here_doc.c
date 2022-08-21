@@ -29,6 +29,35 @@ bool	is_heredoc_next(int index, t_list *cmd)
 	return (false);
 }
 
+int	index_heredoc(t_data **data)
+{
+	int		max;
+	t_list	*list;
+	int		indx;
+	int		there;
+
+	indx = 0;
+	there = 0;
+	max = 0;
+	list = (*data)->lst_tok;
+	while (list)
+	{
+		if (list->content->type == DELIMITER)
+		{
+			max++;
+			list->content->indx = indx;
+			there = 1;
+		}
+		else if (list->content->type == PIPE && there)
+		{
+			indx++;
+			there = 0;
+		}
+		list = list->next;
+	}
+	return (max);
+}
+
 int	here_doc(t_list *cmd, t_data **data)
 {
 	char	*str;

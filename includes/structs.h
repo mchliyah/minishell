@@ -126,7 +126,7 @@ typedef struct s_data
 	int			fd_out;
 	int			p_in;
 	int			cmd_i;
-	int 		here_size;
+	int			here_size;
 	int			**here_fd;
 }	t_data;
 

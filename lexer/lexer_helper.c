@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 //int	my_test(t_lexer *lexer)
 //{
 //	int			a;

@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/21 13:59:14 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/20 23:49:10 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,18 +15,18 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra
 
-READFLAG = -lreadline -L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
-#READFLAG = -lreadline -L /goinfre/ael-mous/.brew/opt/readline/lib -I /goinfre/ael-mous/.brew/opt/readline/include
+#READFLAG = -lreadline -L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
+READFLAG = -lreadline -L /goinfre/ael-mous/.brew/opt/readline/lib -I /goinfre/ael-mous/.brew/opt/readline/include
 RM = rm -f
 #########################
 # ! files of the minishell
 FILES =	main.c\
+		main_holder.c\
 		init.c\
 		init_utils.c\
 		lexer/free_lexer.c\
 		lexer/lexer.c\
 		lexer/check_rederections.c\
-		lexer/file_getter.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/lexer_quotes_checker.c\
@@ -36,16 +36,21 @@ FILES =	main.c\
 		lexer/expending_utils.c\
 		lexer/arg_scanner.c\
 		lexer/lexer_helper.c\
+		lexer/lexer_utils_holder.c\
 		lexer/expending_cmd.c\
+		lexer/expending_file_holeder.c\
 		lexer/expending_here_doc.c\
 		lexer/cmd_getter.c\
+		lexer/cmd_getter_file_holder.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		error.c\
 		free.c\
 		parser/print.c\
 		parser/parser_utils.c\
+		parser/parser_file_holder.c\
 		exec.c\
+		exec_utils.c\
 		builtins/builtins.c\
 		builtins/std_exec.c\
 		builtins/std_exec_utils.c\
@@ -93,7 +98,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g3
+	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

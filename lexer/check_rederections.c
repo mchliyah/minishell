@@ -40,6 +40,16 @@ void	syntax_err(void)
 	ft_putendl_fd("minishell: syntax error near unexpected token ", 2);
 }
 
+void	ft_syntax(t_list *it)
+{
+	if (it->next && it->next->content->type == SYNTAX_ERR)
+	{
+		g_status = 1;
+		ft_putendl_fd("minishell: ambiguous redirect", 2);
+		return ;
+	}
+	syntax_err();
+}
 
 int	syntax_err_checker(t_list *token)
 {
@@ -50,13 +60,7 @@ int	syntax_err_checker(t_list *token)
 	{
 		if (!it->next || it->next->content->type != WORD)
 		{
-			if (it->next && it->next->content->type == SYNTAX_ERR)
-			{
-				g_status = 1;
-				ft_putendl_fd("minishell: ambiguous redirect", 2);
-				return (false);
-			}
-			syntax_err();
+			ft_syntax(it);
 			return (false);
 		}
 	}
