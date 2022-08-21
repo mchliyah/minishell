@@ -67,7 +67,7 @@ FILES =	main.c\
 		builtins/export_more_utils.c\
 		builtins/exit.c\
 		here_doc/here_doc.c\
-		here_doc/here_doc_utiles.c\
+		here_doc/here_doc_utils.c\
 
 #!########################
 

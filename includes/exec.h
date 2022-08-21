@@ -53,11 +53,9 @@ void	pwd_cmd(t_env *env);
 int		exit_cmd(t_list *cmd);
 // here doc
 int		count_here(t_list *list);
+void	close_here_doc_fd(t_data **data, int count);
+int		wait_heredoc(t_data **data, int pid, int count);
 int		get_here_doc(t_list *cmd, t_data **data);
-int		parent_waiting(int pid, int count, t_data **data);
-int		here_doc(t_list *cmd, t_data **data);
-void	init_here_doc(t_data **data, int count);
-void	here_doc_child(t_list *list, t_data **data);
 int		check_for_heredoc(t_p_line *pipe, t_data **data);
 void	shelvl(t_env **env);
 void	ft_close_fd(t_data **data);

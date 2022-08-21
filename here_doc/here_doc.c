@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 21:53:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 13:52:15 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 
 extern int	g_status;
 
-int	count_here(t_list *list)
-{
-	int		counter;
-	t_list	*lst;
-
-	counter = 0;
-	lst = list;
-	while (lst)
-	{
-		if (lst->content->type == DELIMITER && lst->content->indx != -1)
-			counter = lst->content->indx + 1;
-		lst = lst->next;
-	}
-	return (counter);
-}
 
 bool	is_heredoc_next(int index, t_list *cmd)
 {
@@ -86,16 +71,42 @@ int	here_doc(t_list *cmd, t_data **data)
 			break ;
 		if (check_for_variables(str))
 			str = h_string_getter(str, 0, (*data)->env);
-		//close((*data)->here_fd[indx][0]);
 		if (!is_heredoc_next(cmd->content->indx, cmd->next))
 		{
 			ft_putstr_fd(str, (*data)->here_fd[indx][1]);
 			ft_putstr_fd("\n", (*data)->here_fd[indx][1]);
-		//	close((*data)->here_fd[indx][1]);
 		}
 		free(str);
 	}
 	return (1);
+}
+
+void	exec_here_doc(t_list *tmp, t_data **data, int count)
+{
+	signal(SIGINT, SIG_DFL);
+	while (tmp)
+	{
+		if (!syntax_err_checker(tmp))
+			exit(g_status);
+		if (tmp->content->type == DELIMITER)
+			here_doc(tmp, data);
+		tmp = tmp->next;
+	}
+	close_here_doc_fd(data, count);
+	exit (0);
+}
+
+void	allocat_heredoc(t_data **data, int count)
+{
+	int		i;
+
+	i = 0;
+	(*data)->here_fd = malloc(sizeof(int *) * count);
+	while (i < count)
+		(*data)->here_fd[i++] = malloc(sizeof(int) * 2);
+	i = 0;
+	while (i < count)
+		pipe((*data)->here_fd[i++]);
 }
 
 int	get_here_doc(t_list *cmd, t_data **data)
@@ -103,13 +114,17 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	t_list	*tmp;
 	int		pid;
 	int		count;
+	int		i;
+	int		status;
 
 	tmp = cmd;
 	count = count_here(tmp);
 	(*data)->here_size = count;
+	i = 0;
+	pid = 1;
 	if (count)
 	{
-		init_here_doc(data, count);
+		allocat_heredoc(data, count);
 		pid = fork();
 		if (pid == -1)
 		{
@@ -117,12 +132,9 @@ int	get_here_doc(t_list *cmd, t_data **data)
 			exit (1);
 		}
 		if (!pid)
-		{
-			here_doc_child(cmd, data);
-		}
+			exec_here_doc(tmp, data, count);
 		else
-			if (!parent_waiting(pid, count, data))
-				return (0);
+			return (wait_heredoc(data, pid, count));
 	}
 	return (1);
 }
