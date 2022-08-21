@@ -50,5 +50,8 @@ void	handle_sigint(int sig);
 void	free_pipe(t_p_line *pipeline);
 void	free_list(t_list *to_f);
 void	free_data(t_data *data);
+void	parser_main(char *str_rln, t_data **data);
+void	main_parent_waiting(int count, t_data **data);
+void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline);
 
 #endif

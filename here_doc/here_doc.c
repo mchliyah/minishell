@@ -115,7 +115,6 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	int		pid;
 	int		count;
 	int		i;
-	int		status;
 
 	tmp = cmd;
 	count = count_here(tmp);
