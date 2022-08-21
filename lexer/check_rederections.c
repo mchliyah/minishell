@@ -46,6 +46,7 @@ void	ft_syntax(t_list *it)
 	{
 		g_status = 1;
 		ft_putendl_fd("minishell: ambiguous redirect", 2);
+		return ;
 	}
 	syntax_err();
 }

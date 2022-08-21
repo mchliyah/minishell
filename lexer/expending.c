@@ -36,8 +36,11 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 	char	*var;
 
 	st = *i;
-	if (s[(*i)++] == '?')
+	if (s[(*i)] == '?')
+	{
 		var = ft_itoa(g_status);
+		(*i)++;
+	}
 	else
 	{
 		if (ft_isdigit(s[*i]))
@@ -65,7 +68,7 @@ char	*string_getter(char *s, int *i, t_env *env)
 	while (s[*i])
 	{
 		if (s[*i] == '$' && (s[*i + 1] == '?'
-				|| ft_isalnum(s[*i + 1])))
+				|| ft_isalnum(s[*i + 1]) || s[*i + 1] == '_'))
 		{
 			(*i)++;
 			get_status(i, s, env, &str);

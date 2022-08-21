@@ -74,7 +74,7 @@ FILES =	main.c\
 OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
-	@$(CC)  $(CFLAGS) -c $^ -o $@
+	@$(CC) -g $(CFLAGS) -c $^ -o $@
 
 LIBFT = ./libft
 ARLIB = $(LIBFT)/libft.a
@@ -98,7 +98,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g3
+	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

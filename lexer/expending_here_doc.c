@@ -46,26 +46,7 @@ void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
 	*str = tmp;
 }
 
-/*
- * 	st = i;
-			if (s[(i)++] == '?')
-				var = ft_itoa(g_status);
-			else
-			{
-				if (ft_isdigit(s[i]))
-					i++;
-				else
-				{
-					while ((ft_isalnum(s[i]) || s[i] == '_') && s[i])
-						i++;
-				}
-				tmp = ft_substr(s, st, i - st);
-				var = get_form_my_env(tmp, env);
-				if (!var)
-					var = ft_strdup("");
-			}
-			str = ft_strjoin(str, var);
- */
+
 char	*h_string_getter(char *s, int i, t_env *env)
 {
 	char	*str;
@@ -74,7 +55,8 @@ char	*h_string_getter(char *s, int i, t_env *env)
 	while (s[i])
 	{
 		if (s[i] == '$' && (s[i + 1] == '?'
-				|| ft_isalnum(s[i + 1])) && s[i])
+				|| ft_isalnum(s[i + 1])
+				|| s[i + 1] == '_') && s[i])
 		{
 			i++;
 			ft_h_string_getter_helper(s, &i, env, &str);

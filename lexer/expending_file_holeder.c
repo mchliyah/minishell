@@ -64,6 +64,7 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 	save = ft_strjoin(*ptr, tmp);
 	free(*ptr);
 	*ptr = save;
+	//i--;
 	return (i);
 }
 
@@ -77,10 +78,14 @@ void	variable_expander(char **s, t_env *env)
 	while (s[0][i])
 	{
 		if (s[0][i] == '$' && (s[0][i + 1] == '?'
-			|| ft_isalnum(s[0][i + 1])))
+			|| ft_isalnum(s[0][i + 1])
+			|| s[0][i + 1] == '_'))
 			i = expend_var(&str, i, *s, env);
-		join_string(&str, s[0][i]);
-		i++;
+		else
+		{
+			join_string(&str, s[0][i]);
+			i++;
+		}
 	}
 	free(*s);
 	*s = str;

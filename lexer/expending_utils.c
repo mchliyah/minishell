@@ -86,15 +86,9 @@ char	*get_form_my_env(char *tmp, t_env *env)
 	while (pp_env->next)
 	{
 		if (!ft_strcmp(tmp, pp_env->pair->key))
-		{
-			free(tmp);
-			tmp = NULL;
 			return (pp_env->pair->value);
-		}
 		pp_env = pp_env->next;
 	}
-	free(tmp);
-	tmp = NULL;
 	return (NULL);
 }
 
