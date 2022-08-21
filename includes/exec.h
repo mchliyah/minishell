@@ -54,7 +54,15 @@ int		exit_cmd(t_list *cmd);
 // here doc
 int		count_here(t_list *list);
 int		get_here_doc(t_list *cmd, t_data **data);
+int		parent_waiting(int pid, int count, t_data **data);
+int		here_doc(t_list *cmd, t_data **data);
+void	init_here_doc(t_data **data, int count);
+void	here_doc_child(t_list *list, t_data **data);
 int		check_for_heredoc(t_p_line *pipe, t_data **data);
 void	shelvl(t_env **env);
+void	ft_close_fd(t_data **data);
+int		append_file(t_data **data, t_list *cmd, char *file);
+void	fd_error_exit(char *str);
+void	redirect_ins(char *file, t_list *iterator, t_data **data);
 
 #endif

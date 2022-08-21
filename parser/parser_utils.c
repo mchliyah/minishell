@@ -14,24 +14,12 @@
 
 t_list	*copy_list(t_list *ret, t_list *to_copy)
 {
-	// t_arg	*arg;
-	
-	// arg = NULL;
 	while (to_copy && to_copy->content->type != PIPE)
 	{
 		if (!ret)
 			ret = ft_lstnew(to_copy->content);
 		else
 			ft_lstadd_back(&ret, ft_lstnew(to_copy->content));
-		// free(to_copy->content->content);
-		// while (to_copy->content->arg)
-		// {
-		// 	arg = to_copy->content->arg;
-		// 	free(to_copy->content->arg->content);
-		// 	to_copy->content->arg = to_copy->content->arg->next;
-		// 	free(arg);
-		// }
-		// free(to_copy->content);
 		to_copy = to_copy->next;
 	}
 	return (ret);

@@ -15,7 +15,6 @@
 # include "structs.h"
 # include "minishell.h"
 
-
 // function deleter of single quote and double quote and expend!
 char	*arg_iterator(char *content, t_env *env);
 
@@ -51,6 +50,7 @@ char	*cmd_getter(t_lexer **lex);
 t_token	*get_token(t_lexer **lexer, int first, int was_rd);
 void	join_string(char **ptr, char c);
 bool	check_for_variables(const char *str);
+void	free_parser_data(t_data **data);
 char	*get_quote_things(t_lexer **this);
 char	*get_s_quote_things(t_lexer **this);
 char	*get_s_word(t_lexer **this);
@@ -58,18 +58,5 @@ t_arg	*list_new(char	*content);
 t_arg	*list_last(t_arg *lst);
 void	list_add_back(t_arg **lst, t_arg *new);
 int		syntax_err_checker(t_list *token);
-void	free_parser_data(t_data **data);
-
-int		get_inside_quote(char const *s, char **str, int i, size_t *k, char c, int j);
-int		get_inside_squote(char const *s, char **str, int i, size_t *k, char c, int j);
-int		get_words(char const *s, char **str, int i, size_t *k, char c, int j);
-int		expend(char **ptr, char *arg, t_env *env);
-char	*double_quote(char *s, int *i, t_env *env);
-t_token	*get_token_file(t_lexer **lex);
-//char	**ft_split_arg(char const *s, char c);
-//int		my_test(t_lexer *lexer);
-//int		get_quote(t_token *token, int *i, int *q);
-//int		get_s_quote(t_token *token, int *i, int *sq);
-//t_token	*get_substr_single_quotes(t_token *token);
 
 #endif

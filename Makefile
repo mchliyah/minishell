@@ -21,6 +21,7 @@ RM = rm -f
 #########################
 # ! files of the minishell
 FILES =	main.c\
+		main_holder.c\
 		init.c\
 		init_utils.c\
 		lexer/free_lexer.c\
@@ -47,7 +48,9 @@ FILES =	main.c\
 		free.c\
 		parser/print.c\
 		parser/parser_utils.c\
+		parser/parser_file_holder.c\
 		exec.c\
+		exec_utils.c\
 		builtins/builtins.c\
 		builtins/std_exec.c\
 		iterator.c\
@@ -62,13 +65,14 @@ FILES =	main.c\
 		builtins/export_utils.c\
 		builtins/exit.c\
 		here_doc/here_doc.c\
+		here_doc/here_doc_utiles.c\
 
 #!########################
 
 OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
-	@$(CC) -g $(CFLAGS) -c $^ -o $@
+	@$(CC)  $(CFLAGS) -c $^ -o $@
 
 LIBFT = ./libft
 ARLIB = $(LIBFT)/libft.a
@@ -92,7 +96,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) #-fsanitize=address -g3
+	@$(CC)  $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g3
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

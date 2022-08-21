@@ -57,7 +57,6 @@ void	free_pipe(t_p_line *pipeline)
 
 	if (pipeline) {
 		while (pipeline->left_p) {
-			HERE;
 			tmp = pipeline;
 			free_list(pipeline->right);
 			pipeline = pipeline->left_p;

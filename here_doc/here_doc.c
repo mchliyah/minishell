@@ -44,6 +44,35 @@ bool	is_heredoc_next(int index, t_list *cmd)
 	return (false);
 }
 
+int	index_heredoc(t_data **data)
+{
+	int		max;
+	t_list	*list;
+	int		indx;
+	int		there;
+
+	indx = 0;
+	there = 0;
+	max = 0;
+	list = (*data)->lst_tok;
+	while (list)
+	{
+		if (list->content->type == DELIMITER)
+		{
+			max++;
+			list->content->indx = indx;
+			there = 1;
+		}
+		else if (list->content->type == PIPE && there)
+		{
+			indx++;
+			there = 0;
+		}
+		list = list->next;
+	}
+	return (max);
+}
+
 int	here_doc(t_list *cmd, t_data **data)
 {
 	char	*str;
@@ -74,22 +103,13 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	t_list	*tmp;
 	int		pid;
 	int		count;
-	int		i;
-	int		status;
 
 	tmp = cmd;
 	count = count_here(tmp);
 	(*data)->here_size = count;
-	i = 0;
-	pid = 1;
 	if (count)
 	{
-		(*data)->here_fd = malloc(sizeof(int *) * count);
-		while (i < count)
-			(*data)->here_fd[i++] = malloc(sizeof(int) * 2);
-		i = 0;
-		while (i < count)
-			pipe((*data)->here_fd[i++]);
+		init_here_doc(data, count);
 		pid = fork();
 		if (pid == -1)
 		{
@@ -98,54 +118,11 @@ int	get_here_doc(t_list *cmd, t_data **data)
 		}
 		if (!pid)
 		{
-			signal(SIGINT, SIG_DFL);
-			while (tmp)
-			{
-				if (!syntax_err_checker(tmp))
-				{
-					PV(g_status, "%d\n");
-					exit(g_status);
-				}
-				if (tmp->content->type == DELIMITER)
-					here_doc(tmp, data);
-				tmp = tmp->next;
-			}
-			i = -1;
-			while (++i < count)
-			{
-				close((*data)->here_fd[i][0]);
-				close((*data)->here_fd[i][1]);
-			}
-			exit (0);
+			here_doc_child(cmd, data);
 		}
 		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				if (status > 255)
-					g_status = 256 + WEXITSTATUS(status);
-				else
-					g_status = WEXITSTATUS(status);
+			if (!parent_waiting(pid, count, data))
 				return (0);
-			}
-			if (WIFSIGNALED(status))
-			{
-				if (WTERMSIG(status) == SIGINT)
-				{
-					g_status = 1;
-					i = 0;
-					while (i < count)
-					{
-						close((*data)->here_fd[i][0]);
-						close((*data)->here_fd[i][1]);
-						i++;
-					}
-					kill(pid, SIGQUIT);
-				}
-				return (0);
-			}
-		}
 	}
 	return (1);
 }

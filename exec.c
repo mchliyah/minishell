@@ -12,42 +12,13 @@
 
 #include "includes/minishell.h"
 
-extern int g_status;
-
-int	append_file(t_data **data, t_list *cmd, char *file)
-{
-	if (cmd->content->type == REDIRECT_OUT_IN_APPEND_MD)
-	{
-		(*data)->fd_out = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
-		if ((*data)->fd_out < 0)
-			if (ft_putstr_fd("outfile Error", 2))
-				return (0);
-	}
-	return (1);
-}
-
-void	fd_error_exit(char *str)
-{
-	perror(str);
-	exit(127);
-}
+extern int	g_status;
 
 void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 {
 	if (iterator->content->type == REDIRECT_IN
 		|| iterator->content->type == DELIMITER)
-	{
-		if (iterator->content->type == DELIMITER)
-		{
-			(*data)->fd_in = (*data)->here_fd[iterator->content->indx][0];
-			if ((*data)->fd_in < 0)
-				fd_error_exit("open");
-		}
-		else
-			(*data)->fd_in = open(file, O_RDONLY);
-		if ((*data)->fd_in < 0)
-			fd_error_exit("open");
-	}
+		redirect_ins(file, iterator, data);
 	else if (iterator->content->type == REDIRECT_OUT
 		|| iterator->content->type == LESSGREAT)
 	{
@@ -95,9 +66,6 @@ bool	open_files(t_data **data, t_list *cmd)
 
 bool	open_pipe(t_data **data, t_list *cmd)
 {
-	int	i;
-
-	i = 0;
 	if (!open_files(data, cmd))
 		return (false);
 	if ((*data)->cmd_i > 0 || (*data)->fd_in != -1)
@@ -119,16 +87,28 @@ bool	open_pipe(t_data **data, t_list *cmd)
 			if (ft_putstr_fd("error dup2 failed to duplicate fd\n", 2))
 				return (false);
 	}
-	while (i < (*data)->here_size)
-	{
-		close((*data)->here_fd[i][0]);
-		close((*data)->here_fd[i][1]);
-		i++;
-	}
-	i = 0;
-	while (i < (*data)->pip_nb * 2)
-		close((*data)->p_fd[i++]);
-	close((*data)->fd_out);
+	ft_close_fd(data);
+	return (true);
+}
+
+bool	ft_exec_child(t_list *cmd, t_data **data, t_list *in_cmd)
+{
+	char	*content;
+
+	signal(SIGQUIT, SIG_DFL);
+	if (!open_pipe(data, in_cmd))
+		return (false);
+	if (cmd->content->type != WORD_CMD)
+		exit(1);
+	while (in_cmd->content->type != WORD_CMD)
+		in_cmd = in_cmd->next;
+	content = in_cmd->content->content;
+	if (is_builtins(content))
+		buuiltins(content, in_cmd, data);
+	else
+		to_std(in_cmd, data);
+	if ((*data)->pip_nb != 0)
+		exit(1);
 	return (true);
 }
 
@@ -136,7 +116,6 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 {
 	t_list	*cmd;
 	int		f_pid;
-	char	*content;
 
 	f_pid = 0;
 	cmd = in_cmd;
@@ -152,20 +131,8 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	}
 	if (f_pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		if (!open_pipe(data, in_cmd))
+		if (!ft_exec_child(cmd, data, in_cmd))
 			return (false);
-		if (cmd->content->type != WORD_CMD)
-			exit(1);
-		while (in_cmd->content->type != WORD_CMD)
-			in_cmd = in_cmd->next;
-		content = in_cmd->content->content;
-		if (is_builtins(content))
-			buuiltins(content, in_cmd, data);
-		else
-			to_std(in_cmd, data);
-		if ((*data)->pip_nb != 0)
-			exit(1);
 	}
 	return (true);
 }
