@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 20:01:58 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 19:00:12 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:19:05 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	exp_error(int ret, char *str)
 	g_status = 1;
 }
 
-void	ret_err_exp(t_pair *to_exp, char *args)
+int	ret_err_exp(int ret, t_pair *to_exp, char *args)
 {
 	if (to_exp->value)
 		free(to_exp->value);

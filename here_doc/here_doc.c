@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 19:01:43 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:21:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,6 @@ void	exec_here_doc(t_list *tmp, t_data **data, int count)
 		tmp = tmp->next;
 	}
 	close_here_doc_fd(data, count);
-	while (i < count)
-		free((*data)->here_fd[i++]);
-	free((*data)->here_fd);
 	exit (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 22:25:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 03:10:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:47:17 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,7 @@ bool	exec_cmd(t_list *in_cmd, t_data **data)
 	if (f_pid == -1)
 	{
 		perror("fork(): ");
-		(*data)->exit = 1;
-		return (false);
+		exit (1);
 	}
 	if (f_pid == 0)
 	{

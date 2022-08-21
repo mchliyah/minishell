@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:26:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 19:00:05 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:18:53 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_add(char *args, t_env **exp, t_env **env)
 		to_exp->value = ft_substr(args, len_max - len + 1, len_max);
 	ret = check_exp(to_exp->key);
 	if (ret < 0)
-		return (ret_err_exp(to_exp, args));
+		return (ret_err_exp(ret, to_exp, args));
 	else
 		export_elem(to_exp, exp, env);
 	free(to_exp->key);

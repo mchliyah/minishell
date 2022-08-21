@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:16:04 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:26:46 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,8 @@ void	chdir_cd(t_env *env, char *to_set)
 		chdirror(to_set);
 	else
 	{
-		if (!strncmp("/", to_set, ft_strlen(to_set)))
-			env = update_path(env, to_set, get_path("PWD", env));
-		else
-		{
-			to_set = ft_strjoin("/", to_set);
-			tmp = to_set;
-			to_set = ft_strjoin(get_path("PWD", env), to_set);
-			free(tmp);
-			env = update_path(env, to_set, get_path("PWD", env));
-			free(to_set);
-		}
+		to_set = getcwd(NULL, 1024);
+		env = update_path(env, to_set, get_path("PWD", env));
 	}
 }
 
