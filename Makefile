@@ -26,7 +26,6 @@ FILES =	main.c\
 		lexer/free_lexer.c\
 		lexer/lexer.c\
 		lexer/check_rederections.c\
-		lexer/file_getter.c\
 		lexer/lexer_utils.c\
 		lexer/init_fun.c\
 		lexer/lexer_quotes_checker.c\
@@ -36,9 +35,12 @@ FILES =	main.c\
 		lexer/expending_utils.c\
 		lexer/arg_scanner.c\
 		lexer/lexer_helper.c\
+		lexer/lexer_utils_holder.c\
 		lexer/expending_cmd.c\
+		lexer/expending_file_holeder.c\
 		lexer/expending_here_doc.c\
 		lexer/cmd_getter.c\
+		lexer/cmd_getter_file_holder.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		error.c\

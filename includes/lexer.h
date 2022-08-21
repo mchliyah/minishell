@@ -36,6 +36,12 @@ void	free_strjoin(char **ptr, char **save);
 /*
  * end of free functions
  */
+int		cmd_checker(t_lexer **lex);
+bool	check_spectial_char(t_lexer **lex);
+void	ft_single(t_lexer **lex, char **ptr);
+bool	ft_space_advacer(t_lexer **lex);
+char	*single_quote_remove(char *s, int *i);
+char	*get_s_quote(t_lexer **this);
 t_token	*init_token(char *str, int type, t_arg *args);
 t_lexer	*init_lex(t_lexer *lex, char *rln_str);
 char	*get_form_my_env(char *tmp, t_env *env);

@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 int	check_quote(t_token *token, int *i)
 {
 	int	q;
@@ -52,7 +51,6 @@ int	check_s_quote(t_token *token, int *i)
 	}
 	return (true);
 }
-
 
 bool	scan_errs(t_token **token, t_env *env, int was_rd)
 {

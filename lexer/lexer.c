@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
 extern int	g_status;
@@ -52,10 +51,32 @@ t_token	*get_extra( char *ptr)
 		return (init_token(ptr, SYNTAX_ERR, NULL));
 }
 
-t_token	*get_redirection(t_lexer **lex)
+void	get_redirection_helper(char **ptr, t_lexer **lex)
 {
 	char	*tmp;
 	char	*str;
+
+	str = malloc(2 * sizeof(char));
+	if (!str)
+	{
+		perror("malloc");
+		exit(1);
+	}
+	ft_bzero(str, 2);
+	str[0] = (*lex)->c;
+	tmp = ft_strjoin(*ptr, str);
+	if (!tmp)
+	{
+		perror("malloc");
+		exit(1);
+	}
+	free_strjoin(ptr, &str);
+	*ptr = tmp;
+	*lex = advance(*lex);
+}
+
+t_token	*get_redirection(t_lexer **lex)
+{
 	char	*ptr;
 
 	ptr = ft_strdup("");
@@ -64,19 +85,7 @@ t_token	*get_redirection(t_lexer **lex)
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
 	while ((*lex)->c != '\0' && ((*lex)->c == LESS || (*lex)->c == GREATER))
-	{
-		str = malloc(2 * sizeof(char));
-		if (!str)
-			return (NULL);
-		ft_bzero(str, 2);
-		str[0] = (*lex)->c;
-		tmp = ft_strjoin(ptr, str);
-		if (!tmp)
-			return (NULL);
-		free_strjoin(&ptr, &str);
-		ptr = tmp;
-		*lex = advance(*lex);
-	}
+		get_redirection_helper(&ptr, lex);
 	while ((*lex)->c == SPACE)
 		*lex = advance(*lex);
 	return (get_extra(ptr));

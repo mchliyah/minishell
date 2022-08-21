@@ -17,31 +17,33 @@ extern int	g_status;
 /*
  *  check str in strjoin should free i guess
  */
-int	ft_h_string_getter_helper(char *s, int i, t_env *env, char **str)
+void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
 {
 	char	*var;
 	char	*tmp;
 	int		st;
 
-	st = i;
-	if (s[(i)++] == '?')
+	st = *i;
+	if (s[(*i)++] == '?')
 		var = ft_itoa(g_status);
 	else
 	{
-		if (ft_isdigit(s[i]))
-			i++;
+		if (ft_isdigit(s[(*i)]))
+			(*i)++;
 		else
 		{
-			while ((ft_isalnum(s[i]) || s[i] == '_') && s[i])
-				i++;
+			while ((ft_isalnum(s[(*i)]) || s[(*i)] == '_') && s[(*i)])
+				(*i)++;
 		}
-		tmp = ft_substr(s, st, i - st);
+		tmp = ft_substr(s, st, (*i) - st);
 		var = get_form_my_env(tmp, env);
 		if (!var)
 			var = ft_strdup("");
+		free(tmp);
 	}
-	*str = ft_strjoin(*str, var);
-	return (i);
+	tmp = ft_strjoin(*str, var);
+	free(*str);
+	*str = tmp;
 }
 
 /*
@@ -75,7 +77,7 @@ char	*h_string_getter(char *s, int i, t_env *env)
 				|| ft_isalnum(s[i + 1])) && s[i])
 		{
 			i++;
-			i = ft_h_string_getter_helper(s, i, env, &str);
+			ft_h_string_getter_helper(s, &i, env, &str);
 		}
 		else
 		{

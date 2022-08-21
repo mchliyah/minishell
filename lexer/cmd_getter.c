@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	ft_double_q(t_lexer **this, char **s)
+void	ft_double(t_lexer **this, char **s)
 {
 	char	*save;
 	char	*tmp;
@@ -44,7 +44,7 @@ char	*get_c_word(t_lexer **this)
 	while ((*this)->c)
 	{
 		if ((*this)->c == L_DOUBLE_QUOTE)
-			ft_double_q(this, &s);
+			ft_double(this, &s);
 		else if ((*this)->c == SINGLE_QUOTE)
 			ft_single_q(this, &s);
 		else
