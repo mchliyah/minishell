@@ -6,14 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:12:44 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 13:52:15 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:01:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 extern int	g_status;
-
 
 bool	is_heredoc_next(int index, t_list *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 00:26:36 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 21:13:43 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:53:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,20 @@ int	init_pipes(t_data **data)
 		}
 	}
 	return (EXIT_SUCCESS);
+}
+
+t_env	*start(char **envp)
+{
+	t_env	*my_env;
+	char	*tmp_value;
+
+	my_env = malloc(sizeof(t_env));
+	if (!my_env)
+		return (NULL);
+	tmp_value = ft_strdup(envp[0]);
+	my_env->pair = init_pair(tmp_value);
+	if (!my_env->pair)
+		return (NULL);
+	my_env->next = NULL;
+	return (my_env);
 }

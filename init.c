@@ -6,13 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:56:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 22:09:21 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:53:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-extern int g_status;
+extern int	g_status;
 
 int	signalsecho(void)
 {
@@ -82,22 +82,6 @@ t_pair	*init_pair(char *tmp_val)
 	free(tmp_val);
 	tmp_val = NULL;
 	return (pair);
-}
-
-t_env	*start(char **envp)
-{
-	t_env	*my_env;
-	char	*tmp_value;
-
-	my_env = malloc(sizeof(t_env));
-	if (!my_env)
-		return (NULL);
-	tmp_value = ft_strdup(envp[0]);
-	my_env->pair = init_pair(tmp_value);
-	if (!my_env->pair)
-		return (NULL);
-	my_env->next = NULL;
-	return (my_env);
 }
 
 t_data	*init_data(int ac, char **av, t_data *data, char **envp)

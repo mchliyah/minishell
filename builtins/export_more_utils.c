@@ -6,12 +6,11 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 23:36:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:37:31 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:59:00 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 int	check_exp(char *str)
 {

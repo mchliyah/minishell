@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_holder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:22:00 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/21 11:22:01 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:54:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	parser_main(char *str_rln, t_data **data)
 		{
 			get_tkn_exec(str_rln, data, &pipeline);
 			free_list((*data)->lst_tok);
-			//free_pipe(pipeline);
 		}
 		else if (*str_rln == '\0')
 			g_status = 0;

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 14:41:23 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:37:29 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:55:03 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	join_midle(t_env *tmp, t_pair *to_exp)
 {
-
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->pair->key, to_exp->key))
