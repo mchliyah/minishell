@@ -69,7 +69,7 @@ int	here_doc(t_list *cmd, t_data **data)
 		str = readline("> ");
 		if (!str || !ft_strcmp(str, cmd->next->content->content))
 			break ;
-		if (check_for_variables(str))
+		if (check_for_variables(str) && !cmd->next->content->is_q)
 			str = h_string_getter(str, 0, (*data)->env);
 		if (!is_heredoc_next(cmd->content->indx, cmd->next))
 		{
@@ -120,12 +120,10 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	t_list	*tmp;
 	int		pid;
 	int		count;
-//	int		i;
 
 	tmp = cmd;
 	count = count_here(tmp);
 	(*data)->here_size = count;
-//	i = 0;
 	pid = 1;
 	if (count)
 	{

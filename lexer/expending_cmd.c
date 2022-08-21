@@ -64,9 +64,15 @@ t_token	*ft_get_heredoc(t_token *token)
 	char	**ptr;
 
 	if (is_double_quote_first(token->content))
+	{
 		c = '"';
+		token->is_q = true;
+	}
 	else if (is_single_quote_first(token->content))
+	{
 		c = '\'';
+		token->is_q = true;
+	}
 	else
 		return (token);
 	tmp = ft_strdup("");
