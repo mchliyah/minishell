@@ -24,7 +24,7 @@ void	simple_cmd(t_p_line **pipeline, t_list *lst_token)
 	(*pipeline)->left = copy_list((*pipeline)->left, tmp);
 }
 
-t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
+void	to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 {
 	int			frst_pipe;
 
@@ -44,7 +44,6 @@ t_p_line	*to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data)
 	}
 	else
 		simple_cmd(pipeline, lst_token);
-	return (*pipeline);
 }
 
 int	check_token(t_token **token, t_data **data, int was_rd)

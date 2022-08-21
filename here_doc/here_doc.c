@@ -53,9 +53,6 @@ int	here_doc(t_list *cmd, t_data **data)
 
 void	exec_here_doc(t_list *tmp, t_data **data, int count)
 {
-	int	i;
-
-	i = 0;
 	signal(SIGINT, SIG_DFL);
 	while (tmp)
 	{

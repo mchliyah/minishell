@@ -57,7 +57,7 @@ int	extend_generate(t_data **data, t_p_line **pipeline)
 	if (index_heredoc(data) > 16)
 		if (ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2))
 			exit(2);
-	*pipeline = to_tree(pipeline, (*data)->lst_tok, data);
+	to_tree(pipeline, (*data)->lst_tok, data);
 	if (!get_here_doc((*data)->lst_tok, data))
 		return (1);
 	if (!check_syntax((*data)->lst_tok))
