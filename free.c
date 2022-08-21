@@ -67,18 +67,19 @@ void	free_pipe(t_p_line *pipeline)
 		{
 			tmp = pipeline;
 			free_list(pipeline->right);
+			pipeline->right = NULL;
 			pipeline = pipeline->left_p;
 			free(tmp);
 			tmp = NULL;
 		}
 		if (pipeline->right)
 		{
-			free(pipeline->right);
+			free_list(pipeline->right);
 			pipeline->right = NULL;
 		}
 		if (pipeline->left)
 		{
-			free(pipeline->left);
+			free_list(pipeline->left);
 			pipeline->left = NULL;
 		}
 	}
@@ -109,6 +110,7 @@ void	free_data(t_data *data)
 	free_env(data->exp);
 	while (i < data->here_size)
 		free(data->here_fd[i++]);
-	free(data->here_fd);
+	if (data->here_size)
+		free(data->here_fd);
 	free(data);
 }

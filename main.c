@@ -68,6 +68,33 @@ void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 	}
 }
 
+void	parser_main(char *str_rln, t_data **data)
+{
+	t_p_line	*pipeline;
+
+	while (!(*data)->exit)
+	{
+		str_rln = readline("~mi🙂nish🙂ell:~ ");
+		if (!str_rln)
+		{
+			ft_putendl_fd("exit", 2);
+			break ;
+		}
+		pipeline = malloc(sizeof(t_p_line));
+		if (*str_rln)
+		{
+			get_tkn_exec(str_rln, data, &pipeline);
+			// free_list((*data)->lst_tok);
+		}
+		else if (*str_rln == '\0')
+			g_status = 0;
+		free_pipe(pipeline);
+		free(pipeline);
+		pipeline = NULL;
+		free(str_rln);
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*str_rln;
@@ -80,6 +107,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	g_status = 0;
 	parser_main(str_rln, &data);
-	//free_data(data);
+	free_data(data);
 	return (g_status);
 }

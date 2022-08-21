@@ -46,16 +46,16 @@ void	close_here_doc_fd(t_data **data, int count)
 	free((*data)->here_fd);
 }
 
-int	free_fds_here(t_data **data, int count)
-{
-	int	i;
+// int	free_fds_here(t_data **data, int count)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < count)
-		free((*data)->here_fd[i++]);
-	free((*data)->here_fd);
-	return (0);
-}
+// 	i = 0;
+// 	while (i < count)
+// 		free((*data)->here_fd[i++]);
+// 	free((*data)->here_fd);
+// 	return (0);
+// }
 
 int	wait_heredoc(t_data **data, int pid, int count)
 {
@@ -67,7 +67,7 @@ int	wait_heredoc(t_data **data, int pid, int count)
 		if (status > 255)
 		{
 			g_status = 256 + WEXITSTATUS(status);
-			return (free_fds_here(data, count));
+			return (0);
 		}
 		else
 			g_status = WEXITSTATUS(status);

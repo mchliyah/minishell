@@ -51,9 +51,7 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 
 void	chdir_cd(t_env *env, char *to_set)
 {
-	char	*tmp;
 
-	tmp = NULL;
 	if (chdir(to_set) == -1)
 		chdirror(to_set);
 	else
