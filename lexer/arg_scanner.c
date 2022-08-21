@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_scanner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:38:41 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/07/19 16:38:44 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/08/21 21:35:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	scan_args_staff(t_arg *token, int i)
 			i++;
 			if (!check_close_q_arg(token, &i))
 			{
-				ft_putendl_fd("err unclosed SINGLE QUOTE", STDERR_FILENO);
+				ft_putendl_fd("Error unclosed SINGLE QUOTE", STDERR_FILENO);
 				return (1);
 			}
 		}
@@ -52,7 +52,7 @@ int	scan_args_staff(t_arg *token, int i)
 			i++;
 			if (!check_close_sq_arg(token, &i))
 			{
-				ft_putendl_fd("err unclosed DOUBLE QUOTE", STDERR_FILENO);
+				ft_putendl_fd("Error unclosed DOUBLE QUOTE", STDERR_FILENO);
 				return (1);
 			}
 		}

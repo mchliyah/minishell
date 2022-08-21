@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:45:35 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/10 19:58:02 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 21:35:14 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_quote(t_token *token, int *i)
 		q++;
 	if (q % 2 != 0 && token->content[*i] == '\0')
 	{
-		printf("err alm3lam sad l quotes\n");
+		printf("Error unclosed quotes\n");
 		return (false);
 	}
 	return (true);
@@ -46,7 +46,7 @@ int	check_s_quote(t_token *token, int *i)
 		sq++;
 	if (sq % 2 != 0 && token->content[*i] == '\0')
 	{
-		printf("err alm3lam sad l single quotes\n");
+		printf("Error unclosed single quotes\n");
 		return (false);
 	}
 	return (true);

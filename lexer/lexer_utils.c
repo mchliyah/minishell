@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:50:36 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/19 21:40:16 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:23:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ t_arg	*get_args(t_lexer **lex)
 			opt = list_new(s);
 		else
 			list_add_back(&opt, list_new(s));
+		if ((*lex)->c == EPIPE || (*lex)->c == LESS || (*lex)->c == GREATER)
+			break ;
 		if ((*lex)->c != '\0')
 			*lex = advance(*lex);
 	}
