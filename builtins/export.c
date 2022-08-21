@@ -78,6 +78,10 @@ int	check_add(char *args, t_env **exp, t_env **env)
 	}
 	else
 		export_elem(to_exp, exp, env);
+	free(to_exp->key);
+	if (to_exp->value)
+		free(to_exp->value);
+	free(to_exp);
 	return (1);
 }
 

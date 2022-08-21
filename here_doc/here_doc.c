@@ -54,6 +54,9 @@ int	here_doc(t_list *cmd, t_data **data)
 
 void	exec_here_doc(t_list *tmp, t_data **data, int count)
 {
+	int	i;
+
+	i = 0;
 	signal(SIGINT, SIG_DFL);
 	while (tmp)
 	{
@@ -64,6 +67,9 @@ void	exec_here_doc(t_list *tmp, t_data **data, int count)
 		tmp = tmp->next;
 	}
 	close_here_doc_fd(data, count);
+	while (i < count)
+		free((*data)->here_fd[i++]);
+	free((*data)->here_fd);
 	exit (0);
 }
 
@@ -85,12 +91,12 @@ int	get_here_doc(t_list *cmd, t_data **data)
 	t_list	*tmp;
 	int		pid;
 	int		count;
-	int		i;
+//	int		i;
 
 	tmp = cmd;
 	count = count_here(tmp);
 	(*data)->here_size = count;
-	i = 0;
+//	i = 0;
 	pid = 1;
 	if (count)
 	{

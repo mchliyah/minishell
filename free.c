@@ -93,7 +93,13 @@ void	free_env(t_env *env)
 
 void	free_data(t_data *data)
 {
+	int i;
+
+	i = 0;
 	free_env(data->env);
 	free_env(data->exp);
+	while (i < data->here_size)
+		free(data->here_fd[i++]);
+	free(data->here_fd);
 	free(data);
 }

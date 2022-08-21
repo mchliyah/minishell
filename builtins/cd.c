@@ -72,7 +72,7 @@ void	chdir_cd(t_env *env, char *to_set)
 	}
 }
 
-int	check_cd_exec(t_list *c_line, t_env *env, char *to_set, char *cwd)
+int	check_cd_exec(t_list *c_line, t_env *env, char **to_set, char *cwd)
 {
 	if (!c_line->content->arg && !get_path("HOME", env))
 	{
@@ -81,18 +81,18 @@ int	check_cd_exec(t_list *c_line, t_env *env, char *to_set, char *cwd)
 		return (0);
 	}
 	if (c_line->content->arg)
-		to_set = ft_strdup(c_line->content->arg->content);
+		*to_set = ft_strdup(c_line->content->arg->content);
 	if (!c_line->content->arg
-		|| !ft_strcmp(to_set, "~"))
+		|| !ft_strcmp(*to_set, "~"))
 		exec_cd(env, "HOME", cwd, 0);
-	else if (!ft_strcmp(to_set, "-"))
+	else if (!ft_strcmp(*to_set, "-"))
 		exec_cd(env, "OLDPWD", cwd, 0);
-	else if (!ft_strcmp(to_set, ".."))
+	else if (!ft_strcmp(*to_set, ".."))
 		exec_cd(env, NULL, cwd, 1);
-	else if (!ft_strcmp(to_set, "."))
+	else if (!ft_strcmp(*to_set, "."))
 		exec_cd(env, ".", cwd, 1);
 	else
-		chdir_cd(env, to_set);
+		chdir_cd(env, *to_set);
 	return (1);
 }
 
@@ -104,7 +104,7 @@ void	cd_cmd(t_list	*c_line, t_env *env)
 	to_set = NULL;
 	g_status = 0;
 	cwd = getcwd(NULL, 1024);
-	if (!check_cd_exec(c_line, env, to_set, cwd))
+	if (!check_cd_exec(c_line, env, &to_set, cwd))
 		return ;
 	if (cwd)
 	{

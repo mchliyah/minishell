@@ -45,13 +45,18 @@ void	close_here_doc_fd(t_data **data, int count)
 int	wait_heredoc(t_data **data, int pid, int count)
 {
 	int		status;
+	int		i;
 
+	i = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
 		if (status > 255)
 		{
 			g_status = 256 + WEXITSTATUS(status);
+			while (i < count)
+				free((*data)->here_fd[i++]);
+			free((*data)->here_fd);
 			return (0);
 		}
 		else
@@ -64,6 +69,9 @@ int	wait_heredoc(t_data **data, int pid, int count)
 		{
 			g_status = 1;
 			close_here_doc_fd(data, count);
+			while (i < count)
+				free((*data)->here_fd[i++]);
+			free((*data)->here_fd);
 			kill(pid, SIGQUIT);
 		}
 		return (0);
