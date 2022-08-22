@@ -15,6 +15,7 @@
 char	**get_env_char(t_env *env)
 {
 	t_env	*tmp;
+	char	*fr;
 	char	**arr;
 	int		size;
 	int		i;
@@ -32,8 +33,12 @@ char	**get_env_char(t_env *env)
 	while (tmp)
 	{
 		arr[i] = ft_strdup(tmp->pair->key);
+		fr = arr[i];
 		arr[i] = ft_strjoin(arr[i], "=");
+		free(fr);
+		fr = arr[i];
 		arr[i] = ft_strjoin(arr[i], tmp->pair->value);
+		free(fr);
 		tmp = tmp->next;
 		i++;
 	}
