@@ -36,24 +36,23 @@ void	free_list(t_list *to_f)
 
 	while (to_f)
 	{
+		HERE;
 		lst = to_f;
-		if (to_f->content)
-		{
-			free_args(to_f);
-			if (to_f->content->content)
-			{
-				free(to_f->content->content);
-				to_f->content->content = NULL;
-			}
-			free(to_f->content);
-			to_f->content = NULL;
-		}
 		to_f = to_f->next;
-		if (lst)
+		if (lst->content)
 		{
-			free(lst);
-			lst = NULL;
+			free_args(lst);
+			if (lst->content->content)
+			{
+				HERE;
+				free(lst->content->content);
+				lst->content->content = NULL;
+			}
+			free(lst->content);
+			lst->content = NULL;
 		}
+		free(lst);
+		lst = NULL;
 	}
 }
 
@@ -65,8 +64,9 @@ void	free_pipe(t_p_line *pipeline)
 	{
 		while (pipeline->left_p)
 		{
+			HERE;
 			tmp = pipeline;
-			free_list(pipeline->right);
+			free(pipeline->right);
 			pipeline->right = NULL;
 			pipeline = pipeline->left_p;
 			free(tmp);
@@ -74,12 +74,14 @@ void	free_pipe(t_p_line *pipeline)
 		}
 		if (pipeline->right)
 		{
-			free_list(pipeline->right);
+			HERE;
+			free(pipeline->right);
 			pipeline->right = NULL;
 		}
 		if (pipeline->left)
 		{
-			free_list(pipeline->left);
+			HERE;
+			free(pipeline->left);
 			pipeline->left = NULL;
 		}
 		free(pipeline);
