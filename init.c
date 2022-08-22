@@ -101,6 +101,9 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	shelvl(&data->env);
 	shelvl(&data->exp);
 	sort_exp(&data->exp);
+	data->lst_tok = NULL;
+	data->here_fd = NULL;
+	data->p_fd = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	signalsecho();

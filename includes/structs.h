@@ -95,10 +95,10 @@ typedef struct s_cmd_word
 	char	*arg;
 }	t_cmd_word;
 
-typedef struct s_pipeline
+typedef struct s_p_line
 {
 	int					type;
-	struct s_pipeline	*left_p;
+	struct s_p_line	*left_p;
 	t_list				*left;
 	t_list				*right;
 }	t_p_line;

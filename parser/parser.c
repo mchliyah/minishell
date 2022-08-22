@@ -27,6 +27,8 @@ t_gen_tok	generate_init(char *rln_str, t_data **data)
 
 	var.lexer = NULL;
 	(*data)->lst_tok = NULL;
+	var.token = NULL;
+	// var.token->arg = NULL;
 	var.first = 1;
 	var.lexer = init_lex(var.lexer, rln_str);
 	if (!var.lexer)
@@ -65,6 +67,22 @@ int	extend_generate(t_data **data, t_p_line **pipeline)
 	return (0);
 }
 
+void	ft_free_token(t_token *token)
+{
+	if (token->content)
+	{
+		printf("--\n");
+		while (token->arg)
+		{
+			printf("--\n");
+			free(token->arg);
+			token->arg = token->arg->next;
+		}
+		free(token->content);
+	}
+	free(token);
+}
+
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 {
 	t_gen_tok	var;
@@ -77,12 +95,14 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		if (!var.token)
 		{
 			free(var.lexer);
-			return (2);
+			ft_free_token(var.token);
+			return (EXIT_FAILURE);
 		}
 		if (!check_token(&var.token, data, var.was_rederection))
 		{
 			free(var.lexer);
-			return (2);
+			ft_free_token(var.token);
+			return (EXIT_FAILURE);
 		}
 		var.was_rederection = 0;
 		if (var.token->type == DELIMITER)

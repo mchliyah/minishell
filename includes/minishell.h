@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:07:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 13:57:42 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:02:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,17 @@
 # include <string.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <termios.h>
 # include "../libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
 # include "exec.h"
-// # include "/Users/mchliyah/goinfre/.brew/opt/readline/include/readline"
-# include <readline/readline.h>
-# include <readline/history.h>
 
 //# define PVL(x, y) fprintf(stderr, "%s:%d %s = " y, __FILE__, __LINE__, #x, x)
 //# define PV(x, y) fprintf(stderr, "%s = " y, #x, x)
-//# define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
+# define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
 
 //void	print_tokens(t_p_line *pipeline);
 // void	rl_replace_line(char *txt, int i);
