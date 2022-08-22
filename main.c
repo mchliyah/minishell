@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/21 23:23:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 00:08:33 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int	main(int ac, char **av, char **envp)
 	g_status = 0;
 	parser_main(str_rln, &data);
 	free_data(data);
-	// system("leaks minishell");
+	 system("leaks minishell");
 	return (g_status);
 }
