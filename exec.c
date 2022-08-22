@@ -37,6 +37,20 @@ void	del_or_redrction(t_data **data, t_list *iterator, char *file)
 	}
 }
 
+bool	is_out_redection_next(t_list *it)
+{
+	t_list	*tmp;
+
+	tmp = it;
+	while (tmp)
+	{
+		if (tmp->content->type == REDIRECT_OUT || tmp->content->type == REDIRECT_OUT_IN_APPEND_MD)
+			return (true);
+		tmp = tmp->next;
+	}
+	return (false);
+}
+
 bool	open_files(t_data **data, t_list *cmd)
 {
 	t_list	*iterator;
@@ -59,6 +73,8 @@ bool	open_files(t_data **data, t_list *cmd)
 			(*data)->fd_in = open(iterator->content->content, O_RDONLY);
 		if (!append_file(data, iterator, file))
 			return (false);
+		if (is_out_redection_next(iterator->next))
+			close((*data)->fd_out);
 		iterator = iterator->next;
 	}
 	return (true);

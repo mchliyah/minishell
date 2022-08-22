@@ -14,34 +14,43 @@
 
 extern int	g_status;
 
-/*
- *  check str in strjoin should free i guess
- */
-void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
+char	*get_alnum(char *s, int *i, t_env *env)
 {
 	char	*var;
-	char	*tmp;
 	int		st;
+	char	*tmp;
 
 	st = *i;
-	if (s[*i] == '?')
-		var = ft_itoa(g_status);
+	if (ft_isdigit(s[(*i)]))
+		(*i)++;
 	else
 	{
-		if (ft_isdigit(s[(*i)]))
+		while ((ft_isalnum(s[(*i)]) || s[(*i)] == '_') && s[(*i)])
 			(*i)++;
-		else
-		{
-			while ((ft_isalnum(s[(*i)]) || s[(*i)] == '_') && s[(*i)])
-				(*i)++;
-		}
-		tmp = ft_substr(s, st, *i - st);
-		var = get_form_my_env(tmp, env);
-		if (!var)
-			var = ft_strdup("");
-		free(tmp);
 	}
-	tmp = ft_strjoin(*str, var);
+	tmp = ft_substr(s, st, *i - st);
+	var = get_form_my_env(tmp, env);
+	if (!var)
+		var = ft_strdup("");
+	free(tmp);
+	return (var);
+}
+
+void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
+{
+	char	*status;
+	char	*tmp;
+
+	if (s[*i] == '?')
+	{
+		status = ft_itoa(g_status);
+		tmp = ft_strjoin(*str, status);
+		free(status);
+		status = NULL;
+		(*i)++;
+	}
+	else
+		tmp = ft_strjoin(*str, get_alnum(s, i, env));
 	free(*str);
 	*str = tmp;
 }
