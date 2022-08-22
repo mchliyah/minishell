@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 20:49:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:35:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	free_pipe(t_p_line *pipeline)
 			free_list(pipeline->left);
 			pipeline->left = NULL;
 		}
+		free(pipeline);
+		pipeline = NULL;
 	}
 }
 

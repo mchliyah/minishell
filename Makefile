@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/21 19:19:54 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/21 23:16:15 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g
+	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) #-fsanitize=address -g
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
