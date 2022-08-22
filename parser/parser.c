@@ -75,11 +75,14 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 	{
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
 		if (!var.token)
-			return (EXIT_FAILURE);
+		{
+			free(var.lexer);
+			return (2);
+		}
 		if (!check_token(&var.token, data, var.was_rederection))
 		{
-			free_lexer_var(var);
-			return (EXIT_FAILURE);
+			free(var.lexer);
+			return (2);
 		}
 		var.was_rederection = 0;
 		if (var.token->type == DELIMITER)
@@ -89,6 +92,7 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		var.first = 0;
 		(*data)->lst_tok = linked_token((*data)->lst_tok, var.token);
 	}
+	free(var.lexer);
 	if (extend_generate(data, pipeline))
 		return (1);
 	return (EXIT_SUCCESS);

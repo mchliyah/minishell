@@ -47,12 +47,14 @@ void	dup_std_fd(int fd0, int fd1)
 
 void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 {
+	int		state;
 	int		count;
 	int		fd0;
 	int		fd1;
 
 	add_history(str_rln);
-	if (generate_token(str_rln, pipeline, data) != 1)
+	state = generate_token(str_rln, pipeline, data);
+	if (state == 0)
 	{
 		signal(SIGINT, SIG_IGN);
 		count = count_here((*data)->lst_tok);
@@ -64,7 +66,21 @@ void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 		wait_status();
 		dup_std_fd(fd0, fd1);
 		free_parser_data(data);
+		free_pipe(*pipeline);
+		free(*pipeline);
+		free((*data)->lst_tok);
+		//free_list((*data)->lst_tok);
 		signal(SIGINT, handle_sigint);
+	}
+	else if (state == 2) // free only lst_tok
+	{
+		free_list((*data)->lst_tok);
+		free(*pipeline);
+	}
+	else
+	{
+		free_pipe(*pipeline);
+		free(*pipeline);
 	}
 }
 
@@ -87,11 +103,13 @@ void	parser_main(char *str_rln, t_data **data)
 			// free_list((*data)->lst_tok);
 		}
 		else if (*str_rln == '\0')
+		{
+			free(pipeline);
+			pipeline = NULL;
 			g_status = 0;
-		free_pipe(pipeline);
-		free(pipeline);
-		pipeline = NULL;
+		}
 		free(str_rln);
+		system("leaks minishell");
 	}
 }
 

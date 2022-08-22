@@ -47,13 +47,10 @@ void	free_list(t_list *to_f)
 			}
 			free(to_f->content);
 			to_f->content = NULL;
+			//free(lst);
+			//lst = NULL;
 		}
 		to_f = to_f->next;
-		if (lst)
-		{
-			free(lst);
-			lst = NULL;
-		}
 	}
 }
 
@@ -63,6 +60,7 @@ void	free_pipe(t_p_line *pipeline)
 
 	if (pipeline)
 	{
+		printf("here\n");
 		while (pipeline->left_p)
 		{
 			tmp = pipeline;
@@ -75,11 +73,13 @@ void	free_pipe(t_p_line *pipeline)
 		if (pipeline->right)
 		{
 			free_list(pipeline->right);
+			free(pipeline->right);
 			pipeline->right = NULL;
 		}
 		if (pipeline->left)
 		{
 			free_list(pipeline->left);
+			free(pipeline->left);
 			pipeline->left = NULL;
 		}
 	}

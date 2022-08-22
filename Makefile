@@ -98,7 +98,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g
+	@$(CC)  -g $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) #-fsanitize=address -g
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "
