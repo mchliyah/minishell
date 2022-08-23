@@ -42,6 +42,7 @@ FILES =	main.c\
 		lexer/expending_here_doc.c\
 		lexer/cmd_getter.c\
 		lexer/cmd_getter_file_holder.c\
+		lexer/ft_functions_holder.c\
 		parser/parser.c\
 		parser/pars_utils.c\
 		error.c\
