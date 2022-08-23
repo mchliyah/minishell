@@ -17,8 +17,19 @@ void	free_parser_data(t_data **data)
 	free((*data)->p_fd);
 }
 
-void	free_lexer_var(t_gen_tok var)
+void	ft_free_token(t_token *token, t_gen_tok var)
 {
+	if (token->content)
+	{
+		while (token->arg)
+		{
+			free(token->arg->content);
+			free(token->arg);
+			token->arg = token->arg->next;
+		}
+		free(token->content);
+	}
+	free(token);
 	free(var.lexer);
 }
 

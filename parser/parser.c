@@ -21,25 +21,6 @@ int	is_rederiction(t_token *token)
 	return (false);
 }
 
-t_gen_tok	generate_init(char *rln_str, t_data **data)
-{
-	t_gen_tok	var;
-
-	var.lexer = NULL;
-	(*data)->lst_tok = NULL;
-	var.token = NULL;
-	// var.token->arg = NULL;
-	var.first = 1;
-	var.lexer = init_lex(var.lexer, rln_str);
-	if (!var.lexer)
-	{
-		perror("malloc");
-		exit(1);
-	}
-	var.was_rederection = 0;
-	return (var);
-}
-
 bool	check_syntax(t_list *list)
 {
 	t_list	*this;
@@ -67,19 +48,15 @@ int	extend_generate(t_data **data, t_p_line **pipeline)
 	return (0);
 }
 
-void	ft_free_token(t_token *token)
+t_gen_tok	ft_check_rds(t_gen_tok var)
 {
-	if (token->content)
-	{
-		while (token->arg)
-		{
-			free(token->arg->content);
-			free(token->arg);
-			token->arg = token->arg->next;
-		}
-		free(token->content);
-	}
-	free(token);
+	var.was_rederection = 0;
+	if (var.token->type == DELIMITER)
+		var.was_rederection = 2;
+	else if (is_rederiction(var.token))
+		var.was_rederection = 1;
+	var.first = 0;
+	return (var);
 }
 
 int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
@@ -93,22 +70,15 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
 		if (!var.token)
 		{
-			free(var.lexer);
-			ft_free_token(var.token);
+			ft_free_token(var.token, var);
 			return (EXIT_FAILURE);
 		}
 		if (!check_token(&var.token, data, var.was_rederection))
 		{
-			free(var.lexer);
-			ft_free_token(var.token);
+			ft_free_token(var.token, var);
 			return (EXIT_FAILURE);
 		}
-		var.was_rederection = 0;
-		if (var.token->type == DELIMITER)
-			var.was_rederection = 2;
-		else if (is_rederiction(var.token))
-			var.was_rederection = 1;
-		var.first = 0;
+		var = ft_check_rds(var);
 		(*data)->lst_tok = linked_token((*data)->lst_tok, var.token);
 	}
 	free(var.lexer);

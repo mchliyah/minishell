@@ -14,19 +14,6 @@
 
 extern int	g_status;
 
-bool	check_for_variables(const char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$')
-			return (true);
-	}
-	return (false);
-}
-
 void	expend_status(char **ptr)
 {
 	char	*save;
@@ -38,6 +25,22 @@ void	expend_status(char **ptr)
 	*ptr = tmp;
 }
 
+int	check_var(int i, char *arg, char **ptr)
+{
+	if (ft_isdigit(arg[i]) || arg[i] == '?')
+	{
+		if (arg[i] == '?')
+			expend_status(ptr);
+		i++;
+	}
+	else
+	{
+		while ((ft_isalnum(arg[i]) || arg[i] == '_') && arg[i])
+			i++;
+	}
+	return (i);
+}
+
 int	expend_var(char **ptr, int i, char *arg, t_env *env)
 {
 	char	*save;
@@ -47,15 +50,7 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 
 	i++;
 	s = i;
-	if (ft_isdigit(arg[i]) || arg[i] == '?')
-	{
-		if (arg[i] == '?')
-			expend_status(ptr);
-		i++;
-	}
-	else
-		while ((ft_isalnum(arg[i]) || arg[i] == '_') && arg[i])
-			i++;
+	i = check_var(i, arg, ptr);
 	str = ft_substr(arg, s, i - s);
 	if (!str)
 		exit(1);

@@ -42,8 +42,7 @@ void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
 		free(tmp);
 	}
 	tmp = ft_strjoin(*str, var);
-	free(*str);
-	free(var);
+	free_strjoin(str, &var);
 	*str = tmp;
 }
 

@@ -40,25 +40,18 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 	{
 		var = ft_itoa(g_status);
 		(*i)++;
-		tmp = ft_strjoin(*str, var);
-		free(var);
 	}
 	else
 	{
-		if (ft_isdigit(s[*i]))
-			(*i)++;
-		else
-			while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
-				(*i)++;
+		get_last(s, i);
 		tmp = ft_substr(s, st, *i - st);
 		var = get_form_my_env(tmp, env);
 		if (!var)
 			var = ft_strdup("");
 		free(tmp);
-		tmp = ft_strjoin(*str, var);
-		free(var);
 	}
-	free(*str);
+	tmp = ft_strjoin(*str, var);
+	free_strjoin(str, &var);
 	*str = tmp;
 }
 

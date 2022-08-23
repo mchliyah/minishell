@@ -78,6 +78,17 @@ char	*get_simple_word(char *arg, t_env *env, int state)
 	return (ptr);
 }*/
 
+void	get_last(char *s, int *i)
+{
+	if (ft_isdigit(s[*i]))
+		(*i)++;
+	else
+	{
+		while ((ft_isalnum(s[*i]) || s[*i] == '_') && s[*i])
+			(*i)++;
+	}
+}
+
 char	*get_form_my_env(char *tmp, t_env *env)
 {
 	t_env	*pp_env;
