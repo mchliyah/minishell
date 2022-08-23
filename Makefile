@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/22 23:48:45 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/23 13:57:04 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ CC = clang
 
 CFLAGS = -Wall -Werror -Wextra
 
-#READFLAG = -lreadline -L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
-READFLAG = -lreadline -L /goinfre/ael-mous/.brew/opt/readline/lib -I /goinfre/ael-mous/.brew/opt/readline/include
+READFLAG = -lreadline #-L /Users/mchliyah/Desktop/.brew/opt/readline/lib -I /Users/mchliyah/Desktop/.brew/opt/readline/include
+#READFLAG = -lreadline -L /goinfre/ael-mous/.brew/opt/readline/lib -I /goinfre/ael-mous/.brew/opt/readline/include
 RM = rm -f
 #########################
 # ! files of the minishell
@@ -47,6 +47,7 @@ FILES =	main.c\
 		parser/pars_utils.c\
 		error.c\
 		free.c\
+		free_data.c\
 		parser/print.c\
 		parser/parser_utils.c\
 		parser/parser_file_holder.c\
@@ -75,7 +76,7 @@ FILES =	main.c\
 OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
-	@$(CC) -g $(CFLAGS) -c $^ -o $@
+	@$(CC) $(CFLAGS) -c $^ -o $@
 
 LIBFT = ./libft
 ARLIB = $(LIBFT)/libft.a
@@ -99,7 +100,7 @@ all : $(NAME)
 
 $(NAME) :  $(OBJECTS)
 	@$(ALLIBFT)
-	@$(CC) $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) #-fsanitize=address -g
+	@$(CC) $(READFLAG) $(OBJECTS) $(ARLIB) -o  $(NAME) -fsanitize=address -g
 	@echo "\033[1;33m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██ "
 	@echo "\033[1;33m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██ "
 	@echo "\033[1;33m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██ "

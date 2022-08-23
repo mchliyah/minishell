@@ -68,7 +68,7 @@ int	check_add(char *args, t_env **exp, t_env **env)
 		to_exp->value = ft_substr(args, len_max - len + 1, len_max);
 	ret = check_exp(to_exp->key);
 	if (ret < 0)
-		return (ret_err_exp(ret, to_exp, args));
+		exp_error(ret, args);
 	else
 		export_elem(to_exp, exp, env);
 	free(to_exp->key);
@@ -84,6 +84,7 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 	int		i;
 
 	i = 0;
+	g_status = 0;
 	if (!c_line->content->arg)
 		print_exp(*exp);
 	else
@@ -94,5 +95,4 @@ void	export_cmd(t_env **exp, t_env **env, t_list *c_line)
 		free(args);
 	}
 	sort_exp(exp);
-	g_status = 0;
 }

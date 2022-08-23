@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 00:08:33 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:53:45 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_p_line	*initpipeline(void)
 	pipeline->right = NULL;
 	return (pipeline);
 }
+
 void	parser_main(char *str_rln, t_data **data)
 {
 	t_p_line	*pipeline;
