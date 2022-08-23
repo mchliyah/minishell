@@ -49,13 +49,3 @@ void	exp_error(int ret, char *str)
 	}
 	g_status = 1;
 }
-
-int	ret_err_exp(int ret, t_pair *to_exp, char *args)
-{
-	if (to_exp->value)
-		free(to_exp->value);
-	free(to_exp->key);
-	free(to_exp);
-	exp_error(ret, args);
-	return (0);
-}

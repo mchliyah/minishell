@@ -78,6 +78,7 @@ t_p_line	*initpipeline(void)
 	pipeline->right = NULL;
 	return (pipeline);
 }
+
 void	parser_main(char *str_rln, t_data **data)
 {
 	t_p_line	*pipeline;
@@ -119,6 +120,5 @@ int	main(int ac, char **av, char **envp)
 	g_status = 0;
 	parser_main(str_rln, &data);
 	free_data(data);
-	 system("leaks minishell");
 	return (g_status);
 }

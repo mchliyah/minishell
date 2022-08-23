@@ -57,6 +57,9 @@ void	chdir_cd(t_env *env, char *to_set)
 	{
 		to_set = getcwd(NULL, 1024);
 		env = update_path(env, to_set, get_path("PWD", env));
+		if (to_set)
+			free(to_set);
+		to_set = NULL;
 	}
 }
 

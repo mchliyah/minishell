@@ -14,12 +14,19 @@
 
 int	join_midle(t_env *tmp, t_pair *to_exp)
 {
+	char	*to_f;
+
+	tmp = NULL;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->pair->key, to_exp->key))
 		{
 			if (tmp->pair->value)
+			{
+				to_f = tmp->pair->value;
 				tmp->pair->value = ft_strjoin(tmp->pair->value, to_exp->value);
+				free(to_f);
+			}
 			else
 				tmp->pair->value = ft_strdup(to_exp->value);
 			return (0);
@@ -55,8 +62,11 @@ void	dup_exist_elem(t_env **tmp_in, t_pair *to_exp)
 	tmp->next->next = NULL;
 }
 
-t_env	*dup_at_end(t_env *tmp, t_pair *to_exp)
+void	dup_at_end(t_env **tmpin, t_pair *to_exp)
 {
+	t_env	*tmp;
+
+	tmp = *tmpin;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = malloc(sizeof(t_env));
@@ -69,7 +79,6 @@ t_env	*dup_at_end(t_env *tmp, t_pair *to_exp)
 			tmp->next->pair->value = ft_strdup(to_exp->value);
 	}
 	tmp->next->next = NULL;
-	return (tmp);
 }
 
 t_env	**dup_not_exist_elem(t_env **env, t_pair *to_exp)
@@ -88,7 +97,20 @@ t_env	**dup_not_exist_elem(t_env **env, t_pair *to_exp)
 		(*env)->next = NULL;
 	}
 	else
-		tmp = dup_at_end(tmp, to_exp);
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = malloc(sizeof(t_env));
+		tmp->next->pair = malloc(sizeof(t_pair));
+		if (tmp->next->pair)
+		{
+			tmp->next->pair->key = ft_strdup(to_exp->key);
+			tmp->next->pair->value = NULL;
+			if (to_exp->value)
+				tmp->next->pair->value = ft_strdup(to_exp->value);
+		}
+		tmp->next->next = NULL;
+	}
 	return (env);
 }
 
