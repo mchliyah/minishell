@@ -71,10 +71,9 @@ void	ft_free_token(t_token *token)
 {
 	if (token->content)
 	{
-		printf("--\n");
 		while (token->arg)
 		{
-			printf("--\n");
+			free(token->arg->content);
 			free(token->arg);
 			token->arg = token->arg->next;
 		}

@@ -40,6 +40,8 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 	{
 		var = ft_itoa(g_status);
 		(*i)++;
+		tmp = ft_strjoin(*str, var);
+		free(var);
 	}
 	else
 	{
@@ -52,8 +54,10 @@ void	get_status(int *i, char *s, t_env *env, char **str)
 		var = get_form_my_env(tmp, env);
 		if (!var)
 			var = ft_strdup("");
+		free(tmp);
+		tmp = ft_strjoin(*str, var);
+		free(var);
 	}
-	tmp = ft_strjoin(*str, var);
 	free(*str);
 	*str = tmp;
 }

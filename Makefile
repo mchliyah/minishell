@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/23 13:10:56 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/23 13:57:04 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ FILES =	main.c\
 OBJECTS =  $(FILES:.c=.o)
 
 %.o: %.c
-	@$(CC) -g $(CFLAGS) -c $^ -o $@
+	@$(CC) $(CFLAGS) -c $^ -o $@
 
 LIBFT = ./libft
 ARLIB = $(LIBFT)/libft.a

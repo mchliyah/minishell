@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 00:08:33 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:53:45 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,16 @@ void	parser_main(char *str_rln, t_data **data)
 		}
 		pipeline = initpipeline();
 		if (*str_rln)
+		{
 			get_tkn_exec(str_rln, data, &pipeline);
+			free_pipe(pipeline);
+			free_list((*data)->lst_tok);
+		}
 		else if (*str_rln == '\0')
+		{
 			g_status = 0;
-		free_pipe(pipeline);
-		free_list((*data)->lst_tok);
+			free(pipeline);
+		}
 		free(str_rln);
 	}
 }
