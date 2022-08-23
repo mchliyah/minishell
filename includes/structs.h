@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:01:54 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 01:04:47 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:12:30 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_cmd_word
 typedef struct s_p_line
 {
 	int					type;
-	struct s_p_line	*left_p;
+	struct s_p_line		*left_p;
 	t_list				*left;
 	t_list				*right;
 }	t_p_line;

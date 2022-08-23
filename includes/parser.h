@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:29:51 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/18 22:26:57 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:18:46 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			index_heredoc(t_data **data);
 int			generate_token(char *rln_str, t_p_line **pipeline, t_data **data);
 t_list		*linked_token(t_list	*lst_token, t_token *token);
 t_list		*copy_list(t_list *ret, t_list *to_copy);
-void	    to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data);
+void		to_tree(t_p_line **pipeline, t_list *lst_token, t_data **data);
 int			check_token(t_token **token, t_data **data, int was_rd);
 
 // those function from lexer

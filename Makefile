@@ -6,7 +6,7 @@
 #    By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/14 19:31:22 by mchliyah          #+#    #+#              #
-#    Updated: 2022/08/22 23:48:45 by mchliyah         ###   ########.fr        #
+#    Updated: 2022/08/23 13:10:56 by mchliyah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ FILES =	main.c\
 		parser/pars_utils.c\
 		error.c\
 		free.c\
+		free_data.c\
 		parser/print.c\
 		parser/parser_utils.c\
 		parser/parser_file_holder.c\
