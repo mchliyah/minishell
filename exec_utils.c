@@ -12,21 +12,6 @@
 
 #include "includes/minishell.h"
 
-bool	is_out_redection_next(t_list *it)
-{
-	t_list	*tmp;
-
-	tmp = it;
-	while (tmp)
-	{
-		if (tmp->content->type == REDIRECT_OUT
-			|| tmp->content->type == REDIRECT_OUT_IN_APPEND_MD)
-			return (true);
-		tmp = tmp->next;
-	}
-	return (false);
-}
-
 void	ft_close_fd(t_data **data)
 {
 	int	i;

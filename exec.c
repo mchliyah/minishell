@@ -59,8 +59,6 @@ bool	open_files(t_data **data, t_list *cmd)
 			(*data)->fd_in = open(iterator->content->content, O_RDONLY);
 		if (!append_file(data, iterator, file))
 			return (false);
-		if (is_out_redection_next(iterator->next))
-			close((*data)->fd_out);
 		iterator = iterator->next;
 	}
 	return (true);

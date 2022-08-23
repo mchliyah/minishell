@@ -14,44 +14,36 @@
 
 extern int	g_status;
 
-char	*get_alnum(char *s, int *i, t_env *env)
-{
-	char	*var;
-	int		st;
-	char	*tmp;
-
-	st = *i;
-	if (ft_isdigit(s[(*i)]))
-		(*i)++;
-	else
-	{
-		while ((ft_isalnum(s[(*i)]) || s[(*i)] == '_') && s[(*i)])
-			(*i)++;
-	}
-	tmp = ft_substr(s, st, *i - st);
-	var = get_form_my_env(tmp, env);
-	if (!var)
-		var = ft_strdup("");
-	free(tmp);
-	return (var);
-}
-
+/*
+ *  check str in strjoin should free i guess
+ */
 void	ft_h_string_getter_helper(char *s, int *i, t_env *env, char **str)
 {
-	char	*status;
+	char	*var;
 	char	*tmp;
+	int		st;
 
+	st = *i;
 	if (s[*i] == '?')
-	{
-		status = ft_itoa(g_status);
-		tmp = ft_strjoin(*str, status);
-		free(status);
-		status = NULL;
-		(*i)++;
-	}
+		var = ft_itoa(g_status);
 	else
-		tmp = ft_strjoin(*str, get_alnum(s, i, env));
+	{
+		if (ft_isdigit(s[(*i)]))
+			(*i)++;
+		else
+		{
+			while ((ft_isalnum(s[(*i)]) || s[(*i)] == '_') && s[(*i)])
+				(*i)++;
+		}
+		tmp = ft_substr(s, st, *i - st);
+		var = get_form_my_env(tmp, env);
+		if (!var)
+			var = ft_strdup("");
+		free(tmp);
+	}
+	tmp = ft_strjoin(*str, var);
 	free(*str);
+	free(var);
 	*str = tmp;
 }
 

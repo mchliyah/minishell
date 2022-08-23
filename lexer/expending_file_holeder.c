@@ -42,6 +42,7 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 {
 	char	*save;
 	char	*tmp;
+	char	*str;
 	int		s;
 
 	i++;
@@ -55,13 +56,15 @@ int	expend_var(char **ptr, int i, char *arg, t_env *env)
 	else
 		while ((ft_isalnum(arg[i]) || arg[i] == '_') && arg[i])
 			i++;
-	tmp = ft_substr(arg, s, i - s);
-	if (!tmp)
+	str = ft_substr(arg, s, i - s);
+	if (!str)
 		exit(1);
-	tmp = get_form_my_env(tmp, env);
+	tmp = get_form_my_env(str, env);
+	free(str);
 	if (!tmp)
 		tmp = ft_strdup("");
 	save = ft_strjoin(*ptr, tmp);
+	free(tmp);
 	free(*ptr);
 	*ptr = save;
 	return (i);

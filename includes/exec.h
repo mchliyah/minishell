@@ -62,7 +62,6 @@ int		check_for_heredoc(t_p_line *pipe, t_data **data);
 void	shelvl(t_env **env);
 void	ft_close_fd(t_data **data);
 int		append_file(t_data **data, t_list *cmd, char *file);
-bool	is_out_redection_next(t_list *it);
 void	fd_error_exit(char *str);
 void	redirect_ins(char *file, t_list *iterator, t_data **data);
 

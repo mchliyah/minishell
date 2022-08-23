@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 22:21:09 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:12:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,9 @@ void	ft_free_token(t_token *token)
 {
 	if (token->content)
 	{
-		printf("--\n");
 		while (token->arg)
 		{
-			printf("--\n");
+			free(token->arg->content);
 			free(token->arg);
 			token->arg = token->arg->next;
 		}

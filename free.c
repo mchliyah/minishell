@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 16:57:45 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 20:49:22 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:35:52 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	free_list(t_list *to_f)
 			free_args(lst);
 			if (lst->content->content)
 			{
-				HERE;
 				free(lst->content->content);
 				lst->content->content = NULL;
 			}
@@ -58,27 +57,49 @@ void	free_list(t_list *to_f)
 void	free_pipe(t_p_line *pipeline)
 {
 	t_p_line	*tmp;
+	t_list		*lst;
 
 	if (pipeline)
 	{
 		while (pipeline->left_p)
 		{
 			tmp = pipeline;
-			free(pipeline->right);
-			pipeline->right = NULL;
+			lst = pipeline->right;
+			while (lst->next)
+			{
+				lst = lst->next;
+				free(lst->prev);
+				lst->prev = NULL;
+			}
+			free(lst);
+			lst = NULL;
 			pipeline = pipeline->left_p;
 			free(tmp);
 			tmp = NULL;
 		}
 		if (pipeline->right)
 		{
-			free_list(pipeline->right);
-			pipeline->right = NULL;
+			lst = pipeline->right;
+			while (lst->next)
+			{
+				lst = lst->next;
+				free(lst->prev);
+				lst->prev = NULL;
+			}
+			free(lst);
+			lst = NULL;
 		}
 		if (pipeline->left)
 		{
-			free_list(pipeline->left);
-			pipeline->left = NULL;
+			lst = pipeline->left;
+			while (lst->next)
+			{
+				lst = lst->next;
+				free(lst->prev);
+				lst->prev = NULL;
+			}
+			free(lst);
+			lst = NULL;
 		}
 		free(pipeline);
 		pipeline = NULL;

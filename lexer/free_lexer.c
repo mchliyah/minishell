@@ -17,6 +17,10 @@ void	free_parser_data(t_data **data)
 	free((*data)->p_fd);
 }
 
+void	free_lexer_var(t_gen_tok var)
+{
+	free(var.lexer);
+}
 
 void	free_strjoin(char **ptr, char **save)
 {
