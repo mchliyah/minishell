@@ -6,11 +6,38 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:56:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/19 15:22:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:35:11 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	exec_cd(t_env *env, char *key, char *to_old, int chek)
+{
+	char	*to_set;
+	int		i;
+
+	i = 0;
+	if (chek)
+	{
+		to_set = getcwd(NULL, 1024);
+		if (!to_set)
+			to_set = ft_strdup(get_path("PWD", env));
+		if (to_set)
+		{
+			to_set = drari(i, to_set);
+			i = 1;
+		}
+	}
+	else
+		to_set = get_path(key, env);
+	if (chdir(to_set) == -1)
+		chdirror(to_set);
+	else
+		env = update_path(env, to_set, to_old);
+	if (i)
+		free(to_set);
+}
 
 char	*get_path(char *key, t_env *env)
 {

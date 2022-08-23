@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 00:07:37 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/23 13:55:27 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:32:44 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,23 @@
 //# define HERE fprintf(stderr, "** In %s:%d **\n", __FILE__, __LINE__)
 
 //void	print_tokens(t_p_line *pipeline);
- void	rl_replace_line(char *txt, int i);
-int		init_pipes(t_data **data);
-t_data	*init_data(int ac, char **av, t_data *data, char **envp);
-void	shelvl(t_env **env);
-int		iterator(t_p_line *this_pipe, t_data **exec);
-void	sort_exp(t_env **exp);
-t_env	*get_env(char **envp);
-char	**get_env_char(t_env *env);
-void	handle_sigint(int sig);
-//void	exec_cmd(t_list *cmd, char **envp, t_data *exec);
-
-//free
-void	free_pipe(t_p_line *pipeline);
-void	free_list(t_list *to_f);
-void	free_data(t_data *data);
-void	parser_main(char *str_rln, t_data **data);
-void	main_parent_waiting(int count, t_data **data);
-void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline);
+void		rl_replace_line(char *txt, int i);
+int			init_pipes(t_data **data);
+t_data		*init_data(int ac, char **av, t_data *data, char **envp);
+t_p_line	*initpipeline(void);
+void		shelvl(t_env **env);
+int			iterator(t_p_line *this_pipe, t_data **exec);
+void		sort_exp(t_env **exp);
+t_env		*get_env(char **envp);
+char		**get_env_char(t_env *env);
+void		handle_sigint(int sig);
+//void		exec_cmd(t_list *cmd, char **envp, t_data *exec);
+void		free_here_fd(t_data **data);
+void		free_pipe(t_p_line *pipeline);
+void		free_list(t_list *to_f);
+void		free_data(t_data *data);
+void		parser_main(char *str_rln, t_data **data);
+void		main_parent_waiting(int count, t_data **data);
+void		get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline);
 
 #endif

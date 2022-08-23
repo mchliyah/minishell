@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:55:00 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 23:12:19 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:27:19 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	generate_token(char *rln_str, t_p_line **pipeline, t_data **data)
 		var.token = get_token(&var.lexer, var.first, var.was_rederection);
 		if (!var.token)
 		{
-			ft_free_token(var.token, var);
+			free(var.lexer);
 			return (EXIT_FAILURE);
 		}
 		if (!check_token(&var.token, data, var.was_rederection))

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:19:19 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/23 13:19:51 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:35:20 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,14 @@ void	chdirror(char *err)
 	g_status = 1;
 }
 
-void	exec_cd(t_env *env, char *key, char *to_old, int chek)
+char	*drari(int i, char *to_set)
 {
-	char	*to_set;
-	int		i;
-
-	i = 0;
-	if (chek)
-	{
-		to_set = getcwd(NULL, 1024);
-		if (to_set)
-		{
-			while (to_set[i])
-				i++;
-			while (i != 0 && to_set[i] != '/')
-				i--;
-			to_set[i + 1] = '\0';
-			i = 1;
-		}
-	}
-	else
-		to_set = get_path(key, env);
-	if (chdir(to_set) == -1)
-		chdirror(to_set);
-	else
-		env = update_path(env, to_set, to_old);
-	if (i)
-		free(to_set);
+	while (to_set[i])
+		i++;
+	while (i != 0 && to_set[i] != '/')
+		i--;
+	to_set[i + 1] = '\0';
+	return (to_set);
 }
 
 void	chdir_cd(t_env *env, char *to_set)

@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 23:36:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 18:59:00 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:50:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,23 @@ void	sort_exp(t_env **exp)
 			tmp = tmp->next;
 		}
 	}
+}
+
+void	dup_at_end(t_env **tmpin, t_pair *to_exp)
+{
+	t_env	*tmp;
+
+	tmp = *tmpin;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = malloc(sizeof(t_env));
+	tmp->next->pair = malloc(sizeof(t_pair));
+	if (tmp->next->pair)
+	{
+		tmp->next->pair->key = ft_strdup(to_exp->key);
+		tmp->next->pair->value = NULL;
+		if (to_exp->value)
+			tmp->next->pair->value = ft_strdup(to_exp->value);
+	}
+	tmp->next->next = NULL;
 }

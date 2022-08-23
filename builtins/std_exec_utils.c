@@ -6,29 +6,37 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 23:48:07 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:48:47 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:42:29 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_env_char(t_env *env)
+int	get_env_size(t_env *env)
 {
 	t_env	*tmp;
-	char	*fr;
-	char	**arr;
 	int		size;
-	int		i;
 
 	size = 0;
-	i = 0;
 	tmp = env;
 	while (tmp)
 	{
 		size++;
 		tmp = tmp->next;
 	}
-	arr = malloc(sizeof(char *) * size + 1);
+	return (size);
+}
+
+char	**get_env_char(t_env *env)
+{
+	t_env	*tmp;
+	char	*fr;
+	char	**arr;
+	int		i;
+
+	i = ft_lstsize((t_list *)env);
+	arr = malloc(sizeof(char *) * i + 1);
+	i = 0;
 	tmp = env;
 	while (tmp)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expending.c                                     :+:      :+:    :+:   */
+/*   ft_functions_holder.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-mous <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 15:25:25 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 15:25:26 by ael-mous         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:33:01 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_gen_tok	generate_init(char *rln_str, t_data **data)
 	var.lexer = NULL;
 	(*data)->lst_tok = NULL;
 	var.token = NULL;
-	// var.token->arg = NULL;
 	var.first = 1;
 	var.lexer = init_lex(var.lexer, rln_str);
 	if (!var.lexer)

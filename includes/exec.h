@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:57:21 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 20:43:48 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:50:13 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_env	*start(char **envp);
 t_pair	*init_pair(char *tmp_val);
 char	**arr_arg(t_list *cmd);
 //env&exp
+void	dup_at_end(t_env **tmpin, t_pair *to_exp);
 int		ret_err_exp(int ret, t_pair *to_exp, char *args);
 void	env_cmd(t_env *env);
 void	export_cmd(t_env **exp, t_env **env, t_list *c_line);
@@ -45,6 +46,9 @@ void	cd_cmd(t_list	*c_line, t_env *env);
 char	*get_path(char *path, t_env *env);
 void	dup_path(t_env *tmp_env, char *to_set, char *to_up);
 char	*get_path(char *key, t_env *env);
+void	exec_cd(t_env *env, char *key, char *to_old, int chek);
+char	*drari(int i, char *to_set);
+void	chdirror(char *err);
 //other builtins
 int		is_builtins(char *content);
 void	buuiltins(char *content, t_list *cmd, t_data **data);

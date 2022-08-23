@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 13:53:45 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 19:30:35 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	wait_status(void)
 {
 	int	status;
 
+	signal(SIGQUIT, SIG_IGN);
 	while (wait(&status) > 0)
 	{
 		if (WIFEXITED(status))
@@ -68,17 +69,6 @@ void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 	}
 }
 
-t_p_line	*initpipeline(void)
-{
-	t_p_line	*pipeline;
-
-	pipeline = malloc(sizeof(t_p_line));
-	pipeline->left = NULL;
-	pipeline->left_p = NULL;
-	pipeline->right = NULL;
-	return (pipeline);
-}
-
 void	parser_main(char *str_rln, t_data **data)
 {
 	t_p_line	*pipeline;
@@ -97,6 +87,7 @@ void	parser_main(char *str_rln, t_data **data)
 			get_tkn_exec(str_rln, data, &pipeline);
 			free_pipe(pipeline);
 			free_list((*data)->lst_tok);
+			free_here_fd(data);
 		}
 		else if (*str_rln == '\0')
 		{
