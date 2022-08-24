@@ -62,7 +62,7 @@ int	check_cd_exec(t_list *c_line, t_env *env, char **to_set, char *cwd)
 	else if (!ft_strcmp(*to_set, ".."))
 		exec_cd(env, NULL, cwd, 1);
 	else if (!ft_strcmp(*to_set, "."))
-		exec_cd(env, ".", cwd, 1);
+		exec_cd(env, ".", cwd, 0);
 	else
 		chdir_cd(env, *to_set);
 	return (1);

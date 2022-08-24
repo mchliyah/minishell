@@ -29,6 +29,8 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 			i = 1;
 		}
 	}
+	else if (!ft_strcmp(key, "."))
+		to_set = getcwd(NULL, 1024);
 	else
 		to_set = get_path(key, env);
 	if (chdir(to_set) == -1)
