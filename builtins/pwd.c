@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 13:23:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/20 23:42:25 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:20:39 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	pwd_cmd(t_env	*env)
 	pwd = get_path("PWD", env);
 	if (!pwd)
 	{
-		pwd = getcwd(NULL, 1024);
 		must_free = 1;
+		pwd = getcwd(NULL, 1024);
 	}
 	if (pwd)
 	{

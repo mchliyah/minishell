@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:22:00 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 19:30:50 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:47:56 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,14 @@ void	free_here_fd(t_data **data)
 	int	i;
 
 	i = 0;
-	while (i < (*data)->here_size)
-		free((*data)->here_fd[i++]);
-	if ((*data)->here_size)
+	if ((*data)->here_fd)
+	{
+		while (i < (*data)->here_size)
+			free((*data)->here_fd[i++]);
 		free((*data)->here_fd);
+		(*data)->here_fd = NULL;
+	}
+	(*data)->here_size = 0;
 }
 
 t_p_line	*initpipeline(void)

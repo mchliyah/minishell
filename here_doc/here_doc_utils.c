@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 13:45:56 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 20:41:08 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:34:44 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ void	close_here_doc_fd(t_data **data, int count)
 		close((*data)->here_fd[i][0]);
 		close((*data)->here_fd[i][1]);
 	}
-	i = 0;
-	while (i < count)
-		free((*data)->here_fd[i++]);
-	free((*data)->here_fd);
 }
 
 // int	free_fds_here(t_data **data, int count)

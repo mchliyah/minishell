@@ -6,26 +6,13 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:56:48 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/21 18:53:39 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:45:50 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 extern int	g_status;
-
-int	signalsecho(void)
-{
-	struct termios		terminal;
-
-	if (tcgetattr(STDOUT_FILENO, &terminal) == -1)
-		return (-1);
-	terminal.c_lflag |= ~ISIG;
-	terminal.c_cc[VSUSP] = 0;
-	terminal.c_lflag ^= ECHOCTL;
-	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &terminal);
-	return (0);
-}
 
 void	handle_sigint(int sig)
 {
@@ -106,6 +93,5 @@ t_data	*init_data(int ac, char **av, t_data *data, char **envp)
 	data->p_fd = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-	signalsecho();
 	return (data);
 }

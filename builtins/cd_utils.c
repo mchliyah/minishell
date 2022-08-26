@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 15:56:10 by mchliyah          #+#    #+#             */
-/*   Updated: 2022/08/23 19:35:11 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:15:43 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@ void	exec_cd(t_env *env, char *key, char *to_old, int chek)
 	int		i;
 
 	i = 0;
-	if (chek)
+	if (chek || !ft_strcmp(key, "."))
 	{
 		to_set = getcwd(NULL, 1024);
-		if (!to_set)
-			to_set = ft_strdup(get_path("PWD", env));
-		if (to_set)
+		if (chek)
 		{
-			to_set = drari(i, to_set);
-			i = 1;
+			if (!to_set)
+				to_set = ft_strdup(get_path("PWD", env));
+			if (to_set)
+				to_set = drari(i, to_set);
 		}
+		i = 1;
 	}
-	else if (!ft_strcmp(key, "."))
-		to_set = getcwd(NULL, 1024);
 	else
 		to_set = get_path(key, env);
 	if (chdir(to_set) == -1)

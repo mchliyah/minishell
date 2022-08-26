@@ -6,7 +6,7 @@
 /*   By: mchliyah <mchliyah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:44:31 by ael-mous          #+#    #+#             */
-/*   Updated: 2022/08/23 19:30:35 by mchliyah         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:45:47 by mchliyah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	dup_std_fd(int fd0, int fd1)
 
 void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 {
-	int		count;
 	int		fd0;
 	int		fd1;
 
@@ -56,12 +55,11 @@ void	get_tkn_exec(char *str_rln, t_data **data, t_p_line **pipeline)
 	if (generate_token(str_rln, pipeline, data) != 1)
 	{
 		signal(SIGINT, SIG_IGN);
-		count = count_here((*data)->lst_tok);
 		init_pipes(data);
 		fd0 = dup(0);
 		fd1 = dup(1);
 		iterator(*pipeline, data);
-		main_parent_waiting(count, data);
+		main_parent_waiting((*data)->here_size, data);
 		wait_status();
 		dup_std_fd(fd0, fd1);
 		free_parser_data(data);
